@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1605890474 source:d:\computing project folder\2020_group_19\groupprojectcell\main.cpp
+	<iostream>
+	<stdio.h>
+	"main.h"
+
+1605890153 d:\computing project folder\2020_group_19\groupprojectcell\main.h
+
