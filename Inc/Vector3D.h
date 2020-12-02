@@ -6,9 +6,9 @@
 
 class Vector3D
 {
-public:
+private:
     double x, y, z;
-
+public:
     //default
     Vector3D();
 
@@ -19,14 +19,14 @@ public:
     ~Vector3D();
 
     //setters
-    void setx(double xc);
+    void setx(double);
     void sety(double yc);
     void setz(double zc);
 
     //getters
-    /*double getx(){return x};
+    double getx(){return x};
     double gety(){return y};
-    double getz(){return z};*/
+    double getz(){return z};
 
 
     //operations

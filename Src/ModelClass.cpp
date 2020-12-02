@@ -1,4 +1,4 @@
-#include <ModelClass.h>
+#include <../Inc/ModelClass.h>
 
 //side functions
 float getHexValue(char letter)

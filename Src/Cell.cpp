@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdio.h>
-#include "main.h"
+#include "../inc/Cell.h"
 //step 1:get vertices
 //step 2:count how many vertices there are, this will tell us the shape
 //step 3:do calculations to find volume
