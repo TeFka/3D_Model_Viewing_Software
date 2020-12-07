@@ -8,6 +8,7 @@ class Vector3D
 {
 private:
     double x, y, z;
+	
 public:
     //default
     Vector3D();

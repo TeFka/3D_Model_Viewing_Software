@@ -11,7 +11,6 @@ Vector3D::Vector3D()
 }
 
 
-
 Vector3D::Vector3D(double xc, double yc, double zc)
 {
     x = xc;
@@ -25,9 +24,9 @@ void Vector3D::sety(double yc){ y = yc; };
 void Vector3D::setz(double zc){ z = zc; };
 
 //getters
-/*double Vector3D::getx(){ return x; }
+double Vector3D::getx(){ return x; }
 double Vector3D::gety(){ return y; }
-double Vector3D::getz(){ return z; }*/
+double Vector3D::getz(){ return z; }
 
 
 //operations-----------------------------------------------------------------------
