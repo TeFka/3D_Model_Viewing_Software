@@ -7,35 +7,38 @@
 class Vector3D
 {
 private:
+    int ID;
     double x, y, z;
-	
+
 public:
     //default
     Vector3D();
 
     //constructor
-    Vector3D(double xc, yc, zc);
+    Vector3D(double,double,double);
 
     //destructor
     ~Vector3D();
 
-    //setters
+    //settersgfjkglj
+    void setID(int);
     void setx(double);
-    void sety(double yc);
-    void setz(double zc);
+    void sety(double);
+    void setz(double);
 
     //getters
-    double getx(){return x};
-    double gety(){return y};
-    double getz(){return z};
+    int getID();
+    double getx();
+    double gety();
+    double getz();
 
 
     //operations
-    vector (const Vector3D &vec);
-    vector operator+(const Vector3D &vec); //addition
-    vector operator-(const Vector3D &vec); //subtraction
-    double dot_product(const Vector3D &vec); //scalar product
-    vector cross_product(const Vector3D &vec); //vector product
+    //Vector3D (const Vector3D &);
+    Vector3D operator+(const Vector3D &); //addition
+    Vector3D operator-(const Vector3D &); //subtraction
+    double dot_product(const Vector3D &); //scalar product
+    Vector3D cross_product(const Vector3D &); //vector product
 
 };
 

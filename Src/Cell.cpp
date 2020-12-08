@@ -1,87 +1,78 @@
-#include <iostream>
-#include <stdio.h>
+
 //#include "main.h"
 #include "../Inc/Cell.h"
-//step 1:get vertices
-//step 2:count how many vertices there are, this will tell us the shape
-//step 3:do calculations to find volume
-using namespace std;
 
-    double cell::getvolume()
-{
-    return 0;//not actually calculating volume of cell here so only dummy function is needed
-}
-void cell::setcolour(colour c)
-{
-    this->col = c;//this sets the colour for all the cells
-}
+    Cell::Cell(){
+
+    }
+    int Cell::getID(){
+        return this->ID;
+    }
+    int Cell::getType(){
+        return this->type;
+    }
+    int Cell::getMaterialID(){
+        return this->materialID;
+    }
+    std::vector<int> Cell::getIndices(){
+        return this->indices;
+    }
+    Vector3D Cell::getCentreOFGravity(){
+        return this->centre_of_gravity;
+    }
+
+    void Cell::setID(int newID){
+        this->ID = newID;
+    }
+    void Cell::setType(int newType){
+        this->type = newType;
+    }
+    void Cell::setMaterialID(int newID){
+        this->materialID = newID;
+    }
+    void Cell::setIndices(std::vector<int> newIndices){
+        this->indices = newIndices;
+    }
+    void Cell::pushIndice(int newIndice){
+        this->indices.push_back(newIndice);
+    }
+    void Cell::insertIndice(int index,int newIndice){
+        this->indices.insert(this->indices.begin()+index,newIndice);
+    }
 
 //--------------------------------------------------------------------------------
 //defining functions for the tetrahedron
-tetrahedron::tetrahedron(vector3d p1, p2, p3, p4)
+Tetrahedron::Tetrahedron()
 {
-    this->p1 = p1;
-    this->p2 = p2;
-    this->p3 = p3;
-    this->p4 = p4;
+
 }
-double tetrahedron::getvolume()//will overwrite original getvolume function in cell class
+double Tetrahedron::getvolume()//will overwrite original getvolume function in cell class
 {
     //code to calculate volume of...
 }
 //--------------------------------------------------------------------------------------
 //defining functions for pyramid
-pyramid::pyramid(vector3d p1, p2, p3, p4, p5)//constructor
+Pyramid::Pyramid()//constructor
 {
-    this->p1 = p1;
-    this->p2 = p2;
-    this->p3 = p3;
-    this->p4 = p4;
-    this->p5 = p5;
+
 }
 
-pyramid::getvolume()
+double Pyramid::getvolume()
 {
 //   ...
 }
 //---------------------------------------------------------------------------------
 //defining functions for hexahedron
-hexahedron::hexahedron(vector3d p1, p2, p3, p4, p5, p6, p7, p8)//constructor
+Hexahedron::Hexahedron()//constructor
 {
-    this->p1 = p1;
-    this->p2 = p2;
-    this->p3 = p3;
-    this->p4 = p4;
-    this->p5 = p5;
-    this->p6 = p6;
-    this->p7 = p7;
-    this->p8 = p8;
+
 }
 
-hexahedron::getvolume()
+double Hexahedron::getvolume()
 {
     //...
 }
 //-------------------------------------------------------------------------------
-int main()
-{
-    cell *cells[3];//cells is an array which points to each shape class
-    tetrahedron t;
-    pyramid p;
-    hexahedron h;
-    colour col;
-    int i;
-
-    cells[0] = &t;
-    cells[1] = &p;
-    cells[2] = &h;
-
-    for(i=0;i<3;i++)
-    {
-        cells[i]->setcolour( col );
-        cout<< "volume of cell" << i << "is" << cells[i]->getvolume() << endl;
-    }
-}
 
 
 

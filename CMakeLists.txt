@@ -6,6 +6,7 @@ add_library( modelLib
 ./Src/Vector3D.cpp ./Inc/Vector3D.h
 ./Src/Material.cpp ./Inc/Material.h
 ./Src/Cell.cpp ./Inc/Cell.h
+./Src/Matrix.cpp ./Inc/Matrix.h
 ./Src/Model.cpp ./Inc/Model.h)
 #add_library( maths STATIC adder.cpp )
 #add_library( maths SHARED adder.cpp )
@@ -13,7 +14,7 @@ add_library( modelLib
 
 #add_definitions( -Dmaths_STATIC )
 
-3endif()
+#endif()
 # It also contains an executable
 #add_executable( calc_prog calc_cmake_prog.cpp )
 # The executable uses the library

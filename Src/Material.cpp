@@ -1,33 +1,43 @@
-#include"../Inc/materialClass.h"
+#include"../Inc/Material.h"
 //--------------------------------------------
-material :: material( int id, double c[3], double d ) : ID(id), color(c), density(d) {}
+Material::Material(){
+
+}
+Material :: Material( int id, Vector3D col, double d ) : ID(id), color(col), density(d) {}
 	//this->ID = id ;
 	//this->color = c ;
 	//this->density = d ;
 
 //for ID
-int material :: getID(){//get(accessor) function to read.
+int Material :: getID(){//get(accessor) function to read.
     return this->ID;
 }
 
-void material :: setID( int id ){//set(mutator) function to modify.
+void Material :: setID( int id ){//set(mutator) function to modify.
     this->ID = id;
 }
+//for name
+std::string Material :: getName(){
+    return this->name;
+}
 
+void Material :: setName(std::string newName){
+    this->name = newName;
+}
 //for color
-double material :: getcolor(){
+Vector3D Material :: getColor(){
     return this->color;
 }
 
-void material :: setcolor( double color[4] ){
-    this->color = c;
+void Material :: setColor(Vector3D newCol){
+    this->color = newCol;
 }
 
 //for density
-double material :: getdensity(){
+double Material :: getDensity(){
     return this->density;
 }
 
-void material :: setdensity(){
-    this->density = d;
+void Material :: setDensity(double newDensity){
+    this->density = newDensity;
 }

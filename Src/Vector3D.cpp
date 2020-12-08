@@ -19,11 +19,13 @@ Vector3D::Vector3D(double xc, double yc, double zc)
 }
 
 //setters
+void Vector3D::setID(int newID){ this->ID = newID; };
 void Vector3D::setx(double xc){ x = xc; };
 void Vector3D::sety(double yc){ y = yc; };
 void Vector3D::setz(double zc){ z = zc; };
 
 //getters
+int Vector3D::getID(){ return this->ID; };
 double Vector3D::getx(){ return x; }
 double Vector3D::gety(){ return y; }
 double Vector3D::getz(){ return z; }
@@ -32,38 +34,39 @@ double Vector3D::getz(){ return z; }
 //operations-----------------------------------------------------------------------
 
 //addition
-vector Vector3D::operator+(const Vector3D &vec)
+Vector3D Vector3D::operator+(const Vector3D &vec)
 {
 	return Vector3D(this->x + vec.x, this->y + vec.y, this->z + vec.z);
 }
-	
+
 //subtraction
-vector Vector3D::operator-(const Vector3D &vec)
+Vector3D Vector3D::operator-(const Vector3D &vec)
 {
-	return Vector3D(this->x - vec.x, this->y - vec.y, this->z - vec.z);	
+	return Vector3D(this->x - vec.x, this->y - vec.y, this->z - vec.z);
 }
 
 //dot product
 double Vector3D::dot_product(const Vector3D &vec)
 {
-	return Vector3D(this->x*vec.x + this->y*vec.y + this->z*vec.z);
+	return (this->x*vec.x, this->y*vec.y + this->z*vec.z);
 }
 
 //cross product
-vector Vector3D::cross_product(const Vector3D &vec)
+Vector3D Vector3D::cross_product(const Vector3D &vec)
 {
 	Vector3D ans;
 	ans.x = this->y*vec.z - this->z*vec.y;
 	ans.y = this->z*vec.x - this->x*vec.z;
 	ans.z = this->x*vec.y - this->y*vec.x;
-	
-	return ans
+
+	return ans;
 }
 
 //-----------------------------------------------------------------------------------
 
 //destructor
-Vector3D::~Vector3D()
+Vector3D::~Vector3D(){
+}
 
 
 

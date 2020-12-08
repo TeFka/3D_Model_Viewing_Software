@@ -1,4 +1,4 @@
-#include <../Inc/ModelClass.h>
+#include "../Inc/Model.h"
 
 //side functions
 float getHexValue(char letter)
@@ -46,13 +46,51 @@ float getHexValue(char letter)
     }
 }
 
+int Model::getVectorIndex(int ID)
+{
+    if(ID==this->vertices[ID].getID())
+    {
+        return ID;
+    }
+    else
+    {
+        for(int i = this->vertices.size(); i--;)
+        {
+            if(this->vertices[i].getID()==ID)
+            {
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+Material Model::getMaterial(int ID)
+{
+    if(ID<this->materials.size())
+    {
+        return *this->materials[ID];
+    }
+    else
+    {
+        for(int i = this->materials.size(); i--;)
+        {
+            if(this->materials[i]->getID()==ID)
+            {
+                return *this->materials[ID];
+            }
+        }
+    }
+    return Material{};
+}
+
 void Model::allignVertices()
 {
     for(int i =0; i<this->vertices.size()-1; i++)
     {
         for(int n = 0; n<this->vertices.size()-i-1; n++)
         {
-            if(this->vertices[n].ID>this->vertices[n+1].ID)
+            if(this->vertices[n].getID()>this->vertices[n+1].getID())
             {
                 std::swap(this->vertices[n],this->vertices[n+1]);
             }
@@ -65,7 +103,7 @@ void Model::allignCells()
     {
         for(int n = 0; n<this->cells.size()-i-1; n++)
         {
-            if(this->cells[n]->ID>this->cells[n+1]->ID)
+            if(this->cells[n]->getID()>this->cells[n+1]->getID())
             {
                 std::swap(this->cells[n],this->cells[n+1]);
             }
@@ -78,7 +116,7 @@ void Model::allignMaterials()
     {
         for(int n = 0; n<this->materials.size()-i-1; n++)
         {
-            if(this->materials[n]->ID>this->materials[n+1]->ID)
+            if(this->materials[n]->getID()>this->materials[n+1]->getID())
             {
                 std::swap(this->materials[n],this->materials[n+1]);
             }
@@ -86,15 +124,23 @@ void Model::allignMaterials()
     }
 }
 
-vertice Model::calcModelCenter()
+void Model::calcModelCenter()
 {
-    for(int i = 0; i<this->cells.size(); i++)
+    double x=0,y=0,z=0;
+    for(int i = 0; i<this->vertices.size(); i++)
     {
-
+        x+=this->vertices[i].getx();
+        y+=this->vertices[i].gety();
+        z+=this->vertices[i].getz();
     }
+    this->modelCenter = Vector3D(x,y,z);
 }
 void Model::loadModel(char* path)
 {
+    //temporary file data storage
+    std::vector<cellInfo*> tempCellInfo;
+
+    //get data
     std::fstream file;
     std::string line;
     file.open(path);
@@ -108,7 +154,7 @@ void Model::loadModel(char* path)
         {
         case 'm':
         {
-            material* tempMat = new material();
+            Material* tempMat = new Material();
             firstChar = 1;
             for(int i =2; i<(int)line.length(); i++)
             {
@@ -120,7 +166,7 @@ void Model::loadModel(char* path)
 
                         if(firstChar)
                         {
-                            tempMat->ID = atoi( &line[i] );
+                            tempMat->setID(atoi( &line[i] ));
                             firstChar=0;
                         }
                         break;
@@ -128,37 +174,40 @@ void Model::loadModel(char* path)
                         if(firstChar)
                         {
                             firstChar=0;
-                            tempMat->density = atoi( &line[i] );
+                            tempMat->setDensity(atoi( &line[i] ));
                         }
                         break;
-                    case 3:
+                    case 3:{
+                        Vector3D tempCol;
                         switch(valueIterator)
                         {
                         case 0:
-                            tempMat->color[0] = (getHexValue(line[i])*16/255);
-                            tempMat->color[1] = 0;
-                            tempMat->color[2] = 0;
+                            tempCol.setx(getHexValue(line[i])*16/255);
+                            tempCol.sety(0);
+                            tempCol.setz(0);
                             break;
                         case 1:
-                            tempMat->color[0] += (getHexValue(line[i])/255);
+                            tempCol.setx(getHexValue(line[i])/255);
                             break;
                         case 2:
-                            tempMat->color[1] = (getHexValue(line[i])*16/255);
+                            tempCol.sety(getHexValue(line[i])*16/255);
                             break;
                         case 3:
-                            tempMat->color[1] += (getHexValue(line[i])/255);
+                            tempCol.sety(getHexValue(line[i])/255);
                             break;
                         case 4:
-                            tempMat->color[2] = (getHexValue(line[i])*16/255);
+                            tempCol.setz(getHexValue(line[i])*16/255);
                             break;
                         case 5:
-                            tempMat->color[2] += (getHexValue(line[i])/255);
+                            tempCol.setz(getHexValue(line[i])/255);
+                            tempMat->setColor(tempCol);
                             break;
                         }
                         valueIterator++;
                         break;
+                    }
                     case 4:
-                        tempMat->name.push_back(line[i]);
+                        tempMat->setName(&line[i]);
                         break;
                     }
                 }
@@ -174,7 +223,7 @@ void Model::loadModel(char* path)
         }
         case 'v':
         {
-            vertice tempVert;
+            Vector3D tempVert;
             int charVal;
             int afterDot = 0;
             int negative = 0;
@@ -199,7 +248,7 @@ void Model::loadModel(char* path)
                         case 1:
                             if(firstChar)
                             {
-                                tempVert.ID = atoi( &line[i] );
+                                tempVert.setID(atoi( &line[i] ));
                                 firstChar=0;
                             }
                             break;
@@ -208,17 +257,17 @@ void Model::loadModel(char* path)
                             if(firstChar)
                             {
                                 firstChar=0;
-                                tempVert.x = charVal;
+                                tempVert.setx(charVal);
                             }
                             else
                             {
                                 if(afterDot)
                                 {
-                                    tempVert.x +=((float)pow(10,(-valueIterator))*charVal);
+                                    tempVert.setx(tempVert.getx()+((float)pow(10,(-valueIterator))*charVal));
                                 }
                                 else
                                 {
-                                    tempVert.x = (tempVert.x*10+charVal);
+                                    tempVert.setx(tempVert.getx()*10+charVal);
                                 }
                             }
                             break;
@@ -227,17 +276,17 @@ void Model::loadModel(char* path)
                             if(firstChar)
                             {
                                 firstChar=0;
-                                tempVert.y = charVal;
+                                tempVert.sety(charVal);
                             }
                             else
                             {
                                 if(afterDot)
                                 {
-                                    tempVert.y +=((float)pow(10,(-valueIterator))*charVal);
+                                    tempVert.sety(tempVert.gety()+(float)pow(10,(-valueIterator))*charVal);
                                 }
                                 else
                                 {
-                                    tempVert.y = (tempVert.y*10+charVal);
+                                    tempVert.sety(tempVert.gety()*10+charVal);
                                 }
                             }
                             break;
@@ -246,17 +295,17 @@ void Model::loadModel(char* path)
                             if(firstChar)
                             {
                                 firstChar=0;
-                                tempVert.z = charVal;
+                                tempVert.setz(charVal);
                             }
                             else
                             {
                                 if(afterDot)
                                 {
-                                    tempVert.z +=((float)pow(10,(-valueIterator))*charVal);
+                                    tempVert.setz(tempVert.getz()+(float)pow(10,(-valueIterator))*charVal);
                                 }
                                 else
                                 {
-                                    tempVert.z = (tempVert.z*10+charVal);
+                                    tempVert.setz(tempVert.getz()*10+charVal);
                                 }
                             }
                             break;
@@ -271,16 +320,16 @@ void Model::loadModel(char* path)
                         switch(valueNum)
                         {
                         case 1:
-                            tempVert.ID = -(tempVert.ID);
+                            tempVert.setID(-tempVert.getID());
                             break;
                         case 2:
-                            tempVert.x = -(tempVert.x);
+                            tempVert.setx(-tempVert.getx());
                             break;
                         case 3:
-                            tempVert.y = -(tempVert.y);
+                            tempVert.sety(-tempVert.gety());
                             break;
                         case 4:
-                            tempVert.z = -(tempVert.z);
+                            tempVert.setz(-tempVert.getz());
                             break;
                         }
                     }
@@ -297,16 +346,16 @@ void Model::loadModel(char* path)
                         switch(valueNum)
                         {
                         case 1:
-                            tempVert.ID = -(tempVert.ID);
+                            tempVert.setID(-tempVert.getID());
                             break;
                         case 2:
-                            tempVert.x = -(tempVert.x);
+                            tempVert.setx(-tempVert.getx());
                             break;
                         case 3:
-                            tempVert.y = -(tempVert.y);
+                            tempVert.sety(-tempVert.gety());
                             break;
                         case 4:
-                            tempVert.z = -(tempVert.z);
+                            tempVert.setz(-tempVert.getz());
                             break;
                         }
                     }
@@ -317,7 +366,7 @@ void Model::loadModel(char* path)
         }
         case 'c':
         {
-            cell* tempCell = new cell();
+            cellInfo* tempCell = new cellInfo();
             firstChar = 1;
             for(int i = 2; i<(int)line.length(); i++)
             {
@@ -358,7 +407,7 @@ void Model::loadModel(char* path)
                     {
                         if(firstChar)
                         {
-                            tempCell->indices.push_back(atoi( &line[i] ));
+                            tempCell->indixes.push_back(atoi( &line[i] ));
                             firstChar=0;
                         }
                     }
@@ -369,16 +418,60 @@ void Model::loadModel(char* path)
                     firstChar = 1;
                 }
             }
-            tempCell->weight = 0;
-            tempCell->volume = 0;
-            tempCell->gravityCenter = vertice{-1,0,0,0};
 
-            this->cells.push_back(tempCell);
+            tempCellInfo.push_back(tempCell);
             break;
         }
         }
     }
     file.close();
+    //assign and use data
+    this->allignVertices();
+    this->allignMaterials();
+    for(int tC = 0; tC<tempCellInfo.size(); tC++)
+    {
+        if(tempCellInfo[tC]->type==1)
+        {
+
+            Hexahedron* tempCell = new Hexahedron();
+            tempCell->setID(tempCellInfo[tC]->ID);
+            tempCell->setType(1);
+            for(int n = 0; n<tempCellInfo[tC]->indixes.size(); n++)
+            {
+                //std::cout<<tempCellInfo[tC]->indixes[0]<<std::endl;
+                tempCell->pushIndice(this->getVectorIndex(tempCellInfo[tC]->indixes[n]));
+            }
+            tempCell->setMaterialID(tempCellInfo[tC]->materialID);
+            this->cells.push_back(tempCell);
+        }
+        else if(tempCellInfo[tC]->type==1)
+        {
+            Pyramid* tempCell = new Pyramid();
+            tempCell->setID(tempCellInfo[tC]->ID);
+            tempCell->setType(2);
+            for(int n = 0; n<tempCellInfo[tC]->indixes.size(); n++)
+            {
+                //std::cout<<tempCellInfo[tC]->indixes[0]<<std::endl;
+                tempCell->pushIndice(this->getVectorIndex(tempCellInfo[tC]->indixes[n]));
+            }
+            tempCell->setMaterialID(tempCellInfo[tC]->materialID);
+            this->cells.push_back(tempCell);
+        }
+        else if(tempCellInfo[tC]->type==1)
+        {
+            Tetrahedron* tempCell = new Tetrahedron();
+            tempCell->setID(tempCellInfo[tC]->ID);
+            tempCell->setType(3);
+            for(int n = 0; n<tempCellInfo[tC]->indixes.size(); n++)
+            {
+                //std::cout<<tempCellInfo[tC]->indixes[0]<<std::endl;
+                tempCell->pushIndice(this->getVectorIndex(tempCellInfo[tC]->indixes[n]));
+            }
+            tempCell->setMaterialID(tempCellInfo[tC]->materialID);
+            this->cells.push_back(tempCell);
+        }
+    }
+    this->allignCells();
 }
 
 void Model::showMaterials()
@@ -386,10 +479,10 @@ void Model::showMaterials()
     std::cout<<"Materials:"<<std::endl;
     for(int i = 0; i<(int)this->materials.size(); i++)
     {
-        std::cout<<this->materials[i]->ID<<":  ";
-        std::cout<<this->materials[i]->density<<" ";
-        std::cout<<this->materials[i]->color[0]<<"|"<<this->materials[i]->color[1]<<"|"<<this->materials[i]->color[2]<<"  ";
-        std::cout<<this->materials[i]->name<<"  "<<std::endl;
+        std::cout<<this->materials[i]->getID()<<":  ";
+        std::cout<<this->materials[i]->getDensity()<<" ";
+        std::cout<<this->materials[i]->getColor().getx()<<"|"<<this->materials[i]->getColor().gety()<<"|"<<this->materials[i]->getColor().getz()<<"  ";
+        std::cout<<this->materials[i]->getName()<<"  "<<std::endl;
     }
 }
 
@@ -398,7 +491,7 @@ void Model::showVertices()
     std::cout<<"Vertices:"<<std::endl;
     for(int i = 0; i<(int)this->vertices.size(); i++)
     {
-        std::cout<<this->vertices[i].ID<<":  "<<this->vertices[i].x<<"  "<<this->vertices[i].y<<"  "<<this->vertices[i].z<<std::endl;
+        std::cout<<this->vertices[i].getID()<<":  "<<this->vertices[i].getx()<<"  "<<this->vertices[i].gety()<<"  "<<this->vertices[i].getz()<<std::endl;
     }
 }
 
@@ -407,8 +500,8 @@ void Model::showCells()
     std::cout<<"Cells:"<<std::endl;
     for(int i = 0; i<(int)this->cells.size(); i++)
     {
-        std::cout<<this->cells[i]->ID<<": ";
-        switch(this->cells[i]->type)
+        std::cout<<this->cells[i]->getID()<<": ";
+        switch(this->cells[i]->getType())
         {
         case 1:
             std::cout<<"hexahedral ";
@@ -420,11 +513,11 @@ void Model::showCells()
             std::cout<<"tetrahedral ";
             break;
         }
-        std::cout<<this->cells[i]->materialID<<std::endl;
+        //std::cout<<this->cells[i]->mater<<std::endl;
         std::cout<<"Indices: ";
-        for(int n = 0; n<this->cells[i]->indices.size(); n++)
+        for(int n = 0; n<this->cells[i]->getIndices().size(); n++)
         {
-            std::cout<<this->cells[i]->indices[n]<<"  ";
+            std::cout<<this->cells[i]->getIndices()[n]<<"  ";
         }
         std::cout<<std::endl;
     }
@@ -449,20 +542,20 @@ void Model::loadInfoToFile(char* path)
         file<<"Model data\n";
         for(int i = 0; i<(int)this->vertices.size(); i++)
         {
-            file<<"v "<<this->vertices[i].ID<<" "<<this->vertices[i].x<<" "<<this->vertices[i].y<<" "<<this->vertices[i].z<<"\n";
+            file<<"v "<<this->vertices[i].getID()<<" "<<this->vertices[i].getx()<<" "<<this->vertices[i].gety()<<" "<<this->vertices[i].getz()<<"\n";
         }
         file<<"\n";
         for(int i = 0; i<(int)this->materials.size(); i++)
         {
-            file<<"m "<<this->materials[i]->ID<<" "<<this->materials[i]->density<<" ";
-            file<<this->materials[i]->color[0]<<" "<<this->materials[i]->color[1]<<" "<<this->materials[i]->color[2]<<" ";
-            file<<this->materials[i]->name<<"\n";
+            file<<"m "<<this->materials[i]->getID()<<" "<<this->materials[i]->getDensity()<<" ";
+            file<<this->materials[i]->getColor().getx()<<" "<<this->materials[i]->getColor().gety()<<" "<<this->materials[i]->getColor().getz()<<" ";
+            file<<this->materials[i]->getName()<<"\n";
         }
         file<<"\n";
         for(int i = 0; i<(int)this->cells.size(); i++)
         {
-            file<<"c "<<this->cells[i]->ID<<" ";
-            switch(this->cells[i]->type)
+            file<<"c "<<this->cells[i]->getID()<<" ";
+            switch(this->cells[i]->getType())
             {
             case 1:
                 file<<"h ";
@@ -474,10 +567,10 @@ void Model::loadInfoToFile(char* path)
                 file<<"t ";
                 break;
             }
-            file<<this->cells[i]->materialID<<" ";
-            for(int n = 0; n<this->cells[i]->indices.size(); n++)
+            //file<<this->cells[i]->mater<<" ";
+            for(int n = 0; n<this->cells[i]->getIndices().size(); n++)
             {
-                file<<this->cells[i]->indices[n]<<" ";
+                file<<this->cells[i]->getIndices()[n]<<" ";
             }
             file<<"\n";
         }
@@ -488,8 +581,5 @@ void Model::loadInfoToFile(char* path)
 Model::Model(char* path)
 {
     loadModel(path);
-    this->allignVertices();
-    this->allignMaterials();
-    this->allignCells();
     std::cout<<"Model Loaded"<<std::endl;
 }

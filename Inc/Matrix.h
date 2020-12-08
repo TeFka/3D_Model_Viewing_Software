@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include<math.h>
+#include <math.h>
 #ifndef MATRIX_H_INCLUDED
 #define MATRIX_H_INCLUDED
 
@@ -12,10 +12,11 @@ enum matrixType
     MAT4x4,
 };
 
+class Vector3D;
 //class is made to be row major
 class Matrix
 {
-
+    friend class Vector3D;
 private:
     int matIterator1;
     int matIterator2;
@@ -34,6 +35,7 @@ public:
     Matrix operator +(Matrix&);
     Matrix operator - (Matrix&);
     Matrix operator * (Matrix&);
+    Matrix operator * (Vector3D&);
 
     float setValue(int, int, float);
     std::vector<std::vector<float>> getMatrix();
