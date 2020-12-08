@@ -48,7 +48,7 @@ float getHexValue(char letter)
 
 int Model::getVectorIndex(int ID)
 {
-    if(ID==this->vertices[ID].getID())
+    if(ID<this->vertices.size())
     {
         return ID;
     }
@@ -147,6 +147,7 @@ void Model::loadModel(char* path)
     int valueNum = 1;
     int valueIterator = 0;
     int firstChar = 0;
+    Vector3D tempCol;
     while(getline(file,line))
     {
         valueNum=1;
@@ -178,7 +179,6 @@ void Model::loadModel(char* path)
                         }
                         break;
                     case 3:{
-                        Vector3D tempCol;
                         switch(valueIterator)
                         {
                         case 0:
@@ -187,19 +187,19 @@ void Model::loadModel(char* path)
                             tempCol.setz(0);
                             break;
                         case 1:
-                            tempCol.setx(getHexValue(line[i])/255);
+                            tempCol.setx(tempCol.getx()+getHexValue(line[i])/255);
                             break;
                         case 2:
                             tempCol.sety(getHexValue(line[i])*16/255);
                             break;
                         case 3:
-                            tempCol.sety(getHexValue(line[i])/255);
+                            tempCol.sety(tempCol.gety()+getHexValue(line[i])/255);
                             break;
                         case 4:
                             tempCol.setz(getHexValue(line[i])*16/255);
                             break;
                         case 5:
-                            tempCol.setz(getHexValue(line[i])/255);
+                            tempCol.setz(tempCol.getz()+getHexValue(line[i])/255);
                             tempMat->setColor(tempCol);
                             break;
                         }
@@ -207,7 +207,11 @@ void Model::loadModel(char* path)
                         break;
                     }
                     case 4:
+                        if(firstChar)
+                        {
                         tempMat->setName(&line[i]);
+                        firstChar = 0;
+                        }
                         break;
                     }
                 }
