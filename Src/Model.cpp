@@ -88,7 +88,7 @@ void Model::allignVertices()
 {
     for(int i =0; i<this->vertices.size()-1; i++)
     {
-        for(int n = 0; n<this->vertices.size()-i-1; n++)
+        for(int n = 0; n<this->vertices.size()-i-1; n++)koijkonj
         {
             if(this->vertices[n].getID()>this->vertices[n+1].getID())
             {
