@@ -1,7 +1,7 @@
 #include "../Inc/Model.h"
 
 //side functions
-float getHexValue(char letter)
+float hexToFloat(char letter)
 {
     switch(letter)
     {
@@ -46,20 +46,125 @@ float getHexValue(char letter)
     }
 }
 
+std::string floatToHex(float val)
+{
+    val = val*255;
+    int N1 = val/16;
+    int N2 = (int)val%16;
+    std::string hex;
+    switch(N1)
+    {
+    case 0:
+        hex.push_back('0');
+        break;
+    case 1:
+        hex.push_back('1');
+        break;
+    case 2:
+        hex.push_back('2');
+        break;
+    case 3:
+        hex.push_back('3');
+        break;
+    case 4:
+        hex.push_back('4');
+        break;
+    case 5:
+        hex.push_back('5');
+        break;
+    case 6:
+        hex.push_back('6');
+        break;
+    case 7:
+        hex.push_back('7');
+        break;
+    case 8:
+        hex.push_back('8');
+        break;
+    case 9:
+        hex.push_back('9');
+        break;
+    case 10:
+        hex.push_back('A');
+        break;
+    case 11:
+        hex.push_back('B');
+        break;
+    case 12:
+        hex.push_back('C');
+        break;
+    case 13:
+        hex.push_back('D');
+        break;
+    case 14:
+        hex.push_back('E');
+        break;
+    case 15:
+        hex.push_back('F');
+        break;
+    }
+
+    switch(N2)
+    {
+    case 0:
+        hex.push_back('0');
+        break;
+    case 1:
+        hex.push_back('1');
+        break;
+    case 2:
+        hex.push_back('2');
+        break;
+    case 3:
+        hex.push_back('3');
+        break;
+    case 4:
+        hex.push_back('4');
+        break;
+    case 5:
+        hex.push_back('5');
+        break;
+    case 6:
+        hex.push_back('6');
+        break;
+    case 7:
+        hex.push_back('7');
+        break;
+    case 8:
+        hex.push_back('8');
+        break;
+    case 9:
+        hex.push_back('9');
+        break;
+    case 10:
+        hex.push_back('A');
+        break;
+    case 11:
+        hex.push_back('B');
+        break;
+    case 12:
+        hex.push_back('C');
+        break;
+    case 13:
+        hex.push_back('D');
+        break;
+    case 14:
+        hex.push_back('E');
+        break;
+    case 15:
+        hex.push_back('F');
+        break;
+    }
+    return hex;
+}
+
 int Model::getVectorIndex(int ID)
 {
-    if(ID<this->vertices.size())
+    for(int i = 0; i<this->vertices.size(); i++)
     {
-        return ID;
-    }
-    else
-    {
-        for(int i = this->vertices.size(); i--;)
+        if(this->vertices[i].getID()==ID)
         {
-            if(this->vertices[i].getID()==ID)
-            {
-                return i;
-            }
+            return i;
         }
     }
     return -1;
@@ -88,7 +193,7 @@ void Model::allignVertices()
 {
     for(int i =0; i<this->vertices.size()-1; i++)
     {
-        for(int n = 0; n<this->vertices.size()-i-1; n++)koijkonj
+        for(int n = 0; n<this->vertices.size()-i-1; n++)
         {
             if(this->vertices[n].getID()>this->vertices[n+1].getID())
             {
@@ -137,7 +242,7 @@ void Model::calcModelCenter()
 }
 void Model::loadModel(char* path)
 {
-    //temporary file data storage
+    //temporary file data storagessds
     std::vector<cellInfo*> tempCellInfo;
 
     //get data
@@ -178,28 +283,29 @@ void Model::loadModel(char* path)
                             tempMat->setDensity(atoi( &line[i] ));
                         }
                         break;
-                    case 3:{
+                    case 3:
+                    {
                         switch(valueIterator)
                         {
                         case 0:
-                            tempCol.setx(getHexValue(line[i])*16/255);
+                            tempCol.setx(hexToFloat(line[i])*16/255);
                             tempCol.sety(0);
                             tempCol.setz(0);
                             break;
                         case 1:
-                            tempCol.setx(tempCol.getx()+getHexValue(line[i])/255);
+                            tempCol.setx(tempCol.getx()+hexToFloat(line[i])/255);
                             break;
                         case 2:
-                            tempCol.sety(getHexValue(line[i])*16/255);
+                            tempCol.sety(hexToFloat(line[i])*16/255);
                             break;
                         case 3:
-                            tempCol.sety(tempCol.gety()+getHexValue(line[i])/255);
+                            tempCol.sety(tempCol.gety()+hexToFloat(line[i])/255);
                             break;
                         case 4:
-                            tempCol.setz(getHexValue(line[i])*16/255);
+                            tempCol.setz(hexToFloat(line[i])*16/255);
                             break;
                         case 5:
-                            tempCol.setz(tempCol.getz()+getHexValue(line[i])/255);
+                            tempCol.setz(tempCol.getz()+hexToFloat(line[i])/255);
                             tempMat->setColor(tempCol);
                             break;
                         }
@@ -209,8 +315,8 @@ void Model::loadModel(char* path)
                     case 4:
                         if(firstChar)
                         {
-                        tempMat->setName(&line[i]);
-                        firstChar = 0;
+                            tempMat->setName(&line[i]);
+                            firstChar = 0;
                         }
                         break;
                     }
@@ -546,13 +652,13 @@ void Model::loadInfoToFile(char* path)
         file<<"Model data\n";
         for(int i = 0; i<(int)this->vertices.size(); i++)
         {
-            file<<"v "<<this->vertices[i].getID()<<" "<<this->vertices[i].getx()<<" "<<this->vertices[i].gety()<<" "<<this->vertices[i].getz()<<"\n";
+            file<<"v "<<i<<" "<<this->vertices[i].getx()<<" "<<this->vertices[i].gety()<<" "<<this->vertices[i].getz()<<"\n";
         }
         file<<"\n";
         for(int i = 0; i<(int)this->materials.size(); i++)
         {
             file<<"m "<<this->materials[i]->getID()<<" "<<this->materials[i]->getDensity()<<" ";
-            file<<this->materials[i]->getColor().getx()<<" "<<this->materials[i]->getColor().gety()<<" "<<this->materials[i]->getColor().getz()<<" ";
+            file<<floatToHex(this->materials[i]->getColor().getx())<<floatToHex(this->materials[i]->getColor().gety())<<floatToHex(this->materials[i]->getColor().getz())<<" ";
             file<<this->materials[i]->getName()<<"\n";
         }
         file<<"\n";
