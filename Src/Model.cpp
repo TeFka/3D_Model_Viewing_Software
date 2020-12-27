@@ -1,6 +1,22 @@
+//-------------------------------------------------------------
+// File to store all implementations of functions of Model class.
+//-------------------------------------------------------------
+
+//Copyright Danielius Zurlys (StudentID: 20130611)
+
+// Required header files: iostream(for printing with cout), Model.h(to get function interfaces)
+
+//-------------------------------------------------------------
+//-------------------------------------------------------------
+
 #include "../Inc/Model.h"
 
-//side functions
+//Function hexToFloat()
+//Function to convert hex color value to float value
+// Arguments for getHexValue(): char - hex letter to convert
+// return value: a converted float value of color
+//note:
+// 1) Input hex value has to be in range [0;F]
 float hexToFloat(char letter)
 {
     switch(letter)
@@ -46,6 +62,13 @@ float hexToFloat(char letter)
     }
 }
 
+
+//Function floatToHex()
+//Function to convert float color value to hex value
+// Arguments for floatToHex(): float - float value to convert
+// return value: a converted std::string letter of color
+//notes:
+// 1) Input float value has to be in range [0;1.0]
 std::string floatToHex(float val)
 {
     val = val*255;
@@ -158,6 +181,43 @@ std::string floatToHex(float val)
     return hex;
 }
 
+//Constructor of Model class
+//Action:
+//      Load a 3D model from specified file.
+//Arguments: char - path to a model file.
+Model::Model(char* path)
+{
+    loadModel(path);
+    std::cout<<"Model Loaded"<<std::endl;
+}
+
+//Destructor for Model class
+// Action:
+//      Clears vertices, materials and cells arrays.
+Model::~Model()
+{
+    this->vertices.clear();
+    this->materials.clear();
+    this->cells.clear();
+}
+
+//Copy constructor of Model class
+//Action:
+    //copies vertices, materials, cells arrays and the model center information to a new Model object.
+Model::Model(const Model& copied_Model)
+{
+    vertices = copied_Model.vertices;
+    materials = copied_Model.materials;
+    cells = copied_Model.cells;
+    modelCenter = copied_Model.modelCenter;
+}
+
+//Function of class Model, getVectorIndex()
+//Function to get index in vertices array of vector with specified ID.
+// Arguments for getVectorIndex(): int - ID to be searched for.
+// return value: int - index of vector with specified ID.
+//Notes:
+// 1) The function will return -1 if the ID is not found, which will most likely give error in the application.
 int Model::getVectorIndex(int ID)
 {
     for(int i = 0; i<this->vertices.size(); i++)
@@ -167,9 +227,16 @@ int Model::getVectorIndex(int ID)
             return i;
         }
     }
+    std::cout<<"Vector with ID: "<<ID<<" not found"<<std::endl;
     return -1;
 }
 
+//Function of class Model, getMaterial()
+//Function to get material with specified ID.
+// Arguments for getMaterial(): int - ID to be searched for.
+// return value: Material - material with specified ID.
+//Notes:
+// 1) The function will return empty Material object if the ID is not found, which will most likely not work or cause errors.
 Material Model::getMaterial(int ID)
 {
     if(ID<this->materials.size())
@@ -186,9 +253,14 @@ Material Model::getMaterial(int ID)
             }
         }
     }
+    std::cout<<"Material with ID: "<<ID<<" not found"<<std::endl;
     return Material{};
 }
 
+//Function of class Model, allignVertices()
+//Function to sort the vertices array.
+// Arguments for allignVertices(): none.
+// return value: none(vertices array sorted)
 void Model::allignVertices()
 {
     for(int i =0; i<this->vertices.size()-1; i++)
@@ -202,6 +274,11 @@ void Model::allignVertices()
         }
     }
 }
+
+//Function of class Model, allignCells()
+//Function to sort the cells array.
+// Arguments for allignCells(): none.
+// return value: none(cells array sorted)
 void Model::allignCells()
 {
     for(int i =0; i<this->cells.size()-1; i++)
@@ -215,6 +292,11 @@ void Model::allignCells()
         }
     }
 }
+
+//Function of class Model, allignMaterials()
+//Function to sort the materials array.
+// Arguments for allignMaterials(): none.
+// return value: none(materials array sorted)
 void Model::allignMaterials()
 {
     for(int i =0; i<this->materials.size()-1; i++)
@@ -229,6 +311,12 @@ void Model::allignMaterials()
     }
 }
 
+//Function of class Model, calcModelCenter()
+//Function to calculate position of model center
+// Arguments for calcModelCenter(): none.
+// return value: none(model center value updated)
+//Note:
+//Model center position will become {0,0,0} if vertices array is empty.
 void Model::calcModelCenter()
 {
     double x=0,y=0,z=0;
@@ -240,6 +328,17 @@ void Model::calcModelCenter()
     }
     this->modelCenter = Vector3D(x,y,z);
 }
+
+//Function of class Model, loadModel()
+//Function to retrieve 3D model information from a VTK file
+// Arguments for loadModel(): char - path to
+// return value: none(model center value updated)
+//Note:
+// 1) The way function reads each file line and retrieves infromation:
+//      Material: m material_ID material_density material_color(#000000 form hex code) material_name
+//      Vector: v vector_ID x_position y_position z_position
+//      Cell: c cell_ID cell_type(h - hexahedral, p - pyramid, t - tetrahedral) [cell_indices]
+// 2) In case of file being written incorrectly, incorrect values might be written, errors may occur or program can crash.
 void Model::loadModel(char* path)
 {
     //temporary file data storagessds
@@ -584,9 +683,14 @@ void Model::loadModel(char* path)
     this->allignCells();
 }
 
+//Function of class Model, showMaterials()
+//Function to show information about all materials
+// Arguments for showMaterials(): none.
+// return value: none(information printed)
 void Model::showMaterials()
 {
     std::cout<<"Materials:"<<std::endl;
+    if(this->materials.size()>0){
     for(int i = 0; i<(int)this->materials.size(); i++)
     {
         std::cout<<this->materials[i]->getID()<<":  ";
@@ -594,27 +698,45 @@ void Model::showMaterials()
         std::cout<<this->materials[i]->getColor().getx()<<"|"<<this->materials[i]->getColor().gety()<<"|"<<this->materials[i]->getColor().getz()<<"  ";
         std::cout<<this->materials[i]->getName()<<"  "<<std::endl;
     }
+    }
+    else{
+        std::cout<<"None"<<std::endl;
+    }
 }
 
+//Function of class Model, showVertices()
+//Function to show information about all vertices
+// Arguments for showVertices(): none.
+// return value: none(information printed)
 void Model::showVertices()
 {
     std::cout<<"Vertices:"<<std::endl;
+    if(this->vertices.size()>0){
     for(int i = 0; i<(int)this->vertices.size(); i++)
     {
         std::cout<<this->vertices[i].getID()<<":  "<<this->vertices[i].getx()<<"  "<<this->vertices[i].gety()<<"  "<<this->vertices[i].getz()<<std::endl;
     }
+    }
+    else{
+        std::cout<<"None"<<std::endl;
+    }
 }
 
+//Function of class Model, showCells()
+//Function to show information about all cells
+// Arguments for showCells(): none.
+// return value: none(information printed)
 void Model::showCells()
 {
     std::cout<<"Cells:"<<std::endl;
+    if(this->cells.size()>0){
     for(int i = 0; i<(int)this->cells.size(); i++)
     {
         std::cout<<this->cells[i]->getID()<<": ";
         switch(this->cells[i]->getType())
         {
         case 1:
-            std::cout<<"hexahedral ";
+            std::cout<<"hexahredal ";
             break;
         case 2:
             std::cout<<"pyramid ";
@@ -623,7 +745,7 @@ void Model::showCells()
             std::cout<<"tetrahedral ";
             break;
         }
-        //std::cout<<this->cells[i]->mater<<std::endl;
+
         std::cout<<"Indices: ";
         for(int n = 0; n<this->cells[i]->getIndices().size(); n++)
         {
@@ -631,18 +753,61 @@ void Model::showCells()
         }
         std::cout<<std::endl;
     }
+    }
+    else{
+        std::cout<<"None"<<std::endl;
+    }
 }
 
+//Function of class Model, getVertices()
+//Function to get vertices array of model
+// Arguments for showCells(): none.
+// return value: std::vector<Vector3D> - array of all model vertices
+std::vector<Vector3D> Model::getVertices()
+{
+    return this->vertices;
+}
+
+//Function of class Model, getMaterials()
+//Function to get materials array of model
+// Arguments for showCells(): none.
+// return value: std::vector<Material*> - array of all model material pointers
+std::vector<Material*> Model::getMaterials()
+{
+    return this->materials;
+}
+
+//Function of class Model, getCells()
+//Function to get cells array of model
+// Arguments for getCells(): none.
+// return value: std::vector<Cell*> - array of all model cell pointers
+std::vector<Cell*> Model::getCells()
+{
+    return this->cells;
+}
+
+//Function of class Model, getVerticesAmount()
+//Function to get amount of vertices
+// Arguments for getVerticesAmount(): none.
+// return value: int - amount of vertices
 int Model::getVerticesAmount()
 {
     return this->vertices.size();
 }
 
+//Function of class Model, getCellAmount()
+//Function to get amount of cells
+// Arguments for getCellAmount(): none.
+// return value: int - amount of cells
 int Model::getCellAmount()
 {
     return this->cells.size();
 }
 
+//Function of class Model, loadInfoToFile()
+//Function to load model information into specified txt file.
+// Arguments for getVerticesAmount(): char - path to specified txt file
+// return value: none(information loaded)
 void Model::loadInfoToFile(char* path)
 {
     std::ofstream file(path);
@@ -686,10 +851,4 @@ void Model::loadInfoToFile(char* path)
         }
     }
     file.close();
-}
-
-Model::Model(char* path)
-{
-    loadModel(path);
-    std::cout<<"Model Loaded"<<std::endl;
 }
