@@ -18,14 +18,15 @@
 //Arguments: none
 Matrix3x3::Matrix3x3()
 {
+        // set all array values to zero
         for(int matIterator1 = 0; matIterator1<3; matIterator1++)
         {
-            std::vector<double> tempMat;
+            std::vector<double> temporaryMatrix;
             for(int matIterator2 = 0; matIterator2<3; matIterator2++)
             {
-                tempMat.push_back(0);
+                temporaryMatrix.push_back(0);
             }
-            this->theMatrix3x3.push_back(tempMat);
+            this->theMatrix3x3.push_back(temporaryMatrix);
         }
         this->rowDimension = 3;
         this->columnDimension = 3;
@@ -40,21 +41,24 @@ Matrix3x3::Matrix3x3()
 //Arguments: double - value to be set diagonally.
 Matrix3x3::Matrix3x3(double generalVal)
 {
+        // set all array values
         for(int matIterator1 = 0; matIterator1<3; matIterator1++)
         {
-            std::vector<double> tempMat;
+            std::vector<double> temporaryMatrix;
             for(int matIterator2 = 0; matIterator2<3; matIterator2++)
             {
+                //set diagonal values to specified value
                 if(matIterator1==matIterator2)
                 {
-                    tempMat.push_back(generalVal);
+                    temporaryMatrix.push_back(generalVal);
                 }
+                //set other values to zero
                 else
                 {
-                    tempMat.push_back(0);
+                    temporaryMatrix.push_back(0);
                 }
             }
-            this->theMatrix3x3.push_back(tempMat);
+            this->theMatrix3x3.push_back(temporaryMatrix);
         }
         this->rowDimension = 3;
         this->columnDimension = 3;
@@ -83,19 +87,19 @@ Matrix3x3::Matrix3x3(const Matrix3x3& copied_Matrix3x3)
 // return value: none(new value is set)
 //Notes:
 // 1) Will give error if any of the indexes are out of range
-void Matrix3x3::setValue(int index1, int index2, double val)
+void Matrix3x3::setValue(int rowIndex, int columnIndex, double val)
 {
-    if(index1>this->rowDimension)
+    if(rowIndex>this->rowDimension)
     {
         std::cout<<"row index out of range"<<std::endl;
     }
-    else if(index2>this->columnDimension)
+    else if(columnIndex>this->columnDimension)
     {
         std::cout<<"column index out of range"<<std::endl;
     }
     else
     {
-        this->theMatrix3x3[index1][index2] = val;
+        this->theMatrix3x3[rowIndex][columnIndex] = val;
     }
 }
 
@@ -108,26 +112,26 @@ std::vector<std::vector<double>> Matrix3x3::getMatrix3x3()
     return this->theMatrix3x3;
 }
 
-//Operator of class Matrix3x3, ()
+//Operator of class Matrix3x3()
 //Action:
 //  retrieves specified Matrix3x3 value
 // Arguments for operator (): int - row index, int - column index
 // return value: double - value at specified position
 //Notes:
 // 1) Will give error if any of the indexes are out of range
-double Matrix3x3::operator()(int index1, int index2)
+double Matrix3x3::operator()(int rowIndex, int columnIndex)
 {
-    if(index1>this->rowDimension)
+    if(rowIndex>this->rowDimension)
     {
         std::cout<<"row index out of range"<<std::endl;
     }
-    else if(index2>this->columnDimension)
+    else if(columnIndex>this->columnDimension)
     {
         std::cout<<"column index out of range"<<std::endl;
     }
     else
     {
-        return this->theMatrix3x3[index1][index2];
+        return this->theMatrix3x3[rowIndex][columnIndex];
     }
 }
 
@@ -140,16 +144,17 @@ double Matrix3x3::operator()(int index1, int index2)
 // 1) Will give error if Matrix3x3 is added with other types.
 Matrix3x3 Matrix3x3::operator+(Matrix3x3& mat)
 {
-    Matrix3x3 tempMat;
+    Matrix3x3 temporaryMatrix;
     for(int matIterator1 = 0; matIterator1<this->theMatrix3x3.size(); matIterator1++)
     {
         for(int matIterator2 = 0; matIterator2<this->theMatrix3x3.size(); matIterator2++)
         {
-            tempMat.setValue(matIterator1,matIterator2,
+            //add matrix values at certain position
+            temporaryMatrix.setValue(matIterator1,matIterator2,
                              this->theMatrix3x3[matIterator1][matIterator2]+mat(matIterator1,matIterator2));
         }
     }
-    return tempMat;
+    return temporaryMatrix;
 }
 
 //Operator of class Matrix3x3, -Matrix3x3
@@ -161,16 +166,17 @@ Matrix3x3 Matrix3x3::operator+(Matrix3x3& mat)
 // 1) Will give error if Matrix3x3 is subtracted by other types.
 Matrix3x3 Matrix3x3::operator-(Matrix3x3& mat)
 {
-    Matrix3x3 tempMat;
+    Matrix3x3 temporaryMatrix;
     for(int matIterator1 = 0; matIterator1<this->theMatrix3x3.size(); matIterator1++)
     {
         for(int matIterator2 = 0; matIterator2<this->theMatrix3x3.size(); matIterator2++)
         {
-            tempMat.setValue(matIterator1,matIterator2,
+            //subtract matrix values at certain position
+            temporaryMatrix.setValue(matIterator1,matIterator2,
                              this->theMatrix3x3[matIterator1][matIterator2]-mat(matIterator1,matIterator2));
         }
     }
-    return tempMat;
+    return temporaryMatrix;
 }
 
 //Operator of class Matrix3x3, *Matrix3x3
@@ -182,18 +188,19 @@ Matrix3x3 Matrix3x3::operator-(Matrix3x3& mat)
 // 1) Will give error if Matrix3x3 is multiplied with other types.
 Matrix3x3 Matrix3x3::operator*(Matrix3x3& mat)
 {
-        Matrix3x3 tempMat;
+        Matrix3x3 temporaryMatrix;
         for(int matIterator1 = 0; matIterator1<3; matIterator1++)
         {
             for(int matIterator2 = 0; matIterator2<3; matIterator2++)
             {
-                tempMat.setValue(matIterator1,matIterator2,
+                //perform matrix multiplication with values at certain position
+                temporaryMatrix.setValue(matIterator1,matIterator2,
                                  this->theMatrix3x3[matIterator1][0]*mat(0,matIterator2)+
                                  this->theMatrix3x3[matIterator1][1]*mat(1,matIterator2)+
                                  this->theMatrix3x3[matIterator1][2]*mat(2,matIterator2));
             }
         }
-        return tempMat;
+        return temporaryMatrix;
 }
 
 //Function of class Matrix3x3, setIdentityMatrix3x3()
@@ -206,10 +213,12 @@ void Matrix3x3::setIdentityMatrix3x3()
     {
         for(int matIterator2 = 0; matIterator2<this->theMatrix3x3.size(); matIterator2++)
         {
+            //set diagonal values to one
             if(matIterator1==matIterator2)
             {
                 this->theMatrix3x3[matIterator1][matIterator2]=1;
             }
+            //set other values to zero
             else
             {
                 this->theMatrix3x3[matIterator1][matIterator2]=0;
@@ -226,11 +235,11 @@ void Matrix3x3::setIdentityMatrix3x3()
 // 1) Will give error if Matrix3x3 is multiplied with other types.
 Vector3D Matrix3x3::operator*(Vector3D& vec)
 {
-    Vector3D tempVec;
-    tempVec.setx((this->theMatrix3x3[0][0]*vec.getx())+(this->theMatrix3x3[0][1]*vec.gety())+(this->theMatrix3x3[0][2]*vec.getz()));
-    tempVec.sety((this->theMatrix3x3[1][0]*vec.getx())+(this->theMatrix3x3[1][1]*vec.gety())+(this->theMatrix3x3[1][2]*vec.getz()));
-    tempVec.setz((this->theMatrix3x3[2][0]*vec.getx())+(this->theMatrix3x3[2][1]*vec.gety())+(this->theMatrix3x3[2][2]*vec.getz()));
-    return tempVec;
+    Vector3D temporaryVector;
+    temporaryVector.setx((this->theMatrix3x3[0][0]*vec.getx())+(this->theMatrix3x3[0][1]*vec.gety())+(this->theMatrix3x3[0][2]*vec.getz()));
+    temporaryVector.sety((this->theMatrix3x3[1][0]*vec.getx())+(this->theMatrix3x3[1][1]*vec.gety())+(this->theMatrix3x3[1][2]*vec.getz()));
+    temporaryVector.setz((this->theMatrix3x3[2][0]*vec.getx())+(this->theMatrix3x3[2][1]*vec.gety())+(this->theMatrix3x3[2][2]*vec.getz()));
+    return temporaryVector;
 }
 
 //Function of class Matrix3x3, transpose()
@@ -239,12 +248,10 @@ Vector3D Matrix3x3::operator*(Vector3D& vec)
 // return value: none(transpose operation performed)
 void Matrix3x3::transpose()
 {
-    if(this->theMatrix3x3.size()==3)
-    {
+        //switching edge value does the transpose effect
         std::swap(this->theMatrix3x3[0][1],this->theMatrix3x3[1][0]);
         std::swap(this->theMatrix3x3[0][2],this->theMatrix3x3[2][0]);
         std::swap(this->theMatrix3x3[1][2],this->theMatrix3x3[2][1]);
-    }
 }
 
 //Function of class Matrix3x3, invert()
@@ -255,22 +262,28 @@ void Matrix3x3::invert()
 {
     if(this->theMatrix3x3.size()==3)
     {
+        //store all original matrix values
         double tempStorage[9] = { this->theMatrix3x3[0][0],this->theMatrix3x3[0][1],this->theMatrix3x3[0][2],
                                   this->theMatrix3x3[1][0],this->theMatrix3x3[1][1],this->theMatrix3x3[1][2],
                                   this->theMatrix3x3[2][0],this->theMatrix3x3[2][1],this->theMatrix3x3[2][2]
                                 };
-        double D = (this->theMatrix3x3[0][0]*(this->theMatrix3x3[1][1]*this->theMatrix3x3[2][2]-this->theMatrix3x3[1][2]*this->theMatrix3x3[2][1])-
+        //calculate determinant
+        double determinant = (this->theMatrix3x3[0][0]*(this->theMatrix3x3[1][1]*this->theMatrix3x3[2][2]-this->theMatrix3x3[1][2]*this->theMatrix3x3[2][1])-
                     this->theMatrix3x3[0][1]*(this->theMatrix3x3[1][0]*this->theMatrix3x3[2][2]-this->theMatrix3x3[1][2]*this->theMatrix3x3[2][0])+
                     this->theMatrix3x3[0][2]*(this->theMatrix3x3[1][0]*this->theMatrix3x3[2][1]-this->theMatrix3x3[1][1]*this->theMatrix3x3[2][0]));
-        this->theMatrix3x3[0][0] = ((1/D)*(tempStorage[4]*tempStorage[8]-tempStorage[5]*tempStorage[7]));
-        this->theMatrix3x3[0][1] = ((1/D)*-(tempStorage[3]*tempStorage[8]-tempStorage[5]*tempStorage[6]));
-        this->theMatrix3x3[0][2] = ((1/D)*(tempStorage[3]*tempStorage[7]-tempStorage[4]*tempStorage[6]));
-        this->theMatrix3x3[1][0] = ((1/D)*-(tempStorage[1]*tempStorage[8]-tempStorage[2]*tempStorage[7]));
-        this->theMatrix3x3[1][1] = ((1/D)*(tempStorage[0]*tempStorage[8]-tempStorage[2]*tempStorage[6]));
-        this->theMatrix3x3[1][2] = ((1/D)*-(tempStorage[0]*tempStorage[7]-tempStorage[1]*tempStorage[6]));
-        this->theMatrix3x3[2][0] = ((1/D)*(tempStorage[1]*tempStorage[5]-tempStorage[2]*tempStorage[4]));
-        this->theMatrix3x3[2][1] = ((1/D)*-(tempStorage[0]*tempStorage[5]-tempStorage[2]*tempStorage[3]));
-        this->theMatrix3x3[2][2] = ((1/D)*(tempStorage[0]*tempStorage[4]-tempStorage[1]*tempStorage[3]));
+
+        //perform inversion
+        //assign new value to matrix
+        this->theMatrix3x3[0][0] = ((1/determinant)*(tempStorage[4]*tempStorage[8]-tempStorage[5]*tempStorage[7]));
+        this->theMatrix3x3[0][1] = ((1/determinant)*-(tempStorage[3]*tempStorage[8]-tempStorage[5]*tempStorage[6]));
+        this->theMatrix3x3[0][2] = ((1/determinant)*(tempStorage[3]*tempStorage[7]-tempStorage[4]*tempStorage[6]));
+        this->theMatrix3x3[1][0] = ((1/determinant)*-(tempStorage[1]*tempStorage[8]-tempStorage[2]*tempStorage[7]));
+        this->theMatrix3x3[1][1] = ((1/determinant)*(tempStorage[0]*tempStorage[8]-tempStorage[2]*tempStorage[6]));
+        this->theMatrix3x3[1][2] = ((1/determinant)*-(tempStorage[0]*tempStorage[7]-tempStorage[1]*tempStorage[6]));
+        this->theMatrix3x3[2][0] = ((1/determinant)*(tempStorage[1]*tempStorage[5]-tempStorage[2]*tempStorage[4]));
+        this->theMatrix3x3[2][1] = ((1/determinant)*-(tempStorage[0]*tempStorage[5]-tempStorage[2]*tempStorage[3]));
+        this->theMatrix3x3[2][2] = ((1/determinant)*(tempStorage[0]*tempStorage[4]-tempStorage[1]*tempStorage[3]));
+
         this->transpose();
     }
 }
@@ -280,53 +293,59 @@ void Matrix3x3::invert()
 //Function to add rotation to matrix
 // Arguments for rotateMatrix3x3(): double - rotation angle in degrees, double - rotation x axis, double - rotation y axis, double - rotation z axis,
 // return value: none(matrix is rotated)
-void Matrix3x3::rotateMatrix3x3(double degrees, double xAxis, double yAxis, double zAxis)
+Matrix3x3 Matrix3x3::getRotationMatrix3x3(double degrees, double xAxis, double yAxis, double zAxis)
 {
+    //create matrix for each axis
+    Matrix3x3 temporaryMatrixX(1.0f);
+    Matrix3x3 temporaryMatrixY(1.0f);
+    Matrix3x3 temporaryMatrixZ(1.0f);
 
-    Matrix3x3 tempMatX(1.0f);
-    Matrix3x3 tempMatY(1.0f);
-    Matrix3x3 tempMatZ(1.0f);
-    Matrix3x3 rotationMat(1.0f);
-    if(xAxis!=0.0f)
+    //x axis rotation
+    if(xAxis!=0.0)
     {
-        tempMatX.setValue(1,1,cos(degrees));
-        tempMatX.setValue(1,2,-sin(degrees));
-        tempMatX.setValue(2,1,sin(degrees));
-        tempMatX.setValue(2,2,cos(degrees));
+        temporaryMatrixX.setValue(1,1,cos(degrees));
+        temporaryMatrixX.setValue(1,2,-sin(degrees));
+        temporaryMatrixX.setValue(2,1,sin(degrees));
+        temporaryMatrixX.setValue(2,2,cos(degrees));
     }
-    if(yAxis!=0.0f)
+    //y axis rotation
+    if(yAxis!=0.0)
     {
-        tempMatX.setValue(0,0,cos(degrees));
-        tempMatX.setValue(0,2,sin(degrees));
-        tempMatX.setValue(2,0,-sin(degrees));
-        tempMatX.setValue(2,2,cos(degrees));
+        temporaryMatrixY.setValue(0,0,cos(degrees));
+        temporaryMatrixY.setValue(0,2,sin(degrees));
+        temporaryMatrixY.setValue(2,0,-sin(degrees));
+        temporaryMatrixY.setValue(2,2,cos(degrees));
     }
-    if(zAxis!=0.0f)
+    //z axis rotation
+    if(zAxis!=0.0)
     {
-        tempMatX.setValue(0,0,cos(degrees));
-        tempMatX.setValue(0,1,-sin(degrees));
-        tempMatX.setValue(1,0,sin(degrees));
-        tempMatX.setValue(1,1,cos(degrees));
+        temporaryMatrixZ.setValue(0,0,cos(degrees));
+        temporaryMatrixZ.setValue(0,1,-sin(degrees));
+        temporaryMatrixZ.setValue(1,0,sin(degrees));
+        temporaryMatrixZ.setValue(1,1,cos(degrees));
     }
+    /*std::cout<<"x rotation"<<std::endl;
+    for(int i = 0;i<3;i++){
+    for(int b = 0;b<3;b++){
+        std::cout<<temporaryMatrixX(i,b)<<" ";
+    }
+    std::cout<<std::endl;
+   }
+   std::cout<<"y rotation"<<std::endl;
+   for(int i = 0;i<3;i++){
+    for(int b = 0;b<3;b++){
+        std::cout<<temporaryMatrixY(i,b)<<" ";
+    }
+    std::cout<<std::endl;
+   }
+   std::cout<<"z rotation"<<std::endl;
+   for(int i = 0;i<3;i++){
+    for(int b = 0;b<3;b++){
+        std::cout<<temporaryMatrixZ(i,b)<<" ";
+    }
+    std::cout<<std::endl;
+   }*/
 
-    std::vector<std::vector<double>> tempMatVals = (tempMatX*tempMatY*tempMatZ).getMatrix3x3();
-    std::vector<double> vals;
-    for(int matIterator1 = 0; matIterator1<this->theMatrix3x3.size(); matIterator1++)
-    {
-        for(int matIterator2 = 0; matIterator2<this->theMatrix3x3.size(); matIterator2++)
-        {
-            vals.push_back((this->theMatrix3x3[matIterator1][0]*tempMatVals[0][matIterator2]+
-                            this->theMatrix3x3[matIterator1][1]*tempMatVals[1][matIterator2]+
-                            this->theMatrix3x3[matIterator1][2]*tempMatVals[2][matIterator2]));
-        }
-    }
-    this->theMatrix3x3[0][0] = vals[0];
-    this->theMatrix3x3[0][1] = vals[1];
-    this->theMatrix3x3[0][2] = vals[2];
-    this->theMatrix3x3[1][0] = vals[3];
-    this->theMatrix3x3[1][1] = vals[4];
-    this->theMatrix3x3[1][2] = vals[5];
-    this->theMatrix3x3[2][0] = vals[6];
-    this->theMatrix3x3[2][1] = vals[7];
-    this->theMatrix3x3[2][2] = vals[8];
+    //multiply matrices to get full rotation matrix and return it
+    return (temporaryMatrixZ*temporaryMatrixY*temporaryMatrixX);
 }

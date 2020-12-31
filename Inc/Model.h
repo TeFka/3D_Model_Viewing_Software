@@ -47,7 +47,7 @@ std::string floatToHex(float val);
 // Class 'Model'
 // Stores information about a 3D model retrieved from VTK file.
 //Stored values:
-//      An std::vector array of model vertices
+//      An std::vector array of model vectors
 //      An std::vector array of model materials
 //      An std::vector array of model cells
 //      a Vector3D of model center point.
@@ -55,16 +55,16 @@ std::string floatToHex(float val);
 //  private:
 //      int getVectorIndex(int)
 //      Material getMaterial(int)
-//      void allignVertices()
-//      void allignCells()
-//      void allignMaterials()
+//      void alignVectors()
+//      void alignCells()
+//      void alignMaterials()
 //      void loadModel(char*)
 //      void calcModelCenter()
 //  public:
-//      int getVerticesAmount()
+//      int getVectorsAmount()
 //      int getCellAmount()
 //      void showMaterials()
-//      void showVertices()
+//      void showVectors()
 //      void showCells()
 //      void loadInfoToFile(char*)
 //
@@ -79,8 +79,8 @@ class Model{
 
 private:
 
-// array of all vertices
-std::vector<Vector3D> vertices;
+// array of all vectors
+std::vector<Vector3D> vectors;
 
 // array of all materials used
 std::vector<Material*> materials;
@@ -92,24 +92,24 @@ std::vector<Cell*> cells;
 Vector3D modelCenter;
 
 //Function of class Model, getVectorIndex()
-//Function to get index in vertices array of vector with specified ID.
+//Function to get index in vectors array of vector with specified ID.
 int getVectorIndex(int);
 
 //Function of class Model, getMaterial()
 //Function to get material with specified ID.
 Material getMaterial(int);
 
-//Function of class Model, allignVertices()
-//Function to sort the vertices array.
-void allignVertices();
+//Function of class Model, alignVectors()
+//Function to sort the vectors array.
+void alignVectors();
 
-//Function of class Model, allignCells()
+//Function of class Model, alignCells()
 //Function to sort the cells array.
-void allignCells();
+void alignCells();
 
-//Function of class Model, allignMaterials()
+//Function of class Model, alignMaterials()
 //Function to sort the materials array.
-void allignMaterials();
+void alignMaterials();
 
 //Function of class Model, loadModel()
 //Function to retrieve 3D model information from a VTK file
@@ -130,9 +130,13 @@ Model(char*);
 //Copy constructor
 Model(const Model&);
 
-//Function of class Model, getVertices()
-//Function to get vertices array of model
-std::vector<Vector3D> getVertices();
+//Function of class Model, getModelCenter()
+//Function to get position of model center
+Vector3D getModelCenter();
+
+//Function of class Model, getVectors()
+//Function to get vector array of model
+std::vector<Vector3D> getVectors();
 
 //Function of class Model, getMaterials()
 //Function to get materials array of model
@@ -142,9 +146,9 @@ std::vector<Material*> getMaterials();
 //Function to get cells array of model
 std::vector<Cell*> getCells();
 
-//Function of class Model, getVerticesAmount()
-//Function to get amount of vertices
-int getVerticesAmount();
+//Function of class Model, getVectorsAmount()
+//Function to get amount of vectors
+int getVectorAmount();
 
 //Function of class Model, getCellAmount()
 //Function to get amount of cells
@@ -154,9 +158,9 @@ int getCellAmount();
 //Function to show information about all materials
 void showMaterials();
 
-//Function of class Model, showVertices()
-//Function to show information about all vertices
-void showVertices();
+//Function of class Model, showVectors()
+//Function to show information about all vectors
+void showVectors();
 
 //Function of class Model, showCells()
 //Function to show information about all cells

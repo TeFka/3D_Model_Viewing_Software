@@ -101,7 +101,7 @@ public:
 
     //Function of class Matrix3x3, rotateMatrix3x3()
     //Function to add rotation to matrix
-    void rotateMatrix3x3(double, double, double, double);
+    Matrix3x3 getRotationMatrix3x3(double, double, double, double);
 };
 
 #endif // Matrix3x3_H_INCLUDED
