@@ -2,8 +2,8 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include <ModelClass.h>
-#include <Matrix.h>
+#include "../Inc/Model.h"
+#include "../Inc/Matrix3x3.h"
 
 using namespace std;
 

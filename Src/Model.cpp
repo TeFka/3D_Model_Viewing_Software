@@ -191,9 +191,13 @@ std::string floatToHex(float val)
 //Arguments: char - path to a model file.
 Model::Model(char* path)
 {
-    loadModel(path);
+    if(loadModel(path)){
     std::cout<<"Model Loaded"<<std::endl;
     this->calcModelCenter();
+    }
+    else{
+        std::cout<<"Could not load model from file: "<<path<<std::endl;
+    }
 }
 
 //Destructor for Model class
@@ -267,9 +271,9 @@ Material Model::getMaterial(int ID)
     return Material{};
 }
 
-//Function of class Model, alignvectors()
+//Function of class Model, alignVectors()
 //Function to sort the vector array.
-// Arguments for alignvectors(): none.
+// Arguments for alignVectors(): none.
 // return value: none(vector array sorted)
 void Model::alignVectors()
 {
@@ -347,14 +351,14 @@ void Model::calcModelCenter()
 //Function of class Model, loadModel()
 //Function to retrieve 3D model information from a VTK file
 // Arguments for loadModel(): char - path to
-// return value: none(model center value updated)
+// return value: bool - statement whether file could be open
 //Note:
 // 1) The way function reads each file line and retrieves infromation:
 //      Material: m material_ID material_density material_color(#000000 form hex code) material_name
 //      Vector: v vector_ID x_position y_position z_position
 //      Cell: c cell_ID cell_type(h - hexahedral, p - pyramid, t - tetrahedral) [cell_indices]
 // 2) In case of file being written incorrectly, incorrect values might be written, errors may occur or program can crash.
-void Model::loadModel(char* path)
+bool Model::loadModel(char* path)
 {
     //temporary cell data storage
     std::vector<cellInfo*> temporaryCellInfo;
@@ -362,12 +366,14 @@ void Model::loadModel(char* path)
     //used variables
     std::fstream file;
     std::string line;
-    file.open(path);
     int valueNum = 1;
     int valueIterator = 0;
     int firstChar = 0;
     Vector3D tempCol;
 
+    file.open(path);
+
+    if(file.is_open()){
     //go through all lines in file
     while(getline(file,line))
     {
@@ -747,6 +753,11 @@ void Model::loadModel(char* path)
     }
     //sort cells
     this->alignCells();
+    return true;
+    }
+    else{
+        return false;
+    }
 }
 
 //Function of class Model, showMaterials()
