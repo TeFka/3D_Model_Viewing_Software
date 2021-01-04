@@ -1,7 +1,17 @@
+//-------------------------------------------------------------
+// File to store all implementations of functions of cell class.
+//-------------------------------------------------------------
 
+//Copyright Michael Michael (StudentID: 20143147)
+
+// Required header files: cell.h(to get function interfaces)****subject to change
+
+//-------------------------------------------------------------
+//-------------------------------------------------------------
 //#include "main.h"
 #include "../Inc/Cell.h"
-
+//-------------------------------------------------------------------------
+//constructor function cell
     Cell::Cell(){
 
     }
@@ -46,6 +56,10 @@ Tetrahedron::Tetrahedron()//constructor
 {
 
 }
+//Function getvolume()
+//Function to calculate the volume of the tetrahedron
+// Arguments for getvolume(std::vector<Vector3D> vectors) : array of vectors
+// return value: volume (double)
 double Tetrahedron::getvolume(std::vector<Vector3D> vectors)//will overwrite original getvolume function in cell class
 {
     //plan to get volume of tetrahedron
@@ -83,6 +97,10 @@ Pyramid::Pyramid()//constructor
 
 }
 
+//Function getvolume()
+//Function to calculate the volume of the pyramid
+// Arguments for getvolume(std::vector<Vector3D> vectors) : array of vectors
+// return value: volume (double)
 double Pyramid::getvolume(std::vector<Vector3D> vectors)
 {
     //plan to get volume of pyramid
@@ -108,11 +126,16 @@ double Pyramid::getvolume(std::vector<Vector3D> vectors)
    }
 //---------------------------------------------------------------------------------
 //defining functions for hexahedron
+//-------------------------------------------------------------------------------
 Hexahedron::Hexahedron()//constructor
 {
 
 }
-
+//---------------------------------------------------------------------------------------
+//Function getvolume()
+//Function to calculate the volume of the hexahedron
+// Arguments for getvolume(std::vector<Vector3D> vectors) : array of vectors
+// return value: volume (double)
 double Hexahedron::getvolume(std::vector<Vector3D> vectors)
 {
     //plan to get volume of hexahedron
