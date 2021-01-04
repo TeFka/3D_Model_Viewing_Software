@@ -25,6 +25,7 @@ public:
     int getMaterialID();
     std::vector<int> getIndices();
     Vector3D getCentreOFGravity();
+	float getWeight();
 
     void setID(int);
     void setType(int);
@@ -41,6 +42,7 @@ private:
 public:
     Tetrahedron();
     double getvolume();
+	   Vector3D getCentreOFGravity();
 };
 //---------------------------------------------------------------
 class Pyramid : public Cell
@@ -50,6 +52,7 @@ private:
 public:
     Pyramid();
     double getvolume();
+	   Vector3D getCentreOFGravity();
 };
 //---------------------------------------------------------------
 class Hexahedron : public Cell
@@ -59,6 +62,7 @@ private:
 public:
     Hexahedron();
     double getvolume();
+	   Vector3D getCentreOFGravity();
 };
 #endif // CELL_H
 
