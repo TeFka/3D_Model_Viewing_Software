@@ -1,30 +1,37 @@
-#include <iostream>
-#include <string>
-#include "../Inc/Vector3D.h"
-//This class is for the material.
+//This is lib for the material class.
 //It should be three parts for material ID, color, and density.
+#include <string>
+#include <iostream>
+using namespace std;
 
-class Vector3D;
 
-class  Material{
+
+
+class  material{
+   
 private:// member variables.
+
     int ID;
-    std::string name;
-    Vector3D color;
-    double density;
+    int Density;
+    string Name;
+    string Color;
+  
+
 
 public:
-    Material();
-    Material(int, Vector3D, double);//a constructor to initialise member vaiables.
-   ~Material();      //a destructor to delete memory in constructor.
-//----------provide a function to allow them to be read/and modified.
+    material( int id, int density, string name, string colour);//a constructor to initialise member vaiables.
+   
+//----------provide a function to allow them to be read/and modified.   
    int getID();
-   std::string getName();
-   Vector3D getColor();
-   double getDensity();
+ 
+   int getdensity();
 
-   void setID(int);
-   void setName(std::string);
-   void setColor(Vector3D);
-   void setDensity(double);
+   string getcolor();
+
+   void setID( int id );
+   void setcolor( string c );
+   void setdensity( int d );
+
 };
+//material class is over.
+//--------------------------------------------

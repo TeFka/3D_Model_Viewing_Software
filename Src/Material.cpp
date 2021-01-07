@@ -1,43 +1,43 @@
-#include"../Inc/Material.h"
-//--------------------------------------------
-Material::Material(){
+//material class.cpp file---------
+#include "2020_GROUP_19/Inc/Material.h"
+#include <stdio.h>
 
+
+
+material :: material( int id, int density, string name, string colour )  {
+	this->ID = id ;
+	this->Color = colour ;
+	this->Density = density ;
+        this->Name = name ;
 }
-Material :: Material( int id, Vector3D col, double d ) : ID(id), color(col), density(d) {}
-	//this->ID = id ;
-	//this->color = c ;
-	//this->density = d ;
 
 //for ID
-int Material :: getID(){//get(accessor) function to read.
+int material:: material::getID(){
+    //get(accessor) function to read.
     return this->ID;
 }
 
-void Material :: setID( int id ){//set(mutator) function to modify.
+void material::setID( int id ){
+    //set(mutator) function to modify.
     this->ID = id;
 }
-//for name
-std::string Material :: getName(){
-    return this->name;
-}
 
-void Material :: setName(std::string newName){
-    this->name = newName;
-}
 //for color
-Vector3D Material :: getColor(){
-    return this->color;
+string material::getcolor(){
+    return this->Color;
 }
 
-void Material :: setColor(Vector3D newCol){
-    this->color = newCol;
+void material::setcolor( string c ){
+    this->Color = c;
 }
 
 //for density
-double Material :: getDensity(){
-    return this->density;
+int material::getdensity(){
+    return this->Density;
 }
 
-void Material :: setDensity(double newDensity){
-    this->density = newDensity;
+void material::setdensity( int d ){
+    this->Density = d;
 }
+
+
