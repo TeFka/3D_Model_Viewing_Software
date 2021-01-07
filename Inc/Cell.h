@@ -35,41 +35,41 @@ protected:
     float weight;
     float volume;
     Vector3D centre_of_gravity;
-	
-	//array of all indices which each correspond to a vectex and its positions
-	//knowledge of the vertices position is requited for volume calculations
-	std::vector<int> indices;
+
+    //array of all indices which each correspond to a vectex and its positions
+    //knowledge of the vertices position is requited for volume calculations
+    std::vector<int> indices;
 public:
 //cell class constructor
     Cell();
-	
-	// i think destrictor is needed, dont know where it went
-	//-----------------------------------------------------------------
-	//get functions
-	
-	//function of cell class,getID
-	//function to get ID of ***
+
+    // i think destrictor is needed, dont know where it went
+    //-----------------------------------------------------------------
+    //get functions
+
+    //function of cell class,getID
+    //function to get ID of ***
     int getID();
-	
-	//function of cell class,getType
-	//function to get type of ***
+
+    //function of cell class,getType
+    //function to get type of ***
     int getType();
-	
-	//function of cell class,getMaterialID
-	//function to get ID of the material, to gain access of the density of material, needed for weight calculation
+
+    //function of cell class,getMaterialID
+    //function to get ID of the material, to gain access of the density of material, needed for weight calculation
     int getMaterialID();
-	
-	//function of cell class, getIndices
-	//function to get indice array of model
+
+    //function of cell class, getIndices
+    //function to get indice array of model
     std::vector<int> getIndices();
-	
-	//function of cell class, getCentreOFGravity
-	//function to find the centre of gravity of the cell
+
+    //function of cell class, getCentreOFGravity
+    //function to find the centre of gravity of the cell
     Vector3D getCentreOFGravity();
-	
-	//function of cell class, getWeight
-	//function to find the weight of the cell
-	float getWeight();
+
+    //function of cell class, getWeight
+    //function to find the weight of the cell
+    float getWeight();
 //---------------------------------------------------------------
 //set functions
     void setID(int);
@@ -88,14 +88,18 @@ private:
 public:
 //subclass tetrahedron constructor
     Tetrahedron();
-	
-	//function of subclass tetrahedron
-	//function to get the volume of the tetrahedron cell
+
+    //function of subclass tetrahedron
+    //function to get the volume of the tetrahedron cell
     double getvolume();
-	
-	//function of subclass tetrahedron
-	//function to get the contre of gravity of the tetrahedron cell
-	   Vector3D getCentreOFGravity();
+
+    //function of subclass tetrahedron
+    //function to get the weight of the tetrahedron cell
+    double getWeight();
+
+    //function of subclass tetrahedron
+    //function to get the contre of gravity of the tetrahedron cell
+    Vector3D getCentreOFGravity();
 };
 //---------------------------------------------------------------
 //subclass of class cell, class pyramid
@@ -106,14 +110,18 @@ private:
 public:
 //subclass tetrahedron constructor
     Pyramid();
-	
-		//function of subclass pyramid
-	//function to get the volume of the pyramid cell
+
+    //function of subclass pyramid
+    //function to get the volume of the pyramid cell
     double getvolume();
-	
-		//function of subclass pyramid
-	//function to get the contre of gravity of the pyramid cell
-	   Vector3D getCentreOFGravity();
+
+    //function of subclass pyramid
+    //function to get the weight of the pyramid cell
+    double getWeight();
+
+    //function of subclass pyramid
+    //function to get the contre of gravity of the pyramid cell
+    Vector3D getCentreOFGravity();
 };
 //---------------------------------------------------------------
 //subclass of class cell, class hexahedron
@@ -123,13 +131,17 @@ private:
 
 public:
     Hexahedron();
-		//function of subclass hexahedron
-	//function to get the volume of the hexahedron cell
+    //function of subclass hexahedron
+    //function to get the volume of the hexahedron cell
     double getvolume();
-	
-		//function of subclass hexahedron
-	//function to get the contre of gravity of the hexahedron cell
-	   Vector3D getCentreOFGravity();
+
+    //function of subclass hexahedron
+    //function to get the weight of the hexahedron cell
+    double getWeight();
+
+    //function of subclass hexahedron
+    //function to get the contre of gravity of the hexahedron cell
+    Vector3D getCentreOFGravity();
 };
 #endif // CELL_H
 
