@@ -7,10 +7,8 @@
 //-------------------------------------------------------------
 //-------------------------------------------------------------
 
-//#include <iostream>
 #include <vector>
 #include <math.h>
-
 
 #ifndef VECTOR3D_H
 #define VECTOR3D_H
@@ -22,13 +20,15 @@ private:
     double x, y, z;
 
 public:
+
+	//Constructor
     //default
     Vector3D();
 
-    //constructor
+	//giving values to object
     Vector3D(double,double,double);
 
-    //destructor
+    //Destructor
     ~Vector3D();
 
     //Setters
@@ -53,16 +53,20 @@ public:
 	//copy constructor
     Vector3D (const Vector3D & vec);
 	
-	//addition of vectors
+	//Addition
+	//action: add 2 vectors together
     Vector3D operator+(const Vector3D &vec);
 	
-	//subtraction of vectors
+	//Subtraction
+	//action: subtract current vector from another vector
     Vector3D operator-(const Vector3D &vec);
 	
-	//scalar product between vectors
+	//Dot Product
+	//action: perform dot product operation
     double dot_product(const Vector3D &vec);
 	
-	//vector product between vectors
+	//Cross Product
+	//action: perform cross product operation
     Vector3D cross_product(const Vector3D &vec); 
 
 };
