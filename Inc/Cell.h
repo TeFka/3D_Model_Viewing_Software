@@ -42,7 +42,7 @@ protected:
 public:
 //cell class constructor
     Cell();
-	//destructor
+	// cell class destructor
 	~cell();
 
     // i think destrictor is needed, dont know where it went
