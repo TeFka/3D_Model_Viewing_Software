@@ -7,9 +7,10 @@
 //-------------------------------------------------------------
 //-------------------------------------------------------------
 
+//INCLUDE header file for Vector3D
 #include "../Inc/Vector3D.h"
 
-//constructor
+//Constructor
 //default settings
 Vector3D::Vector3D()
 {
@@ -98,8 +99,3 @@ Vector3D Vector3D::cross_product(const Vector3D &vec)
 }
 
 //-----------------------------------------------------------------------------------
-
-
-
-
-
