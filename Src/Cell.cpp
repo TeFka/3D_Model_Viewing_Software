@@ -11,7 +11,15 @@
 //#include "main.h"
 #include "../Inc/Cell.h"
 //-------------------------------------------------------------------------
-//constructor function cell
+//constructor
+  Cell::Cell(int ID,int type,int materialID,std::vector<int> indices){
+        this->ID = ID;
+        this->indices = indices;
+        this->type = type;
+        this->materialId = materialID;
+    }
+
+//COPY constructor function cell
 Cell::Cell(const Model& copied_Model)
 {
     volume = copied_Cell.volume;
@@ -74,12 +82,22 @@ void Cell::insertIndice(int index,int newIndice)
 
 //--------------------------------------------------------------------------------
 //defining functions for the tetrahedron
-Tetrahedron::Tetrahedron()//constructor
+//constructor
+Tetrahedron::Tetrahedron(int ID,int type,int materialID,std::vector<int> indices,std::vector<Vector3D> vertices,std::vector<Material> vertices):Cell(ID,type,materialID,indices)//constructor
+{
+    calculateVolume(vertices);
+    calcweight(materials);
+    gravity center(vertices);
+}
+//--------------------------------------------------------------
+//copy constructor
+Tetrahedron::Tetrahedron()
 {
  volume = copied_Tetrahedron.volume;
 	weight = copied_Tetrahedron.weight;
     CenterOfGravity = copied_Tetrahedron.cellCenterOfGravity;
 }
+//--------------------------------------------------------------------
 //tetrahedron function destructor
 //destructor function cell
 Tetrahedron::~Tetrahedron()
@@ -88,11 +106,12 @@ Tetrahedron::~Tetrahedron()
     this->weights.clear();
     this->centerOfGravities.clear();//not sure what to destruct here
 }
+//---------------------------------------------------------------
 //Function getvolume()
 //Function to calculate the volume of the tetrahedron
 // Arguments for getvolume(std::vector<Vector3D> vectors) : array of vectors
 // return value: volume (double)
-double Tetrahedron::getvolume(std::vector<Vector3D> vectors)//will overwrite original getvolume function in cell class
+double Tetrahedron::getvolume(std::vector<Vector3D> vectors,std::vector<int> indices)//will overwrite original getvolume function in cell class
 {
     //plan to get volume of tetrahedron
     //              _   _    _
@@ -149,14 +168,23 @@ Vector3D Tetrahedron::getCentreOFGravity();
 //Function to calculate the weight of the tetrahedron
 // Arguments for getWeight(float Vtetra) ****
 // return value: weight (double)
-Tetrahedron::getWeight(float Vtetra)
+Tetrahedron::getWeight(float Vtetra,std::vector<Material> vertices)
 {
     Wtetra = 9.81*Vtetra*DENSITY****;
 }
 //-----------------------------------------------------------------------------------------------------
 //defining functions for pyramid
 //--------------------------------------------------------------------------------------------------------------
-Pyramid::Pyramid(const Pyramid& copied_Pyramid)//constructor
+//constructor
+Pyramid::Pyramid(int ID,int type,int materialID,std::vector<int> indices,std::vector<Vector3D> vertices,std::vector<Material> vertices):Cell(ID,type,materialID,indices)//constructor
+{
+    calculateVolume(vertices);
+    calcweight(materials);
+    gravity center(vertices);
+}
+//-------------------------------------------------------------------------------
+//copy constructor
+Pyramid::Pyramid(const Pyramid& copied_Pyramid)
 {
  volume = copied_Pyramid.volume;
 	weight = copied_Pyramid.weight;
@@ -175,7 +203,7 @@ Pyramid::~Pyramid()
 //Function to calculate the volume of the pyramid
 // Arguments for getvolume(std::vector<Vector3D> vectors) : array of vectors
 // return value: volume (double)
-double Pyramid::getvolume(std::vector<Vector3D> vectors)
+double Pyramid::getvolume(std::vector<Vector3D> vectors,std::vector<int> indices)
 {
     //plan to get volume of pyramid
     //essentially, a pyramid is just 2 tetrahedrons put together, therefore to find the volume of the pyramid, we must repeat the same method
@@ -226,14 +254,23 @@ Vector3D pyramid::getCentreOFGravity();
 //Function to calculate the weight of the pyramid
 // Arguments for getvolume(float Vpyramid) ****
 // return value: weight (double)
-Tetrahedron::getWeight(float Vpyramid)
+Tetrahedron::getWeight(float Vpyramid,std::vector<Material> vertices)
 {
     Wpyramid = 9.81*Vpyramid*DENSITY****;
 }
 //---------------------------------------------------------------------------------
 //defining functions for hexahedron
 //-------------------------------------------------------------------------------
-Hexahedron::Hexahedron(const Hexahedron& copied_Hexahedron)//constructor
+//constructor
+Hexahedron::Hexahedron(int ID,int type,int materialID,std::vector<int> indices,std::vector<Vector3D> vertices,std::vector<Material> vertices):Cell(ID,type,materialID,indices)//constructor
+{
+    calculateVolume(vertices);
+    calcweight(materials);
+    gravity center(vertices);
+}
+//---------------------------------------------------------------------------
+//copy constructor
+Hexahedron::Hexahedron(const Hexahedron& copied_Hexahedron)
 {
  volume = copied_Hexahedron.volume;
 	weight = copied_Hexahedron.weight;
@@ -253,7 +290,7 @@ Hexahedron::~Hexahedron()
 //Function to calculate the volume of the hexahedron
 // Arguments for getvolume(std::vector<Vector3D> vectors) : array of vectors
 // return value: volume (double)
-double Hexahedron::getvolume(std::vector<Vector3D> vectors)
+double Hexahedron::getvolume(std::vector<Vector3D> vectors,std::vector<int> indices)
 {
     //plan to get volume of hexahedron
     //a hexahedron is 8 tetrahedrons put together
@@ -282,7 +319,7 @@ double Hexahedron::getvolume(std::vector<Vector3D> vectors)
 // return value: none(model center value updated)
 //Note:
 //Model center of gravity will become {0,0,0} if vector array is empty.
-Vector3D Hexahedron::getCentreOFGravity();
+Vector3D Hexahedron::getCentreOFGravity(std::vector<int> indices);
 {
 
     double x=0,y=0,z=0;
@@ -306,7 +343,7 @@ Vector3D Hexahedron::getCentreOFGravity();
 //Function to calculate the weight of the pyramid
 // Arguments for getvolume(float Vhexa) ****
 // return value: weight (double)
-Tetrahedron::getWeight(float Vhexa)
+Tetrahedron::getWeight(float Vhexa,std::vector<Material> vertices)
 {
     Whexa = 9.81*Vhexa*DENSITY****;
 }

@@ -34,6 +34,7 @@ protected:
     int materialID;
     float weight;
     float volume;
+	
     Vector3D centre_of_gravity;
 
     //array of all indices which each correspond to a vectex and its positions
@@ -45,9 +46,6 @@ public:
 	// cell class destructor
 	~cell();
 
-    // i think destrictor is needed, dont know where it went
-    //-----------------------------------------------------------------
-    //get functions
 
     //function of cell class,getID
     //function to get ID of cell
