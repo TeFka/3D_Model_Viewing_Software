@@ -1,3 +1,4 @@
+
 //-------------------------------------------------------------
 // File to store all implementations of functions of cell class.
 //-------------------------------------------------------------
@@ -12,20 +13,22 @@
 #include "../Inc/Cell.h"
 //-------------------------------------------------------------------------
 //constructor
-  Cell::Cell(int ID,int type,int materialID,std::vector<int> indices){
-        this->ID = ID;
-        this->indices = indices;
-        this->type = type;
-        this->materialId = materialID;
-    }
-
+Cell::Cell(int ID,int type,int materialID,std::vector<int> indices)
+{
+    this->ID = ID;
+    this->indices = indices;
+    this->type = type;
+    this->materialId = materialID;
+}
+//-----------------------------------------------------------
 //COPY constructor function cell
 Cell::Cell(const Model& copied_Model)
 {
     volume = copied_Cell.volume;
-	weight = copied_Cell.weight;
+    weight = copied_Cell.weight;
     CenterOfGravity = copied_Cell.cellCenterOfGravity;
 }
+//-------------------------------------------------------------------------
 //destructor function cell
 Cell::~Cell()
 {
@@ -82,6 +85,7 @@ void Cell::insertIndice(int index,int newIndice)
 
 //--------------------------------------------------------------------------------
 //defining functions for the tetrahedron
+//---------------------------------------------------------------------------------
 //constructor
 Tetrahedron::Tetrahedron(int ID,int type,int materialID,std::vector<int> indices,std::vector<Vector3D> vertices,std::vector<Material> vertices):Cell(ID,type,materialID,indices)//constructor
 {
@@ -93,8 +97,8 @@ Tetrahedron::Tetrahedron(int ID,int type,int materialID,std::vector<int> indices
 //copy constructor
 Tetrahedron::Tetrahedron()
 {
- volume = copied_Tetrahedron.volume;
-	weight = copied_Tetrahedron.weight;
+    volume = copied_Tetrahedron.volume;
+    weight = copied_Tetrahedron.weight;
     CenterOfGravity = copied_Tetrahedron.cellCenterOfGravity;
 }
 //--------------------------------------------------------------------
@@ -186,8 +190,8 @@ Pyramid::Pyramid(int ID,int type,int materialID,std::vector<int> indices,std::ve
 //copy constructor
 Pyramid::Pyramid(const Pyramid& copied_Pyramid)
 {
- volume = copied_Pyramid.volume;
-	weight = copied_Pyramid.weight;
+    volume = copied_Pyramid.volume;
+    weight = copied_Pyramid.weight;
     CenterOfGravity = copied_Pyramid.cellCenterOfGravity;
 }
 //---------------------------------------------------------------------------------------------------------------
@@ -232,7 +236,6 @@ double Pyramid::getvolume(std::vector<Vector3D> vectors,std::vector<int> indices
 //Model center of gravity will become {0,0,0} if vector array is empty.
 Vector3D pyramid::getCentreOFGravity();
 {
-
     double x=0,y=0,z=0;
     //add up positions of all vectors
     for(int i = 0; i<this->vectors.size(); i++)
@@ -272,8 +275,8 @@ Hexahedron::Hexahedron(int ID,int type,int materialID,std::vector<int> indices,s
 //copy constructor
 Hexahedron::Hexahedron(const Hexahedron& copied_Hexahedron)
 {
- volume = copied_Hexahedron.volume;
-	weight = copied_Hexahedron.weight;
+    volume = copied_Hexahedron.volume;
+    weight = copied_Hexahedron.weight;
     CenterOfGravity = copied_Hexahedron.cellCenterOfGravity;
 }
 //----------------------------------------------------------------------------------------
@@ -284,7 +287,6 @@ Hexahedron::~Hexahedron()
     this->weights.clear();
     this->centerOfGravities.clear();//not sure what to destruct here
 }
- 
 //---------------------------------------------------------------------------------------
 //Function getvolume()
 //Function to calculate the volume of the hexahedron

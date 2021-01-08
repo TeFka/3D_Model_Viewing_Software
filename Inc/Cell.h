@@ -34,7 +34,7 @@ protected:
     int materialID;
     float weight;
     float volume;
-	
+
     Vector3D centre_of_gravity;
 
     //array of all indices which each correspond to a vectex and its positions
@@ -43,9 +43,11 @@ protected:
 public:
 //cell class constructor
     Cell();
-	// cell class destructor
-	~cell();
+    // cell class destructor
+    ~cell();
 
+//-----------------------------------------------------------
+//get functions
 
     //function of cell class,getID
     //function to get ID of cell
@@ -88,9 +90,9 @@ private:
 public:
 //subclass tetrahedron constructor
     Tetrahedron();
-	//destructor
-  ~Tetrahedron();
-  
+    //destructor
+    ~Tetrahedron();
+
     //function of subclass tetrahedron
     //function to get the volume of the tetrahedron cell
     double getvolume();
@@ -110,10 +112,10 @@ class Pyramid : public Cell
 private:
 
 public:
-//subclass tetrahedron constructor
-  Pyramid();
-	//destructor
-	~Pyramid();
+//subclass pyramid constructor
+    Pyramid();
+    //destructor
+    ~Pyramid();
 
     //function of subclass pyramid
     //function to get the volume of the pyramid cell
@@ -136,9 +138,9 @@ private:
 public:
 //constructor
     Hexahedron();
-	
+
 //	destructor
-	 ~Hexahedron();
+    ~Hexahedron();
     //function of subclass hexahedron
     //function to get the volume of the hexahedron cell
     double getvolume();
