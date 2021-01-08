@@ -42,17 +42,19 @@ protected:
 public:
 //cell class constructor
     Cell();
+	//destructor
+	~cell();
 
     // i think destrictor is needed, dont know where it went
     //-----------------------------------------------------------------
     //get functions
 
     //function of cell class,getID
-    //function to get ID of ***
+    //function to get ID of cell
     int getID();
 
     //function of cell class,getType
-    //function to get type of ***
+    //function to get type of cell
     int getType();
 
     //function of cell class,getMaterialID
@@ -88,7 +90,9 @@ private:
 public:
 //subclass tetrahedron constructor
     Tetrahedron();
-
+	//destructor
+  ~Tetrahedron();
+  
     //function of subclass tetrahedron
     //function to get the volume of the tetrahedron cell
     double getvolume();
@@ -109,7 +113,9 @@ private:
 
 public:
 //subclass tetrahedron constructor
-    Pyramid();
+  Pyramid();
+	//destructor
+	~Pyramid();
 
     //function of subclass pyramid
     //function to get the volume of the pyramid cell
@@ -130,7 +136,11 @@ class Hexahedron : public Cell
 private:
 
 public:
+//constructor
     Hexahedron();
+	
+//	destructor
+	 ~Hexahedron();
     //function of subclass hexahedron
     //function to get the volume of the hexahedron cell
     double getvolume();
