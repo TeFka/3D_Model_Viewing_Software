@@ -8,9 +8,8 @@
 
 #include <string>
 #include <iostream>
+#include "Vector3D.h"
 using namespace std;
-
-
 
 
 class  material{
@@ -20,9 +19,9 @@ private:
 // member variables.
 
     int ID;
-    int Density;
+    double Density;
     string Name;
-    string Color;
+    Vector3D Color;
   
 
 
@@ -31,23 +30,28 @@ public:
 //Default:
    material();
 
+
 //Constructor:
-   material( int id, int density, string name, string colour);
+   material( int id, double d, std::string name, Vector3D col);
 
 //Destructor:
    ~material();
    
 //Available functions:  
    int getID();
-   int getdensity();
-   string getcolor();
+   std::string getName();
+   double getDensity();
+   Vector3D getColor();
+  
 
    void setID( int id );
-   void setcolor( string c );
-   void setdensity( int d );
-
+   void setName( std::string name );
+   void setcolor( Vector3D col );
+   void setdensity( double d );
+ 
 //Copy constructor:
    material(const material & m);
+   
 
 };
 
