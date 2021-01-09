@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include "../Inc/Model.h"
+#include "../Inc/Vector3D.h"
 #include "../Inc/Matrix3x3.h"
 
 using namespace std;
@@ -34,15 +34,47 @@ int main()
    theMat2.setValue(2,0,9.0f);
    theMat2.setValue(2,1,4.0f);
    theMat2.setValue(2,2,2.0f);
-
-    Vector3D vecx(15.0,22.0,69.0);
-    vecx = theMat1*vecx;
-   theMat1 = theMat1*theMat2;
-   //theMat1.rotateMatrix(50,0,1.0,0);
-   std::cout<<"vec: "<<vecx.getx()<<"  "<<vecx.gety()<<"  "<<vecx.getz()<<std::endl;
+   std::cout<<"First matrix"<<std::endl;
    for(int i = 0;i<3;i++){
     for(int b = 0;b<3;b++){
-        std::cout<<rotationMat(i,b)<<" ";
+        std::cout<<theMat1(i,b)<<" ";
+    }
+    std::cout<<std::endl;
+   }
+
+   std::cout<<"Second matrix"<<std::endl;
+   for(int i = 0;i<3;i++){
+    for(int b = 0;b<3;b++){
+        std::cout<<theMat2(i,b)<<" ";
+    }
+    std::cout<<std::endl;
+   }
+
+   Vector3D vecx(15.0,22.0,69.0);
+
+   std::cout<<"Side vector"<<std::endl;
+   std::cout<<vecx.getx()<<"  "<<vecx.gety()<<"  "<<vecx.getz()<<std::endl;
+
+   //calculations
+   vecx = theMat1*vecx;
+
+   std::cout<<"Multiplication of first matrix and vector"<<std::endl;
+   std::cout<<vecx.getx()<<"  "<<vecx.gety()<<"  "<<vecx.getz()<<std::endl;
+
+   theMat1 = theMat1*theMat2;
+
+   std::cout<<"Multiplication of first matrix and second matrix"<<std::endl;
+   for(int i = 0;i<3;i++){
+    for(int b = 0;b<3;b++){
+        std::cout<<theMat1(i,b)<<" ";
+    }
+    std::cout<<std::endl;
+   }
+   theMat1 = theMat1.getRotationMatrix3x3(50,0,1.0,0);
+   std::cout<<"Multiplied matrix rotated by 50 degrees along y axis"<<std::endl;
+   for(int i = 0;i<3;i++){
+    for(int b = 0;b<3;b++){
+        std::cout<<theMat1(i,b)<<" ";
     }
     std::cout<<std::endl;
    }

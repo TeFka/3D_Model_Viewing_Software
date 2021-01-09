@@ -14,13 +14,17 @@ add_library( /model3DLib
 ./Src/Matrix3x3.cpp ./Inc/Matrix3x3.h
 ./Src/Model.cpp ./Inc/Model.h)
 
-# Make an executable
-add_executable( test_program 
+# Make an executable for Model code test
+add_executable(model_test_program 
 ../Src/Vector3D.cpp ../Inc/Vector3D.h
 ../Src/Material.cpp ../Inc/Material.h
 ../Src/Cell.cpp ../Inc/Cell.h
-../Src/Matrix3x3.cpp ../Inc/Matrix3x3.h
 ../Src/Model.cpp ../Inc/Model.h
 ../Test_programs/Model_test.cpp)
-# The executable uses the library
-# /ModelLibrary/CMakeLists.txt
+
+# Make an executable for Matrix code test
+add_executable(matrix_test_program 
+../Src/Vector3D.cpp ../Inc/Vector3D.h
+../Src/Matrix3x3.cpp ../Inc/Matrix3x3.h
+../Test_programs/Matrix_test.cpp)
+

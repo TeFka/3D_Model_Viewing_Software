@@ -3,7 +3,8 @@
 //----------------------------------------------
 //Copyright  Chen Xu (student ID : 20187733)
 //----------------------------------------------
-
+#ifndef MATERIALCLASS_H_INCLUDED
+#define MATERIALCLASS_H_INCLUDED
 
 
 #include <string>
@@ -12,8 +13,9 @@
 using namespace std;
 
 
-class  material{
-   
+class Material
+{
+
 private:
 
 // member variables.
@@ -22,43 +24,42 @@ private:
     double Density;
     string Name;
     Vector3D Color;
-  
-
 
 public:
-   
+
 //Default:
-   material();
+    Material();
 
 
 //Constructor:
-   material( int id, double d, std::string name, Vector3D col);
+    Material(int, double, std::string, Vector3D);
 
 //Destructor:
-   ~material();
-   
-//Available functions:  
-   int getID();
-   std::string getName();
-   double getDensity();
-   Vector3D getColor();
-  
+    ~Material();
 
-   void setID( int id );
-   void setName( std::string name );
-   void setcolor( Vector3D col );
-   void setdensity( double d );
- 
+//Available functions:
+    int getID();
+    std::string getName();
+    double getDensity();
+    Vector3D getColor();
+
+
+    void setID(int);
+    void setName(std::string);
+    void setColor(Vector3D);
+    void setDensity(double);
+
 //Copy constructor:
-   material(const material & m);
-   
+    Material(const Material & m);
+
 
 };
 
-   
-   
 
-   
+
+
+
 //------------------------------------------------------
 //material class is over.
 //--------------------------------------------
+#endif // MATERIALCLASS_H_INCLUDED

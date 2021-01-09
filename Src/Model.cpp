@@ -185,18 +185,24 @@ std::string floatToHex(float val)
     return hex;
 }
 
+//Default constructor of Model class
+//Action:
+//      creates an empty model object
+//Arguments: none.
+Model()
+{
+
+}
+
 //Constructor of Model class
 //Action:
 //      Load a 3D model from specified file.
 //Arguments: char - path to a model file.
 Model::Model(char* path)
 {
-    if(loadModel(path)){
-    std::cout<<"Model Loaded"<<std::endl;
-    this->calcModelCenter();
-    }
-    else{
-        std::cout<<"Could not load model from file: "<<path<<std::endl;
+    if(loadModel(path))
+    {
+        this->calcModelCenter();
     }
 }
 
@@ -212,7 +218,7 @@ Model::~Model()
 
 //Copy constructor of Model class
 //Action:
-    //copies vectors, materials, cells arrays and the model center information to a new Model object.
+//copies vectors, materials, cells arrays and the model center information to a new Model object.
 Model::Model(const Model& copied_Model)
 {
     vectors = copied_Model.vectors;
@@ -242,89 +248,73 @@ int Model::getVectorIndex(int ID)
     return -1;
 }
 
-//Function of class Model, getMaterial()
-//Function to get material with specified ID.
-// Arguments for getMaterial(): int - ID to be searched for.
-// return value: Material - material with specified ID.
+//Function of class Model, getMaterialIndex()
+//Function to get index in material array of Material with specified ID.
+// Arguments for getMaterialIndex(): int - ID to be searched for.
+// return value: int - index of Material with specified ID.
 //Notes:
-// 1) The function will return empty Material object if the ID is not found, which will most likely not work or cause errors.
-Material Model::getMaterial(int ID)
+// 1) The function will return -1 if the ID is not found, which will most likely give error in the application.
+int Model::getMaterialIndex(int ID)
 {
-    //check if material ID is in range of material amount
-    if(ID<this->materials.size())
+    //go though vectors
+    for(int i = 0; i<this->materials.size(); i++)
     {
-        return *this->materials[ID];
-    }
-    else
-    {
-        //go though materials
-        for(int i = this->materials.size(); i--;)
+        //find vector with required ID
+        if(this->materials[i].getID()==ID)
         {
-            //find material with required ID
-            if(this->materials[i]->getID()==ID)
-            {
-                return *this->materials[ID];
-            }
+            return i;
         }
     }
     std::cout<<"Material with ID: "<<ID<<" not found"<<std::endl;
-    return Material{};
+    return -1;
 }
 
-//Function of class Model, alignVectors()
-//Function to sort the vector array.
-// Arguments for alignVectors(): none.
-// return value: none(vector array sorted)
-void Model::alignVectors()
+//Function with template of class Model, alignVectors()
+//Function to sort the array of objects.
+//type of objects is specified by template
+// Arguments for alignArrayID(): std::vector<T> - array of objects specified by template
+// return value: none(passed array sorted)
+//Notes:
+//1) The sorting is done based on the used object member 'ID', received with function 'getID()'
+//   if the used object does not have this member and function, sorting function will not work and might crash
+template<typename T>
+void Model::alignArrayID(std::vector<T>& theArray)
 {
     //perform bubble sort
-    for(int i =0; i<this->vectors.size()-1; i++)
+    for(int i =0; i<theArray.size()-1; i++)
     {
-        for(int n = 0; n<this->vectors.size()-i-1; n++)
+        for(int n = 0; n<theArray.size()-i-1; n++)
         {
-            if(this->vectors[n].getID()>this->vectors[n+1].getID())
+            if(theArray[n].getID()>theArray[n+1].getID())
             {
-                std::swap(this->vectors[n],this->vectors[n+1]);
+                std::swap(theArray[n],theArray[n+1]);
             }
         }
     }
 }
 
-//Function of class Model, alignCells()
-//Function to sort the cells array.
-// Arguments for alignCells(): none.
-// return value: none(cells array sorted)
-void Model::alignCells()
-{
-    //perform bubble sort
-    for(int i =0; i<this->cells.size()-1; i++)
-    {
-        for(int n = 0; n<this->cells.size()-i-1; n++)
-        {
-            if(this->cells[n]->getID()>this->cells[n+1]->getID())
-            {
-                std::swap(this->cells[n],this->cells[n+1]);
-            }
-        }
-    }
-}
+//Function of class Model, fixIDValues()
+//Function to make all ID values of cell material, vectors and materials that corespond to their position in array
+// Arguments for fixIDValues(): none.
+// return value: none(vector are given more convenient ID values)
+void Model::fixIDValues(){
 
-//Function of class Model, alignMaterials()
-//Function to sort the materials array.
-// Arguments for alignMaterials(): none.
-// return value: none(materials array sorted)
-void Model::alignMaterials()
-{
-    //perform bubble sort
-    for(int i =0; i<this->materials.size()-1; i++)
+    //gives each cell material new ID based on materials position in array
+    for(int i =0; i<this->cells.size(); i++)
     {
-        for(int n = 0; n<this->materials.size()-i-1; n++)
-        {
-            if(this->materials[n]->getID()>this->materials[n+1]->getID())
-            {
-                std::swap(this->materials[n],this->materials[n+1]);
-            }
-        }
+        this->cells[i].setMaterialID(getMaterialIndex(this->cells[i].getMaterialID()));
+    }
+
+    //gives each material new ID based on its position in array
+    for(int i =0; i<this->materials.size(); i++)
+    {
+        this->materials[i].setID(i);
+    }
+
+    //gives each vector new ID based on its position in array
+    for(int i =0; i<this->vectors.size(); i++)
+    {
+        this->vectors[i].setID(i);
     }
 }
 
@@ -336,16 +326,44 @@ void Model::alignMaterials()
 //Model center position will become {0,0,0} if vector array is empty.
 void Model::calcModelCenter()
 {
-    double x=0,y=0,z=0;
-    //add up positions of all vectors
+    // create variables that would store maximum and minimum position values
+    double xMin=this->vectors[0].getx();
+    double yMin=this->vectors[0].gety();
+    double zMin=this->vectors[0].getz();
+    double xMax=this->vectors[0].getx();
+    double yMax=this->vectors[0].gety();
+    double zMax=this->vectors[0].getz();
+    //go through all vectors and check their positions
     for(int i = 0; i<this->vectors.size(); i++)
     {
-        x+=this->vectors[i].getx();
-        y+=this->vectors[i].gety();
-        z+=this->vectors[i].getz();
+        //update maximum and minimum values based on current vector position
+        if(this->vectors[i].getx()>xMax)
+        {
+            xMax = this->vectors[i].getx();
+        }
+        if(this->vectors[i].getx()<xMin)
+        {
+            xMin = this->vectors[i].getx();
+        }
+        if(this->vectors[i].gety()>yMax)
+        {
+            yMax = this->vectors[i].gety();
+        }
+        if(this->vectors[i].gety()<yMin)
+        {
+            yMin = this->vectors[i].gety();
+        }
+        if(this->vectors[i].getz()>zMax)
+        {
+            zMax = this->vectors[i].getz();
+        }
+        if(this->vectors[i].getz()<zMin)
+        {
+            zMin = this->vectors[i].getz();
+        }
     }
-    //return vector with averages of added up positions
-    this->modelCenter = Vector3D(x/this->vectors.size(),y/this->vectors.size(),z/this->vectors.size());
+    //return vector with averages of maximum and minimum values
+    this->modelCenter = Vector3D((xMax+xMin)/2,(yMax+yMin)/2,(zMax+zMin)/2);
 }
 
 //Function of class Model, loadModel()
@@ -360,8 +378,12 @@ void Model::calcModelCenter()
 // 2) In case of file being written incorrectly, incorrect values might be written, errors may occur or program can crash.
 bool Model::loadModel(char* path)
 {
+    //refresh storage arrays
+    this->vectors.clear();
+    this->materials.clear();
+    this->cells.clear();
     //temporary cell data storage
-    std::vector<cellInfo*> temporaryCellInfo;
+    std::vector<cellInfo> temporaryCellInfo;
 
     //used variables
     std::fstream file;
@@ -370,392 +392,389 @@ bool Model::loadModel(char* path)
     int valueIterator = 0;
     int firstChar = 0;
     Vector3D tempCol;
-
+    int vecCount = 0;
     file.open(path);
 
-    if(file.is_open()){
-    //go through all lines in file
-    while(getline(file,line))
+    if(file.is_open())
     {
-        valueNum=1;
-        //check the first elemnt in the line
-        switch(line[0])
+        //go through all lines in file
+        while(getline(file,line))
         {
-
-        //material case
-        case 'm':
-        {
-            Material* temporaryMaterial = new Material();
-            firstChar = 1;
-            //go though line elements except first two
-            for(int i =2; i<(int)line.length(); i++)
+            valueNum=1;
+            //check the first elemnt in the line
+            switch(line[0])
             {
-                if(line[i]!=' ')
-                {
-                    switch(valueNum)
-                    {
-                    //Getting material ID
-                    case 1:
 
-                        if(firstChar)
-                        {
-                            temporaryMaterial->setID(atoi( &line[i] ));
-                            firstChar=0;
-                        }
-                        break;
-                    //Getting material density
-                    case 2:
-                        if(firstChar)
-                        {
-                            firstChar=0;
-                            temporaryMaterial->setDensity(atoi( &line[i] ));
-                        }
-                        break;
-                    //Getting material color
-                    case 3:
+            //material case
+            case 'm':
+            {
+                Material temporaryMaterial = Material();
+                firstChar = 1;
+                //go though line elements except first two
+                for(int i =2; i<(int)line.length(); i++)
+                {
+                    if(line[i]!=' ')
                     {
-                        //check which hex code letter is retrieved
-                        switch(valueIterator)
+                        switch(valueNum)
                         {
-                        case 0:
-                            tempCol.setx(hexToFloat(line[i])*16/255);
-                            tempCol.sety(0);
-                            tempCol.setz(0);
-                            break;
+                        //Getting material ID
                         case 1:
-                            tempCol.setx(tempCol.getx()+hexToFloat(line[i])/255);
+
+                            if(firstChar)
+                            {
+                                temporaryMaterial.setID(atoi( &line[i] ));
+                                firstChar=0;
+                            }
                             break;
+                        //Getting material density
                         case 2:
-                            tempCol.sety(hexToFloat(line[i])*16/255);
+                            if(firstChar)
+                            {
+                                firstChar=0;
+                                temporaryMaterial.setDensity(atoi( &line[i] ));
+                            }
                             break;
+                        //Getting material color
                         case 3:
-                            tempCol.sety(tempCol.gety()+hexToFloat(line[i])/255);
-                            break;
-                        case 4:
-                            tempCol.setz(hexToFloat(line[i])*16/255);
-                            break;
-                        case 5:
-                            tempCol.setz(tempCol.getz()+hexToFloat(line[i])/255);
-                            temporaryMaterial->setColor(tempCol);
-                            break;
-                        }
-                        valueIterator++;
-                        break;
-                    }
-                    //Getting material name
-                    case 4:
-                        if(firstChar)
                         {
-                            temporaryMaterial->setName(&line[i]);
-                            firstChar = 0;
+                            //check which hex code letter is retrieved
+                            switch(valueIterator)
+                            {
+                            case 0:
+                                tempCol.setx(hexToFloat(line[i])*16/255);
+                                tempCol.sety(0);
+                                tempCol.setz(0);
+                                break;
+                            case 1:
+                                tempCol.setx(tempCol.getx()+hexToFloat(line[i])/255);
+                                break;
+                            case 2:
+                                tempCol.sety(hexToFloat(line[i])*16/255);
+                                break;
+                            case 3:
+                                tempCol.sety(tempCol.gety()+hexToFloat(line[i])/255);
+                                break;
+                            case 4:
+                                tempCol.setz(hexToFloat(line[i])*16/255);
+                                break;
+                            case 5:
+                                tempCol.setz(tempCol.getz()+hexToFloat(line[i])/255);
+                                temporaryMaterial.setColor(tempCol);
+                                break;
+                            }
+                            valueIterator++;
+                            break;
                         }
-                        break;
+                        //Getting material name
+                        case 4:
+                            if(firstChar)
+                            {
+                                temporaryMaterial.setName(&line[i]);
+                                firstChar = 0;
+                            }
+                            break;
+                        }
                     }
-                }
-                //if a space is detected, it is assumed that the specific material information is retrieved
-                //moving on to the next piece of information
-                else
-                {
-                    firstChar=1;
-                    valueNum++;
-                    valueIterator = 0;
-                }
-            }
-
-            //add material to array
-            this->materials.push_back(temporaryMaterial);
-            break;
-        }
-        case 'v':
-        {
-            Vector3D temporaryVector;
-            int charVal;
-            int afterDot = 0;
-            int negative = 0;
-            valueIterator = 0;
-            firstChar = 1;
-
-            //go though line elements except first two
-            for(int i =2; i<(int)line.length(); i++)
-            {
-                if(line[i]!=' ')
-                {
-                    //check if dot was detected indicating that current value is not an integer
-                    if(line[i]=='.')
-                    {
-                        afterDot = 1;
-                    }
-                    //check if minus was detected indicating that current value is negative
-                    else if(line[i]=='-')
-                    {
-                        negative = 1;
-                    }
+                    //if a space is detected, it is assumed that the specific material information is retrieved
+                    //moving on to the next piece of information
                     else
                     {
-                        switch(valueNum)
-                        {
-                        //Getting vector ID
-                        case 1:
-                            if(firstChar)
-                            {
-                                temporaryVector.setID(atoi( &line[i] ));
-                                firstChar=0;
-                            }
-                            break;
-                        //getting vector x value
-                        case 2:
-                            //get number at current line position
-                            charVal = line[i] - '0';
-                            if(firstChar)
-                            {
-                                firstChar=0;
-                                temporaryVector.setx(charVal);
-                            }
-                            else
-                            {
-                                if(afterDot)
-                                {
-                                    temporaryVector.setx(temporaryVector.getx()+((float)pow(10,(-valueIterator))*charVal));
-                                }
-                                else
-                                {
-                                    temporaryVector.setx(temporaryVector.getx()*10+charVal);
-                                }
-                            }
-                            break;
-                        //getting vector y value
-                        case 3:
-                            //get number at current line position
-                            charVal = line[i] - '0';
-                            if(firstChar)
-                            {
-                                firstChar=0;
-                                temporaryVector.sety(charVal);
-                            }
-                            else
-                            {
-                                if(afterDot)
-                                {
-                                    temporaryVector.sety(temporaryVector.gety()+(float)pow(10,(-valueIterator))*charVal);
-                                }
-                                else
-                                {
-                                    temporaryVector.sety(temporaryVector.gety()*10+charVal);
-                                }
-                            }
-                            break;
-                        //getting vector z value
-                        case 4:
-                            //get number at current line position
-                            charVal = line[i] - '0';
-                            if(firstChar)
-                            {
-                                firstChar=0;
-                                temporaryVector.setz(charVal);
-                            }
-                            else
-                            {
-                                if(afterDot)
-                                {
-                                    temporaryVector.setz(temporaryVector.getz()+(float)pow(10,(-valueIterator))*charVal);
-                                }
-                                else
-                                {
-                                    temporaryVector.setz(temporaryVector.getz()*10+charVal);
-                                }
-                            }
-                            break;
-                        }
-                        valueIterator++;
+                        firstChar=1;
+                        valueNum++;
+                        valueIterator = 0;
                     }
                 }
-                //if a space is detected, it is assumed that the specific vector information is retrieved
-                //moving on to the next piece of information
-                else
-                {
-                    //change vector values if it should be negative
-                    if(negative)
-                    {
-                        switch(valueNum)
-                        {
-                        case 1:
-                            temporaryVector.setID(-temporaryVector.getID());
-                            break;
-                        case 2:
-                            temporaryVector.setx(-temporaryVector.getx());
-                            break;
-                        case 3:
-                            temporaryVector.sety(-temporaryVector.gety());
-                            break;
-                        case 4:
-                            temporaryVector.setz(-temporaryVector.getz());
-                            break;
-                        }
-                    }
-                    negative = 0;
-                    afterDot = 0;
-                    firstChar=1;
-                    valueNum++;
-                    valueIterator = 0;
-                }
-                //additional case for last line element
-                if(i==line.length()-1)
-                {
-                    if(negative)
-                    {
-                        switch(valueNum)
-                        {
-                        case 1:
-                            temporaryVector.setID(-temporaryVector.getID());
-                            break;
-                        case 2:
-                            temporaryVector.setx(-temporaryVector.getx());
-                            break;
-                        case 3:
-                            temporaryVector.sety(-temporaryVector.gety());
-                            break;
-                        case 4:
-                            temporaryVector.setz(-temporaryVector.getz());
-                            break;
-                        }
-                    }
-                }
+
+                //add material to array
+                this->materials.push_back(temporaryMaterial);
+                break;
             }
-
-            //add vector to array
-            this->vectors.push_back(temporaryVector);
-            break;
-        }
-        case 'c':
-        {
-            //creating storage for cell information
-            cellInfo* temporaryCell = new cellInfo();
-            firstChar = 1;
-
-            //go though line elements except first two
-            for(int i = 2; i<(int)line.length(); i++)
+            case 'v':
             {
-                if(line[i]!=' ')
+                Vector3D temporaryVector;
+                int charVal;
+                int afterDot = 0;
+                int negative = 0;
+                valueIterator = 0;
+                firstChar = 1;
+
+                //go though line elements except first two
+                for(int i =2; i<(int)line.length(); i++)
                 {
-                    //Getting cell ID
-                    if(valueNum==1)
+                    if(line[i]!=' ')
                     {
-                        if(firstChar)
+                        //check if dot was detected indicating that current value is not an integer
+                        if(line[i]=='.')
                         {
-                            temporaryCell->ID = atoi( &line[i] );
-                            firstChar=0;
+                            afterDot = 1;
+                        }
+                        //check if minus was detected indicating that current value is negative
+                        else if(line[i]=='-')
+                        {
+                            negative = 1;
+                        }
+                        else
+                        {
+                            switch(valueNum)
+                            {
+                            //Getting vector ID
+                            case 1:
+                                if(firstChar)
+                                {
+                                    temporaryVector.setID(atoi( &line[i] ));
+                                    firstChar=0;
+                                }
+                                break;
+                            //getting vector x value
+                            case 2:
+                                //get number at current line position
+                                charVal = line[i] - '0';
+                                if(firstChar)
+                                {
+                                    firstChar=0;
+                                    temporaryVector.setx(charVal);
+                                }
+                                else
+                                {
+                                    if(afterDot)
+                                    {
+                                        temporaryVector.setx(temporaryVector.getx()+((float)pow(10,(-valueIterator))*charVal));
+                                    }
+                                    else
+                                    {
+                                        temporaryVector.setx(temporaryVector.getx()*10+charVal);
+                                    }
+                                }
+                                break;
+                            //getting vector y value
+                            case 3:
+                                //get number at current line position
+                                charVal = line[i] - '0';
+                                if(firstChar)
+                                {
+                                    firstChar=0;
+                                    temporaryVector.sety(charVal);
+                                }
+                                else
+                                {
+                                    if(afterDot)
+                                    {
+                                        temporaryVector.sety(temporaryVector.gety()+(float)pow(10,(-valueIterator))*charVal);
+                                    }
+                                    else
+                                    {
+                                        temporaryVector.sety(temporaryVector.gety()*10+charVal);
+                                    }
+                                }
+                                break;
+                            //getting vector z value
+                            case 4:
+                                //get number at current line position
+                                charVal = line[i] - '0';
+                                if(firstChar)
+                                {
+                                    firstChar=0;
+                                    temporaryVector.setz(charVal);
+                                }
+                                else
+                                {
+                                    if(afterDot)
+                                    {
+                                        temporaryVector.setz(temporaryVector.getz()+(float)pow(10,(-valueIterator))*charVal);
+                                    }
+                                    else
+                                    {
+                                        temporaryVector.setz(temporaryVector.getz()*10+charVal);
+                                    }
+                                }
+                                break;
+                            }
+                            valueIterator++;
                         }
                     }
-                    //Getting cell type
-                    else if(valueNum==2)
-                    {
-                        //check type letter
-                        switch(line[i])
-                        {
-                        case 'h':
-                            temporaryCell->type = 1;
-                            break;
-                        case 'p':
-                            temporaryCell->type = 2;
-                            break;
-                        case 't':
-                            temporaryCell->type = 3;
-                            break;
-                        }
-                    }
-                    //Getting cell material ID
-                    else if(valueNum==3)
-                    {
-                        if(firstChar)
-                        {
-                            temporaryCell->materialID = atoi( &line[i] );
-                            firstChar=0;
-                        }
-                    }
-                    //Getting cell indices
+                    //if a space is detected, it is assumed that the specific vector information is retrieved
+                    //moving on to the next piece of information
                     else
                     {
-                        if(firstChar)
+                        //change vector values if it should be negative
+                        if(negative)
                         {
-                            temporaryCell->indixes.push_back(atoi( &line[i] ));
-                            firstChar=0;
+                            switch(valueNum)
+                            {
+                            case 1:
+                                temporaryVector.setID(-temporaryVector.getID());
+                                break;
+                            case 2:
+                                temporaryVector.setx(-temporaryVector.getx());
+                                break;
+                            case 3:
+                                temporaryVector.sety(-temporaryVector.gety());
+                                break;
+                            case 4:
+                                temporaryVector.setz(-temporaryVector.getz());
+                                break;
+                            }
+                        }
+                        negative = 0;
+                        afterDot = 0;
+                        firstChar=1;
+                        valueNum++;
+                        valueIterator = 0;
+                    }
+                    //additional case for last line element
+                    if(i==line.length()-1)
+                    {
+                        if(negative)
+                        {
+                            switch(valueNum)
+                            {
+                            case 1:
+                                temporaryVector.setID(-temporaryVector.getID());
+                                break;
+                            case 2:
+                                temporaryVector.setx(-temporaryVector.getx());
+                                break;
+                            case 3:
+                                temporaryVector.sety(-temporaryVector.gety());
+                                break;
+                            case 4:
+                                temporaryVector.setz(-temporaryVector.getz());
+                                break;
+                            }
                         }
                     }
                 }
-                //if a space is detected, it is assumed that the specific cell information is retrieved
-                //moving on to the next piece of information
-                else
+                //add vector to array
+                this->vectors.push_back(temporaryVector);
+                break;
+            }
+            case 'c':
+            {
+                //creating storage for cell information
+                cellInfo temporaryCell = cellInfo();
+                firstChar = 1;
+
+                //go though line elements except first two
+                for(int i = 2; i<(int)line.length(); i++)
                 {
-                    valueNum++;
-                    firstChar = 1;
+                    if(line[i]!=' ')
+                    {
+                        //Getting cell ID
+                        if(valueNum==1)
+                        {
+                            if(firstChar)
+                            {
+                                temporaryCell.ID = atoi( &line[i] );
+                                firstChar=0;
+                            }
+                        }
+                        //Getting cell type
+                        else if(valueNum==2)
+                        {
+                            //check type letter
+                            switch(line[i])
+                            {
+                            case 'h':
+                                temporaryCell.type = 1;
+                                break;
+                            case 'p':
+                                temporaryCell.type = 2;
+                                break;
+                            case 't':
+                                temporaryCell.type = 3;
+                                break;
+                            }
+                        }
+                        //Getting cell material ID
+                        else if(valueNum==3)
+                        {
+                            if(firstChar)
+                            {
+                                temporaryCell.materialID = atoi( &line[i] );
+                                firstChar=0;
+                            }
+                        }
+                        //Getting cell indices
+                        else
+                        {
+                            if(firstChar)
+                            {
+                                temporaryCell.indixes.push_back(atoi( &line[i] ));
+                                firstChar=0;
+                            }
+                        }
+                    }
+                    //if a space is detected, it is assumed that the specific cell information is retrieved
+                    //moving on to the next piece of information
+                    else
+                    {
+                        valueNum++;
+                        firstChar = 1;
+                    }
                 }
+
+                //add cell information to array
+                temporaryCellInfo.push_back(temporaryCell);
+                break;
             }
+            }
+        }
+        file.close();
+        //sort vectors and materials based on ID
+        this->alignArrayID<Vector3D>(this->vectors);
+        this->alignArrayID<Material>(this->materials);
 
-            //add cell information to array
-            temporaryCellInfo.push_back(temporaryCell);
-            break;
+        for(int tC = 0; tC<temporaryCellInfo.size(); tC++)
+        {
+                //change temporary indices array to have vector positions in array
+                for(int n = 0; n<temporaryCellInfo[tC].indixes.size(); n++)
+                {
+                temporaryCellInfo[tC].indixes[n] = this->getVectorIndex(temporaryCellInfo[tC].indixes[n]);
+                }
         }
+
+        //fix any ID values
+        this->fixIDValues();
+
+        for(int tC = 0; tC<temporaryCellInfo.size(); tC++)
+        {
+            //create hexadron
+            if(temporaryCellInfo[tC].type==1)
+            {
+                //create cell based on cell information
+                //and add it to array
+                this->cells.push_back(Hexahedron(temporaryCellInfo[tC].ID,temporaryCellInfo[tC].type,temporaryCellInfo[tC].materialID,
+                                                     temporaryCellInfo[tC].indixes,
+                                                     this->vectors,this->materials));
+            }
+            //create pyramid
+            else if(temporaryCellInfo[tC].type==2)
+            {
+
+                //create cell based on cell information
+                //and add it to array
+                this->cells.push_back(Pyramid(temporaryCellInfo[tC].ID,temporaryCellInfo[tC].type,temporaryCellInfo[tC].materialID,
+                                                  temporaryCellInfo[tC].indixes,
+                                                  this->vectors,this->materials));
+            }
+            //create tetrahedron
+            else if(temporaryCellInfo[tC].type==3)
+            {
+                //create cell based on cell information
+                //and add it to array
+                this->cells.push_back(Tetrahedron(temporaryCellInfo[tC].ID,temporaryCellInfo[tC].type,temporaryCellInfo[tC].materialID,
+                                                      temporaryCellInfo[tC].indixes,
+                                                      this->vectors,this->materials));
+            }
         }
+        //sort cells
+        this->alignArrayID<Cell>(this->cells);
+
+        return true;
     }
-    file.close();
-
-    //sort vectors and materials based on ID
-    this->alignVectors();
-    this->alignMaterials();
-
-    for(int tC = 0; tC<temporaryCellInfo.size(); tC++)
+    else
     {
-        //create hexadron
-        if(temporaryCellInfo[tC]->type==1)
-        {
-             //add all cell information to cell object
-            Hexahedron* temporaryCell = new Hexahedron();
-            temporaryCell->setID(temporaryCellInfo[tC]->ID);
-            temporaryCell->setType(1);
-            for(int n = 0; n<temporaryCellInfo[tC]->indixes.size(); n++)
-            {
-                temporaryCell->pushIndice(this->getVectorIndex(temporaryCellInfo[tC]->indixes[n]));
-            }
-            temporaryCell->setMaterialID(temporaryCellInfo[tC]->materialID);
-            //add cell to array
-            this->cells.push_back(temporaryCell);
-        }
-        //create pyramid
-        else if(temporaryCellInfo[tC]->type==2)
-        {
-            //add all cell information to cell object
-            Pyramid* temporaryCell = new Pyramid();
-            temporaryCell->setID(temporaryCellInfo[tC]->ID);
-            temporaryCell->setType(2);
-            for(int n = 0; n<temporaryCellInfo[tC]->indixes.size(); n++)
-            {
-                temporaryCell->pushIndice(this->getVectorIndex(temporaryCellInfo[tC]->indixes[n]));
-            }
-            temporaryCell->setMaterialID(temporaryCellInfo[tC]->materialID);
-            //add cell to array
-            this->cells.push_back(temporaryCell);
-        }
-        //create tetrahedron
-        else if(temporaryCellInfo[tC]->type==3)
-        {
-            //add all cell information to cell object
-            Tetrahedron* temporaryCell = new Tetrahedron();
-            temporaryCell->setID(temporaryCellInfo[tC]->ID);
-            temporaryCell->setType(3);
-            for(int n = 0; n<temporaryCellInfo[tC]->indixes.size(); n++)
-            {
-                temporaryCell->pushIndice(this->getVectorIndex(temporaryCellInfo[tC]->indixes[n]));
-            }
-            temporaryCell->setMaterialID(temporaryCellInfo[tC]->materialID);
-            //add cell to array
-            this->cells.push_back(temporaryCell);
-        }
-    }
-    //sort cells
-    this->alignCells();
-    return true;
-    }
-    else{
+        std::cout<<"Could not load model from file: "<<path<<std::endl;
         return false;
     }
 }
@@ -767,16 +786,18 @@ bool Model::loadModel(char* path)
 void Model::showMaterials()
 {
     std::cout<<"Materials:"<<std::endl;
-    if(this->materials.size()>0){
-    for(int i = 0; i<(int)this->materials.size(); i++)
+    if(this->materials.size()>0)
     {
-        std::cout<<this->materials[i]->getID()<<":  ";
-        std::cout<<this->materials[i]->getDensity()<<" ";
-        std::cout<<this->materials[i]->getColor().getx()<<"|"<<this->materials[i]->getColor().gety()<<"|"<<this->materials[i]->getColor().getz()<<"  ";
-        std::cout<<this->materials[i]->getName()<<"  "<<std::endl;
+        for(int i = 0; i<(int)this->materials.size(); i++)
+        {
+            std::cout<<this->materials[i].getID()<<":  ";
+            std::cout<<this->materials[i].getDensity()<<" ";
+            std::cout<<this->materials[i].getColor().getx()<<"|"<<this->materials[i].getColor().gety()<<"|"<<this->materials[i].getColor().getz()<<"  ";
+            std::cout<<this->materials[i].getName()<<"  "<<std::endl;
+        }
     }
-    }
-    else{
+    else
+    {
         std::cout<<"None"<<std::endl;
     }
 }
@@ -788,13 +809,15 @@ void Model::showMaterials()
 void Model::showVectors()
 {
     std::cout<<"vectors:"<<std::endl;
-    if(this->vectors.size()>0){
-    for(int i = 0; i<(int)this->vectors.size(); i++)
+    if(this->vectors.size()>0)
     {
-        std::cout<<this->vectors[i].getID()<<":  "<<this->vectors[i].getx()<<"  "<<this->vectors[i].gety()<<"  "<<this->vectors[i].getz()<<std::endl;
+        for(int i = 0; i<(int)this->vectors.size(); i++)
+        {
+            std::cout<<this->vectors[i].getID()<<":  "<<this->vectors[i].getx()<<"  "<<this->vectors[i].gety()<<"  "<<this->vectors[i].getz()<<std::endl;
+        }
     }
-    }
-    else{
+    else
+    {
         std::cout<<"None"<<std::endl;
     }
 }
@@ -806,32 +829,40 @@ void Model::showVectors()
 void Model::showCells()
 {
     std::cout<<"Cells:"<<std::endl;
-    if(this->cells.size()>0){
-    for(int i = 0; i<(int)this->cells.size(); i++)
+    if(this->cells.size()>0)
     {
-        std::cout<<this->cells[i]->getID()<<": ";
-        switch(this->cells[i]->getType())
+        for(int i = 0; i<(int)this->cells.size(); i++)
         {
-        case 1:
-            std::cout<<"hexahredal ";
-            break;
-        case 2:
-            std::cout<<"pyramid ";
-            break;
-        case 3:
-            std::cout<<"tetrahedral ";
-            break;
-        }
+            std::cout<<this->cells[i].getID()<<": ";
+            switch(this->cells[i].getType())
+            {
+            case 1:
+                std::cout<<"hexahredal "<<std::endl;
+                break;
+            case 2:
+                std::cout<<"pyramid "<<std::endl;
+                break;
+            case 3:
+                std::cout<<"tetrahedral "<<std::endl;
+                break;
+            }
 
-        std::cout<<"Indices: ";
-        for(int n = 0; n<this->cells[i]->getIndices().size(); n++)
-        {
-            std::cout<<this->cells[i]->getIndices()[n]<<"  ";
+            std::cout<<"Material: "<<this->materials[this->cells[i].getMaterialID()].getName()<<std::endl;
+
+            std::cout<<"Indices: ";
+            for(int n = 0; n<this->cells[i].getIndices().size(); n++)
+            {
+                std::cout<<this->cells[i].getIndices()[n]<<"  ";
+            }
+            std::cout<<std::endl;
+            std::cout<<"Volume: "<<this->cells[i].getVolume()<<std::endl;
+            std::cout<<"Weight: "<<this->cells[i].getVolume()<<std::endl;
+            std::cout<<"Centre of gravity: "<<this->cells[i].getCentreOfGravity().getx()<<"  "<<this->cells[i].getCentreOfGravity().gety()<<"  "
+                                            <<this->cells[i].getCentreOfGravity().getz()<<std::endl;
         }
-        std::cout<<std::endl;
     }
-    }
-    else{
+    else
+    {
         std::cout<<"None"<<std::endl;
     }
 }
@@ -840,7 +871,8 @@ void Model::showCells()
 //Function to get position of model center
 // Arguments for getModelCenter(): none.
 // return value: Vector3D - model center position
-Vector3D Model::getModelCenter(){
+Vector3D Model::getModelCenter()
+{
     return this->modelCenter;
 }
 
@@ -857,7 +889,7 @@ std::vector<Vector3D> Model::getVectors()
 //Function to get materials array of model
 // Arguments for getMaterials(): none.
 // return value: std::vector<Material*> - array of all model material pointers
-std::vector<Material*> Model::getMaterials()
+std::vector<Material> Model::getMaterials()
 {
     return this->materials;
 }
@@ -866,7 +898,7 @@ std::vector<Material*> Model::getMaterials()
 //Function to get cells array of model
 // Arguments for getCells(): none.
 // return value: std::vector<Cell*> - array of all model cell pointers
-std::vector<Cell*> Model::getCells()
+std::vector<Cell> Model::getCells()
 {
     return this->cells;
 }
@@ -898,32 +930,32 @@ void Model::loadInfoToFile(char* path)
     std::ofstream file(path);
     if (file.is_open())
     {
-        std::cout<<"FIle ON"<<std::endl;
+        std::cout<<"Writing to file: "<<path<<std::endl;
         file<<"Model data\n";
 
         //write all vector data
         for(int i = 0; i<(int)this->vectors.size(); i++)
         {
-            file<<"v "<<i<<" "<<this->vectors[i].getx()<<" "<<this->vectors[i].gety()<<" "<<this->vectors[i].getz()<<"\n";
+            file<<"v "<<this->vectors[i].getID()<<" "<<this->vectors[i].getx()<<" "<<this->vectors[i].gety()<<" "<<this->vectors[i].getz()<<"\n";
         }
         file<<"\n";
 
         //write all material data
         for(int i = 0; i<(int)this->materials.size(); i++)
         {
-            file<<"m "<<this->materials[i]->getID()<<" "<<this->materials[i]->getDensity()<<" ";
-            file<<floatToHex(this->materials[i]->getColor().getx())<<floatToHex(this->materials[i]->getColor().gety())<<floatToHex(this->materials[i]->getColor().getz())<<" ";
-            file<<this->materials[i]->getName()<<"\n";
+            file<<"m "<<this->materials[i].getID()<<" "<<this->materials[i].getDensity()<<" ";
+            file<<floatToHex(this->materials[i].getColor().getx())<<floatToHex(this->materials[i].getColor().gety())<<floatToHex(this->materials[i].getColor().getz())<<" ";
+            file<<this->materials[i].getName()<<"\n";
         }
         file<<"\n";
 
         //write all cell data
         for(int i = 0; i<(int)this->cells.size(); i++)
         {
-            file<<"c "<<this->cells[i]->getID()<<" ";
+            file<<"c "<<this->cells[i].getID()<<" ";
 
             //check type
-            switch(this->cells[i]->getType())
+            switch(this->cells[i].getType())
             {
             case 1:
                 file<<"h ";
@@ -935,10 +967,10 @@ void Model::loadInfoToFile(char* path)
                 file<<"t ";
                 break;
             }
-            file<<this->cells[i]->getMaterialID()<<" ";
-            for(int n = 0; n<this->cells[i]->getIndices().size(); n++)
+            file<<this->cells[i].getMaterialID()<<" ";
+            for(int n = 0; n<this->cells[i].getIndices().size(); n++)
             {
-                file<<this->cells[i]->getIndices()[n]<<" ";
+                file<<this->cells[i].getIndices()[n]<<" ";
             }
             file<<"\n";
         }

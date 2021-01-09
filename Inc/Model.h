@@ -29,7 +29,8 @@
 // ID of materials that the Cell uses
 // the type of Cell: 1 - hexahredal, 2 - pyramid, 3 - tetrahedral
 // the std::vector array of index values
-struct cellInfo{
+struct cellInfo
+{
     int ID;
     int materialID;
     int type;
@@ -54,15 +55,20 @@ std::string floatToHex(float val);
 //Available functions:
 //  private:
 //      int getVectorIndex(int)
-//      Material getMaterial(int)
+//      int getMaterialIndex(int);
 //      void alignVectors()
 //      void alignCells()
 //      void alignMaterials()
+//      void fixIDValues();
+//  public:
 //      void loadModel(char*)
 //      void calcModelCenter()
-//  public:
 //      int getVectorsAmount()
 //      int getCellAmount()
+//      Vector3D getModelCenter()
+//      std::vector<Vector3D> getVectors()
+//      std::vector<Material*> getMaterials()
+//      std::vector<Cell*> getCells()
 //      void showMaterials()
 //      void showVectors()
 //      void showCells()
@@ -71,104 +77,106 @@ std::string floatToHex(float val);
 //Constructor:
 //      Loads 3D model information from specified file
 //Destructor:
-//      Makes address value of the next node NULL
+//      Clears vectors, materials and cells arrays.
 //Copy constructor
-//      creates a copy of a specified object
+//      creates a copy of a specified Model object
 
-class Model{
+class Model
+{
 
 private:
 
 // array of all vectors
-std::vector<Vector3D> vectors;
+    std::vector<Vector3D> vectors;
 
 // array of all materials used
-std::vector<Material*> materials;
+    std::vector<Material> materials;
 
 // array of all cells
-std::vector<Cell*> cells;
+    std::vector<Cell> cells;
 
 //Vector3D object storing center of the model
-Vector3D modelCenter;
+    Vector3D modelCenter;
 
 //Function of class Model, getVectorIndex()
 //Function to get index in vectors array of vector with specified ID.
-int getVectorIndex(int);
+    int getVectorIndex(int);
 
-//Function of class Model, getMaterial()
-//Function to get material with specified ID.
-Material getMaterial(int);
+//Function of class Model, getMaterialIndex()
+//Function to get index in material array of Material with specified ID.
+    int getMaterialIndex(int);
 
-//Function of class Model, alignVectors()
-//Function to sort the vectors array.
-void alignVectors();
+//Function with template of class Model, alignVectors()
+//Function to sort the array of objects.
+//type of objects is specified by template
+template<typename T>
+void alignArrayID(std::vector<T>&);
 
-//Function of class Model, alignCells()
-//Function to sort the cells array.
-void alignCells();
-
-//Function of class Model, alignMaterials()
-//Function to sort the materials array.
-void alignMaterials();
-
-//Function of class Model, loadModel()
-//Function to retrieve 3D model information from a VTK file
-bool loadModel(char*);
-
-//Function of class Model, calcModelCenter()
-//Function to calculate position of model center
-void calcModelCenter();
+//Function of class Model, fixIDValues()
+//Function to make all ID values of vectors and materials that coresponds to their position in array
+    void fixIDValues();
 
 public:
 
+//Default Model class constructor
+    Model();
+
 //Model class constructor
-Model(char*);
+    Model(char*);
 
 //Model class destructor
-~Model();
+    ~Model();
 
 //Copy constructor
-Model(const Model&);
+    Model(const Model&);
+
+//Function of class Model, loadModel()
+//Function to retrieve 3D model information from a VTK file
+    bool loadModel(char*);
+
+//Function of class Model, calcModelCenter()
+//Function to calculate position of model center
+    void calcModelCenter();
 
 //Function of class Model, getModelCenter()
 //Function to get position of model center
-Vector3D getModelCenter();
+    Vector3D getModelCenter();
 
 //Function of class Model, getVectors()
 //Function to get vector array of model
-std::vector<Vector3D> getVectors();
+    std::vector<Vector3D> getVectors();
 
 //Function of class Model, getMaterials()
 //Function to get materials array of model
-std::vector<Material*> getMaterials();
+    std::vector<Material> getMaterials();
 
 //Function of class Model, getCells()
 //Function to get cells array of model
-std::vector<Cell*> getCells();
+    std::vector<Cell> getCells();
 
 //Function of class Model, getVectorsAmount()
 //Function to get amount of vectors
-int getVectorAmount();
+    int getVectorAmount();
 
 //Function of class Model, getCellAmount()
 //Function to get amount of cells
-int getCellAmount();
+    int getCellAmount();
 
 //Function of class Model, showMaterials()
 //Function to show information about all materials
-void showMaterials();
+    void showMaterials();
 
 //Function of class Model, showVectors()
 //Function to show information about all vectors
-void showVectors();
+    void showVectors();
 
 //Function of class Model, showCells()
 //Function to show information about all cells
-void showCells();
+    void showCells();
 
 //Function of class Model, loadInfoToFile()
 //Function to load model information into specified txt file.
-void loadInfoToFile(char*);
+    void loadInfoToFile(char*);
 };
 
 #endif // MODELCLASS_H_INCLUDED

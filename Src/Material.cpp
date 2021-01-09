@@ -3,26 +3,25 @@
 //Copyright Chen Xu (student ID : 20187733)
 //---------------------------------
 
+#include "../Inc/Material.h"
 
-#include "C:\Users\25358\Desktop\new_software\2020_GROUP_19/Inc/Material.h"
-#include <stdio.h>
-
-//constructor 
+//constructor
 //default
-material::material()
+Material::Material()
 {
-    ID = 0 ;
-    Color = 0 ;
-    Density = 0 ;
-    Name = 0 ;
+    ID = 0;
+    Color = Vector3D(0.0,0.0,0.0);
+    Density = 0;
+    Name = "";
 
 }
 
 //set value for the function
-material :: material( int id, double d, string name, Vector3D col )  {
-	this->ID = id ;
-	this->Color = col ;
-	this->Density = d ;
+Material :: Material( int id, double d, string name, Vector3D col )
+{
+    this->ID = id ;
+    this->Color = col ;
+    this->Density = d ;
     this->Name = name ;
 }
 //----------------------------------------------------
@@ -31,36 +30,61 @@ material :: material( int id, double d, string name, Vector3D col )  {
 //Get function
 //Function of class material, getID(),getName(), getColor(), getDensity()
 //Function to get value material coordinates
-//Arguments for getID(), getNamee(),getColor(), getDensity() 
+//Arguments for getID(), getNamee(),getColor(), getDensity()
 //return: value of ID, Name,Color, Density
 
 
-int material:: material::getID(){return this->ID;}
-std::string getName(){return this->Name;}
-Vecror3D material::getColor(){return this->Color;}
-double material::getDensity(){return this->Density;}
+int Material::getID()
+{
+    return this->ID;
+}
+std::string Material::getName()
+{
+    return this->Name;
+}
+Vector3D Material::getColor()
+{
+    return this->Color;
+}
+double Material::getDensity()
+{
+    return this->Density;
+}
 
 
 
 
 //Set functions
-//Function of class material, setID(),setName(); setColor(), setDensity() 
+//Function of class material, setID(),setName(); setColor(), setDensity()
 //Function to set the values of material coordinates
-//Arguments for setID(), setName(); setColor(), setDensity() 
-//return: value of id, ,name , col and  d 
-void material::setID( int id ){this->ID = id;}
-void setName( std::string name );{this->Name = name;}
-void material::setColor( Vector3D col ){this->Color = col;}
-void material::setDensity( double density ){this->Density = d;}
+//Arguments for setID(), setName(); setColor(), setDensity()
+//return: value of id, ,name , col and  d
+void Material::setID( int id )
+{
+    this->ID = id;
+}
+void Material::setName( std::string name )
+{
+    this->Name = name;
+}
+void Material::setColor( Vector3D col )
+{
+    this->Color = col;
+}
+void Material::setDensity( double density )
+{
+    this->Density = density;
+}
 
 
 //------------------------------------------------------
 
 //destructor
-material::~material(){}
+Material::~Material() {}
 
 //copy constructor
-material::material(const material & m){
+Material::Material(const Material & m)
+{
     ID = m.ID;
     Density = m.Density;
     Color = m.Color;

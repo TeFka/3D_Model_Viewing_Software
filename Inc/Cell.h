@@ -13,18 +13,18 @@
 #include <iostream>
 #include <vector>
 #include "../Inc/Vector3D.h"
+#include "../Inc/Material.h"
 
 #ifndef CELL_H
 #define CELL_H
 //------------------------------------------------------------------
 
-class Vector3D;
 // class 'Cell'
 // cell class describes various parameters of the shape such as how many vertices it has, their positions, and the material it is made out of
 //Stored values:
 // Cell ID
 // ID of materials that the Cell uses
-// the type of Cell: 1 - hexahredal, 2 - pyramid, 3 - tetrahedral
+// the type of Cell: 1 - hexahedral, 2 - pyramid, 3 - tetrahedral
 // the std::vector array of index values
 class Cell
 {
@@ -32,19 +32,23 @@ protected:
     int ID;
     int type;
     int materialID;
-    float weight;
-    float volume;
+    double weight;
+    double volume;
 
     Vector3D centre_of_gravity;
 
-    //array of all indices which each correspond to a vectex and its positions
+    //array of all indices which each correspond to a vertex and its positions
     //knowledge of the vertices position is requited for volume calculations
     std::vector<int> indices;
 public:
-//cell class constructor
-    Cell();
+    //cell class constructor
+    Cell(int,int,int,std::vector<int>);
+
+    //cell class copy constructor
+    Cell(const Cell&);
+
     // cell class destructor
-    ~cell();
+    ~Cell();
 
 //-----------------------------------------------------------
 //get functions
@@ -67,11 +71,12 @@ public:
 
     //function of cell class, getCentreOFGravity
     //function to find the centre of gravity of the cell
-    Vector3D getCentreOFGravity();
+    Vector3D getCentreOfGravity();
 
     //function of cell class, getWeight
     //function to find the weight of the cell
-    float getWeight();
+   double getWeight();
+   double getVolume();
 //---------------------------------------------------------------
 //set functions
     void setID(int);
@@ -80,6 +85,17 @@ public:
     void setIndices(std::vector<int>);
     void pushIndice(int);
     void insertIndice(int,int);
+    void setIndice(int,int);
+
+//calculation functions
+
+    //function of class Cell calcWeight()
+    //function to calculate weight of the cell
+    void calcWeight(std::vector<Material>);
+
+    //function of class Cell calcCenterOfGravity()
+    //function to calculate center of gravity position of the cell
+    void calcCentreOfGravity(std::vector<Vector3D>);
 };
 //------------------------------------------------------------------
 //subclass of class cell, class tetrahedron
@@ -89,21 +105,17 @@ private:
 
 public:
 //subclass tetrahedron constructor
-    Tetrahedron();
+    Tetrahedron(int,int,int,std::vector<int>,std::vector<Vector3D>,std::vector<Material>);
+
+    //copy contructor
+    Tetrahedron(const Cell&);
     //destructor
     ~Tetrahedron();
 
     //function of subclass tetrahedron
     //function to get the volume of the tetrahedron cell
-    double getvolume();
+    void calculateVolume(std::vector<Vector3D>);
 
-    //function of subclass tetrahedron
-    //function to get the weight of the tetrahedron cell
-    double getWeight();
-
-    //function of subclass tetrahedron
-    //function to get the contre of gravity of the tetrahedron cell
-    Vector3D getCentreOFGravity();
 };
 //---------------------------------------------------------------
 //subclass of class cell, class pyramid
@@ -113,21 +125,18 @@ private:
 
 public:
 //subclass pyramid constructor
-    Pyramid();
+    Pyramid(int,int,int,std::vector<int>,std::vector<Vector3D>,std::vector<Material>);
+
+    //copy contructor
+    Pyramid(const Cell&);
+
     //destructor
     ~Pyramid();
 
     //function of subclass pyramid
     //function to get the volume of the pyramid cell
-    double getvolume();
+    void calculateVolume(std::vector<Vector3D>);
 
-    //function of subclass pyramid
-    //function to get the weight of the pyramid cell
-    double getWeight();
-
-    //function of subclass pyramid
-    //function to get the contre of gravity of the pyramid cell
-    Vector3D getCentreOFGravity();
 };
 //---------------------------------------------------------------
 //subclass of class cell, class hexahedron
@@ -137,21 +146,17 @@ private:
 
 public:
 //constructor
-    Hexahedron();
+    Hexahedron(int,int,int,std::vector<int>,std::vector<Vector3D>,std::vector<Material>);
 
-//	destructor
+    //copy contructor
+    Hexahedron(const Cell&);
+
+    //destructor
     ~Hexahedron();
     //function of subclass hexahedron
     //function to get the volume of the hexahedron cell
-    double getvolume();
+    void calculateVolume(std::vector<Vector3D>);
 
-    //function of subclass hexahedron
-    //function to get the weight of the hexahedron cell
-    double getWeight();
-
-    //function of subclass hexahedron
-    //function to get the contre of gravity of the hexahedron cell
-    Vector3D getCentreOFGravity();
 };
 #endif // CELL_H
 

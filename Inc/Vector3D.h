@@ -21,27 +21,27 @@ private:
 
 public:
 
-	//Constructor
+    //Constructor
     //default
     Vector3D();
 
-	//giving values to object
+    //giving values to object
     Vector3D(double,double,double);
 
     //Destructor
     ~Vector3D();
 
     //Setters
-	//Function of class Vector, setID(), setx(), sety(), setz()
-	//Function to set the values of vector coordinates
+    //Function of class Vector, setID(), setx(), sety(), setz()
+    //Function to set the values of vector coordinates
     void setID(int);
     void setx(double);
     void sety(double);
     void setz(double);
 
     //Getters
-	//Function of class Vector, getID(), getx(), gety(), getz()
-	//Function to get value vector coordinates
+    //Function of class Vector, getID(), getx(), gety(), getz()
+    //Function to get value vector coordinates
     int getID();
     double getx();
     double gety();
@@ -49,25 +49,25 @@ public:
 
 
     //Operations
-	
-	//copy constructor
+
+    //copy constructor
     Vector3D (const Vector3D & vec);
-	
-	//Addition
-	//action: add 2 vectors together
+
+    //Addition
+    //action: add 2 vectors together
     Vector3D operator+(const Vector3D &vec);
-	
-	//Subtraction
-	//action: subtract current vector from another vector
+
+    //Subtraction
+    //action: subtract current vector from another vector
     Vector3D operator-(const Vector3D &vec);
-	
-	//Dot Product
-	//action: perform dot product operation
+
+    //Dot Product
+    //action: perform dot product operation
     double dot_product(const Vector3D &vec);
-	
-	//Cross Product
-	//action: perform cross product operation
-    Vector3D cross_product(const Vector3D &vec); 
+
+    //Cross Product
+    //action: perform cross product operation
+    Vector3D cross_product(const Vector3D &vec);
 
 };
 
