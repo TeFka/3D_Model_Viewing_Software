@@ -106,7 +106,7 @@ Vector3D Vector3D::operator-(const Vector3D &vec)
 //Dot Product
 //action: multiply the value in the coordinate of current vector to the equivelent coordinate of another vector
 //return: scalar product obtained from dot operation
-double Vector3D::dot_product(const Vector3D &vec)
+double operator*(const Vector3D &vec);
 {
     return (this->x*vec.x, this->y*vec.y + this->z*vec.z);
 }
