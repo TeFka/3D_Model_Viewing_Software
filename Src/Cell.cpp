@@ -183,7 +183,7 @@ void Tetrahedron::calculateVolume(std::vector<Vector3D> vectors)//will overwrite
     Vector3D Cval = vectors[this->indices[2]];
     Vector3D Dval = vectors[this->indices[3]];
 
-   this->volume = ((((Bval-Aval).cross_product((Cval-Aval))).dot_product((Dval-Aval)))/6.0);
+   this->volume = ((((Bval-Aval).cross_product((Cval-Aval)))*(Dval-Aval))/6.0);
 }
 
 //defining functions for pyramid
@@ -227,8 +227,8 @@ void Pyramid::calculateVolume(std::vector<Vector3D> vectors)
     Vector3D Cval = vectors[this->indices[2]];
     Vector3D Dval = vectors[this->indices[3]];
     Vector3D Eval = vectors[this->indices[4]];
-    double Vtetra1 = ((((Bval-Aval).cross_product((Cval-Aval))).dot_product((Dval-Aval)))/6.0);
-    double Vtetra2 = ((((Bval-Eval).cross_product((Cval-Eval))).dot_product((Dval-Eval)))/6.0);
+    double Vtetra1 = ((((Bval-Aval).cross_product((Cval-Aval)))*(Dval-Aval))/6.0);
+    double Vtetra2 = ((((Bval-Eval).cross_product((Cval-Eval)))*(Dval-Eval))/6.0);
 
     this->volume = (Vtetra1 + Vtetra2);
 }
@@ -263,7 +263,7 @@ Hexahedron::~Hexahedron()
 void Hexahedron::calculateVolume(std::vector<Vector3D> vectors)
 {
     //plan to get volume of hexahedron
-    //a hexahedron is 8 tetrahedrons put together
+    //a hexahedron is 6 tetrahedrons put together
     //use the same method as the one used for finding the volume of tetrahedron but this time repeating it 6 times using the correct vertices
     Vector3D Aval = vectors[this->indices[0]];
     Vector3D Bval = vectors[this->indices[1]];
@@ -274,12 +274,12 @@ void Hexahedron::calculateVolume(std::vector<Vector3D> vectors)
     Vector3D Gval = vectors[this->indices[6]];
     Vector3D Hval = vectors[this->indices[7]];
 
-    double Vtetra1 = ((((Bval-Aval).cross_product((Dval-Aval))).dot_product((Fval-Aval)))/6.0);
-    double Vtetra2 = ((((Dval-Cval).cross_product((Bval-Cval))).dot_product((Fval-Cval)))/6.0);
-    double Vtetra3 = ((((Dval-Cval).cross_product((Gval-Cval))).dot_product((Fval-Cval)))/6.0);
-    double Vtetra4 = ((((Eval-Aval).cross_product((Fval-Aval))).dot_product((Dval-Aval)))/6.0);
-    double Vtetra5 = ((((Hval-Fval).cross_product((Eval-Fval))).dot_product((Dval-Fval)))/6.0);
-    double Vtetra6 = ((((Hval-Fval).cross_product((Dval-Fval))).dot_product((Gval-Fval)))/6.0);
+    double Vtetra1 = ((((Bval-Aval).cross_product((Dval-Aval)))*(Fval-Aval))/6.0);
+    double Vtetra2 = ((((Dval-Cval).cross_product((Bval-Cval)))*(Fval-Cval))/6.0);
+    double Vtetra3 = ((((Dval-Cval).cross_product((Gval-Cval)))*(Fval-Cval))/6.0);
+    double Vtetra4 = ((((Eval-Aval).cross_product((Fval-Aval)))*(Dval-Aval))/6.0);
+    double Vtetra5 = ((((Hval-Fval).cross_product((Eval-Fval)))*(Dval-Fval))/6.0);
+    double Vtetra6 = ((((Hval-Fval).cross_product((Dval-Fval)))*(Gval-Fval))/6.0);
 
     this->volume = (Vtetra1 + Vtetra2 + Vtetra3 + Vtetra4 + Vtetra5 + Vtetra6);
 }

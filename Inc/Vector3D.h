@@ -38,10 +38,8 @@
 //      Vector3D*Vector3D
 //Function
 //      Vector3D cross_product
-//Constructor1:
-//      Creates empty matrix with all values set to zero
-//Constructor2:
-//      Creates matrix with specified diagonal values
+//Constructor:
+//      Creates Vector3D object with specified values
 //Destructor
 //Copy constructor
 //      creates a copy of a specified object
@@ -64,6 +62,9 @@ public:
     //Destructor
     ~Vector3D();
 
+    //copy constructor
+    Vector3D (const Vector3D & vec);
+
     //Setters
     //Function of class Vector, setID(), setx(), sety(), setz()
     //Function to set the values of vector coordinates
@@ -81,16 +82,7 @@ public:
     double getz();
 
 
-<<<<<<< HEAD
 //Operations
-	
-	//copy constructor
-=======
-    //Operations
-
-    //copy constructor
->>>>>>> e08b29f5be3b7db2a73522ea432f1b01f8a4af5d
-    Vector3D (const Vector3D & vec);
 
     //Addition
     //action: add 2 vectors together
@@ -99,26 +91,15 @@ public:
     //Subtraction
     //action: subtract current vector from another vector
     Vector3D operator-(const Vector3D &vec);
-<<<<<<< HEAD
-	
+
 	//Dot Product
 	//action: perform dot product operation
     double operator*(const Vector3D &vec);
 
-//Function
-	//Cross Product
-	//action: perform cross product operation
-    Vector3D cross_product(const Vector3D &vec); 
-=======
-
-    //Dot Product
-    //action: perform dot product operation
-    double dot_product(const Vector3D &vec);
-
+//Functions
     //Cross Product
     //action: perform cross product operation
     Vector3D cross_product(const Vector3D &vec);
->>>>>>> e08b29f5be3b7db2a73522ea432f1b01f8a4af5d
 
 };
 

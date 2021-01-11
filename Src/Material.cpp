@@ -1,4 +1,4 @@
-//material class.cpp file---------
+//Material class.cpp file---------
 //---------------------------------
 //Copyright Chen Xu (student ID : 20187733)
 //---------------------------------

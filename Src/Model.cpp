@@ -189,7 +189,7 @@ std::string floatToHex(float val)
 //Action:
 //      creates an empty model object
 //Arguments: none.
-Model()
+Model::Model()
 {
 
 }

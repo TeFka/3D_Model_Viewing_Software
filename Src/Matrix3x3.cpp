@@ -290,9 +290,9 @@ void Matrix3x3::invert()
 
 
 //Function of class Matrix3x3, rotateMatrix3x3()
-//Function to add rotation to matrix
+//Function to get rotation matrix of current matrix
 // Arguments for rotateMatrix3x3(): double - rotation angle in degrees, double - rotation x axis, double - rotation y axis, double - rotation z axis,
-// return value: none(matrix is rotated)
+// return value: Matrix3x3 - rotation matrix
 Matrix3x3 Matrix3x3::getRotationMatrix3x3(double degrees, double xAxis, double yAxis, double zAxis)
 {
     //create matrix for each axis
@@ -324,27 +324,6 @@ Matrix3x3 Matrix3x3::getRotationMatrix3x3(double degrees, double xAxis, double y
         temporaryMatrixZ.setValue(1,0,sin(degrees));
         temporaryMatrixZ.setValue(1,1,cos(degrees));
     }
-    /*std::cout<<"x rotation"<<std::endl;
-    for(int i = 0;i<3;i++){
-    for(int b = 0;b<3;b++){
-        std::cout<<temporaryMatrixX(i,b)<<" ";
-    }
-    std::cout<<std::endl;
-    }
-    std::cout<<"y rotation"<<std::endl;
-    for(int i = 0;i<3;i++){
-    for(int b = 0;b<3;b++){
-        std::cout<<temporaryMatrixY(i,b)<<" ";
-    }
-    std::cout<<std::endl;
-    }
-    std::cout<<"z rotation"<<std::endl;
-    for(int i = 0;i<3;i++){
-    for(int b = 0;b<3;b++){
-        std::cout<<temporaryMatrixZ(i,b)<<" ";
-    }
-    std::cout<<std::endl;
-    }*/
 
     //multiply matrices to get full rotation matrix and return it
     return (temporaryMatrixZ*temporaryMatrixY*temporaryMatrixX);

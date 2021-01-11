@@ -77,7 +77,7 @@ std::string floatToHex(float val);
 //Constructor:
 //      Loads 3D model information from specified file
 //Destructor:
-//      Clears vectors, materials and cells arrays.
+//      Clears vector, material and cell arrays.
 //Copy constructor
 //      creates a copy of a specified Model object
 

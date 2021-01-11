@@ -2,14 +2,15 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include "../Inc/Vector3D.h"
+#include "../Inc/Model.h"
 #include "../Inc/Matrix3x3.h"
-
 using namespace std;
 
 int main()
 {
    // Matrix class test
+   std::cout<<"MATRIX TEST"<<std::endl;
+
    Matrix3x3 theMat1;
    Matrix3x3 theMat2;
    Matrix3x3 rotationMat(1.0);
@@ -78,5 +79,28 @@ int main()
     }
     std::cout<<std::endl;
    }
+   
+   std::cout<<std::endl;
+
+   // Model class test
+   std::cout<<"MODEL TEST"<<std::endl;
+
+   char filePath[300];
+   std::cout<<"Write full path to model file"<<std::endl;
+   cin>>filePath;
+   std::cout<<"path: "<<filePath<<std::endl;
+   Model theModel(filePath);
+   //show material information
+   theModel.showMaterials();
+   //show vector information
+   std::cout<<"Amount of vectors: "<<theModel.getVectorAmount()<<std::endl;
+   theModel.showVectors();
+   //show cell information
+   std::cout<<"Amount of cells"<<theModel.getCellAmount()<<std::endl;
+   theModel.showCells();
+   //general model information
+   std::cout<<"Model center: "<<theModel.getModelCenter().getx()<<"  "<<theModel.getModelCenter().gety()<<"  "<<theModel.getModelCenter().getz()<<std::endl;
+   //writing model information to file
+   theModel.loadInfoToFile("testFile.txt");
     return 0;
 }

@@ -45,7 +45,7 @@ class Vector3D;
 //Constructor2:
 //      Creates matrix with specified diagonal values
 //Destructor:
-//      Makes address value of the next node NULL
+//      clears array of matrix values
 //Copy constructor
 //      creates a copy of a specified object
 class Matrix3x3
@@ -100,7 +100,7 @@ public:
     void transpose();
 
     //Function of class Matrix3x3, rotateMatrix3x3()
-    //Function to add rotation to matrix
+    //Function to get matrix of current matrix
     Matrix3x3 getRotationMatrix3x3(double, double, double, double);
 };
 
