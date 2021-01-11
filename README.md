@@ -1,8 +1,8 @@
 # 2020_GROUP_19
 Repository for computing project work</br>
 Work assigment:</br>
-Woranan - vector class</br>
-Michael - cell class</br>
-Chen - material class</br>
-Daniel - model class</br>
-Daniel - matrix class</br>
+Woranan - Vector class</br>
+Michael - Cell class</br>
+Chen - Material class</br>
+Daniel - Model class</br>
+Daniel - Matrix class</br>
