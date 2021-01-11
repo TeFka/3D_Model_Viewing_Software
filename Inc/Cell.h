@@ -5,11 +5,10 @@
 //Copyright michael michael (StudentID: 20143147)
 
 // Required header files: iostream(for printing with cout), vector, string, fstream,
-//                        Vector3D.h, Material.h, Cell.h****subject to change
+//                        Vector3D.h, Material.h, Cell.h
 
-//-------------------------------------------------------------
-//-------------------------------------------------------------
-
+//--------------------------------------------------------------------
+//--------------------------------------------------------------------
 #include <iostream>
 #include <vector>
 #include "../Inc/Vector3D.h"
@@ -18,7 +17,6 @@
 #ifndef CELL_H
 #define CELL_H
 //------------------------------------------------------------------
-
 // class 'Cell'
 // cell class describes various parameters of the shape such as how many vertices it has, their positions, and the material it is made out of
 //Stored values:

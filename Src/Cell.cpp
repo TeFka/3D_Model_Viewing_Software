@@ -5,7 +5,8 @@
 
 //Copyright Michael Michael (StudentID: 20143147)
 
-// Required header files: Cell.h(to get function interfaces)****subject to change
+// Required header files: Cell.h(to get function interfaces)
+//                        main.h
 
 //-------------------------------------------------------------
 //-------------------------------------------------------------
@@ -34,11 +35,13 @@ Cell::Cell(const Cell& copied_Cell)
 }
 //-------------------------------------------------------------------------
 //destructor function cell
+//clears indice array
 Cell::~Cell()
 {
     this->indices.clear();
 }
 //--------------------------------------------------------------------------------
+//getfunctions
 int Cell::getID()
 {
     return this->ID;
@@ -56,11 +59,13 @@ std::vector<int> Cell::getIndices()
     return this->indices;
 }
 
-double Cell::getVolume(){
+double Cell::getVolume()
+{
     return this->volume;
 }
 
-double Cell::getWeight(){
+double Cell::getWeight()
+{
     return this->weight;
 }
 
@@ -97,12 +102,11 @@ void Cell::setIndice(int index,int newIndice)
 {
     this->indices[index] = newIndice;
 }
-
 //-----------------------------------------------------------------------------------------------------
-//Function of subclass Tetrahedron, calcCentreOfGravity()
+//Function of class Cell, calcCentreOfGravity()
 //Function to calculate position of cell center of gravity
-// Arguments for calcCentreOfGravity(): none.
-// return value: none(model center value updated)
+// Arguments for calcCentreOfGravity(std::vector<Vector3D> vectors)
+// return value: Centre_of_gravity(Vector3)(model center value updated)
 //Note:
 //Model center of gravity will become {0,0,0} if vector array is empty.
 void Cell::calcCentreOfGravity(std::vector<Vector3D> vectors)
@@ -111,26 +115,22 @@ void Cell::calcCentreOfGravity(std::vector<Vector3D> vectors)
     //add up positions of all vectors
     for(int i = 0; i<this->indices.size(); i++)
     {
-        //dan said to change to get vector values same way as done for volume.
         x+=vectors[this->indices[i]].getx();
         y+=vectors[this->indices[i]].gety();
-        z+=vectors[this->indices[i]].getz();//like this?
+        z+=vectors[this->indices[i]].getz();
     }
     //return vector with averages of added up positions
     this->centre_of_gravity = Vector3D(x/indices.size(),y/this->indices.size(),z/this->indices.size());
 }
 //--------------------------------------------------------------------------------------
-
 //Function getWeight()
-//Function to calculate the weight of the tetrahedron
-// Arguments for getWeight(float Vtetra) ****
+//Function to calculate the weight of the Cell
+// Arguments for calcWeight(std::vector<Material> materials)
 // return value: weight (double)
 void Cell::calcWeight(std::vector<Material> materials)
 {
     this->weight = this->volume*materials[this->materialID].getDensity();
 }
-//-----------------------------------------------------------------------------------------------------
-
 //--------------------------------------------------------------------------------
 //defining functions for the tetrahedron
 //---------------------------------------------------------------------------------
@@ -178,15 +178,18 @@ void Tetrahedron::calculateVolume(std::vector<Vector3D> vectors)//will overwrite
     //find modulus of this value, using fabs(a) where a is the value we have at this point in the calculation
     //finally, divide by 6 and the volume will be given
 
+//aquires indeces from array.
     Vector3D Aval = vectors[this->indices[0]];
     Vector3D Bval = vectors[this->indices[1]];
     Vector3D Cval = vectors[this->indices[2]];
     Vector3D Dval = vectors[this->indices[3]];
 
-   double Vtetra1 = (((Bval-Aval).cross_product((Cval-Aval)))*(Dval-Aval));
+//calculates volume of tetrahedron.
+    double Vtetra1 = (((Bval-Aval).cross_product((Cval-Aval)))*(Dval-Aval));
 
-   Vtetra1 = (Vtetra1/(6.0-12.0*(Vtetra1<0)));
-   this->volume = Vtetra1;
+//makes value positive
+    Vtetra1 = (Vtetra1/(6.0-12.0*(Vtetra1<0)));
+    this->volume = Vtetra1;
 }
 
 //defining functions for pyramid
@@ -225,22 +228,29 @@ void Pyramid::calculateVolume(std::vector<Vector3D> vectors)
     //Vpyramid = Vtetra1+Vtetra2 where...
     //               __   __    __                     __   __    __
     //Vtetra1 = 1/6|(AB x AC) * AD| and Vtetra2 = 1/6|(EB x EC) * ED|
+
+    //aquires indeces from array.
     Vector3D Aval = vectors[this->indices[0]];
     Vector3D Bval = vectors[this->indices[1]];
     Vector3D Cval = vectors[this->indices[2]];
     Vector3D Dval = vectors[this->indices[3]];
     Vector3D Eval = vectors[this->indices[4]];
+
+    //calculates volume of each tetrahedron.
+//configuration of vertices were checked using the test code, so there is no overlapping of area between the tetrahedrons
     double Vtetra1 = (((Bval-Aval).cross_product((Cval-Aval)))*(Dval-Aval));
     double Vtetra2 = (((Bval-Eval).cross_product((Cval-Eval)))*(Dval-Eval));
 
+//makes volumes positive
     Vtetra1 = (Vtetra1/(6.0-12.0*(Vtetra1<0)));
     Vtetra2 = (Vtetra2/(6.0-12.0*(Vtetra2<0)));
+
+    //adds all the volume of tetrahedrons to aquire the final volume of the pyramid
     this->volume = (Vtetra1 + Vtetra2);
 }
 //-------------------------------------------------------------------------------------------
-
 //defining functions for hexahedron
-//-------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------
 //constructor
 Hexahedron::Hexahedron(int ID,int type,int materialID,std::vector<int> indices,std::vector<Vector3D> vertices,std::vector<Material> materials):Cell(ID,type,materialID,indices)//constructor
 {
@@ -270,6 +280,8 @@ void Hexahedron::calculateVolume(std::vector<Vector3D> vectors)
     //plan to get volume of hexahedron
     //a hexahedron is 6 tetrahedrons put together
     //use the same method as the one used for finding the volume of tetrahedron but this time repeating it 6 times using the correct vertices
+
+    //aquires indeces from array.
     Vector3D Aval = vectors[this->indices[0]];
     Vector3D Bval = vectors[this->indices[1]];
     Vector3D Cval = vectors[this->indices[2]];
@@ -280,6 +292,8 @@ void Hexahedron::calculateVolume(std::vector<Vector3D> vectors)
     Vector3D Hval = vectors[this->indices[7]];
 
 
+//calculates volume of each tetrahedron.
+//configuration of vertices were checked using the test code, so there is no overlapping of area between the tetrahedrons.
     double Vtetra1 = (((Bval-Aval).cross_product((Dval-Aval)))*(Fval-Aval));
     double Vtetra2 = (((Dval-Cval).cross_product((Bval-Cval)))*(Fval-Cval));
     double Vtetra3 = (((Dval-Cval).cross_product((Gval-Cval)))*(Fval-Cval));
@@ -287,6 +301,7 @@ void Hexahedron::calculateVolume(std::vector<Vector3D> vectors)
     double Vtetra5 = (((Hval-Fval).cross_product((Eval-Fval)))*(Dval-Fval));
     double Vtetra6 = (((Hval-Fval).cross_product((Dval-Fval)))*(Gval-Fval));
 
+//makes volume positive.
     Vtetra1 = (Vtetra1/(6.0-12.0*(Vtetra1<0)));
     Vtetra2 = (Vtetra2/(6.0-12.0*(Vtetra2<0)));
     Vtetra3 = (Vtetra3/(6.0-12.0*(Vtetra3<0)));
@@ -294,6 +309,7 @@ void Hexahedron::calculateVolume(std::vector<Vector3D> vectors)
     Vtetra5 = (Vtetra5/(6.0-12.0*(Vtetra5<0)));
     Vtetra6 = (Vtetra6/(6.0-12.0*(Vtetra6<0)));
 
+//adds all the volume of tetrahedrons to aquire the final volume of the hexahedron
     this->volume = (Vtetra1 + Vtetra2 + Vtetra3 + Vtetra4 + Vtetra5 + Vtetra6);
 }
 //-------------------------------------------------------------------------
