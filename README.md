@@ -18,3 +18,8 @@ Test_programs - directory of all programs for testing of library</br>
 CMakeLists are included, using them will create two folders:</br>
 lib - folder containing the build library for model loading and matrix usage</br>
 demo - folder containing a test executable</br>
+
+***Renderer class branch***</br>
+This branch was made separately to work with and develop Renderer class using OpenGL and Glut</br>
+Currently the Renderer class is not finished, but might be in the future</br>
+RendererClass(Not finished) - folder currently containing all files required by Renderer class</br>
