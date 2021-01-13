@@ -7,7 +7,7 @@ Chen - Material class</br>
 Daniel - Model class</br>
 Daniel - Matrix class</br>
 
-**Contents***</br>
+***Contents***</br>
 Class notes - has a quick summary of each class</br>
 Inc - directory of all header files</br>
 Resources - all relevant resources, including example models</br>
