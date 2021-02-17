@@ -376,7 +376,7 @@ void Model::calcModelCenter()
 //      Vector: v vector_ID x_position y_position z_position
 //      Cell: c cell_ID cell_type(h - hexahedral, p - pyramid, t - tetrahedral) [cell_indices]
 // 2) In case of file being written incorrectly, incorrect values might be written, errors may occur or program can crash.
-bool Model::loadModel(char* path)
+bool Model::loadModel(const char* path)
 {
     //refresh storage arrays
     this->vectors.clear();
@@ -901,6 +901,33 @@ std::vector<Material> Model::getMaterials()
 std::vector<Cell> Model::getCells()
 {
     return this->cells;
+}
+
+//Function of class Model, getCells()
+//Function to get a specific cell
+// Arguments for getCells(): none.
+// return value: cell - the retrieved cell
+Cell Model::getCell(int index)
+{
+    return this->cells[index];
+}
+
+//Function of class Model, getVector()
+//Function to get a specific vector
+// Arguments for getVector(): none.
+// return value: cell - the retrieved cell
+Vector3D Model::getVector(int index)
+{
+    return this->vectors[index];
+}
+
+//Function of class Model, getVector()
+//Function to get a specific vector
+// Arguments for getVector(): none.
+// return value: cell - the retrieved cell
+Material Model::getMaterial(int index)
+{
+    return this->materials[index];
 }
 
 //Function of class Model, getVectorAmount()

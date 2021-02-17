@@ -132,7 +132,7 @@ public:
 
 //Function of class Model, loadModel()
 //Function to retrieve 3D model information from a VTK file
-    bool loadModel(char*);
+    bool loadModel(const char*);
 
 //Function of class Model, calcModelCenter()
 //Function to calculate position of model center
@@ -153,6 +153,18 @@ public:
 //Function of class Model, getCells()
 //Function to get cells array of model
     std::vector<Cell> getCells();
+
+//Function of class Model, getCells()
+//Function to get cells array of model
+    Cell getCell(int);
+
+//Function of class Model, getCells()
+//Function to get cells array of model
+    Vector3D getVector(int);
+
+//Function of class Model, getCells()
+//Function to get cells array of model
+    Material getMaterial(int);
 
 //Function of class Model, getVectorsAmount()
 //Function to get amount of vectors

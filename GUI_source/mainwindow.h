@@ -29,6 +29,8 @@
 #include <vtkPlane.h>
 #include <vtkClipDataSet.h>
 #include <vtkShrinkFilter.h>
+
+#include "../Inc/Model.h"
 namespace Ui
 {
 class MainWindow;
@@ -41,6 +43,8 @@ public:
 //MainWindow();
     ~MainWindow();
 private:
+	Model activeVTKModel;
+
     Ui::MainWindow * ui;
     QString activeFileName;
     vtkSmartPointer<vtkDataSetMapper> activeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
@@ -64,7 +68,7 @@ private:
     bool shrinkFilterON = false;
 
     int objectType = 0;
-	
+
 	void refreshRender();
 
     void initClipFilter();
@@ -77,9 +81,9 @@ public slots:
 
     void handleOpenButton();
     void changeLight(int);
-    void drawHexahedron();
-    void drawTetrahedron();
-    void drawPyramid();
+    void drawHexahedron(Cell*);
+    void drawTetrahedron(Cell*);
+    void drawPyramid(Cell*);
 
     void displayHexahedron();
     void displayTetrahedron();

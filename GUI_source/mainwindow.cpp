@@ -2,16 +2,84 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-void MainWindow::refreshRender(){
-	this->activeRenderer->ResetCamera();
+void MainWindow::refreshRender()
+{
+    this->activeRenderer->ResetCamera();
     this->activeRenderer->ResetCameraClippingRange();
 
     this->activeRenderWindow->Render();
 }
 
-void MainWindow::drawHexahedron()
+void MainWindow::drawHexahedron(Cell *cell)
 {
+    std::vector<int> indx = cell->getIndices();
+    vtkSmartPointer<vtkHexahedron> hex = vtkSmartPointer<vtkHexahedron>::New();
 
+    for(int n = 0; n<indx.size(); n++)
+    {
+        Vector3D tempVec = this->activeVTKModel.getVector(indx[n]);
+        this->pointCoordinates.push_back({{tempVec.getx(), tempVec.gety(), tempVec.getz()}});
+
+        this->points->InsertNextPoint(pointCoordinates[this->pointCoordinates.size()-1].data());
+
+        hex->GetPointIds()->SetId(n, indx[n]);
+    }
+
+    this->cells->InsertNextCell(hex);
+    this->uGrid->SetPoints(this->points);
+    this->uGrid->InsertNextCell(hex->GetCellType(), hex->GetPointIds());
+}
+
+void MainWindow::drawTetrahedron(Cell *cell)
+{
+    std::vector<int> indx = cell->getIndices();
+    vtkSmartPointer<vtkTetra> tetr = vtkSmartPointer<vtkTetra>::New();
+
+    for(int n = 0; n<indx.size(); n++)
+    {
+        Vector3D tempVec = this->activeVTKModel.getVector(indx[n]);
+        this->pointCoordinates.push_back({{tempVec.getx(), tempVec.gety(), tempVec.getz()}});
+
+        this->points->InsertNextPoint(pointCoordinates[this->pointCoordinates.size()-1].data());
+
+        tetr->GetPointIds()->SetId(n, indx[n]);
+    }
+
+    this->cells->InsertNextCell(tetr);
+    this->uGrid->SetPoints(this->points);
+    this->uGrid->InsertNextCell(tetr->GetCellType(), tetr->GetPointIds());
+}
+
+void MainWindow::drawPyramid(Cell *cell)
+{
+    std::vector<int> indx = cell->getIndices();
+    vtkSmartPointer<vtkPyramid> pyr = vtkSmartPointer<vtkPyramid>::New();
+
+    for(int n = 0; n<indx.size(); n++)
+    {
+        Vector3D tempVec = this->activeVTKModel.getVector(indx[n]);
+        this->pointCoordinates.push_back({{tempVec.getx(), tempVec.gety(), tempVec.getz()}});
+
+        this->points->InsertNextPoint(pointCoordinates[this->pointCoordinates.size()-1].data());
+
+        pyr->GetPointIds()->SetId(n, indx[n]);
+    }
+
+    this->cells->InsertNextCell(pyr);
+    this->uGrid->SetPoints(this->points);
+    this->uGrid->InsertNextCell(pyr->GetCellType(), pyr->GetPointIds());
+}
+
+void MainWindow::displayHexahedron()
+{
+    this->pointCoordinates.clear();
+    this->points->Reset();
+    this->points->Squeeze();
+    this->cells->Reset();
+    this->cells->Squeeze();
+    this->uGrid->Reset();
+    this->uGrid->Squeeze();
+    //draw
     this->pointCoordinates.push_back({{0.0, 0.0, 0.0}}); // Face 1
     this->pointCoordinates.push_back({{1.0, 0.0, 0.0}});
     this->pointCoordinates.push_back({{1.0, 1.0, 0.0}});
@@ -32,59 +100,7 @@ void MainWindow::drawHexahedron()
     this->cells->InsertNextCell(hex);
     this->uGrid->SetPoints(this->points);
     this->uGrid->InsertNextCell(hex->GetCellType(), hex->GetPointIds());
-}
 
-void MainWindow::drawTetrahedron()
-{
-    this->pointCoordinates.push_back({{0.0, 0.0, 0.0}}); // Face 1
-    this->pointCoordinates.push_back({{1.0, 0.0, 0.0}});
-    this->pointCoordinates.push_back({{1.0, 1.0, 0.0}});
-    this->pointCoordinates.push_back({{0.0, 1.0, 1.0}});
-
-    // Create a hexahedron from the points.
-    vtkSmartPointer<vtkTetra> tetr = vtkSmartPointer<vtkTetra>::New();
-
-    for (auto i = 0; i < this->pointCoordinates.size(); ++i)
-    {
-        this->points->InsertNextPoint(pointCoordinates[i].data());
-        tetr->GetPointIds()->SetId(i, i);
-    }
-    this->cells->InsertNextCell(tetr);
-    this->uGrid->SetPoints(this->points);
-    this->uGrid->InsertNextCell(tetr->GetCellType(), tetr->GetPointIds());
-}
-
-void MainWindow::drawPyramid()
-{
-    this->pointCoordinates.push_back({{1.0, 1.0, 1.0}}); // Face 1
-    this->pointCoordinates.push_back({{-1.0, 1.0, 1.0}});
-    this->pointCoordinates.push_back({{-1.0, -1.0, 1.0}});
-    this->pointCoordinates.push_back({{1.0, -1.0, 1.0}});
-    this->pointCoordinates.push_back({{0.0, 0.0, 0.0}}); // Face 2
-
-    // Create a hexahedron from the points.
-    vtkSmartPointer<vtkPyramid> pyr = vtkSmartPointer<vtkPyramid>::New();
-
-    for (auto i = 0; i < this->pointCoordinates.size(); ++i)
-    {
-        this->points->InsertNextPoint(pointCoordinates[i].data());
-        pyr->GetPointIds()->SetId(i, i);
-    }
-    this->cells->InsertNextCell(pyr);
-    this->uGrid->SetPoints(this->points);
-    this->uGrid->InsertNextCell(pyr->GetCellType(), pyr->GetPointIds());
-}
-
-void MainWindow::displayHexahedron()
-{
-    this->pointCoordinates.clear();
-    this->points->Reset();
-    this->points->Squeeze();
-    this->cells->Reset();
-    this->cells->Squeeze();
-    this->uGrid->Reset();
-    this->uGrid->Squeeze();
-    drawHexahedron();
     this->objectType = 2;
     if(ui->clipCheck->isChecked()||ui->shrinkCheck->isChecked())
     {
@@ -127,7 +143,25 @@ void MainWindow::displayTetrahedron()
     this->cells->Squeeze();
     this->uGrid->Reset();
     this->uGrid->Squeeze();
-    drawTetrahedron();
+
+    //draw
+    this->pointCoordinates.push_back({{0.0, 0.0, 0.0}}); // Face 1
+    this->pointCoordinates.push_back({{1.0, 0.0, 0.0}});
+    this->pointCoordinates.push_back({{1.0, 1.0, 0.0}});
+    this->pointCoordinates.push_back({{0.0, 1.0, 1.0}});
+
+    // Create a hexahedron from the points.
+    vtkSmartPointer<vtkTetra> tetr = vtkSmartPointer<vtkTetra>::New();
+
+    for (auto i = 0; i < this->pointCoordinates.size(); ++i)
+    {
+        this->points->InsertNextPoint(pointCoordinates[i].data());
+        tetr->GetPointIds()->SetId(i, i);
+    }
+    this->cells->InsertNextCell(tetr);
+    this->uGrid->SetPoints(this->points);
+    this->uGrid->InsertNextCell(tetr->GetCellType(), tetr->GetPointIds());
+
     this->objectType = 2;
     if(ui->clipCheck->isChecked()||ui->shrinkCheck->isChecked())
     {
@@ -144,7 +178,7 @@ void MainWindow::displayTetrahedron()
             }
             else
             {
-                this->shrinkFilter->SetInputData(this->uGrid);;
+                this->shrinkFilter->SetInputData(this->uGrid);
             }
             this->initShrinkFilter();
             this->activeMapper->SetInputConnection( this->shrinkFilter->GetOutputPort() );
@@ -170,7 +204,25 @@ void MainWindow::displayPyramid()
     this->cells->Squeeze();
     this->uGrid->Reset();
     this->uGrid->Squeeze();
-    drawPyramid();
+    //draw
+    this->pointCoordinates.push_back({{1.0, 1.0, 1.0}}); // Face 1
+    this->pointCoordinates.push_back({{-1.0, 1.0, 1.0}});
+    this->pointCoordinates.push_back({{-1.0, -1.0, 1.0}});
+    this->pointCoordinates.push_back({{1.0, -1.0, 1.0}});
+    this->pointCoordinates.push_back({{0.0, 0.0, 0.0}}); // Face 2
+
+    // Create a hexahedron from the points.
+    vtkSmartPointer<vtkPyramid> pyr = vtkSmartPointer<vtkPyramid>::New();
+
+    for (auto i = 0; i < this->pointCoordinates.size(); ++i)
+    {
+        this->points->InsertNextPoint(pointCoordinates[i].data());
+        pyr->GetPointIds()->SetId(i, i);
+    }
+    this->cells->InsertNextCell(pyr);
+    this->uGrid->SetPoints(this->points);
+    this->uGrid->InsertNextCell(pyr->GetCellType(), pyr->GetPointIds());
+
     this->objectType = 2;
     if(ui->clipCheck->isChecked()||ui->shrinkCheck->isChecked())
     {
@@ -210,39 +262,78 @@ void MainWindow::displayPyramid()
 // return value: none (file is opened)
 void MainWindow::handleOpenButton()
 {
-    this->activeFileName = QFileDialog::getOpenFileName(this, tr("Open STL File"), "./", tr("STL Files(*.stl)"));
-    emit statusUpdateMessage( QString("Loaded: ")+this->activeFileName, 0 );
-    this->activeReader->SetFileName(this->activeFileName.toLatin1().data());
-    this->activeReader->Update();
-    this->objectType = 1;
-    if(ui->clipCheck->isChecked()||ui->shrinkCheck->isChecked())
+    this->activeFileName = QFileDialog::getOpenFileName(this, tr("Open STL File"), "./", tr("STL Files(*.stl *.mod)"));
+    QFileInfo fi(this->activeFileName);
+    emit statusUpdateMessage( QString("Loaded: ")+fi.suffix(), 0 );
+    if(fi.suffix()=="stl")
     {
-        if(ui->clipCheck->isChecked())
-        {
-            this->clipFilter->SetInputConnection( this->activeReader->GetOutputPort() ) ;
-            this->initClipFilter();
-        }
-        if(ui->shrinkCheck->isChecked())
+        //emit statusUpdateMessage( QString("Loaded: ")+this->activeFileName, 0 );
+        this->activeReader->SetFileName(this->activeFileName.toLatin1().data());
+        this->activeReader->Update();
+        this->objectType = 1;
+        if(ui->clipCheck->isChecked()||ui->shrinkCheck->isChecked())
         {
             if(ui->clipCheck->isChecked())
             {
-                this->shrinkFilter->SetInputConnection(this->clipFilter->GetOutputPort());
+                this->clipFilter->SetInputConnection( this->activeReader->GetOutputPort() ) ;
+                this->initClipFilter();
+            }
+            if(ui->shrinkCheck->isChecked())
+            {
+                if(ui->clipCheck->isChecked())
+                {
+                    this->shrinkFilter->SetInputConnection(this->clipFilter->GetOutputPort());
+                }
+                else
+                {
+                    this->shrinkFilter->SetInputConnection(this->activeReader->GetOutputPort());
+                }
+                this->initShrinkFilter();
+                this->activeMapper->SetInputConnection( this->shrinkFilter->GetOutputPort() );
             }
             else
             {
-                this->shrinkFilter->SetInputConnection(this->activeReader->GetOutputPort());
+                this->activeMapper->SetInputConnection( this->clipFilter->GetOutputPort() );
             }
-            this->initShrinkFilter();
-            this->activeMapper->SetInputConnection( this->shrinkFilter->GetOutputPort() );
         }
         else
         {
-            this->activeMapper->SetInputConnection( this->clipFilter->GetOutputPort() );
+            this->activeMapper->SetInputConnection( this->activeReader->GetOutputPort() );
         }
     }
-    else
+    else if(fi.suffix()=="mod")
     {
-        this->activeMapper->SetInputConnection( this->activeReader->GetOutputPort() );
+        // init model
+        this->activeVTKModel.loadModel(this->activeFileName.toStdString().c_str());
+
+        //rendering
+        //refresh grid
+        this->pointCoordinates.clear();
+        this->points->Reset();
+        this->points->Squeeze();
+        this->cells->Reset();
+        this->cells->Squeeze();
+        this->uGrid->Reset();
+        this->uGrid->Squeeze();
+        //set values
+       for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
+        {
+            Cell tempCell = this->activeVTKModel.getCell(i);
+            if(tempCell.getType()==1)
+            {
+                this->drawHexahedron(&tempCell);
+            }
+            if(tempCell.getType()==2)
+            {
+                this->drawPyramid(&tempCell);
+            }
+            if(tempCell.getType()==3)
+            {
+                this->drawTetrahedron(&tempCell);
+            }
+        }
+        //render grid
+        this->activeMapper->SetInputData(this->uGrid);
     }
     this->refreshRender();
 }
