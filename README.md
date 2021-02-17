@@ -18,3 +18,6 @@ Test_programs - directory of all programs for testing of library</br>
 CMakeLists are included, using them will create two folders:</br>
 lib - folder containing the build library for model loading and matrix usage</br>
 demo - folder containing a test executable</br>
+
+***Initial software***</br>
+Allows to load STL model and create basic shapes.
