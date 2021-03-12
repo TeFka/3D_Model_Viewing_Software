@@ -10,29 +10,103 @@ void MainWindow::refreshRender()
     this->activeRenderWindow->Render();
 }
 
-void MainWindow::drawHexahedron(Cell *cell)
+void MainWindow::refreshGrid()
 {
+    for(int i=0; i<this->actors.size(); i++)
+    {
+        if(this->uGrids.size()>i)
+        {
+            this->uGrids[i]->Reset();
+            this->uGrids[i]->Squeeze();
+        }
+        this->activeRenderer->RemoveActor(this->actors[i]);
+
+    }
+    this->uGrids.clear();
+    this->mappers.clear();
+    this->actors.clear();
+}
+
+void MainWindow::filterStage()
+{
+    /*if(ui->shrinkCheck->isChecked())
+    {
+        if(ui->clipCheck->isChecked())
+        {
+            this->shrinkFilter->SetInputConnection(this->clipFilter->GetOutputPort());
+        }
+        else
+        {
+            if(this->objectType==0)
+            {
+                vtkSmartPointer<vtkCubeSource> cubeSource = vtkSmartPointer<vtkCubeSource>::New();
+                this->shrinkFilter->SetInputConnection( cubeSource->GetOutputPort() );
+            }
+            else if(this->objectType==1)
+            {
+                this->shrinkFilter->SetInputConnection(this->activeReader->GetOutputPort());
+            }
+            else
+            {
+                this->shrinkFilter->SetInputData(this->uGrid);
+            }
+        }
+        this->initShrinkFilter();
+        this->activeMapper->SetInputConnection( this->shrinkFilter->GetOutputPort() );
+    }
+    else
+    {
+        if(ui->clipCheck->isChecked())
+        {
+            handleClipFilter();
+        }
+        else
+        {
+            if(this->objectType==0)
+            {
+                vtkSmartPointer<vtkCubeSource> cubeSource = vtkSmartPointer<vtkCubeSource>::New();
+                this->activeMapper->SetInputConnection( cubeSource->GetOutputPort() );
+            }
+            else if(this->objectType==1)
+            {
+                this->activeMapper->SetInputConnection(this->activeReader->GetOutputPort());
+            }
+            else
+            {
+                this->activeMapper->SetInputData(this->uGrid);
+            }
+        }
+    }*/
+}
+
+vtkSmartPointer<vtkUnstructuredGrid> MainWindow::drawHexahedron(Cell *cell)
+{
+    vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     std::vector<int> indx = cell->getIndices();
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
     vtkSmartPointer<vtkHexahedron> hex = vtkSmartPointer<vtkHexahedron>::New();
 
     for(int n = 0; n<indx.size(); n++)
     {
         Vector3D tempVec = this->activeVTKModel.getVector(indx[n]);
-        this->pointCoordinates.push_back({{tempVec.getx(), tempVec.gety(), tempVec.getz()}});
+        this->pointCoordinates.push_back({tempVec.getx(), tempVec.gety(), tempVec.getz()});
 
-        this->points->InsertNextPoint(pointCoordinates[this->pointCoordinates.size()-1].data());
+        points->InsertNextPoint(tempVec.getx(), tempVec.gety(), tempVec.getz());
 
-        hex->GetPointIds()->SetId(n, indx[n]);
+        hex->GetPointIds()->SetId(n, n);
     }
 
     this->cells->InsertNextCell(hex);
-    this->uGrid->SetPoints(this->points);
-    this->uGrid->InsertNextCell(hex->GetCellType(), hex->GetPointIds());
+    tempGrid->SetPoints(points);
+    tempGrid->InsertNextCell(hex->GetCellType(), hex->GetPointIds());
+    return tempGrid;
 }
 
-void MainWindow::drawTetrahedron(Cell *cell)
+vtkSmartPointer<vtkUnstructuredGrid> MainWindow::drawTetrahedron(Cell *cell)
 {
+    vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     std::vector<int> indx = cell->getIndices();
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
     vtkSmartPointer<vtkTetra> tetr = vtkSmartPointer<vtkTetra>::New();
 
     for(int n = 0; n<indx.size(); n++)
@@ -40,19 +114,22 @@ void MainWindow::drawTetrahedron(Cell *cell)
         Vector3D tempVec = this->activeVTKModel.getVector(indx[n]);
         this->pointCoordinates.push_back({{tempVec.getx(), tempVec.gety(), tempVec.getz()}});
 
-        this->points->InsertNextPoint(pointCoordinates[this->pointCoordinates.size()-1].data());
+        points->InsertNextPoint(tempVec.getx(), tempVec.gety(), tempVec.getz());
 
-        tetr->GetPointIds()->SetId(n, indx[n]);
+        tetr->GetPointIds()->SetId(n, n);
     }
 
     this->cells->InsertNextCell(tetr);
-    this->uGrid->SetPoints(this->points);
-    this->uGrid->InsertNextCell(tetr->GetCellType(), tetr->GetPointIds());
+    tempGrid->SetPoints(points);
+    tempGrid->InsertNextCell(tetr->GetCellType(), tetr->GetPointIds());
+    return tempGrid;
 }
 
-void MainWindow::drawPyramid(Cell *cell)
+vtkSmartPointer<vtkUnstructuredGrid> MainWindow::drawPyramid(Cell *cell)
 {
+    vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     std::vector<int> indx = cell->getIndices();
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
     vtkSmartPointer<vtkPyramid> pyr = vtkSmartPointer<vtkPyramid>::New();
 
     for(int n = 0; n<indx.size(); n++)
@@ -60,25 +137,28 @@ void MainWindow::drawPyramid(Cell *cell)
         Vector3D tempVec = this->activeVTKModel.getVector(indx[n]);
         this->pointCoordinates.push_back({{tempVec.getx(), tempVec.gety(), tempVec.getz()}});
 
-        this->points->InsertNextPoint(pointCoordinates[this->pointCoordinates.size()-1].data());
+        points->InsertNextPoint(tempVec.getx(), tempVec.gety(), tempVec.getz());
 
-        pyr->GetPointIds()->SetId(n, indx[n]);
+        pyr->GetPointIds()->SetId(n, n);
     }
 
     this->cells->InsertNextCell(pyr);
-    this->uGrid->SetPoints(this->points);
-    this->uGrid->InsertNextCell(pyr->GetCellType(), pyr->GetPointIds());
+    tempGrid->SetPoints(points);
+    tempGrid->InsertNextCell(pyr->GetCellType(), pyr->GetPointIds());
+    return tempGrid;
 }
 
 void MainWindow::displayHexahedron()
 {
+    this->refreshGrid();
+    vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+    vtkSmartPointer<vtkDataSetMapper> tempMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+
     this->pointCoordinates.clear();
-    this->points->Reset();
-    this->points->Squeeze();
     this->cells->Reset();
     this->cells->Squeeze();
-    this->uGrid->Reset();
-    this->uGrid->Squeeze();
     //draw
     this->pointCoordinates.push_back({{0.0, 0.0, 0.0}}); // Face 1
     this->pointCoordinates.push_back({{1.0, 0.0, 0.0}});
@@ -94,55 +174,41 @@ void MainWindow::displayHexahedron()
 
     for (auto i = 0; i < this->pointCoordinates.size(); ++i)
     {
-        this->points->InsertNextPoint(pointCoordinates[i].data());
+        points->InsertNextPoint(pointCoordinates[i].data());
         hex->GetPointIds()->SetId(i, i);
     }
     this->cells->InsertNextCell(hex);
-    this->uGrid->SetPoints(this->points);
-    this->uGrid->InsertNextCell(hex->GetCellType(), hex->GetPointIds());
+    tempGrid->SetPoints(points);
+    tempGrid->InsertNextCell(hex->GetCellType(), hex->GetPointIds());
+
+    tempMapper->SetInputData(tempGrid);
+
+    tempActor->SetMapper(tempMapper);
+    tempActor->GetProperty()->EdgeVisibilityOn();
+
+    tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+
+    this->activeRenderer->AddActor(tempActor);
+
+    //this->activeRenderWindow->AddRenderer(tempRenderer);
+    this->uGrids.push_back(tempGrid);
+    this->mappers.push_back(tempMapper);
+    this->actors.push_back(tempActor);
 
     this->objectType = 2;
-    if(ui->clipCheck->isChecked()||ui->shrinkCheck->isChecked())
-    {
-        if(ui->clipCheck->isChecked())
-        {
-            this->clipFilter->SetInputData(this->uGrid);
-            this->initClipFilter();
-        }
-        if(ui->shrinkCheck->isChecked())
-        {
-            if(ui->clipCheck->isChecked())
-            {
-                this->shrinkFilter->SetInputConnection(this->clipFilter->GetOutputPort());
-            }
-            else
-            {
-                this->shrinkFilter->SetInputData(this->uGrid);;
-            }
-            this->initShrinkFilter();
-            this->activeMapper->SetInputConnection( this->shrinkFilter->GetOutputPort() );
-        }
-        else
-        {
-            this->activeMapper->SetInputConnection( this->clipFilter->GetOutputPort() );
-        }
-    }
-    else
-    {
-        this->activeMapper->SetInputData(this->uGrid);
-    }
     this->refreshRender();
 }
 
 void MainWindow::displayTetrahedron()
 {
+    this->refreshGrid();
+    vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+    vtkSmartPointer<vtkDataSetMapper> tempMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
     this->pointCoordinates.clear();
-    this->points->Reset();
-    this->points->Squeeze();
     this->cells->Reset();
     this->cells->Squeeze();
-    this->uGrid->Reset();
-    this->uGrid->Squeeze();
 
     //draw
     this->pointCoordinates.push_back({{0.0, 0.0, 0.0}}); // Face 1
@@ -155,55 +221,42 @@ void MainWindow::displayTetrahedron()
 
     for (auto i = 0; i < this->pointCoordinates.size(); ++i)
     {
-        this->points->InsertNextPoint(pointCoordinates[i].data());
+        points->InsertNextPoint(pointCoordinates[i].data());
         tetr->GetPointIds()->SetId(i, i);
     }
     this->cells->InsertNextCell(tetr);
-    this->uGrid->SetPoints(this->points);
-    this->uGrid->InsertNextCell(tetr->GetCellType(), tetr->GetPointIds());
+    tempGrid->SetPoints(points);
+    tempGrid->InsertNextCell(tetr->GetCellType(), tetr->GetPointIds());
+
+    tempMapper->SetInputData(tempGrid);
+
+    tempActor->SetMapper(tempMapper);
+    tempActor->GetProperty()->EdgeVisibilityOn();
+
+    tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+
+    this->activeRenderer->AddActor(tempActor);
+
+    //this->activeRenderWindow->AddRenderer(tempRenderer);
+    this->uGrids.push_back(tempGrid);
+    this->mappers.push_back(tempMapper);
+    this->actors.push_back(tempActor);
 
     this->objectType = 2;
-    if(ui->clipCheck->isChecked()||ui->shrinkCheck->isChecked())
-    {
-        if(ui->clipCheck->isChecked())
-        {
-            this->clipFilter->SetInputData(this->uGrid);
-            this->initClipFilter();
-        }
-        if(ui->shrinkCheck->isChecked())
-        {
-            if(ui->clipCheck->isChecked())
-            {
-                this->shrinkFilter->SetInputConnection(this->clipFilter->GetOutputPort());
-            }
-            else
-            {
-                this->shrinkFilter->SetInputData(this->uGrid);
-            }
-            this->initShrinkFilter();
-            this->activeMapper->SetInputConnection( this->shrinkFilter->GetOutputPort() );
-        }
-        else
-        {
-            this->activeMapper->SetInputConnection( this->clipFilter->GetOutputPort() );
-        }
-    }
-    else
-    {
-        this->activeMapper->SetInputData(this->uGrid);
-    }
     this->refreshRender();
 }
 
 void MainWindow::displayPyramid()
 {
+    this->refreshGrid();
+    vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+    vtkSmartPointer<vtkDataSetMapper> tempMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+
     this->pointCoordinates.clear();
-    this->points->Reset();
-    this->points->Squeeze();
     this->cells->Reset();
     this->cells->Squeeze();
-    this->uGrid->Reset();
-    this->uGrid->Squeeze();
     //draw
     this->pointCoordinates.push_back({{1.0, 1.0, 1.0}}); // Face 1
     this->pointCoordinates.push_back({{-1.0, 1.0, 1.0}});
@@ -216,43 +269,28 @@ void MainWindow::displayPyramid()
 
     for (auto i = 0; i < this->pointCoordinates.size(); ++i)
     {
-        this->points->InsertNextPoint(pointCoordinates[i].data());
+        points->InsertNextPoint(pointCoordinates[i].data());
         pyr->GetPointIds()->SetId(i, i);
     }
     this->cells->InsertNextCell(pyr);
-    this->uGrid->SetPoints(this->points);
-    this->uGrid->InsertNextCell(pyr->GetCellType(), pyr->GetPointIds());
+    tempGrid->SetPoints(points);
+    tempGrid->InsertNextCell(pyr->GetCellType(), pyr->GetPointIds());
+
+    tempMapper->SetInputData(tempGrid);
+
+    tempActor->SetMapper(tempMapper);
+    tempActor->GetProperty()->EdgeVisibilityOn();
+
+    tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+
+    this->activeRenderer->AddActor(tempActor);
+
+    //this->activeRenderWindow->AddRenderer(tempRenderer);
+    this->uGrids.push_back(tempGrid);
+    this->mappers.push_back(tempMapper);
+    this->actors.push_back(tempActor);
 
     this->objectType = 2;
-    if(ui->clipCheck->isChecked()||ui->shrinkCheck->isChecked())
-    {
-        if(ui->clipCheck->isChecked())
-        {
-            this->clipFilter->SetInputData(this->uGrid);
-            this->initClipFilter();
-        }
-        if(ui->shrinkCheck->isChecked())
-        {
-            if(ui->clipCheck->isChecked())
-            {
-                this->shrinkFilter->SetInputConnection(this->clipFilter->GetOutputPort());
-            }
-            else
-            {
-                this->shrinkFilter->SetInputData(this->uGrid);;
-            }
-            this->initShrinkFilter();
-            this->activeMapper->SetInputConnection( this->shrinkFilter->GetOutputPort() );
-        }
-        else
-        {
-            this->activeMapper->SetInputConnection( this->clipFilter->GetOutputPort() );
-        }
-    }
-    else
-    {
-        this->activeMapper->SetInputData(this->uGrid);
-    }
     this->refreshRender();
 }
 
@@ -267,6 +305,8 @@ void MainWindow::handleOpenButton()
     emit statusUpdateMessage( QString("Loaded: ")+fi.suffix(), 0 );
     if(fi.suffix()=="stl")
     {
+        vtkSmartPointer<vtkDataSetMapper> tempMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+        vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
         //emit statusUpdateMessage( QString("Loaded: ")+this->activeFileName, 0 );
         this->activeReader->SetFileName(this->activeFileName.toLatin1().data());
         this->activeReader->Update();
@@ -289,51 +329,72 @@ void MainWindow::handleOpenButton()
                     this->shrinkFilter->SetInputConnection(this->activeReader->GetOutputPort());
                 }
                 this->initShrinkFilter();
-                this->activeMapper->SetInputConnection( this->shrinkFilter->GetOutputPort() );
+                tempMapper->SetInputConnection( this->shrinkFilter->GetOutputPort() );
             }
             else
             {
-                this->activeMapper->SetInputConnection( this->clipFilter->GetOutputPort() );
+                tempMapper->SetInputConnection( this->clipFilter->GetOutputPort() );
             }
         }
         else
         {
-            this->activeMapper->SetInputConnection( this->activeReader->GetOutputPort() );
+            tempMapper->SetInputConnection( this->activeReader->GetOutputPort() );
         }
+        tempActor->SetMapper(tempMapper);
+        tempActor->GetProperty()->EdgeVisibilityOn();
+        tempActor->GetProperty()->SetColor(this->activeColors->GetColor3d("Red").GetData());
+        this->activeRenderer->AddActor(tempActor);
     }
     else if(fi.suffix()=="mod")
     {
+        this->refreshGrid();
         // init model
         this->activeVTKModel.loadModel(this->activeFileName.toStdString().c_str());
 
         //rendering
         //refresh grid
         this->pointCoordinates.clear();
-        this->points->Reset();
-        this->points->Squeeze();
         this->cells->Reset();
         this->cells->Squeeze();
-        this->uGrid->Reset();
-        this->uGrid->Squeeze();
         //set values
-       for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
+        for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
         {
             Cell tempCell = this->activeVTKModel.getCell(i);
+            vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+            vtkSmartPointer<vtkDataSetMapper> tempMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+            vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
+            //vtkSmartPointer<vtkRenderer> tempRenderer = vtkSmartPointer<vtkRenderer>::New();
             if(tempCell.getType()==1)
             {
-                this->drawHexahedron(&tempCell);
+                tempGrid = this->drawHexahedron(&tempCell);
             }
             if(tempCell.getType()==2)
             {
-                this->drawPyramid(&tempCell);
+                tempGrid = this->drawPyramid(&tempCell);
             }
             if(tempCell.getType()==3)
             {
-                this->drawTetrahedron(&tempCell);
+                tempGrid = this->drawTetrahedron(&tempCell);
             }
+
+            tempMapper->SetInputData(tempGrid);
+
+            tempActor->SetMapper(tempMapper);
+            tempActor->GetProperty()->EdgeVisibilityOn();
+
+            Vector3D color = this->activeVTKModel.getMaterial(tempCell.getMaterialID()).getColor();
+            tempActor->GetProperty()->SetColor(color.getx(),color.getx(),color.getx());
+
+            this->activeRenderer->AddActor(tempActor);
+
+            //this->activeRenderWindow->AddRenderer(tempRenderer);
+            this->uGrids.push_back(tempGrid);
+            this->mappers.push_back(tempMapper);
+            this->actors.push_back(tempActor);
+            //this->renderers.push_back(tempRenderer);
         }
         //render grid
-        this->activeMapper->SetInputData(this->uGrid);
+        //this->activeMapper->SetInputData(this->uGrid);
     }
     this->refreshRender();
 }
@@ -347,12 +408,29 @@ void MainWindow::changeLight(int newVal)
 
 void MainWindow::resetObject()
 {
+    this->refreshGrid();
     ui->shrinkCheck->setCheckState(Qt::Unchecked);
     ui->clipCheck->setCheckState(Qt::Unchecked);
     this->changeLight(100);
+
+    vtkSmartPointer<vtkDataSetMapper> tempMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
+
     vtkSmartPointer<vtkCubeSource> cubeSource = vtkSmartPointer<vtkCubeSource>::New();
-    this->activeMapper->SetInputConnection( cubeSource->GetOutputPort() );
-    this->activeRenderWindow->Render();
+    tempMapper->SetInputConnection( cubeSource->GetOutputPort() );
+
+    tempActor->SetMapper(tempMapper);
+    tempActor->GetProperty()->EdgeVisibilityOn();
+    tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+
+    this->mappers.push_back(tempMapper);
+    this->actors.push_back(tempActor);
+
+    this->activeRenderer->AddActor(tempActor);
+    this->activeRenderer->SetBackground( this->activeColors->GetColor3d("Silver").GetData() );
+    this->activeRenderer->GetActiveCamera()->Azimuth(30);
+    this->activeRenderer->GetActiveCamera()->Elevation(30);
+    this->refreshRender();
     this->objectType = 0;
 }
 
@@ -375,7 +453,7 @@ void MainWindow::changeBackgroundColor()
 void MainWindow::changeObjectColor()
 {
     QColor color = QColorDialog::getColor(Qt::black, this, "Pick a color",  QColorDialog::DontUseNativeDialog);
-    this->activeActor->GetProperty()->SetColor((double)color.red()/255,(double)color.green()/255,(double)color.blue()/255);
+    this->actors[0]->GetProperty()->SetColor((double)color.red()/255,(double)color.green()/255,(double)color.blue()/255);
     this->activeRenderWindow->Render();
 }
 
@@ -395,7 +473,7 @@ void MainWindow::initClipFilter()
 
 void MainWindow::handleShrinkFilter()
 {
-    if(ui->shrinkCheck->isChecked())
+    /*if(ui->shrinkCheck->isChecked())
     {
         if(ui->clipCheck->isChecked())
         {
@@ -443,12 +521,12 @@ void MainWindow::handleShrinkFilter()
             }
         }
     }
-    this->refreshRender();
+    this->refreshRender();*/
 }
 
 void MainWindow::handleClipFilter()
 {
-    if(ui->clipCheck->isChecked())
+    /*if(ui->clipCheck->isChecked())
     {
         if(ui->shrinkCheck->isChecked())
         {
@@ -496,7 +574,7 @@ void MainWindow::handleClipFilter()
             }
         }
     }
-    this->refreshRender();
+    this->refreshRender();*/
 }
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -538,20 +616,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 // note that vtkWidget is the name I gave to my QtVTKOpenGLWidget in Qt
 // creator
-    ui->qvtkWidget->SetRenderWindow( this->renderWindow );
-
-// Create a mapper that will hold the cube's geometry in a format
-// suitable for rendering
-
-// Create a cube using a vtkCubeSource
-    vtkSmartPointer<vtkCubeSource> cubeSource = vtkSmartPointer<vtkCubeSource>::New();
-    this->activeMapper->SetInputConnection( cubeSource->GetOutputPort() );
-
-// Create an actor that is used to set the cube's properties for rendering
-// and place it in the window
-    this->activeActor->SetMapper(this->activeMapper);
-    this->activeActor->GetProperty()->EdgeVisibilityOn();
-    this->activeActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+    ui->qvtkWidget->SetRenderWindow( this->activeRenderWindow );
 // ###### We've already created the renderWindow this time as a qt
 // widget ######
 //vtkSmartPointer<vtkRenderWindow> renderWindow =
@@ -560,15 +625,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     this->activeRenderWindow->AddRenderer( this->activeRenderer );
 
-    this->activeRenderer->AddActor(this->activeActor);
-    this->activeRenderer->SetBackground( this->activeColors->GetColor3d("Silver").GetData() );
-// Setup the renderers's camera
-    this->activeRenderer->GetActiveCamera()->Azimuth(30);
-    this->activeRenderer->GetActiveCamera()->Elevation(30);
-    this->refreshRender();
+    this->resetObject();
 
     this->activeRenderer->AddLight(this->activeLight);
-
+    this->activeRenderer->LightFollowCameraOn();
 }
 MainWindow::~MainWindow()
 {

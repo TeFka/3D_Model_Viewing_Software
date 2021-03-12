@@ -45,22 +45,23 @@ public:
 private:
 	Model activeVTKModel;
 
+	std::vector<vtkSmartPointer<vtkUnstructuredGrid>> uGrids;
+    std::vector<vtkSmartPointer<vtkDataSetMapper>> mappers;
+    std::vector<vtkSmartPointer<vtkActor>> actors;
+
     Ui::MainWindow * ui;
     QString activeFileName;
-    vtkSmartPointer<vtkDataSetMapper> activeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
     vtkSmartPointer<vtkSTLReader> activeReader = vtkSmartPointer<vtkSTLReader>::New();
-    vtkSmartPointer<vtkActor> activeActor = vtkSmartPointer<vtkActor>::New();
     vtkSmartPointer<vtkNamedColors> activeColors = vtkSmartPointer<vtkNamedColors>::New();
+
     vtkSmartPointer<vtkRenderer> activeRenderer = vtkSmartPointer<vtkRenderer>::New();
+
     vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
     vtkSmartPointer<vtkRenderWindow> activeRenderWindow;
 
     vtkSmartPointer<vtkLight> activeLight = vtkSmartPointer<vtkLight>::New();
-
-    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
-    vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();;
+    vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();
     std::vector<std::array<double, 3>> pointCoordinates;
-    vtkSmartPointer<vtkUnstructuredGrid> uGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
 
     vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
     vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
@@ -70,9 +71,12 @@ private:
     int objectType = 0;
 
 	void refreshRender();
+	void refreshGrid();
 
     void initClipFilter();
     void initShrinkFilter();
+
+    void filterStage();
 
 public slots:
 
@@ -81,9 +85,9 @@ public slots:
 
     void handleOpenButton();
     void changeLight(int);
-    void drawHexahedron(Cell*);
-    void drawTetrahedron(Cell*);
-    void drawPyramid(Cell*);
+    vtkSmartPointer<vtkUnstructuredGrid> drawHexahedron(Cell*);
+    vtkSmartPointer<vtkUnstructuredGrid> drawTetrahedron(Cell*);
+    vtkSmartPointer<vtkUnstructuredGrid> drawPyramid(Cell*);
 
     void displayHexahedron();
     void displayTetrahedron();
