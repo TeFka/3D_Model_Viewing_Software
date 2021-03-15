@@ -30,7 +30,44 @@
 #include <vtkClipDataSet.h>
 #include <vtkShrinkFilter.h>
 
+#include <vtkInteractorStyleTrackballCamera.h>
+
 #include "../Inc/Model.h"
+
+class MouseInteractor : public vtkInteractorStyleTrackballCamera
+{
+private:
+
+public:
+    static MouseInteractor* New();
+
+    virtual void OnLeftButtonDown()
+    {
+
+        // Forward events
+        vtkInteractorStyleTrackballCamera::OnLeftButtonDown();
+    }
+
+    virtual void OnRightButtonDown()
+    {
+        // Forward events
+        vtkInteractorStyleTrackballCamera::OnRightButtonDown();
+    }
+
+    virtual void OnMouseWheelForward()
+    {
+        // Forward events
+        vtkInteractorStyleTrackballCamera::OnMouseWheelForward();
+    }
+
+    virtual void OnMouseWheelBackward()
+    {
+        // Forward events
+        vtkInteractorStyleTrackballCamera::OnMouseWheelBackward();
+    }
+
+};
+
 namespace Ui
 {
 class MainWindow;
@@ -43,9 +80,9 @@ public:
 //MainWindow();
     ~MainWindow();
 private:
-	Model activeVTKModel;
+    Model activeVTKModel;
 
-	std::vector<vtkSmartPointer<vtkUnstructuredGrid>> uGrids;
+    std::vector<vtkSmartPointer<vtkUnstructuredGrid>> uGrids;
     std::vector<vtkSmartPointer<vtkDataSetMapper>> mappers;
     std::vector<vtkSmartPointer<vtkActor>> actors;
 
@@ -70,8 +107,10 @@ private:
 
     int objectType = 0;
 
-	void refreshRender();
-	void refreshGrid();
+    MouseInteractor mouseInteractor();
+
+    void refreshRender();
+    void refreshGrid();
 
     void initClipFilter();
     void initShrinkFilter();
@@ -93,7 +132,7 @@ public slots:
     void displayTetrahedron();
     void displayPyramid();
 
-    void resetObject();
+    void resetViewer();
     void resetCamera();
     void changeBackgroundColor();
     void changeObjectColor();

@@ -406,7 +406,7 @@ void MainWindow::changeLight(int newVal)
     this->activeRenderWindow->Render();
 }
 
-void MainWindow::resetObject()
+void MainWindow::resetViewer()
 {
     this->refreshGrid();
     ui->shrinkCheck->setCheckState(Qt::Unchecked);
@@ -453,7 +453,9 @@ void MainWindow::changeBackgroundColor()
 void MainWindow::changeObjectColor()
 {
     QColor color = QColorDialog::getColor(Qt::black, this, "Pick a color",  QColorDialog::DontUseNativeDialog);
-    this->actors[0]->GetProperty()->SetColor((double)color.red()/255,(double)color.green()/255,(double)color.blue()/255);
+    for(int i = 0;i<this->actors.size();i++){
+    this->actors[i]->GetProperty()->SetColor((double)color.red()/255,(double)color.green()/255,(double)color.blue()/255);
+    }
     this->activeRenderWindow->Render();
 }
 
@@ -588,7 +590,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect( ui->makeHex, &QPushButton::released, this, &MainWindow::displayHexahedron );
     connect( ui->makeTetra, &QPushButton::released, this, &MainWindow::displayTetrahedron );
     connect( ui->makePyr, &QPushButton::released, this, &MainWindow::displayPyramid );
-    connect( ui->resetObject, &QPushButton::released, this, &MainWindow::resetObject );
+    connect( ui->resetObject, &QPushButton::released, this, &MainWindow::resetViewer );
     connect( ui->resetCamera, &QPushButton::released, this, &MainWindow::resetCamera );
     connect( ui->backgroundColor, &QPushButton::released, this, &MainWindow::changeBackgroundColor );
     connect( ui->objectColor, &QPushButton::released, this, &MainWindow::changeObjectColor );
@@ -625,7 +627,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     this->activeRenderWindow->AddRenderer( this->activeRenderer );
 
-    this->resetObject();
+    this->resetViewer();
 
     this->activeRenderer->AddLight(this->activeLight);
     this->activeRenderer->LightFollowCameraOn();
