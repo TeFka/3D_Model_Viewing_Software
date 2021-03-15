@@ -1,0 +1,133 @@
+{
+	"BUILD_DIR" : "D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/3D_software_autogen",
+	"CMAKE_BINARY_DIR" : "D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19",
+	"CMAKE_EXECUTABLE" : "C:/Program Files/CMake/bin/cmake.exe",
+	"CMAKE_SOURCE_DIR" : "D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19",
+	"DEP_FILE" : "",
+	"DEP_FILE_RULE_NAME" : "",
+	"HEADERS" : 
+	[
+		[
+			"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/GUI_source/mainwindow.h",
+			"MU",
+			"JRDRTCAQNJ/moc_mainwindow.cpp"
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/3D_software_autogen/include",
+	"MOC_COMPILATION_FILE" : "D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/3D_software_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : 
+	[
+		"H5_BUILT_AS_DYNAMIC_LIB",
+		"LZ4_DLL_IMPORT=1",
+		"QT_CORE_LIB",
+		"QT_GUI_LIB",
+		"QT_NO_DEBUG",
+		"QT_SQL_LIB",
+		"QT_WIDGETS_LIB",
+		"vtkDomainsChemistry_AUTOINIT=1(vtkDomainsChemistryOpenGL2)",
+		"vtkIOExport_AUTOINIT=2(vtkIOExportOpenGL2,vtkIOExportPDF)",
+		"vtkRenderingContext2D_AUTOINIT=1(vtkRenderingContextOpenGL2)",
+		"vtkRenderingCore_AUTOINIT=3(vtkInteractionStyle,vtkRenderingFreeType,vtkRenderingOpenGL2)",
+		"vtkRenderingOpenGL2_AUTOINIT=1(vtkRenderingGL2PSOpenGL2)",
+		"vtkRenderingVolume_AUTOINIT=1(vtkRenderingVolumeOpenGL2)"
+	],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19",
+		"D:/danka/Codding/Applications/VTK/mingw/software/include/vtk-8.2",
+		"C:/Qt/5.15.1/mingw81_64/include",
+		"C:/Qt/5.15.1/mingw81_64/include/QtWidgets",
+		"C:/Qt/5.15.1/mingw81_64/include/QtGui",
+		"C:/Qt/5.15.1/mingw81_64/include/QtANGLE",
+		"C:/Qt/5.15.1/mingw81_64/include/QtCore",
+		"C:/Qt/5.15.1/mingw81_64/mkspecs/win32-g++",
+		"C:/Qt/5.15.1/mingw81_64/include/QtSql",
+		"D:/danka/Codding/Applications/VTK/mingw/software/include/vtk-8.2/vtkogg/include",
+		"C:/Qt/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++",
+		"C:/Qt/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32",
+		"C:/Qt/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward",
+		"C:/Qt/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include",
+		"C:/Qt/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed",
+		"C:/Qt/Tools/mingw810_64/x86_64-w64-mingw32/include"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE", "Q_NAMESPACE_EXPORT" ],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : true,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"C:/Qt/Tools/mingw810_64/bin/g++.exe",
+		"-dM",
+		"-E",
+		"-c",
+		"C:/Program Files/CMake/share/cmake-3.18/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/3D_software_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : 
+	[
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Inc/Cell.h",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Inc/Material.h",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Inc/Matrix3x3.h",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Inc/Model.h",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Inc/Vector3D.h",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Src/Cell.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Src/Material.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Src/Matrix3x3.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Src/Model.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Src/Vector3D.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/model3DLib_autogen/mocs_compilation.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/qrc_resource.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/ui_mainwindow.h"
+	],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 4,
+	"PARSE_CACHE_FILE" : "D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/CMakeFiles/3D_software_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "C:/Qt/5.15.1/mingw81_64/bin/moc.exe",
+	"QT_UIC_EXECUTABLE" : "C:/Qt/5.15.1/mingw81_64/bin/uic.exe",
+	"QT_VERSION_MAJOR" : 5,
+	"QT_VERSION_MINOR" : 15,
+	"SETTINGS_FILE" : "D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/CMakeFiles/3D_software_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/GUI_source/main.cpp",
+			"MU"
+		],
+		[
+			"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/GUI_source/mainwindow.cpp",
+			"MU"
+		]
+	],
+	"UIC_OPTIONS" : [],
+	"UIC_SEARCH_PATHS" : [],
+	"UIC_SKIP" : 
+	[
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/GUI_source/mainwindow.ui",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Inc/Cell.h",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Inc/Material.h",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Inc/Matrix3x3.h",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Inc/Model.h",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Inc/Vector3D.h",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Src/Cell.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Src/Material.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Src/Matrix3x3.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Src/Model.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/Src/Vector3D.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/model3DLib_autogen/mocs_compilation.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/qrc_resource.cpp",
+		"D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/ui_mainwindow.h"
+	],
+	"UIC_UI_FILES" : [],
+	"VERBOSITY" : 0
+}

@@ -1,0 +1,2 @@
+C:\Qt\Tools\mingw810_64\bin\ar.exe qc libmodel3DLib.a CMakeFiles/model3DLib.dir/model3DLib_autogen/mocs_compilation.cpp.obj CMakeFiles/model3DLib.dir/Src/Vector3D.cpp.obj CMakeFiles/model3DLib.dir/Src/Material.cpp.obj CMakeFiles/model3DLib.dir/Src/Cell.cpp.obj CMakeFiles/model3DLib.dir/Src/Model.cpp.obj CMakeFiles/model3DLib.dir/Src/Matrix3x3.cpp.obj
+C:\Qt\Tools\mingw810_64\bin\ranlib.exe libmodel3DLib.a
