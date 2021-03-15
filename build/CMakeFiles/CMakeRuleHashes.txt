@@ -1,7 +1,0 @@
-# Hashes of file build rules.
-cfbbd1bac5a73198384ba3d6d05677c3 CMakeFiles/3D_software_autogen
-ebd7d9c0aa86e6206e5ebbc93da488d5 CMakeFiles/model3DLib_autogen
-a4b1e0393f9729f7161771761852a5f6 CMakeFiles/resources
-3d40461b53ce7858b28935dfc02b3b34 qrc_resource.cpp
-46a00115536e1979d53a0f66fc51b9ba resources.rcc
-0b372f146bff0b035aa47c8a5302a891 ui_mainwindow.h

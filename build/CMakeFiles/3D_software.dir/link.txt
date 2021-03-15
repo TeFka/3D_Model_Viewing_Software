@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\3D_software.dir/objects.a
-C:\Qt\Tools\mingw810_64\bin\ar.exe cr CMakeFiles\3D_software.dir/objects.a @CMakeFiles\3D_software.dir\objects1.rsp
-C:\Qt\Tools\mingw810_64\bin\g++.exe -std=c++11  -mwin32 -mthreads   -mthreads -Wl,--whole-archive CMakeFiles\3D_software.dir/objects.a -Wl,--no-whole-archive -o application\3D_software.exe -Wl,--out-implib,lib3D_software.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\3D_software.dir\linklibs.rsp

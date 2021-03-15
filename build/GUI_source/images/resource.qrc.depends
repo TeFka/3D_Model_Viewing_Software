@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/images">
-        <file>openIcon.png</file>
-        <file>saveIcon.png</file>
-		<file>newIcon.png</file>
-		<file>helpIcon.png</file>
-    </qresource>
-    <qresource prefix="/new/prefix1"/>
-</RCC>

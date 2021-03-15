@@ -1,7 +1,0 @@
-D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/CMakeFiles/model3DLib.dir
-D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/CMakeFiles/3D_software.dir
-D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/CMakeFiles/resources.dir
-D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/CMakeFiles/edit_cache.dir
-D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/CMakeFiles/rebuild_cache.dir
-D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/CMakeFiles/model3DLib_autogen.dir
-D:/danka/University/Year_2/Practical_engineering_design/Computing_project/2020_GROUP_19/build/CMakeFiles/3D_software_autogen.dir
