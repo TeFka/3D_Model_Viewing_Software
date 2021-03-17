@@ -29,7 +29,11 @@
 #include <vtkPlane.h>
 #include <vtkClipDataSet.h>
 #include <vtkShrinkFilter.h>
-
+#include <vtkGeometryFilter.h>
+#include <vtkContourFilter.h>
+#include <vtkOutlineFilter.h>
+#include <vtkOutlineCornerFilter.h>
+#include <vtkSplineFilter.h>
 #include <vtkInteractorStyleTrackballCamera.h>
 
 #include "../Inc/Model.h"
@@ -82,6 +86,16 @@ public:
 private:
     Model activeVTKModel;
 
+    vtkSmartPointer<vtkGeometryFilter> geometryFilter = vtkSmartPointer<vtkGeometryFilter>::New();
+    vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+    vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
+    vtkSmartPointer<vtkContourFilter> contourFilter = vtkSmartPointer<vtkContourFilter>::New();
+    vtkSmartPointer<vtkOutlineFilter> outlineFilter = vtkSmartPointer<vtkOutlineFilter>::New();
+    vtkSmartPointer<vtkOutlineCornerFilter> outlineCornerFilter = vtkSmartPointer<vtkOutlineCornerFilter>::New();
+    vtkSmartPointer<vtkSplineFilter> splineFilter = vtkSmartPointer<vtkSplineFilter>::New();
+
+    int activeFilters[7] = {0,0,0,0,0,0,0};
+
     std::vector<vtkSmartPointer<vtkUnstructuredGrid>> uGrids;
     std::vector<vtkSmartPointer<vtkDataSetMapper>> mappers;
     std::vector<vtkSmartPointer<vtkActor>> actors;
@@ -100,8 +114,6 @@ private:
     vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();
     std::vector<std::array<double, 3>> pointCoordinates;
 
-    vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
-    vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
     bool clipFilterON = false;
     bool shrinkFilterON = false;
 
@@ -112,15 +124,15 @@ private:
     void refreshRender();
     void refreshGrid();
 
-    void initClipFilter();
-    void initShrinkFilter();
+    void initFilter(int);
 
-    void filterStage();
+    vtkAlgorithmOutput* filterStage(vtkAlgorithmOutput*, int);
+    vtkSmartPointer<vtkDataSetMapper> mapperStage(vtkSmartPointer<vtkUnstructuredGrid>);
+    vtkSmartPointer<vtkDataSetMapper> mapperStage(vtkAlgorithmOutput*);
 
 public slots:
 
-    void handleShrinkFilter();
-    void handleClipFilter();
+    void handleFilter(int);
 
     void handleOpenButton();
     void changeLight(int);

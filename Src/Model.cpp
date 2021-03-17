@@ -297,7 +297,8 @@ void Model::alignArrayID(std::vector<T>& theArray)
 //Function to make all ID values of cell material, vectors and materials that corespond to their position in array
 // Arguments for fixIDValues(): none.
 // return value: none(vector are given more convenient ID values)
-void Model::fixIDValues(){
+void Model::fixIDValues()
+{
 
     //gives each cell material new ID based on materials position in array
     for(int i =0; i<this->cells.size(); i++)
@@ -497,6 +498,7 @@ bool Model::loadModel(const char* path)
                 int negative = 0;
                 valueIterator = 0;
                 firstChar = 1;
+                int exponential = 0;
 
                 //go though line elements except first two
                 for(int i =2; i<(int)line.length(); i++)
@@ -512,6 +514,11 @@ bool Model::loadModel(const char* path)
                         else if(line[i]=='-')
                         {
                             negative = 1;
+                        }
+                        //check if exponential term was detected
+                        else if(line[i]=='e')
+                        {
+                            exponential = 1;
                         }
                         else
                         {
@@ -615,6 +622,28 @@ bool Model::loadModel(const char* path)
                                 break;
                             }
                         }
+
+                        //change vector values if there is an exponential term
+                        if(exponential)
+                        {
+                            switch(valueNum)
+                            {
+                            case 1:
+                                temporaryVector.setID(0);
+                                break;
+                            case 2:
+                                temporaryVector.setx(0);
+                                break;
+                            case 3:
+                                temporaryVector.sety(0);
+                                break;
+                            case 4:
+                                temporaryVector.setz(0);
+                                break;
+                            }
+                        }
+
+                        exponential = 0;
                         negative = 0;
                         afterDot = 0;
                         firstChar=1;
@@ -642,6 +671,33 @@ bool Model::loadModel(const char* path)
                                 break;
                             }
                         }
+
+                        //change vector values if there is an exponential term
+                        if(exponential)
+                        {
+                            switch(valueNum)
+                            {
+                            case 1:
+                                temporaryVector.setID(0);
+                                break;
+                            case 2:
+                                temporaryVector.setx(0);
+                                break;
+                            case 3:
+                                temporaryVector.sety(0);
+                                break;
+                            case 4:
+                                temporaryVector.setz(0);
+                                break;
+                            }
+                        }
+
+                        exponential = 0;
+                        negative = 0;
+                        afterDot = 0;
+                        firstChar=1;
+                        valueNum++;
+                        valueIterator = 0;
                     }
                 }
                 //add vector to array
@@ -726,11 +782,11 @@ bool Model::loadModel(const char* path)
 
         for(int tC = 0; tC<temporaryCellInfo.size(); tC++)
         {
-                //change temporary indices array to have vector positions in array
-                for(int n = 0; n<temporaryCellInfo[tC].indixes.size(); n++)
-                {
+            //change temporary indices array to have vector positions in array
+            for(int n = 0; n<temporaryCellInfo[tC].indixes.size(); n++)
+            {
                 temporaryCellInfo[tC].indixes[n] = this->getVectorIndex(temporaryCellInfo[tC].indixes[n]);
-                }
+            }
         }
 
         //fix any ID values
@@ -744,8 +800,8 @@ bool Model::loadModel(const char* path)
                 //create cell based on cell information
                 //and add it to array
                 this->cells.push_back(Hexahedron(temporaryCellInfo[tC].ID,temporaryCellInfo[tC].type,temporaryCellInfo[tC].materialID,
-                                                     temporaryCellInfo[tC].indixes,
-                                                     this->vectors,this->materials));
+                                                 temporaryCellInfo[tC].indixes,
+                                                 this->vectors,this->materials));
             }
             //create pyramid
             else if(temporaryCellInfo[tC].type==2)
@@ -754,8 +810,8 @@ bool Model::loadModel(const char* path)
                 //create cell based on cell information
                 //and add it to array
                 this->cells.push_back(Pyramid(temporaryCellInfo[tC].ID,temporaryCellInfo[tC].type,temporaryCellInfo[tC].materialID,
-                                                  temporaryCellInfo[tC].indixes,
-                                                  this->vectors,this->materials));
+                                              temporaryCellInfo[tC].indixes,
+                                              this->vectors,this->materials));
             }
             //create tetrahedron
             else if(temporaryCellInfo[tC].type==3)
@@ -763,8 +819,8 @@ bool Model::loadModel(const char* path)
                 //create cell based on cell information
                 //and add it to array
                 this->cells.push_back(Tetrahedron(temporaryCellInfo[tC].ID,temporaryCellInfo[tC].type,temporaryCellInfo[tC].materialID,
-                                                      temporaryCellInfo[tC].indixes,
-                                                      this->vectors,this->materials));
+                                                  temporaryCellInfo[tC].indixes,
+                                                  this->vectors,this->materials));
             }
         }
         //sort cells
@@ -858,7 +914,7 @@ void Model::showCells()
             std::cout<<"Volume: "<<this->cells[i].getVolume()<<std::endl;
             std::cout<<"Weight: "<<this->cells[i].getVolume()<<std::endl;
             std::cout<<"Centre of gravity: "<<this->cells[i].getCentreOfGravity().getx()<<"  "<<this->cells[i].getCentreOfGravity().gety()<<"  "
-                                            <<this->cells[i].getCentreOfGravity().getz()<<std::endl;
+                     <<this->cells[i].getCentreOfGravity().getz()<<std::endl;
         }
     }
     else
