@@ -102,10 +102,7 @@ private:
 
     int activeFilters[6] = {0,0,0,0,0,0};
 
-    //vtkSmartPointer<vtkActor> activeActor = vtkSmartPointer<vtkActor>::New();
-    //vtkSmartPointer<vtkDataSetMapper> activeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
-    //vtkSmartPointer<vtkUnstructuredGrid> activeGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
-    //vtkSmartPointer<vtkPoints> gridPoints = vtkSmartPointer<vtkPoints>::New();
+    vtkSmartPointer<vtkUnstructuredGrid> activeGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
 
     vtkSmartPointer<vtkUnsignedCharArray> cellData = vtkSmartPointer<vtkUnsignedCharArray>::New();
 
@@ -127,7 +124,6 @@ private:
 
     vtkSmartPointer<vtkLight> activeLight = vtkSmartPointer<vtkLight>::New();
     vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();
-    std::vector<std::array<double, 3>> pointCoordinates;
 
     //vtkSmartPointer<vtkMassProperties> objectParameters = vtkSmartPointer<vtkMassProperties>::New();
 

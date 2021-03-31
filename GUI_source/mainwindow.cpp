@@ -28,23 +28,25 @@ void MainWindow::refreshGrid()
 
 void MainWindow::updateObject()
 {
-
+    refreshGrid();
+    vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
     if(this->objectType>=2)
     {
-        //this->mapperGridStage();
+        tempActor->SetMapper(this->mapperGridStage(this->activeGrid));
     }
     else
     {
         if (this->objectType == 1)
         {
-            this->mapperStage(this->activeReader->GetOutputPort());
+            tempActor->SetMapper(this->mapperStage(this->activeReader->GetOutputPort()));
         }
         if(this->objectType==0)
         {
             vtkSmartPointer<vtkCubeSource> cubeSource = vtkSmartPointer<vtkCubeSource>::New();
-            this->mapperStage(cubeSource->GetOutputPort());
+            tempActor->SetMapper(this->mapperStage(cubeSource->GetOutputPort()));
         }
     }
+    this->activeRenderer->AddActor(tempActor);
 }
 
 void MainWindow::updateText()
@@ -219,14 +221,9 @@ void MainWindow::drawHexahedron(Cell *cell, vtkSmartPointer<vtkUnstructuredGrid>
     std::vector<int> indx = cell->getIndices();
     vtkSmartPointer<vtkHexahedron> hex = vtkSmartPointer<vtkHexahedron>::New();
 
-    for(auto n = 0; n<indx.size(); ++n)
+    for(auto n = 0; n<8; n++)
     {
-        //Vector3D tempVec = this->activeVTKModel.getVector(indx[n]);
-        //this->pointCoordinates.push_back({{tempVec.getx(), tempVec.gety(), tempVec.getz()}});
-
-        //this->gridPoints->InsertNextPoint(this->pointCoordinates[this->pointCoordinates.size()-1].data());
-
-        hex->GetPointIds()->InsertNextId(indx[n]);
+        hex->GetPointIds()->SetId(n,indx[n]);
     }
 
     this->cells->InsertNextCell(hex);
@@ -238,14 +235,9 @@ void MainWindow::drawTetrahedron(Cell *cell, vtkSmartPointer<vtkUnstructuredGrid
     std::vector<int> indx = cell->getIndices();
     vtkSmartPointer<vtkTetra> tetr = vtkSmartPointer<vtkTetra>::New();
 
-    for(auto n = 0; n<indx.size(); ++n)
+    for(auto n = 0; n<4; n++)
     {
-        //Vector3D tempVec = this->activeVTKModel.getVector(indx[n]);
-        //this->pointCoordinates.push_back({{tempVec.getx(), tempVec.gety(), tempVec.getz()}});
-
-        //this->gridPoints->InsertNextPoint(this->pointCoordinates[this->pointCoordinates.size()-1].data());
-
-        tetr->GetPointIds()->InsertNextId(indx[n]);
+        tetr->GetPointIds()->SetId(n,indx[n]);
     }
 
     this->cells->InsertNextCell(tetr);
@@ -257,14 +249,9 @@ void MainWindow::drawPyramid(Cell *cell, vtkSmartPointer<vtkUnstructuredGrid> th
     std::vector<int> indx = cell->getIndices();
     vtkSmartPointer<vtkPyramid> pyr = vtkSmartPointer<vtkPyramid>::New();
 
-    for(auto n = 0; n<indx.size(); ++n)
+    for(auto n = 0; n<5; n++)
     {
-        //Vector3D tempVec = this->activeVTKModel.getVector(indx[n]);
-        //this->pointCoordinates.push_back({{tempVec.getx(), tempVec.gety(), tempVec.getz()}});
-
-        //this->gridPoints->InsertNextPoint(this->pointCoordinates[this->pointCoordinates.size()-1].data());
-
-        pyr->GetPointIds()->InsertNextId(indx[n]);
+        pyr->GetPointIds()->SetId(n,indx[n]);
     }
 
     this->cells->InsertNextCell(pyr);
@@ -278,7 +265,6 @@ void MainWindow::displayHexahedron()
     vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
 
-    this->pointCoordinates.clear();
     this->cells->Reset();
     this->cells->Squeeze();
     //draw
@@ -312,7 +298,7 @@ void MainWindow::displayHexahedron()
     tempActor->GetProperty()->LightingOff();
 
     this->activeRenderer->AddActor(tempActor);
-
+    this->activeGrid = tempGrid;
     ui->cellMinShow->setRange(1, 1);
     ui->cellMaxShow->setRange(1, 1);
     ui->cellMinShow->setValue(1);
@@ -327,7 +313,6 @@ void MainWindow::displayTetrahedron()
     vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
-    this->pointCoordinates.clear();
     this->cells->Reset();
     this->cells->Squeeze();
 
@@ -357,7 +342,7 @@ void MainWindow::displayTetrahedron()
     tempActor->GetProperty()->LightingOff();
 
     this->activeRenderer->AddActor(tempActor);
-
+    this->activeGrid = tempGrid;
     ui->cellMinShow->setRange(1, 1);
     ui->cellMaxShow->setRange(1, 1);
     ui->cellMinShow->setValue(1);
@@ -373,7 +358,6 @@ void MainWindow::displayPyramid()
     vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
 
-    this->pointCoordinates.clear();
     this->cells->Reset();
     this->cells->Squeeze();
     //draw
@@ -403,7 +387,7 @@ void MainWindow::displayPyramid()
     tempActor->GetProperty()->LightingOff();
 
     this->activeRenderer->AddActor(tempActor);
-
+    this->activeGrid = tempGrid;
     ui->cellMinShow->setRange(1, 1);
     ui->cellMaxShow->setRange(1, 1);
     ui->cellMinShow->setValue(1);
@@ -453,13 +437,8 @@ void MainWindow::handleOpenButton()
         vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
         vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
         vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
-        this->pointCoordinates.clear();
         this->cells->Reset();
         this->cells->Squeeze();
-
-        std::cout<<points->GetNumberOfPoints()<<std::endl;
-        //for(int i = 0;i<this->gridPoints->GetNumberOfPoints())
-        std::cout<<tempGrid->GetNumberOfCells()<<std::endl;
 
         // init model
         this->activeVTKModel.loadModel(this->activeFileName.toStdString().c_str());
@@ -470,10 +449,10 @@ void MainWindow::handleOpenButton()
             points->InsertNextPoint(vectors[i].getx(),vectors[i].gety(),vectors[i].getz());
         }
 
-        //this->activeGrid->SetPoints(this->gridPoints);
+        tempGrid->SetPoints(points);
 
-        //cellData->SetNumberOfComponents(3);
-        //cellData->SetNumberOfTuples(this->activeVTKModel.getCellAmount());
+        cellData->SetNumberOfComponents(3);
+        cellData->SetNumberOfTuples(this->activeVTKModel.getCellAmount());
 
         //set values
         for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
@@ -493,34 +472,29 @@ void MainWindow::handleOpenButton()
             }
 
             Vector3D color = this->activeVTKModel.getMaterial(tempCell.getMaterialID()).getColor();
-            double rgb[3] = {color.getx(),color.gety(),color.getz()};
+            float rgb[3];
+            rgb[0] = color.getx();
+            rgb[1] = color.gety();
+            rgb[2] = color.getz();
             cellData->InsertTuple(i, rgb);
         }
 
-        // this->activeGrid->GetCellData()->SetScalars(cellData);
-
-        tempGrid->SetPoints(points);
-
-        std::cout<<points->GetNumberOfPoints()<<std::endl;
-        //for(int i = 0;i<this->gridPoints->GetNumberOfPoints())
-        std::cout<<tempGrid->GetNumberOfCells()<<std::endl;
+        tempGrid->GetCellData()->SetScalars(cellData);
 
         this->objectType = 3;
-
-        //this->updateObject();
 
         tempActor->SetMapper(this->mapperGridStage(tempGrid));
         tempActor->GetProperty()->EdgeVisibilityOn();
 
-        tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+        //tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
         tempActor->GetProperty()->LightingOff();
 
         this->activeRenderer->AddActor(tempActor);
-
-        //ui->cellMinShow->setRange(1, this->activeVTKModel.getCellAmount());
-        //ui->cellMaxShow->setRange(1, this->activeVTKModel.getCellAmount());
-        //ui->cellMinShow->setValue(1);
-        //ui->cellMaxShow->setValue(this->activeVTKModel.getCellAmount());
+        this->activeGrid = tempGrid;
+        ui->cellMinShow->setRange(1, this->activeVTKModel.getCellAmount());
+        ui->cellMaxShow->setRange(1, this->activeVTKModel.getCellAmount());
+        ui->cellMinShow->setValue(1);
+        ui->cellMaxShow->setValue(this->activeVTKModel.getCellAmount());
     }
     this->refreshRender();
 }
@@ -787,8 +761,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //this->activeRenderer->AddActor2D ( positionTextActor );
 
 // creator
-    //this->activeActor->SetMapper(this->activeMapper);
-    //this->activeRenderer->AddActor(this->activeActor);
 
     this->activeRenderWindow = ui->qvtkWidget->GetRenderWindow();
 
