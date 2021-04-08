@@ -14,15 +14,8 @@ void MainWindow::refreshRender()
 void MainWindow::refreshGrid()
 {
     this->activeRenderer->RemoveAllViewProps();
-    //this->activeGrid->Reset();
-    //this->activeGrid->Squeeze();
-    //this->cells->Reset();
-    //this->cells->Squeeze();
-    //this->gridPoints->Reset();
-    //this->gridPoints->Squeeze();
-    //this->pointCoordinates.clear();
-
-    //for(int i =0;i<cellData->SetNumberOfTuples(this->activeVTKModel.getCellAmount());
+    this->cells->Reset();
+    this->cells->Squeeze();
 
 }
 
@@ -46,16 +39,200 @@ void MainWindow::updateObject()
             tempActor->SetMapper(this->mapperStage(cubeSource->GetOutputPort()));
         }
     }
+
+    if(this->objectType<=2)
+    {
+        tempActor->GetProperty()->EdgeVisibilityOn();
+
+        tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+        tempActor->GetProperty()->LightingOff();
+    }
     this->activeRenderer->AddActor(tempActor);
 }
 
 void MainWindow::updateText()
 {
-    //int volume
-    //textActor->SetInput ( "Hello world" );
-    //textActor->SetPosition2 ( 10, 40 );
-    //textActor->GetTextProperty()->SetFontSize ( 24 );
-    //textActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+    vtkSmartPointer<vtkTextActor> tempVolumeTextActor = vtkSmartPointer<vtkTextActor>::New();
+    if(objectType==0){
+        tempVolumeTextActor->SetInput ("Volume: N/A");
+    }
+    else{
+    if(this->objectVolume<0.00001)
+    {
+        tempVolumeTextActor->SetInput (("Volume: "+std::to_string(this->objectVolume*1000000)+"cm3").data());
+    }
+    else
+    {
+        tempVolumeTextActor->SetInput (("Volume: "+std::to_string(this->objectVolume)+"m3").data());
+    }
+}
+    tempVolumeTextActor->SetPosition ( 10, 70 );
+    tempVolumeTextActor->GetTextProperty()->SetFontSize ( 15 );
+    tempVolumeTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+    this->activeRenderer->AddActor2D ( tempVolumeTextActor );
+
+    vtkSmartPointer<vtkTextActor> tempMaxCellNumTextActor = vtkSmartPointer<vtkTextActor>::New();
+
+    int cellsNum = 0;
+    if(this->objectType<=2)
+    {
+        cellsNum = 1;
+    }
+    else
+    {
+        cellsNum = this->activeVTKModel.getCellAmount();
+    }
+    tempMaxCellNumTextActor->SetInput (("Max Cells: "+std::to_string(cellsNum)).data());
+    tempMaxCellNumTextActor->SetPosition ( 10, 50 );
+    tempMaxCellNumTextActor->GetTextProperty()->SetFontSize ( 15 );
+    tempMaxCellNumTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+    this->activeRenderer->AddActor2D ( tempMaxCellNumTextActor );
+
+    vtkSmartPointer<vtkTextActor> tempWeightTextActor = vtkSmartPointer<vtkTextActor>::New();
+
+    if(this->objectType<=2)
+    {
+        tempWeightTextActor->SetInput ("Weight: N/A");
+    }
+    else
+    {
+        if(this->objectWeight<0.001)
+        {
+            tempWeightTextActor->SetInput (("Weight: "+std::to_string(this->objectWeight*1000)+"g").data());
+        }
+        else
+        {
+            tempWeightTextActor->SetInput (("Weight: "+std::to_string(this->objectWeight)+"kg").data());
+        }
+    }
+    tempWeightTextActor->SetPosition ( 10, 30 );
+    tempWeightTextActor->GetTextProperty()->SetFontSize ( 15 );
+    tempWeightTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+    this->activeRenderer->AddActor2D ( tempWeightTextActor );
+
+    vtkSmartPointer<vtkTextActor> tempPositionTextActor = vtkSmartPointer<vtkTextActor>::New();
+
+    Vector3D objPos;
+    if(this->objectType<=2)
+    {
+        objPos.setx(0.0);
+        objPos.sety(0.0);
+        objPos.setz(0.0);
+    }
+    else
+    {
+        objPos = this->activeVTKModel.getModelCenter();
+    }
+
+    tempPositionTextActor->SetInput (("Position: "+std::to_string(objPos.getx())+" "+std::to_string(objPos.gety())+" "+std::to_string(objPos.getz())).data());
+    tempPositionTextActor->SetPosition ( 10, 10 );
+    tempPositionTextActor->GetTextProperty()->SetFontSize ( 15 );
+    tempPositionTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+    this->activeRenderer->AddActor2D ( tempPositionTextActor );
+
+}
+
+void MainWindow::makeMeasurement()
+{
+    if(objectType==2||objectType==0)
+    {
+        this->objectDimensions.setx(1.0);
+        this->objectDimensions.sety(1.0);
+        this->objectDimensions.setz(1.0);
+
+        this->objectPosition.setx(0.0);
+        this->objectPosition.setx(0.0);
+        this->objectPosition.setx(0.0);
+    }
+    else if(objectType==1)
+    {
+        this->objectDimensions.setx(this->objectParameters->GetVolumeX());
+        this->objectDimensions.sety(this->objectParameters->GetVolumeY());
+        this->objectDimensions.setz(this->objectParameters->GetVolumeZ());
+
+        this->objectPosition.setx(0.0);
+        this->objectPosition.setx(0.0);
+        this->objectPosition.setx(0.0);
+    }
+    else
+    {
+        this->objectDimensions.setx(this->activeVTKModel.getModelDimensions().getx());
+        this->objectDimensions.sety(this->activeVTKModel.getModelDimensions().gety());
+        this->objectDimensions.setz(this->activeVTKModel.getModelDimensions().getz());
+
+        this->objectPosition.setx(this->activeVTKModel.getModelCenter().getx());
+        this->objectPosition.setx(this->activeVTKModel.getModelCenter().gety());
+        this->objectPosition.setx(this->activeVTKModel.getModelCenter().getz());
+    }
+}
+
+void MainWindow::updateVTKModel()
+{
+
+    this->refreshGrid();
+
+    vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+    vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+
+    // init model
+
+    std::vector<Vector3D> vectors = this->activeVTKModel.getVectors();
+    for(int i =0; i<vectors.size(); i++)
+    {
+        points->InsertNextPoint(vectors[i].getx(),vectors[i].gety(),vectors[i].getz());
+    }
+
+    tempGrid->SetPoints(points);
+
+    this->objectVolume = 0.0;
+    this->objectWeight = 0.0;
+    //set values
+    for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
+    {
+        if((i+1)>=ui->cellMinShow->value()&&(i+1)<=ui->cellMaxShow->value())
+        {
+            Cell tempCell = this->activeVTKModel.getCell(i);
+            if(tempCell.getType()==1)
+            {
+                this->drawHexahedron(&tempCell,tempGrid);
+            }
+            if(tempCell.getType()==2)
+            {
+                this->drawPyramid(&tempCell,tempGrid);
+            }
+            if(tempCell.getType()==3)
+            {
+                this->drawTetrahedron(&tempCell,tempGrid);
+            }
+
+            this->objectVolume += tempCell.getVolume();
+            this->objectWeight += tempCell.getWeight();
+
+            Vector3D color = this->activeVTKModel.getMaterial(tempCell.getMaterialID()).getColor();
+            //cellData->SetTuple3(i, color.getx(),color.gety(),color.getz());
+        }
+        else
+        {
+            //this->cellData->RemoveTuple(i);
+        }
+    }
+    //tempGrid->GetCellData()->SetScalars(cellData);
+
+    this->objectType = 3;
+
+    tempActor->SetMapper(this->mapperGridStage(tempGrid));
+    tempActor->GetProperty()->EdgeVisibilityOn();
+
+    tempActor->GetProperty()->LightingOff();
+
+    this->activeRenderer->AddActor(tempActor);
+
+    this->updateText();
+
+    this->makeMeasurement();
+
+    this->activeGrid = tempGrid;
 }
 
 vtkAlgorithmOutput* MainWindow::filterStage(vtkAlgorithmOutput* firstFilterInput, int firstFilterIndex)
@@ -161,8 +338,11 @@ vtkSmartPointer<vtkDataSetMapper> MainWindow::mapperGridStage(vtkSmartPointer<vt
     }
     else
     {
-        //tempMapper->SetInputData(this->activeGrid);
         tempMapper->SetInputConnection(this->geometryFilter->GetOutputPort());
+        tempMapper->SetScalarRange(0, this->activeVTKModel.getCellAmount());
+        //tempMapper->SetLookupTable(this->lut);
+        tempMapper->SetScalarModeToUseCellData();
+        tempMapper->Update();
     }
 
     return tempMapper;
@@ -291,6 +471,11 @@ void MainWindow::displayHexahedron()
 
     this->objectType = 2;
 
+    this->objectVolume = 1.0;
+
+    this->updateText();
+    this->makeMeasurement();
+
     tempActor->SetMapper(this->mapperGridStage(tempGrid));
     tempActor->GetProperty()->EdgeVisibilityOn();
 
@@ -333,7 +518,23 @@ void MainWindow::displayTetrahedron()
     tempGrid->SetPoints(points);
     tempGrid->InsertNextCell(tetr->GetCellType(), tetr->GetPointIds());
 
+    objectParameters->SetInputData(tempGrid);
+
     this->objectType = 2;
+
+    Vector3D Aval(0.0, 0.0, 0.0);
+    Vector3D Bval(1.0, 0.0, 0.0);
+    Vector3D Cval(1.0, 1.0, 0.0);
+    Vector3D Dval(0.0, 1.0, 1.0);
+
+//calculates volume of tetrahedron.
+    double Vtetra1 = (((Bval-Aval).cross_product((Cval-Aval)))*(Dval-Aval));
+
+    Vtetra1 = (Vtetra1/(6.0-12.0*(Vtetra1<0)));
+    this->objectVolume = Vtetra1;
+
+    this->updateText();
+    this->makeMeasurement();
 
     tempActor->SetMapper(this->mapperGridStage(tempGrid));
     tempActor->GetProperty()->EdgeVisibilityOn();
@@ -378,7 +579,30 @@ void MainWindow::displayPyramid()
     tempGrid->SetPoints(points);
     tempGrid->InsertNextCell(pyr->GetCellType(), pyr->GetPointIds());
 
+    objectParameters->SetInputData(tempGrid);
+
     this->objectType = 2;
+
+    Vector3D Aval(1.0, 1.0, 1.0);
+    Vector3D Bval(-1.0, 1.0, 1.0);
+    Vector3D Cval(-1.0, -1.0, 1.0);
+    Vector3D Dval(1.0, -1.0, 1.0);
+    Vector3D Eval(0.0, 0.0, 0.0);
+
+    //calculates volume of each tetrahedron.
+//configuration of vertices were checked using the test code, so there is no overlapping of area between the tetrahedrons
+    double Vtetra1 = (((Bval-Aval).cross_product((Cval-Aval)))*(Dval-Aval));
+    double Vtetra2 = (((Bval-Eval).cross_product((Cval-Eval)))*(Dval-Eval));
+
+//makes volumes positive
+    Vtetra1 = (Vtetra1/(6.0-12.0*(Vtetra1<0)));
+    Vtetra2 = (Vtetra2/(6.0-12.0*(Vtetra2<0)));
+
+    //adds all the volume of tetrahedrons to aquire the final volume of the pyramid
+    this->objectVolume = (Vtetra1 + Vtetra2);
+
+    this->updateText();
+    this->makeMeasurement();
 
     tempActor->SetMapper(this->mapperGridStage(tempGrid));
     tempActor->GetProperty()->EdgeVisibilityOn();
@@ -414,7 +638,9 @@ void MainWindow::handleOpenButton()
         this->activeReader->Update();
         this->objectType = 1;
 
-        //this->updateObject();
+        this->objectParameters->SetInputConnection(this->activeReader->GetOutputPort());
+
+        this->objectVolume = this->objectParameters->GetVolume();
 
         tempActor->SetMapper(this->mapperStage(this->activeReader->GetOutputPort()));
         tempActor->GetProperty()->EdgeVisibilityOn();
@@ -423,6 +649,9 @@ void MainWindow::handleOpenButton()
         tempActor->GetProperty()->LightingOff();
 
         this->activeRenderer->AddActor(tempActor);
+
+        this->updateText();
+        this->makeMeasurement();
 
         ui->cellMinShow->setRange(1, 1);
         ui->cellMaxShow->setRange(1, 1);
@@ -454,6 +683,13 @@ void MainWindow::handleOpenButton()
         cellData->SetNumberOfComponents(3);
         cellData->SetNumberOfTuples(this->activeVTKModel.getCellAmount());
 
+        lut->SetNumberOfTableValues((float)this->activeVTKModel.getCellAmount());
+        lut->SetTableRange(0.0, (float)(this->activeVTKModel.getCellAmount()-1));
+
+        lut->Build();
+
+        this->objectVolume = 0.0;
+        this->objectWeight = 0.0;
         //set values
         for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
         {
@@ -472,15 +708,15 @@ void MainWindow::handleOpenButton()
             }
 
             Vector3D color = this->activeVTKModel.getMaterial(tempCell.getMaterialID()).getColor();
-            float rgb[3];
-            rgb[0] = color.getx();
-            rgb[1] = color.gety();
-            rgb[2] = color.getz();
-            cellData->InsertTuple(i, rgb);
+            cellData->InsertTuple3(i, color.getx(),color.gety(),color.getz());
+
+            //lut->SetTableValue(i, rgb[0], rgb[1], rgb[2]);
+
+            this->objectVolume += tempCell.getVolume();
+            this->objectWeight += tempCell.getWeight();
         }
 
         tempGrid->GetCellData()->SetScalars(cellData);
-
         this->objectType = 3;
 
         tempActor->SetMapper(this->mapperGridStage(tempGrid));
@@ -490,20 +726,18 @@ void MainWindow::handleOpenButton()
         tempActor->GetProperty()->LightingOff();
 
         this->activeRenderer->AddActor(tempActor);
+
+        this->updateText();
+        this->makeMeasurement();
+
         this->activeGrid = tempGrid;
+
         ui->cellMinShow->setRange(1, this->activeVTKModel.getCellAmount());
         ui->cellMaxShow->setRange(1, this->activeVTKModel.getCellAmount());
         ui->cellMinShow->setValue(1);
         ui->cellMaxShow->setValue(this->activeVTKModel.getCellAmount());
     }
     this->refreshRender();
-}
-
-void MainWindow::changeLight(int newVal)
-{
-    emit statusUpdateMessage( QString("Light: ")+QString::number(newVal), 0 );
-    this->activeLight->SetIntensity(((float)newVal/100));
-    this->activeRenderWindow->Render();
 }
 
 void MainWindow::resetViewer()
@@ -513,11 +747,9 @@ void MainWindow::resetViewer()
 
     ui->shrinkCheck->setCheckState(Qt::Unchecked);
     ui->clipCheck->setCheckState(Qt::Unchecked);
-    this->changeLight(100);
 
     this->objectType = 0;
-
-    //this->updateObject();
+    this->objectVolume = 1.0;
 
     vtkSmartPointer<vtkCubeSource> cubeSource = vtkSmartPointer<vtkCubeSource>::New();
 
@@ -528,7 +760,10 @@ void MainWindow::resetViewer()
     tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
     tempActor->GetProperty()->LightingOff();
 
-    this->activeRenderer->AddActor(tempActor);;
+    this->activeRenderer->AddActor(tempActor);
+
+    this->updateText();
+    this->makeMeasurement();
 
     this->activeRenderer->SetBackground( this->activeColors->GetColor3d("Silver").GetData() );
     this->activeRenderer->GetActiveCamera()->Azimuth(30);
@@ -580,8 +815,11 @@ void MainWindow::initFilter(int index)
     case 1:
     {
         vtkSmartPointer<vtkPlane> planeLeft = vtkSmartPointer<vtkPlane>::New();
-        planeLeft->SetOrigin(0.0, 0.0, 0.0);
-        planeLeft->SetNormal(-1.0, 0.0, 0.0);
+        double originX = (clipNormalsX)*(this->objectPosition.getx()+(this->objectDimensions.getx()*(this->clipOriginPart)));
+        double originY = (clipNormalsY)*(this->objectPosition.gety()+(this->objectDimensions.gety()*(this->clipOriginPart)));
+        double originZ = (clipNormalsZ)*(this->objectPosition.getz()+(this->objectDimensions.getz()*(this->clipOriginPart)));
+        planeLeft->SetOrigin(originX, originY, originZ);
+        planeLeft->SetNormal(clipNormalsX, clipNormalsY, clipNormalsZ);
         this->clipFilter->SetClipFunction( planeLeft.Get() );
         break;
     }
@@ -607,38 +845,45 @@ void MainWindow::initFilter(int index)
 void MainWindow::handleGeometryFilter()
 {
     this->updateObject();
+    this->updateText();
     this->refreshRender();
 }
 void MainWindow::handleShrinkFilter()
 {
     this->activeFilters[0] = ui->shrinkCheck->isChecked();
     this->updateObject();
+    this->updateText();
     this->refreshRender();
 }
 void MainWindow::handleClipFilter()
 {
     this->activeFilters[1] = ui->clipCheck->isChecked();
     this->updateObject();
+    this->updateText();
     this->refreshRender();
 }
 void MainWindow::handleContourFilter()
 {
     this->updateObject();
+    this->updateText();
     this->refreshRender();
 }
 void MainWindow::handleOutlineFilter()
 {
     this->updateObject();
+    this->updateText();
     this->refreshRender();
 }
 void MainWindow::handleOutlineCornerFilter()
 {
     this->updateObject();
+    this->updateText();
     this->refreshRender();
 }
 void MainWindow::handleSplineFilter()
 {
     this->updateObject();
+    this->updateText();
     this->refreshRender();
 }
 
@@ -649,13 +894,47 @@ void MainWindow::changeShrinkFilterValue(int newVal)
         ui->shrinkFactor->setValue(1.0);
     }
     this->updateObject();
+    this->updateText();
+    this->refreshRender();
+}
+
+void MainWindow::changeClipValue(int newVal)
+{
+    this->clipOriginPart = ((double)newVal/100);
+
+    this->updateObject();
+    this->updateText();
+    this->refreshRender();
+}
+
+void MainWindow::changeClipX()
+{
+    clipNormalsX = ui->clipX->isChecked();
+    this->updateObject();
+    this->updateText();
+    this->refreshRender();
+}
+
+void MainWindow::changeClipY()
+{
+    clipNormalsY = ui->clipY->isChecked();
+    this->updateObject();
+    this->updateText();
+    this->refreshRender();
+}
+
+void MainWindow::changeClipZ()
+{
+    clipNormalsZ = ui->clipZ->isChecked();
+    this->updateObject();
+    this->updateText();
     this->refreshRender();
 }
 
 void MainWindow::setMinCellShow(int newVal)
 {
 
-    /*if(newVal<1)
+    if(newVal<1)
     {
         ui->cellMinShow->setValue(1);
     }
@@ -664,44 +943,27 @@ void MainWindow::setMinCellShow(int newVal)
     {
         ui->cellMinShow->setValue(ui->cellMaxShow->value());
     }
-    int i = 5;
-    if((i>=(ui->cellMinShow->value()-1)) && (i<ui->cellMaxShow->value()))
-    {
-        this->activeActor->SetVisibility(1);
-    }
-    else
-    {
-        this->activeActor->SetVisibility(0);
-    }
 
+    this->updateVTKModel();
     this->refreshRender();
-    */
+
 }
 
 void MainWindow::setMaxCellShow(int newVal)
 {
-    /*
     if(newVal>this->activeVTKModel.getCellAmount())
     {
-        ui->cellMinShow->setValue(this->activeVTKModel.getCellAmount());
+        ui->cellMaxShow->setValue(this->activeVTKModel.getCellAmount());
     }
 
     if(newVal<ui->cellMinShow->value())
     {
         ui->cellMaxShow->setValue(ui->cellMinShow->value());
     }
-    int i = 5;
-    if((i>=(ui->cellMinShow->value()-1)) && (i<ui->cellMaxShow->value()))
-    {
-        this->activeActor->SetVisibility(1);
-    }
-    else
-    {
-        this->activeActor->SetVisibility(0);
-    }
+
+    this->updateVTKModel();
 
     this->refreshRender();
-    */
 }
 
 
@@ -725,13 +987,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(this, &MainWindow::statusUpdateMessage, ui->statusbar, &QStatusBar::showMessage );
 
 //slider control
-    //connect(ui->lightSlider, SIGNAL(valueChanged(int)), this, SLOT(changeLight(int)));
-    //ui->lightSlider->setMinimum(0);
-    //ui->lightSlider->setMaximum(100);
+    connect(ui->clipSlider, SIGNAL(valueChanged(int)), this, SLOT(changeClipValue(int)));
 
 //check boxes
     connect(ui->shrinkCheck, SIGNAL(stateChanged(int)), this, SLOT(handleShrinkFilter()));
     connect(ui->clipCheck, SIGNAL(stateChanged(int)), this, SLOT(handleClipFilter()));
+
+    connect(ui->clipX, SIGNAL(stateChanged(int)), this, SLOT(changeClipX()));
+    connect(ui->clipY, SIGNAL(stateChanged(int)), this, SLOT(changeClipY()));
+    connect(ui->clipZ, SIGNAL(stateChanged(int)), this, SLOT(changeClipZ()));
 
 //spin boxes
     connect(ui->shrinkFactor, SIGNAL(valueChanged(double)), this, SLOT(changeShrinkFilterValue(int)));
@@ -742,23 +1006,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->shrinkFactor->setRange(0.0, 1.0);
     ui->shrinkFactor->setSingleStep(0.01);
     ui->shrinkFactor->setValue(1.0);
-
-//set VTK variables
-    //this->activeLight->SetLightTypeToSceneLight();
-    //this->activeLight->SetPosition( 5, 5, 150 );
-    //this->activeLight->SetPositional( true );
-    //this->activeLight->SetConeAngle( 10 );
-    //this->activeLight->SetFocalPoint( 0, 0, 0 );
-    //this->activeLight->SetDiffuseColor( 1, 1, 1 );
-    //this->activeLight->SetAmbientColor( 1, 1, 1 );
-    //this->activeLight->SetSpecularColor( 1, 1, 1 );
-    //this->activeLight->SetIntensity( 1.0 );
-
-    //text writing
-    //this->activeRenderer->AddActor2D ( volumeTextActor );
-    //this->activeRenderer->AddActor2D ( cellNumTextActor );
-    //this->activeRenderer->AddActor2D ( weightTextActor );
-    //this->activeRenderer->AddActor2D ( positionTextActor );
 
 // creator
 

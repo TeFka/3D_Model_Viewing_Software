@@ -200,10 +200,7 @@ Model::Model()
 //Arguments: char - path to a model file.
 Model::Model(char* path)
 {
-    if(loadModel(path))
-    {
-        this->calcModelCenter();
-    }
+    this->loadModel(path);
 }
 
 //Destructor for Model class
@@ -363,7 +360,13 @@ void Model::calcModelCenter()
             zMin = this->vectors[i].getz();
         }
     }
-    //return vector with averages of maximum and minimum values
+
+    //set model dimensions
+    this->modelDimensions.setx(xMax-xMin);
+    this->modelDimensions.sety(yMax-yMin);
+    this->modelDimensions.setz(zMax-zMin);
+
+    //set model center vector
     this->modelCenter = Vector3D((xMax+xMin)/2,(yMax+yMin)/2,(zMax+zMin)/2);
 }
 
@@ -826,6 +829,9 @@ bool Model::loadModel(const char* path)
         //sort cells
         this->alignArrayID<Cell>(this->cells);
 
+        //calculate model center
+        this->calcModelCenter();
+
         return true;
     }
     else
@@ -930,6 +936,15 @@ void Model::showCells()
 Vector3D Model::getModelCenter()
 {
     return this->modelCenter;
+}
+
+//Function of class Model, getModelDimensions()
+//Function to get position of model dimensions
+// Arguments for getModelDimensions(): none.
+// return value: Vector3D - vector showing model dimensions
+Vector3D Model::getModelDimensions()
+{
+    return this->modelDimensions;
 }
 
 //Function of class Model, getVectors()

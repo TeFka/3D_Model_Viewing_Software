@@ -1,6 +1,7 @@
 // mainwindow.h---------------------------------------------------------------
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include <string>
 #include <QMainWindow>
 #include <vtkSmartPointer.h>
 #include <vtkCubeSource.h>
@@ -18,6 +19,7 @@
 #include <vtkRenderWindowInteractor.h>
 #include <vtkRenderer.h>
 #include <vtkNamedColors.h>
+#include <vtkLookupTable.h>
 #include <vtkPoints.h>
 #include <vtkNew.h>
 #include <vtkLight.h>
@@ -91,6 +93,7 @@ public:
     ~MainWindow();
 private:
     Model activeVTKModel;
+    Model originalVTKModel;
 
     vtkSmartPointer<vtkGeometryFilter> geometryFilter = vtkSmartPointer<vtkGeometryFilter>::New();
     vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
@@ -106,12 +109,6 @@ private:
 
     vtkSmartPointer<vtkUnsignedCharArray> cellData = vtkSmartPointer<vtkUnsignedCharArray>::New();
 
-    //text editing
-    //vtkSmartPointer<vtkTextActor> volumeTextActor = vtkSmartPointer<vtkTextActor>::New();
-    //vtkSmartPointer<vtkTextActor> cellNumTextActor = vtkSmartPointer<vtkTextActor>::New();
-    //vtkSmartPointer<vtkTextActor> weightTextActor = vtkSmartPointer<vtkTextActor>::New();
-    //vtkSmartPointer<vtkTextActor> positionTextActor = vtkSmartPointer<vtkTextActor>::New();
-
     Ui::MainWindow * ui;
     QString activeFileName;
     vtkSmartPointer<vtkSTLReader> activeReader = vtkSmartPointer<vtkSTLReader>::New();
@@ -122,21 +119,36 @@ private:
     vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
     vtkSmartPointer<vtkRenderWindow> activeRenderWindow;
 
-    vtkSmartPointer<vtkLight> activeLight = vtkSmartPointer<vtkLight>::New();
     vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();
 
-    //vtkSmartPointer<vtkMassProperties> objectParameters = vtkSmartPointer<vtkMassProperties>::New();
+    vtkSmartPointer<vtkMassProperties> objectParameters = vtkSmartPointer<vtkMassProperties>::New();
+
+    vtkSmartPointer<vtkLookupTable> lut = vtkSmartPointer<vtkLookupTable>::New();
 
     int objectType = 0;
 
+    Vector3D objectDimensions;
+    Vector3D objectPosition;
+
     double objectVolume = 0.0;
-    double weight = 0.0;
+    double objectWeight = 0.0;
+
+    //clip filter
+    double clipNormalsX = 0.0;
+    double clipNormalsY = 0.0;
+    double clipNormalsZ = 0.0;
+    double clipOriginPart = 0.0;
+
 
     void refreshRender();
     void refreshGrid();
     void updateObject();
 
+    void updateVTKModel();
+
     void updateText();
+
+    void makeMeasurement();
 
     void initFilter(int);
 
@@ -160,15 +172,15 @@ public slots:
 
     void changeShrinkFilterValue(int);
 
-    //void changeClipFilterAxis();
-    //void changeClipFilterCutOff();
+    void changeClipValue(int);
+    void changeClipX();
+    void changeClipY();
+    void changeClipZ();
 
     void setMinCellShow(int);
     void setMaxCellShow(int);
 
     void handleOpenButton();
-
-    void changeLight(int);
 
     void displayHexahedron();
     void displayTetrahedron();
