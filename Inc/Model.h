@@ -98,6 +98,9 @@ private:
 //Vector3D object storing center of the model
     Vector3D modelCenter;
 
+//Vector3D object storing model dimensions
+    Vector3D modelDimensions;
+
 //Function of class Model, getVectorIndex()
 //Function to get index in vectors array of vector with specified ID.
     int getVectorIndex(int);
@@ -141,6 +144,10 @@ public:
 //Function of class Model, getModelCenter()
 //Function to get position of model center
     Vector3D getModelCenter();
+
+//Function of class Model, getModelDimensions()
+//Function to get position of model dimensions
+    Vector3D getModelDimensions();
 
 //Function of class Model, getVectors()
 //Function to get vector array of model

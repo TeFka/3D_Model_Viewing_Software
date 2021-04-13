@@ -1,6 +1,7 @@
 // mainwindow.h---------------------------------------------------------------
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include <string>
 #include <QMainWindow>
 #include <vtkSmartPointer.h>
 #include <vtkCubeSource.h>
@@ -8,6 +9,7 @@
 #include <vtkProperty.h>
 #include <vtkCamera.h>
 #include <vtkPolyData.h>
+#include <vtkCellData.h>
 #include <vtkSTLReader.h>
 #include <vtkDataSetMapper.h>
 #include <vtkHexahedron.h>
@@ -17,6 +19,7 @@
 #include <vtkRenderWindowInteractor.h>
 #include <vtkRenderer.h>
 #include <vtkNamedColors.h>
+#include <vtkLookupTable.h>
 #include <vtkPoints.h>
 #include <vtkNew.h>
 #include <vtkLight.h>
@@ -29,8 +32,17 @@
 #include <vtkPlane.h>
 #include <vtkClipDataSet.h>
 #include <vtkShrinkFilter.h>
-
+#include <vtkGeometryFilter.h>
+#include <vtkContourFilter.h>
+#include <vtkOutlineFilter.h>
+#include <vtkOutlineCornerFilter.h>
+#include <vtkSplineFilter.h>
 #include <vtkInteractorStyleTrackballCamera.h>
+
+#include <vtkTextActor.h>
+#include <vtkTextProperty.h>
+
+#include <vtkMassProperties.h>
 
 #include "../Inc/Model.h"
 
@@ -81,10 +93,21 @@ public:
     ~MainWindow();
 private:
     Model activeVTKModel;
+    Model originalVTKModel;
 
-    std::vector<vtkSmartPointer<vtkUnstructuredGrid>> uGrids;
-    std::vector<vtkSmartPointer<vtkDataSetMapper>> mappers;
-    std::vector<vtkSmartPointer<vtkActor>> actors;
+    vtkSmartPointer<vtkGeometryFilter> geometryFilter = vtkSmartPointer<vtkGeometryFilter>::New();
+    vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
+    vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
+    vtkSmartPointer<vtkContourFilter> contourFilter = vtkSmartPointer<vtkContourFilter>::New();
+    vtkSmartPointer<vtkOutlineFilter> outlineFilter = vtkSmartPointer<vtkOutlineFilter>::New();
+    vtkSmartPointer<vtkOutlineCornerFilter> outlineCornerFilter = vtkSmartPointer<vtkOutlineCornerFilter>::New();
+    vtkSmartPointer<vtkSplineFilter> splineFilter = vtkSmartPointer<vtkSplineFilter>::New();
+
+    int activeFilters[6] = {0,0,0,0,0,0};
+
+    vtkSmartPointer<vtkUnstructuredGrid> activeGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+
+    vtkSmartPointer<vtkUnsignedCharArray> cellData = vtkSmartPointer<vtkUnsignedCharArray>::New();
 
     Ui::MainWindow * ui;
     QString activeFileName;
@@ -96,37 +119,68 @@ private:
     vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
     vtkSmartPointer<vtkRenderWindow> activeRenderWindow;
 
-    vtkSmartPointer<vtkLight> activeLight = vtkSmartPointer<vtkLight>::New();
     vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();
-    std::vector<std::array<double, 3>> pointCoordinates;
 
-    vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
-    vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
-    bool clipFilterON = false;
-    bool shrinkFilterON = false;
+    vtkSmartPointer<vtkMassProperties> objectParameters = vtkSmartPointer<vtkMassProperties>::New();
+
+    vtkSmartPointer<vtkLookupTable> lut = vtkSmartPointer<vtkLookupTable>::New();
 
     int objectType = 0;
 
-    MouseInteractor mouseInteractor();
+    Vector3D objectDimensions;
+    Vector3D objectPosition;
+
+    double objectVolume = 0.0;
+    double objectWeight = 0.0;
+
+    //clip filter
+    double clipNormalsX = 0.0;
+    double clipNormalsY = 0.0;
+    double clipNormalsZ = 0.0;
+    double clipOriginPart = 0.0;
+
 
     void refreshRender();
     void refreshGrid();
+    void updateObject();
 
-    void initClipFilter();
-    void initShrinkFilter();
+    void updateVTKModel();
 
-    void filterStage();
+    void updateText();
+
+    void makeMeasurement();
+
+    void initFilter(int);
+
+    vtkAlgorithmOutput* filterStage(vtkAlgorithmOutput*, int);
+    vtkSmartPointer<vtkDataSetMapper> mapperGridStage(vtkSmartPointer<vtkUnstructuredGrid>);
+    vtkSmartPointer<vtkDataSetMapper> mapperStage(vtkAlgorithmOutput*);
+
+    void drawHexahedron(Cell*,vtkSmartPointer<vtkUnstructuredGrid>);
+    void drawTetrahedron(Cell*,vtkSmartPointer<vtkUnstructuredGrid>);
+    void drawPyramid(Cell*,vtkSmartPointer<vtkUnstructuredGrid>);
 
 public slots:
 
+    void handleGeometryFilter();
     void handleShrinkFilter();
     void handleClipFilter();
+    void handleContourFilter();
+    void handleOutlineFilter();
+    void handleOutlineCornerFilter();
+    void handleSplineFilter();
+
+    void changeShrinkFilterValue(int);
+
+    void changeClipValue(int);
+    void changeClipX();
+    void changeClipY();
+    void changeClipZ();
+
+    void setMinCellShow(int);
+    void setMaxCellShow(int);
 
     void handleOpenButton();
-    void changeLight(int);
-    vtkSmartPointer<vtkUnstructuredGrid> drawHexahedron(Cell*);
-    vtkSmartPointer<vtkUnstructuredGrid> drawTetrahedron(Cell*);
-    vtkSmartPointer<vtkUnstructuredGrid> drawPyramid(Cell*);
 
     void displayHexahedron();
     void displayTetrahedron();

@@ -49,8 +49,8 @@ include( ${VTK_USE_FILE} )
 qt5_add_resources( QRC_Srcs ${ICONS} )
 
 #create folders for the library and the program
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/application)
+#file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+#file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/application)
 
 #set created folder for library as an output for library creation
 #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -60,7 +60,10 @@ add_library( model3DLib
 ${modelLib_includes}
 ${modelLib_sources})
 
-# Make an executable for library testing
+LINK_DIRECTORIES(${CMAKE_BINARY_DIR})
+add_definitions( -Dmodel3DLib_STATIC )
+
+# Make an executable
 add_executable(3D_software MACOSX_BUNDLE 
 ${software_sources}
 ${UI_Srcs}
@@ -73,11 +76,14 @@ add_dependencies(3D_software resources)
 set_target_properties(3D_software PROPERTIES
          RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/application)
 
+#link the created library to the created executable
+target_link_libraries(3D_software model3Dlib)
+
 # Tell CMake that the executable depends on the Qt::Widget libraries.
 target_link_libraries( 3D_software Qt5::Widgets )
+
 # Tell CMake that the executable depends on the VTK libraries
 target_link_libraries( 3D_software ${VTK_LIBRARIES})
 
-#link the created library to the created executable
-target_link_libraries(3D_software ${PROJECT_BINARY_DIR}/libmodel3Dlib.a)
+
 
