@@ -14,6 +14,7 @@
 //default settings
 Vector3D::Vector3D()
 {
+	ID = 0;
     x = 0;
     y = 0;
     z = 0;
@@ -22,6 +23,7 @@ Vector3D::Vector3D()
 //giving values to object
 Vector3D::Vector3D(double xc, double yc, double zc)
 {
+	ID = 0;
     x = xc;
     y = yc;
     z = zc;
@@ -92,7 +94,9 @@ Vector3D::Vector3D(const Vector3D &vec)
 //return: added results of the addition operation
 Vector3D Vector3D::operator+(const Vector3D &vec)
 {
-    return Vector3D(this->x + vec.x, this->y + vec.y, this->z + vec.z);
+    return Vector3D(this->x + vec.x, 
+					this->y + vec.y, 
+					this->z + vec.z);
 }
 
 //Subtraction
@@ -100,7 +104,9 @@ Vector3D Vector3D::operator+(const Vector3D &vec)
 //return: results of the subtraction operation
 Vector3D Vector3D::operator-(const Vector3D &vec)
 {
-    return Vector3D(this->x - vec.x, this->y - vec.y, this->z - vec.z);
+    return Vector3D(this->x - vec.x, 
+					this->y - vec.y, 
+					this->z - vec.z);
 }
 
 //Dot Product
