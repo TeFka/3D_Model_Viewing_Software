@@ -58,11 +58,10 @@ ${modelLib_includes}
 ${modelLib_sources})
 
 if( NOT BUILD_SHARED_LIBS )
-add_definitions( -Dmaths_STATIC )
+add_definitions( -Dmodel3DLib_STATIC )
 endif()
 
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR})
-add_definitions( -Dmodel3DLib_STATIC )
 
 # Make an executable
 add_executable(3D_software MACOSX_BUNDLE 
@@ -86,7 +85,6 @@ target_link_libraries( 3D_software Qt5::Widgets )
 # Tell CMake that the executable depends on the VTK libraries
 target_link_libraries( 3D_software ${VTK_LIBRARIES})
 
-include(test_sources/CmakeLists.txt)
 
 
 
