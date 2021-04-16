@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <vtkSmartPointer.h>
 #include <vtkCubeSource.h>
+#include <vtkAxesActor.h>
 #include <vtkActor.h>
 #include <vtkProperty.h>
 #include <vtkCamera.h>
@@ -12,6 +13,7 @@
 #include <vtkCellData.h>
 #include <vtkSTLReader.h>
 #include <vtkDataSetMapper.h>
+#include <vtkPolyDataMapper.h>
 #include <vtkHexahedron.h>
 #include <vtkTetra.h>
 #include <vtkPyramid.h>
@@ -43,6 +45,12 @@
 #include <vtkTextProperty.h>
 
 #include <vtkMassProperties.h>
+
+#include <vtkTransform.h>
+#include <vtkOrientationMarkerWidget.h>
+#include <vtkRenderWindowInteractor.h>
+
+#include <vtkGlyph3DMapper.h>
 
 #include "../Inc/Model.h"
 
@@ -107,8 +115,6 @@ private:
 
     vtkSmartPointer<vtkUnstructuredGrid> activeGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
 
-    vtkSmartPointer<vtkUnsignedCharArray> cellData = vtkSmartPointer<vtkUnsignedCharArray>::New();
-
     Ui::MainWindow * ui;
     QString activeFileName;
     vtkSmartPointer<vtkSTLReader> activeReader = vtkSmartPointer<vtkSTLReader>::New();
@@ -124,6 +130,10 @@ private:
     vtkSmartPointer<vtkMassProperties> objectParameters = vtkSmartPointer<vtkMassProperties>::New();
 
     vtkSmartPointer<vtkLookupTable> lut = vtkSmartPointer<vtkLookupTable>::New();
+
+    vtkNew<vtkAxesActor> axes;
+
+    vtkNew<vtkActor> pointActor;
 
     int objectType = 0;
 
@@ -148,6 +158,12 @@ private:
 
     void updateText();
 
+    void updateAxes();
+
+    void updatePoints();
+
+    void updateViewer();
+
     void makeMeasurement();
 
     void initFilter(int);
@@ -170,12 +186,14 @@ public slots:
     void handleOutlineCornerFilter();
     void handleSplineFilter();
 
-    void changeShrinkFilterValue(int);
+    void changeShrinkFactor(double);
 
     void changeClipValue(int);
     void changeClipX();
     void changeClipY();
     void changeClipZ();
+
+    void handleObjectState();
 
     void setMinCellShow(int);
     void setMaxCellShow(int);
