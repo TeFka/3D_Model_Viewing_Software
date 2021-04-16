@@ -24,7 +24,12 @@ add_library( model3DLib
 ${modelLib_includes}
 ${modelLib_sources})
 
+LINK_DIRECTORIES(${CMAKE_SOURCE_DIR})
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR})
+
+if( NOT BUILD_SHARED_LIBS )
+add_definitions( -Dmodel3DLib_STATIC )
+endif()
 
 # It also contains an executable
 add_executable(vector3DtestProg vector3Dtest.cpp)
