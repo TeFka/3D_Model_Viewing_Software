@@ -165,17 +165,137 @@ color: rgb(255, 0, 0);</string>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="backgroundColor">
+         <widget class="QLabel" name="label_2">
           <property name="styleSheet">
-           <string notr="true">border: 3px solid rgb(170, 0, 0);
-background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+           <string notr="true">color:rgb(170, 0, 0);</string>
           </property>
           <property name="text">
-           <string>Background Color</string>
+           <string>Orientation:</string>
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="orientationXPos">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: 3px solid rgb(170, 0, 0);
+background: rgb(100,100, 100);
+color: rgb(255,0, 0);</string>
+          </property>
+          <property name="text">
+           <string>+X</string>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="orientationXNeg">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: 3px solid rgb(170, 0, 0);
+background: rgb(100,100, 100);
+color: rgb(255,0, 0);</string>
+          </property>
+          <property name="text">
+           <string>-X</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="orientationYPos">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: 3px solid rgb(170, 0, 0);
+background: rgb(100,100, 100);
+color: rgb(255,0, 0);</string>
+          </property>
+          <property name="text">
+           <string>+Y</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="orientationYNeg">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: 3px solid rgb(170, 0, 0);
+background: rgb(100,100, 100);
+color: rgb(255,0, 0);</string>
+          </property>
+          <property name="text">
+           <string>-Y</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="orientationZPos">
+          <property name="styleSheet">
+           <string notr="true">border: 3px solid rgb(170, 0, 0);
+background: rgb(100,100, 100);
+color: rgb(255,0, 0);</string>
+          </property>
+          <property name="text">
+           <string>+Z</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="orientationZNeg">
+          <property name="styleSheet">
+           <string notr="true">border: 3px solid rgb(170, 0, 0);
+background: rgb(100,100, 100);
+color: rgb(255,0, 0);</string>
+          </property>
+          <property name="text">
+           <string>-Z</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_10">
         <item>
          <widget class="QPushButton" name="objectColor">
           <property name="styleSheet">
@@ -189,7 +309,62 @@ color: rgb(255, 0, 0);</string>
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_3">
+         <widget class="QPushButton" name="backgroundColor">
+          <property name="styleSheet">
+           <string notr="true">border: 3px solid rgb(170, 0, 0);
+background: rgb(0, 0, 0);
+color: rgb(255, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Background Color</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="stateLabel">
+          <property name="styleSheet">
+           <string notr="true">color:rgb(170, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Object state:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="solidRadioB">
+          <property name="styleSheet">
+           <string notr="true">color:rgb(170, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Solid</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="wireRadioB">
+          <property name="styleSheet">
+           <string notr="true">color:rgb(170, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Wireframe</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="pointsRadioB">
+          <property name="styleSheet">
+           <string notr="true">color:rgb(170, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Points</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -217,7 +392,7 @@ color: rgb(255, 0, 0);</string>
            <enum>QLayout::SetNoConstraint</enum>
           </property>
           <item>
-           <widget class="QLabel" name="lightLabel">
+           <widget class="QLabel" name="cellLabel">
             <property name="styleSheet">
              <string notr="true">font-color: rgb(221, 29, 33);
 </string>
@@ -329,8 +504,16 @@ background-color: rgb(150,150,150);</string>
          <widget class="QDoubleSpinBox" name="shrinkFactor">
           <property name="styleSheet">
            <string notr="true">color: rgb(170, 0, 0);
-background-color: rgb(150,150,150);
-</string>
+background-color: rgb(150,150,150);</string>
+          </property>
+          <property name="maximum">
+           <double>1.000000000000000</double>
+          </property>
+          <property name="singleStep">
+           <double>0.010000000000000</double>
+          </property>
+          <property name="value">
+           <double>1.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -411,13 +594,13 @@ background-color: rgb(150,150,150);
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox">
+       <widget class="QCheckBox" name="contourCheck">
         <property name="styleSheet">
          <string notr="true">color: rgb(170, 0, 0);
 background-color: rgb(150,150,150);</string>
         </property>
         <property name="text">
-         <string>X filter</string>
+         <string>Contour filter</string>
         </property>
        </widget>
       </item>

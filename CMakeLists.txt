@@ -2,6 +2,8 @@
 
 #define minimum CMake version
 cmake_minimum_required( VERSION 2.8.11 )
+
+# Apply AUTOMOC and AUTOUIC policies
 foreach(p
 CMP0071 # 3.10: Let AUTOMOC and AUTOUIC process GENERATED files
 )
@@ -14,11 +16,13 @@ PROJECT( 3D_Modeling_Software )
 set( CMAKE_AUTOMOC ON )
 set( CMAKE_AUTOUIC ON )
 
+#include CTest to allow test creation
+include(CTest)
+
 #include relevant CMakeLists files
 include(Inc/CMakeLists.txt)
 include(Src/CMakeLists.txt)
 include(GUI_source/CMakeLists.txt)
-include(Test_programs/CMakeLists.txt)
 
 set_property(SOURCE ${modelLib_includes} PROPERTY SKIP_AUTOMOC ON)
 set_property(SOURCE ${modelLib_includes} PROPERTY SKIP_AUTOUIC ON)
@@ -48,17 +52,14 @@ include( ${VTK_USE_FILE} )
 
 qt5_add_resources( QRC_Srcs ${ICONS} )
 
-#create folders for the library and the program
-#file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-#file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/application)
-
-#set created folder for library as an output for library creation
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-
 # Make a library
 add_library( model3DLib
 ${modelLib_includes}
 ${modelLib_sources})
+
+if( NOT BUILD_SHARED_LIBS )
+add_definitions( -Dmaths_STATIC )
+endif()
 
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR})
 add_definitions( -Dmodel3DLib_STATIC )
@@ -84,6 +85,8 @@ target_link_libraries( 3D_software Qt5::Widgets )
 
 # Tell CMake that the executable depends on the VTK libraries
 target_link_libraries( 3D_software ${VTK_LIBRARIES})
+
+include(test_sources/CmakeLists.txt)
 
 
 

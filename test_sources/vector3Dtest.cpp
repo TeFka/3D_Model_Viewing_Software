@@ -7,7 +7,7 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
 	// Vector3D class test
 	std::cout<<"Vector3D Class Test"<<std::endl;
