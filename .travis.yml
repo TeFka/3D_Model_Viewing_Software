@@ -17,10 +17,11 @@ addons:
 # Finally we define the script that Travis will run every time code is submitted
 # to the repository.
 script:
-  - cd $TRAVIS_BUILD_DIR
+  - cd $TRAVIS_BUILD_DIR/test_sources
   - cmake .
   - make
   - make test
+  - cd ..
 # After successfully building and testing your software we give Doxygen the
 # instruction to scan the code for docstrings and generate the html output.
 # The bulk of these instructions is encapsulated in a script.
