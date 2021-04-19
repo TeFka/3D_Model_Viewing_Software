@@ -32,7 +32,7 @@ add_definitions( -Dmodel3DLib_STATIC )
 endif()
 
 # It also contains an executable
-add_executable(vector3DtestProg vector3Dtest.cpp)
+add_executable(vector3Dtest vector3Dtest.cpp)
 
 # The executable uses the library
 target_link_libraries(vector3DtestProg model3Dlib)
