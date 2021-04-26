@@ -24,7 +24,6 @@ add_library( model3DLib
 ${modelLib_includes}
 ${modelLib_sources})
 
-LINK_DIRECTORIES(${CMAKE_SOURCE_DIR})
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR})
 
 if( NOT BUILD_SHARED_LIBS )

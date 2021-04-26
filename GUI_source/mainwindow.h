@@ -2,16 +2,29 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <string>
+#include <math.h>
 #include <QMainWindow>
 #include <vtkSmartPointer.h>
+
+#include <vtkConeSource.h>
+#include <vtkSphereSource.h>
 #include <vtkCubeSource.h>
+#include <vtkCylinderSource.h>
+#include <vtkDiskSource.h>
+#include <vtkLineSource.h>
+#include <vtkPlaneSource.h>
+#include <vtkPointSource.h>
+
 #include <vtkAxesActor.h>
 #include <vtkActor.h>
 #include <vtkProperty.h>
 #include <vtkCamera.h>
 #include <vtkPolyData.h>
 #include <vtkCellData.h>
+
 #include <vtkSTLReader.h>
+#include <vtkSTLWriter.h>
+
 #include <vtkDataSetMapper.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkHexahedron.h>
@@ -53,40 +66,11 @@
 #include <vtkGlyph3DMapper.h>
 
 #include "../Inc/Model.h"
+#include "./apphelp.h"
+#include "./newshapechoice.h"
 
-class MouseInteractor : public vtkInteractorStyleTrackballCamera
-{
-private:
-
-public:
-    static MouseInteractor* New();
-
-    virtual void OnLeftButtonDown()
-    {
-
-        // Forward events
-        vtkInteractorStyleTrackballCamera::OnLeftButtonDown();
-    }
-
-    virtual void OnRightButtonDown()
-    {
-        // Forward events
-        vtkInteractorStyleTrackballCamera::OnRightButtonDown();
-    }
-
-    virtual void OnMouseWheelForward()
-    {
-        // Forward events
-        vtkInteractorStyleTrackballCamera::OnMouseWheelForward();
-    }
-
-    virtual void OnMouseWheelBackward()
-    {
-        // Forward events
-        vtkInteractorStyleTrackballCamera::OnMouseWheelBackward();
-    }
-
-};
+#include "./Pipeline.h"
+#include "./VTKObjectHandler.h"
 
 namespace Ui
 {
@@ -101,7 +85,6 @@ public:
     ~MainWindow();
 private:
     Model activeVTKModel;
-    Model originalVTKModel;
 
     vtkSmartPointer<vtkGeometryFilter> geometryFilter = vtkSmartPointer<vtkGeometryFilter>::New();
     vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
@@ -111,9 +94,9 @@ private:
     vtkSmartPointer<vtkOutlineCornerFilter> outlineCornerFilter = vtkSmartPointer<vtkOutlineCornerFilter>::New();
     vtkSmartPointer<vtkSplineFilter> splineFilter = vtkSmartPointer<vtkSplineFilter>::New();
 
-    int activeFilters[6] = {0,0,0,0,0,0};
-
     vtkSmartPointer<vtkUnstructuredGrid> activeGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+    vtkSmartPointer<vtkDataSetMapper> activeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    vtkSmartPointer<vtkActor> activeActor = vtkSmartPointer<vtkActor>::New();
 
     Ui::MainWindow * ui;
     QString activeFileName;
@@ -129,11 +112,10 @@ private:
 
     vtkSmartPointer<vtkMassProperties> objectParameters = vtkSmartPointer<vtkMassProperties>::New();
 
-    vtkSmartPointer<vtkLookupTable> lut = vtkSmartPointer<vtkLookupTable>::New();
-
     vtkNew<vtkAxesActor> axes;
 
-    vtkNew<vtkActor> pointActor;
+    QColor activeColor;
+    std::vector<std::array<double,4>> separateCellColors;
 
     int objectType = 0;
 
@@ -143,24 +125,22 @@ private:
     double objectVolume = 0.0;
     double objectWeight = 0.0;
 
+    int allowGUIChange = 1;
     //clip filter
-    double clipNormalsX = 0.0;
-    double clipNormalsY = 0.0;
-    double clipNormalsZ = 0.0;
     double clipOriginPart = 0.0;
-
 
     void refreshRender();
     void refreshGrid();
+    void refreshGUI();
     void updateObject();
 
     void updateVTKModel();
 
     void updateText();
 
-    void updateAxes();
+    void updateAxes(double=1.0, double=0.0, double=0.0, int=0);
 
-    void updatePoints();
+    void updatePoints(vtkSmartPointer<vtkPoints>);
 
     void updateViewer();
 
@@ -169,45 +149,50 @@ private:
     void initFilter(int);
 
     vtkAlgorithmOutput* filterStage(vtkAlgorithmOutput*, int);
-    vtkSmartPointer<vtkDataSetMapper> mapperGridStage(vtkSmartPointer<vtkUnstructuredGrid>);
-    vtkSmartPointer<vtkDataSetMapper> mapperStage(vtkAlgorithmOutput*);
+
+    void mapperStage(vtkAlgorithmOutput*);
 
     void drawHexahedron(Cell*,vtkSmartPointer<vtkUnstructuredGrid>);
     void drawTetrahedron(Cell*,vtkSmartPointer<vtkUnstructuredGrid>);
     void drawPyramid(Cell*,vtkSmartPointer<vtkUnstructuredGrid>);
 
-public slots:
-
-    void handleGeometryFilter();
-    void handleShrinkFilter();
-    void handleClipFilter();
-    void handleContourFilter();
-    void handleOutlineFilter();
-    void handleOutlineCornerFilter();
-    void handleSplineFilter();
-
-    void changeShrinkFactor(double);
-
-    void changeClipValue(int);
-    void changeClipX();
-    void changeClipY();
-    void changeClipZ();
-
-    void handleObjectState();
-
-    void setMinCellShow(int);
-    void setMaxCellShow(int);
-
-    void handleOpenButton();
-
     void displayHexahedron();
     void displayTetrahedron();
     void displayPyramid();
+    void displaySphere();
+    void displayDisk();
+    void displayCone();
+    void displayPlane();
+    void displayPointCluster(int);
+    void displayLine();
+    void displayCylinder();
+
+public slots:
+
+    void handleUpdate();
+    void changeClipValue(int);
+
+    void handleOpenButton();
+    void handleSaveButton();
+    void handleHelpButton();
+    void handleNewButton();
+
+    void setCameraOrientationPosX();
+    void setCameraOrientationNegX();
+    void setCameraOrientationPosY();
+    void setCameraOrientationNegY();
+    void setCameraOrientationPosZ();
+    void setCameraOrientationNegZ();
+    void setCameraOrientationPosShift();
+    void setCameraOrientationNegShift();
+    void setCameraOrientationPosRotate();
+    void setCameraOrientationNegRotate();
 
     void resetViewer();
     void resetCamera();
     void changeBackgroundColor();
     void changeObjectColor();
+    void resetObjectColor();
 
 signals:
     void statusUpdateMessage( const QString & message, int timeout );

@@ -39,6 +39,10 @@ protected:
     //knowledge of the vertices position is requited for volume calculations
     std::vector<int> indices;
 public:
+	
+	//default constructor
+	Cell();
+	
     //cell class constructor
     Cell(int,int,int,std::vector<int>);
 

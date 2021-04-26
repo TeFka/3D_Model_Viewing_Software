@@ -4,8 +4,6 @@
 
 void MainWindow::refreshRender()
 {
-    //this->activeRenderer->ResetCamera();
-    //this->activeRenderer->ResetCameraClippingRange();
     this->activeRenderWindow->Render();
 }
 
@@ -17,125 +15,149 @@ void MainWindow::refreshGrid()
     this->cells->Squeeze();
 }
 
+void MainWindow::refreshGUI()
+{
+
+    this->allowGUIChange = 0;
+
+    ui->cellMinShow->setRange(1, 1);
+    ui->cellMaxShow->setRange(1, 1);
+    ui->cellMinShow->setValue(1);
+    ui->cellMaxShow->setValue(1);
+    ui->shrinkCheck->setCheckState(Qt::Unchecked);
+    ui->clipCheck->setCheckState(Qt::Unchecked);
+    ui->check1->setCheckState(Qt::Unchecked);
+    ui->check2->setCheckState(Qt::Unchecked);
+    ui->check3->setCheckState(Qt::Unchecked);
+    ui->solidRadioB->toggle();
+
+    this->allowGUIChange = 1;
+
+}
+
 void MainWindow::updateObject()
 {
-    refreshGrid();
-    vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
+    vtkPolyData* polydata;
     if(this->objectType>=2)
     {
-        tempActor->SetMapper(this->mapperGridStage(this->activeGrid));
+        if(this->objectType==3)
+        {
+            this->updateVTKModel();
+        }
+        this->geometryFilter->SetInputData(this->activeGrid);
+        this->mapperStage(this->geometryFilter->GetOutputPort());
     }
     else
     {
         if (this->objectType == 1)
         {
-            tempActor->SetMapper(this->mapperStage(this->activeReader->GetOutputPort()));
-        }
-        if(this->objectType==0)
-        {
-            vtkSmartPointer<vtkCubeSource> cubeSource = vtkSmartPointer<vtkCubeSource>::New();
-            tempActor->SetMapper(this->mapperStage(cubeSource->GetOutputPort()));
+            this->mapperStage(this->activeReader->GetOutputPort());
+            polydata = this->activeReader->GetOutput();
         }
     }
 
-    if(this->objectType<=2)
+
+    if(ui->pointsRadioB->isChecked())
     {
-        tempActor->GetProperty()->EdgeVisibilityOn();
-
-        tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
-        tempActor->GetProperty()->LightingOff();
+        this->activeActor->GetProperty()->SetRepresentationToPoints();
+    }
+    else if(ui->wireRadioB->isChecked())
+    {
+        this->activeActor->GetProperty()->SetRepresentationToWireframe();
+    }
+    else
+    {
+        this->activeActor->GetProperty()->SetRepresentationToSurface();
     }
 
-    if(ui->wireRadioB->isChecked()){
-            tempActor->GetProperty()->SetRepresentationToWireframe();
-    }
-
-    this->activeRenderer->AddActor(tempActor);
     this->updateViewer();
+    this->refreshRender();
 }
 
 void MainWindow::updateText()
 {
-    vtkSmartPointer<vtkTextActor> tempVolumeTextActor = vtkSmartPointer<vtkTextActor>::New();
-    if(objectType==0)
+    if(ui->showInfo->isChecked())
     {
-        tempVolumeTextActor->SetInput ("Volume: N/A");
-    }
-    else
-    {
-        if(this->objectVolume<0.00001)
+        vtkSmartPointer<vtkTextActor> tempVolumeTextActor = vtkSmartPointer<vtkTextActor>::New();
+        if(objectType==0||objectType==2)
         {
-            tempVolumeTextActor->SetInput (("Volume: "+std::to_string(this->objectVolume*1000000)+"cm3").data());
+            tempVolumeTextActor->SetInput ("Volume: N/A");
         }
         else
         {
-            tempVolumeTextActor->SetInput (("Volume: "+std::to_string(this->objectVolume)+"m3").data());
+            if(this->objectVolume<0.00001)
+            {
+                tempVolumeTextActor->SetInput (("Volume: "+std::to_string(this->objectVolume*1000000)+"cm3").data());
+            }
+            else
+            {
+                tempVolumeTextActor->SetInput (("Volume: "+std::to_string(this->objectVolume)+"m3").data());
+            }
         }
-    }
-    tempVolumeTextActor->SetPosition ( 10, 70 );
-    tempVolumeTextActor->GetTextProperty()->SetFontSize ( 15 );
-    tempVolumeTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
-    this->activeRenderer->AddActor2D ( tempVolumeTextActor );
+        tempVolumeTextActor->SetPosition ( 10, 70 );
+        tempVolumeTextActor->GetTextProperty()->SetFontSize ( 15 );
+        tempVolumeTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+        this->activeRenderer->AddActor2D ( tempVolumeTextActor );
 
-    vtkSmartPointer<vtkTextActor> tempMaxCellNumTextActor = vtkSmartPointer<vtkTextActor>::New();
+        vtkSmartPointer<vtkTextActor> tempMaxCellNumTextActor = vtkSmartPointer<vtkTextActor>::New();
 
-    int cellsNum = 0;
-    if(this->objectType<=2)
-    {
-        cellsNum = 1;
-    }
-    else
-    {
-        cellsNum = this->activeVTKModel.getCellAmount();
-    }
-    tempMaxCellNumTextActor->SetInput (("Max Cells: "+std::to_string(cellsNum)).data());
-    tempMaxCellNumTextActor->SetPosition ( 10, 50 );
-    tempMaxCellNumTextActor->GetTextProperty()->SetFontSize ( 15 );
-    tempMaxCellNumTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
-    this->activeRenderer->AddActor2D ( tempMaxCellNumTextActor );
-
-    vtkSmartPointer<vtkTextActor> tempWeightTextActor = vtkSmartPointer<vtkTextActor>::New();
-
-    if(this->objectType<=2)
-    {
-        tempWeightTextActor->SetInput ("Weight: N/A");
-    }
-    else
-    {
-        if(this->objectWeight<0.001)
+        int cellsNum = 0;
+        if(this->objectType<=2)
         {
-            tempWeightTextActor->SetInput (("Weight: "+std::to_string(this->objectWeight*1000)+"g").data());
+            cellsNum = 1;
         }
         else
         {
-            tempWeightTextActor->SetInput (("Weight: "+std::to_string(this->objectWeight)+"kg").data());
+            cellsNum = this->activeVTKModel.getCellAmount();
         }
+        tempMaxCellNumTextActor->SetInput (("Max Cells: "+std::to_string(cellsNum)).data());
+        tempMaxCellNumTextActor->SetPosition ( 10, 50 );
+        tempMaxCellNumTextActor->GetTextProperty()->SetFontSize ( 15 );
+        tempMaxCellNumTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+        this->activeRenderer->AddActor2D ( tempMaxCellNumTextActor );
+
+        vtkSmartPointer<vtkTextActor> tempWeightTextActor = vtkSmartPointer<vtkTextActor>::New();
+
+        if(this->objectType<=2)
+        {
+            tempWeightTextActor->SetInput ("Weight: N/A");
+        }
+        else
+        {
+            if(this->objectWeight<0.001)
+            {
+                tempWeightTextActor->SetInput (("Weight: "+std::to_string(this->objectWeight*1000)+"g").data());
+            }
+            else
+            {
+                tempWeightTextActor->SetInput (("Weight: "+std::to_string(this->objectWeight)+"kg").data());
+            }
+        }
+        tempWeightTextActor->SetPosition ( 10, 30 );
+        tempWeightTextActor->GetTextProperty()->SetFontSize ( 15 );
+        tempWeightTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+        this->activeRenderer->AddActor2D ( tempWeightTextActor );
+
+        vtkSmartPointer<vtkTextActor> tempPositionTextActor = vtkSmartPointer<vtkTextActor>::New();
+
+        Vector3D objPos;
+        if(this->objectType<=2)
+        {
+            objPos.setx(0.0);
+            objPos.sety(0.0);
+            objPos.setz(0.0);
+        }
+        else
+        {
+            objPos = this->activeVTKModel.getModelCenter();
+        }
+
+        tempPositionTextActor->SetInput (("Position: "+std::to_string(objPos.getx())+" "+std::to_string(objPos.gety())+" "+std::to_string(objPos.getz())).data());
+        tempPositionTextActor->SetPosition ( 10, 10 );
+        tempPositionTextActor->GetTextProperty()->SetFontSize ( 15 );
+        tempPositionTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+        this->activeRenderer->AddActor2D ( tempPositionTextActor );
     }
-    tempWeightTextActor->SetPosition ( 10, 30 );
-    tempWeightTextActor->GetTextProperty()->SetFontSize ( 15 );
-    tempWeightTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
-    this->activeRenderer->AddActor2D ( tempWeightTextActor );
-
-    vtkSmartPointer<vtkTextActor> tempPositionTextActor = vtkSmartPointer<vtkTextActor>::New();
-
-    Vector3D objPos;
-    if(this->objectType<=2)
-    {
-        objPos.setx(0.0);
-        objPos.sety(0.0);
-        objPos.setz(0.0);
-    }
-    else
-    {
-        objPos = this->activeVTKModel.getModelCenter();
-    }
-
-    tempPositionTextActor->SetInput (("Position: "+std::to_string(objPos.getx())+" "+std::to_string(objPos.gety())+" "+std::to_string(objPos.getz())).data());
-    tempPositionTextActor->SetPosition ( 10, 10 );
-    tempPositionTextActor->GetTextProperty()->SetFontSize ( 15 );
-    tempPositionTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
-    this->activeRenderer->AddActor2D ( tempPositionTextActor );
-
 }
 
 void MainWindow::makeMeasurement()
@@ -152,13 +174,54 @@ void MainWindow::makeMeasurement()
     }
     else if(objectType==1)
     {
-        this->objectDimensions.setx(this->objectParameters->GetVolumeX());
-        this->objectDimensions.sety(this->objectParameters->GetVolumeY());
-        this->objectDimensions.setz(this->objectParameters->GetVolumeZ());
+        vtkSmartPointer<vtkPoints> STLPoints = this->activeReader->GetOutput()->GetPoints();
+        double xMin=0;
+        double yMin=0;
+        double zMin=0;
+        double xMax=0;
+        double yMax=0;
+        double zMax=0;
+        //go through all vectors and check their positions
+        for(int i = 0; i<STLPoints->GetNumberOfPoints(); i++)
+        {
+            double STLpoint[3];
+            STLPoints->GetPoint(i,STLpoint);
+            //update maximum and minimum values based on current vector position
+            if(STLpoint[0]>xMax)
+            {
+                xMax = STLpoint[0];
+            }
+            if(STLpoint[0]<xMin)
+            {
+                xMin = STLpoint[0];
+            }
+            if(STLpoint[1]>yMax)
+            {
+                yMax = STLpoint[1];
+            }
+            if(STLpoint[1]<yMin)
+            {
+                yMin = STLpoint[1];
+            }
+            if(STLpoint[2]>zMax)
+            {
+                zMax = STLpoint[2];
+            }
+            if(STLpoint[2]<zMin)
+            {
+                zMin = STLpoint[2];
+            }
+        }
 
-        this->objectPosition.setx(0.0);
-        this->objectPosition.setx(0.0);
-        this->objectPosition.setx(0.0);
+        //set model dimensions
+        this->objectDimensions.setx(xMax-xMin);
+        this->objectDimensions.sety(yMax-yMin);
+        this->objectDimensions.setz(zMax-zMin);
+
+        this->objectPosition.setx((xMax+xMin)/2);
+        this->objectPosition.setx((yMax+yMin)/2);
+        this->objectPosition.setx((zMax+zMin)/2);
+        std::cout<<this->objectDimensions.getx()<<"  "<<this->objectDimensions.gety()<<"  "<<this->objectDimensions.getz()<<std::endl;
     }
     else
     {
@@ -176,15 +239,14 @@ void MainWindow::updateVTKModel()
 {
     if(this->objectType==3)
     {
-        this->refreshGrid();
+        this->cells->Reset();
+        this->cells->Squeeze();
 
         vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
-        vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
         vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
         vtkSmartPointer<vtkUnsignedCharArray> cellData = vtkSmartPointer<vtkUnsignedCharArray>::New();
 
         // init model
-
         std::vector<Vector3D> vectors = this->activeVTKModel.getVectors();
         for(int i =0; i<vectors.size(); i++)
         {
@@ -218,71 +280,82 @@ void MainWindow::updateVTKModel()
 
                 this->objectVolume += tempCell.getVolume();
                 this->objectWeight += tempCell.getWeight();
-
-                Vector3D color = this->activeVTKModel.getMaterial(tempCell.getMaterialID()).getColor();
                 float rgb[3];
-                rgb[0] = 255*color.getx();
-                rgb[1] = 255*color.gety();
-                rgb[2] = 255*color.getz();
+                if(this->separateCellColors[i][0]==0.0)
+                {
+                    Vector3D color = this->activeVTKModel.getMaterial(tempCell.getMaterialID()).getColor();
+                    rgb[0] = 255*color.getx();
+                    rgb[1] = 255*color.gety();
+                    rgb[2] = 255*color.getz();
+                }
+                else
+                {
+                    rgb[0] = 255*this->separateCellColors[i][1];
+                    rgb[1] = 255*this->separateCellColors[i][2];
+                    rgb[2] = 255*this->separateCellColors[i][3];
+                }
                 cellData->InsertNextTuple(rgb);
             }
         }
         tempGrid->GetCellData()->SetScalars(cellData);
 
         this->objectType = 3;
-
-        tempActor->SetMapper(this->mapperGridStage(tempGrid));
-        tempActor->GetProperty()->EdgeVisibilityOn();
-
-        tempActor->GetProperty()->LightingOff();
-
-        if(ui->wireRadioB->isChecked()){
-            tempActor->GetProperty()->SetRepresentationToWireframe();
-        }
-
-        this->activeRenderer->AddActor(tempActor);
-
-        this->updateViewer();
-
         this->activeGrid = tempGrid;
     }
 }
 
-void MainWindow::updateAxes()
+void MainWindow::updateAxes(double xOffset,double yOffset,double zOffset, int axisExist)
 {
+    if(ui->showAxis->isChecked())
+    {
+        if(axisExist)
+        {
+            this->activeRenderer->RemoveActor(this->axes);
+        }
+        vtkSmartPointer<vtkTransform> uTransform = vtkSmartPointer<vtkTransform>::New();
 
-    vtkNew<vtkTransform> uTransform;
+        uTransform->Translate(this->objectPosition.getx()+(2*this->objectDimensions.getx()*xOffset),
+                              this->objectPosition.gety()+(2*this->objectDimensions.gety()*yOffset),
+                              this->objectPosition.getz()+(2*this->objectDimensions.getz()*zOffset));
 
-    uTransform->Translate(this->objectPosition.getx()+(2*this->objectDimensions.getx()), this->objectPosition.gety(), this->objectPosition.getz());
+        this->axes->SetUserTransform(uTransform);
 
-    this->axes->SetUserTransform(uTransform);
-
-    this->axes->SetTotalLength(this->objectDimensions.getx(),this->objectDimensions.getx(),this->objectDimensions.getx());
-    this->activeRenderer->AddActor(this->axes);
+        this->axes->SetTotalLength(this->objectDimensions.getx(),this->objectDimensions.getx(),this->objectDimensions.getx());
+        this->activeRenderer->AddActor(this->axes);
+    }
 }
 
-void MainWindow::updatePoints()
+void MainWindow::updatePoints(vtkSmartPointer<vtkPoints> thePoints)
 {
-    /*
-        // Create a polydata to store everything in
-        vtkNew<vtkPolyData> polyData;
-        polyData->SetPoints(thePoints);
+    vtkSmartPointer<vtkSphereSource> sphere = vtkSmartPointer<vtkSphereSource>::New();
+    sphere->SetPhiResolution(21);
+    sphere->SetThetaResolution(21);
+    double radius = (sqrt(this->objectDimensions.getx()*this->objectDimensions.getx()+this->objectDimensions.gety()*this->objectDimensions.gety()+
+                          this->objectDimensions.getz()*this->objectDimensions.getz())/10.0);
+    if(radius>0.05)
+    {
+        radius=0.05;
+    }
+    sphere->SetRadius(radius);
+    // Create a polydata to store everything in
+    vtkSmartPointer<vtkPolyData> polyData = vtkSmartPointer<vtkPolyData>::New();
+    polyData->SetPoints(thePoints);
 
-        vtkNew<vtkGlyph3DMapper> pointMapper;
-        pointMapper->SetInputData(polyData);
-        //pointMapper->SetSourceConnection(sphere->GetOutputPort());
+    vtkSmartPointer<vtkGlyph3DMapper> pointMapper = vtkSmartPointer<vtkGlyph3DMapper>::New();
+    pointMapper->SetInputData(polyData);
+    pointMapper->SetSourceConnection(sphere->GetOutputPort());
 
-        vtkNew<vtkActor> pointActor;
-        pointActor->SetMapper(pointMapper);
-        pointActor->GetProperty()->SetColor(this->activeColors->GetColor3d("Peacock").GetData());
-        this->activeRenderer->AddActor(this->pointActor);*/
+    vtkSmartPointer<vtkActor> pointActor = vtkSmartPointer<vtkActor>::New();
+    pointActor->SetMapper(pointMapper);
+    pointActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+    this->activeRenderer->AddActor(pointActor);
 }
 
 vtkAlgorithmOutput* MainWindow::filterStage(vtkAlgorithmOutput* firstFilterInput, int firstFilterIndex)
 {
     vtkAlgorithmOutput* algorithmOutput = firstFilterInput;
 
-    if(this->activeFilters[0])
+    if(ui->shrinkCheck->isChecked())
     {
         if(firstFilterIndex!=0)
         {
@@ -291,7 +364,7 @@ vtkAlgorithmOutput* MainWindow::filterStage(vtkAlgorithmOutput* firstFilterInput
             algorithmOutput = this->shrinkFilter->GetOutputPort();
         }
     }
-    if(this->activeFilters[1])
+    if(ui->clipCheck->isChecked())
     {
         if(firstFilterIndex!=1)
         {
@@ -300,7 +373,7 @@ vtkAlgorithmOutput* MainWindow::filterStage(vtkAlgorithmOutput* firstFilterInput
             algorithmOutput = this->clipFilter->GetOutputPort();
         }
     }
-    if(this->activeFilters[2])
+    if(ui->contourCheck->isChecked())
     {
         if(firstFilterIndex!=2)
         {
@@ -309,7 +382,7 @@ vtkAlgorithmOutput* MainWindow::filterStage(vtkAlgorithmOutput* firstFilterInput
             algorithmOutput = this->contourFilter->GetOutputPort();
         }
     }
-    if(this->activeFilters[3])
+    if(ui->check1->isChecked())
     {
         if(firstFilterIndex!=3)
         {
@@ -318,7 +391,7 @@ vtkAlgorithmOutput* MainWindow::filterStage(vtkAlgorithmOutput* firstFilterInput
             algorithmOutput = this->outlineFilter->GetOutputPort();
         }
     }
-    if(this->activeFilters[4])
+    if(ui->check2->isChecked())
     {
         if(firstFilterIndex!=4)
         {
@@ -327,7 +400,7 @@ vtkAlgorithmOutput* MainWindow::filterStage(vtkAlgorithmOutput* firstFilterInput
             algorithmOutput = this->outlineCornerFilter->GetOutputPort();
         }
     }
-    if(this->activeFilters[5])
+    if(ui->check3->isChecked())
     {
         if(firstFilterIndex!=5)
         {
@@ -339,99 +412,48 @@ vtkAlgorithmOutput* MainWindow::filterStage(vtkAlgorithmOutput* firstFilterInput
     return algorithmOutput;
 }
 
-vtkSmartPointer<vtkDataSetMapper> MainWindow::mapperGridStage(vtkSmartPointer<vtkUnstructuredGrid> theGrid)
+void MainWindow::mapperStage(vtkAlgorithmOutput* geometryInput)
 {
-    vtkSmartPointer<vtkDataSetMapper> tempMapper = vtkSmartPointer<vtkDataSetMapper>::New();
-    this->geometryFilter->SetInputData(theGrid);
-    if(this->activeFilters[0])
-    {
-        this->shrinkFilter->SetInputConnection(this->geometryFilter->GetOutputPort());
-        this->initFilter(0);
-        tempMapper->SetInputConnection(this->filterStage(this->shrinkFilter->GetOutputPort(), 0));
-    }
-    else if(this->activeFilters[1])
-    {
-        this->clipFilter->SetInputConnection(this->geometryFilter->GetOutputPort());
-        this->initFilter(1);
-        tempMapper->SetInputConnection(this->filterStage(this->clipFilter->GetOutputPort(), 1));
-    }
-    else if(this->activeFilters[2])
-    {
-        this->contourFilter->SetInputConnection(this->geometryFilter->GetOutputPort());
-        this->initFilter(2);
-        tempMapper->SetInputConnection(this->filterStage(this->contourFilter->GetOutputPort(), 2));
-    }
-    else if(this->activeFilters[3])
-    {
-        this->outlineFilter->SetInputConnection(this->geometryFilter->GetOutputPort());
-        this->initFilter(3);
-        tempMapper->SetInputConnection(this->filterStage(this->outlineFilter->GetOutputPort(), 3));
-    }
-    else if(this->activeFilters[4])
-    {
-        this->outlineCornerFilter->SetInputConnection(this->geometryFilter->GetOutputPort());
-        this->initFilter(4);
-        tempMapper->SetInputConnection(this->filterStage(this->outlineCornerFilter->GetOutputPort(), 4));
-    }
-    else if(this->activeFilters[5])
-    {
-        this->splineFilter->SetInputConnection(this->geometryFilter->GetOutputPort());
-        this->initFilter(5);
-        tempMapper->SetInputConnection(this->filterStage(this->splineFilter->GetOutputPort(), 5));
-    }
-    else
-    {
-        tempMapper->SetInputConnection(this->geometryFilter->GetOutputPort());
-    }
-
-    return tempMapper;
-}
-
-vtkSmartPointer<vtkDataSetMapper> MainWindow::mapperStage(vtkAlgorithmOutput* geometryInput)
-{
-    vtkSmartPointer<vtkDataSetMapper> tempMapper = vtkSmartPointer<vtkDataSetMapper>::New();
-    if(this->activeFilters[0])
+    if(ui->shrinkCheck->isChecked())
     {
         this->shrinkFilter->SetInputConnection(geometryInput);
         this->initFilter(0);
-        tempMapper->SetInputConnection(this->filterStage(this->shrinkFilter->GetOutputPort(), 0));
+        this->activeMapper->SetInputConnection(this->filterStage(this->shrinkFilter->GetOutputPort(), 0));
     }
-    else if(this->activeFilters[1])
+    else if(ui->clipCheck->isChecked())
     {
         this->clipFilter->SetInputConnection(geometryInput);
         this->initFilter(1);
-        tempMapper->SetInputConnection(this->filterStage(this->clipFilter->GetOutputPort(), 1));
+        this->activeMapper->SetInputConnection(this->filterStage(this->clipFilter->GetOutputPort(), 1));
     }
-    else if(this->activeFilters[2])
+    else if(ui->contourCheck->isChecked())
     {
         this->contourFilter->SetInputConnection(geometryInput);
         this->initFilter(2);
-        tempMapper->SetInputConnection(this->filterStage(this->contourFilter->GetOutputPort(), 2));
+        this->activeMapper->SetInputConnection(this->filterStage(this->contourFilter->GetOutputPort(), 2));
     }
-    else if(this->activeFilters[3])
+    else if(ui->check1->isChecked())
     {
         this->outlineFilter->SetInputConnection(geometryInput);
         this->initFilter(3);
-        tempMapper->SetInputConnection(this->filterStage(this->outlineFilter->GetOutputPort(), 3));
+        this->activeMapper->SetInputConnection(this->filterStage(this->outlineFilter->GetOutputPort(), 3));
     }
-    else if(this->activeFilters[4])
+    else if(ui->check2->isChecked())
     {
         this->outlineCornerFilter->SetInputConnection(geometryInput);
         this->initFilter(4);
-        tempMapper->SetInputConnection(this->filterStage(this->outlineCornerFilter->GetOutputPort(), 4));
+        this->activeMapper->SetInputConnection(this->filterStage(this->outlineCornerFilter->GetOutputPort(), 4));
     }
-    else if(this->activeFilters[5])
+    else if(ui->check3->isChecked())
     {
         this->splineFilter->SetInputConnection(geometryInput);
         this->initFilter(5);
-        tempMapper->SetInputConnection(this->filterStage(this->splineFilter->GetOutputPort(), 5));
+        this->activeMapper->SetInputConnection(this->filterStage(this->splineFilter->GetOutputPort(), 5));
     }
     else
     {
-        tempMapper->SetInputConnection(geometryInput);
+        this->activeMapper->SetInputConnection(geometryInput);
     }
-
-    return tempMapper;
 }
 
 
@@ -479,9 +501,10 @@ void MainWindow::drawPyramid(Cell *cell, vtkSmartPointer<vtkUnstructuredGrid> th
 
 void MainWindow::displayHexahedron()
 {
+    this->refreshGUI();
     this->refreshGrid();
     vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
-    vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
+    this->activeActor = vtkSmartPointer<vtkActor>::New();
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
 
     this->cells->Reset();
@@ -510,22 +533,20 @@ void MainWindow::displayHexahedron()
 
     this->objectType = 2;
 
-    this->objectVolume = 1.0;
+    this->geometryFilter->SetInputData(tempGrid);
+    this->mapperStage(this->geometryFilter->GetOutputPort());
 
-    tempActor->SetMapper(this->mapperGridStage(tempGrid));
-    tempActor->GetProperty()->EdgeVisibilityOn();
+    this->activeActor->SetMapper(this->activeMapper);
+    this->activeActor->GetProperty()->EdgeVisibilityOn();
+
+    this->activeActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+    this->activeActor->GetProperty()->LightingOff();
+
+    this->activeRenderer->AddActor(this->activeActor);
 
     this->updateViewer();
 
-    tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
-    tempActor->GetProperty()->LightingOff();
-
-    this->activeRenderer->AddActor(tempActor);
     this->activeGrid = tempGrid;
-    ui->cellMinShow->setRange(1, 1);
-    ui->cellMaxShow->setRange(1, 1);
-    ui->cellMinShow->setValue(1);
-    ui->cellMaxShow->setValue(1);
 
     this->resetCamera();
     this->refreshRender();
@@ -533,17 +554,17 @@ void MainWindow::displayHexahedron()
 
 void MainWindow::updateViewer()
 {
-    this->updateText();
     this->makeMeasurement();
+    this->updateText();
     this->updateAxes();
-    this->updatePoints();
 }
 
 void MainWindow::displayTetrahedron()
 {
+    this->refreshGUI();
     this->refreshGrid();
     vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
-    vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
+    this->activeActor = vtkSmartPointer<vtkActor>::New();
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
     this->cells->Reset();
     this->cells->Squeeze();
@@ -565,36 +586,20 @@ void MainWindow::displayTetrahedron()
     tempGrid->SetPoints(points);
     tempGrid->InsertNextCell(tetr->GetCellType(), tetr->GetPointIds());
 
-    objectParameters->SetInputData(tempGrid);
-
     this->objectType = 2;
 
-    Vector3D Aval(0.0, 0.0, 0.0);
-    Vector3D Bval(1.0, 0.0, 0.0);
-    Vector3D Cval(1.0, 1.0, 0.0);
-    Vector3D Dval(0.0, 1.0, 1.0);
+    this->geometryFilter->SetInputData(tempGrid);
+    this->mapperStage(this->geometryFilter->GetOutputPort());
 
-//calculates volume of tetrahedron.
-    double Vtetra1 = (((Bval-Aval).cross_product((Cval-Aval)))*(Dval-Aval));
+    this->activeActor->SetMapper(this->activeMapper);
+    this->activeActor->GetProperty()->EdgeVisibilityOn();
 
-    Vtetra1 = (Vtetra1/(6.0-12.0*(Vtetra1<0)));
-    this->objectVolume = Vtetra1;
+    this->activeActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+    this->activeActor->GetProperty()->LightingOff();
 
-    this->updateText();
-    this->makeMeasurement();
+    this->activeRenderer->AddActor(this->activeActor);
 
-    tempActor->SetMapper(this->mapperGridStage(tempGrid));
-    tempActor->GetProperty()->EdgeVisibilityOn();
-
-    tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
-    tempActor->GetProperty()->LightingOff();
-
-    this->activeRenderer->AddActor(tempActor);
     this->activeGrid = tempGrid;
-    ui->cellMinShow->setRange(1, 1);
-    ui->cellMaxShow->setRange(1, 1);
-    ui->cellMinShow->setValue(1);
-    ui->cellMaxShow->setValue(1);
 
     this->resetCamera();
     this->refreshRender();
@@ -602,9 +607,10 @@ void MainWindow::displayTetrahedron()
 
 void MainWindow::displayPyramid()
 {
+    this->refreshGUI();
     this->refreshGrid();
     vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
-    vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
+    this->activeActor = vtkSmartPointer<vtkActor>::New();
     vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
 
     this->cells->Reset();
@@ -627,43 +633,187 @@ void MainWindow::displayPyramid()
     tempGrid->SetPoints(points);
     tempGrid->InsertNextCell(pyr->GetCellType(), pyr->GetPointIds());
 
-    objectParameters->SetInputData(tempGrid);
-
     this->objectType = 2;
 
-    Vector3D Aval(1.0, 1.0, 1.0);
-    Vector3D Bval(-1.0, 1.0, 1.0);
-    Vector3D Cval(-1.0, -1.0, 1.0);
-    Vector3D Dval(1.0, -1.0, 1.0);
-    Vector3D Eval(0.0, 0.0, 0.0);
+    this->geometryFilter->SetInputData(tempGrid);
+    this->mapperStage(this->geometryFilter->GetOutputPort());
 
-    //calculates volume of each tetrahedron.
-//configuration of vertices were checked using the test code, so there is no overlapping of area between the tetrahedrons
-    double Vtetra1 = (((Bval-Aval).cross_product((Cval-Aval)))*(Dval-Aval));
-    double Vtetra2 = (((Bval-Eval).cross_product((Cval-Eval)))*(Dval-Eval));
+    this->activeActor->SetMapper(this->activeMapper);
+    this->activeActor->GetProperty()->EdgeVisibilityOn();
 
-//makes volumes positive
-    Vtetra1 = (Vtetra1/(6.0-12.0*(Vtetra1<0)));
-    Vtetra2 = (Vtetra2/(6.0-12.0*(Vtetra2<0)));
+    this->activeActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+    this->activeActor->GetProperty()->LightingOff();
 
-    //adds all the volume of tetrahedrons to aquire the final volume of the pyramid
-    this->objectVolume = (Vtetra1 + Vtetra2);
+    this->activeRenderer->AddActor(this->activeActor);
 
-    this->updateText();
-    this->makeMeasurement();
-
-    tempActor->SetMapper(this->mapperGridStage(tempGrid));
-    tempActor->GetProperty()->EdgeVisibilityOn();
-
-    tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
-    tempActor->GetProperty()->LightingOff();
-
-    this->activeRenderer->AddActor(tempActor);
     this->activeGrid = tempGrid;
-    ui->cellMinShow->setRange(1, 1);
-    ui->cellMaxShow->setRange(1, 1);
-    ui->cellMinShow->setValue(1);
-    ui->cellMaxShow->setValue(1);
+
+    this->resetCamera();
+    this->refreshRender();
+}
+
+void MainWindow::displaySphere()
+{
+    this->refreshGUI();
+    this->refreshGrid();
+    vtkSmartPointer<vtkSphereSource> sphere = vtkSmartPointer<vtkSphereSource>::New();
+    this->activeActor = vtkSmartPointer<vtkActor>::New();
+
+    sphere->SetPhiResolution(21);
+    sphere->SetThetaResolution(21);
+
+    this->objectType = 0;
+
+    this->mapperStage(sphere->GetOutputPort());
+
+    this->activeActor->SetMapper(this->activeMapper);
+    this->activeActor->GetProperty()->EdgeVisibilityOn();
+
+    this->activeActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+    this->activeActor->GetProperty()->LightingOff();
+
+    this->activeRenderer->AddActor(this->activeActor);
+
+    this->resetCamera();
+    this->refreshRender();
+}
+void MainWindow::displayDisk()
+{
+    this->refreshGUI();
+    this->refreshGrid();
+    vtkSmartPointer<vtkDiskSource> disk = vtkSmartPointer<vtkDiskSource>::New();
+    this->activeActor = vtkSmartPointer<vtkActor>::New();
+
+    disk->SetCircumferentialResolution(51);
+
+    this->objectType = 0;
+
+    this->mapperStage(disk->GetOutputPort());
+
+    this->activeActor->SetMapper(this->activeMapper);
+    this->activeActor->GetProperty()->EdgeVisibilityOn();
+
+    this->activeActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+    this->activeActor->GetProperty()->LightingOff();
+
+    this->activeRenderer->AddActor(this->activeActor);
+
+    this->resetCamera();
+    this->refreshRender();
+}
+void MainWindow::displayCone()
+{
+    this->refreshGUI();
+    this->refreshGrid();
+    vtkSmartPointer<vtkConeSource> cone = vtkSmartPointer<vtkConeSource>::New();
+    this->activeActor = vtkSmartPointer<vtkActor>::New();
+
+    cone->SetResolution(51);
+
+    this->objectType = 0;
+
+    this->mapperStage(cone->GetOutputPort());
+
+    this->activeActor->SetMapper(this->activeMapper);
+    this->activeActor->GetProperty()->EdgeVisibilityOn();
+
+    this->activeActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+    this->activeActor->GetProperty()->LightingOff();
+
+    this->activeRenderer->AddActor(this->activeActor);
+
+    this->resetCamera();
+    this->refreshRender();
+}
+void MainWindow::displayPlane()
+{
+    this->refreshGUI();
+    this->refreshGrid();
+    vtkSmartPointer<vtkPlaneSource> plane = vtkSmartPointer<vtkPlaneSource>::New();
+    this->activeActor = vtkSmartPointer<vtkActor>::New();
+
+    this->objectType = 0;
+
+    this->mapperStage(plane->GetOutputPort());
+
+    this->activeActor->SetMapper(this->activeMapper);
+    this->activeActor->GetProperty()->EdgeVisibilityOn();
+
+    this->activeActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+    this->activeActor->GetProperty()->LightingOff();
+
+    this->activeRenderer->AddActor(this->activeActor);
+
+    this->resetCamera();
+    this->refreshRender();
+}
+void MainWindow::displayPointCluster(int numberOfPoints)
+{
+    this->refreshGUI();
+    this->refreshGrid();
+    vtkSmartPointer<vtkPointSource> cluster = vtkSmartPointer<vtkPointSource>::New();
+    this->activeActor = vtkSmartPointer<vtkActor>::New();
+
+    cluster->SetNumberOfPoints(numberOfPoints);
+
+    this->objectType = 0;
+
+    this->mapperStage(cluster->GetOutputPort());
+
+    this->activeActor->SetMapper(this->activeMapper);
+    this->activeActor->GetProperty()->EdgeVisibilityOn();
+
+    this->activeActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+    this->activeActor->GetProperty()->LightingOff();
+
+    this->activeRenderer->AddActor(this->activeActor);
+
+    this->resetCamera();
+    this->refreshRender();
+}
+void MainWindow::displayLine()
+{
+    this->refreshGUI();
+    this->refreshGrid();
+    vtkSmartPointer<vtkLineSource> line = vtkSmartPointer<vtkLineSource>::New();
+    this->activeActor = vtkSmartPointer<vtkActor>::New();
+
+    this->objectType = 0;
+
+    this->mapperStage(line->GetOutputPort());
+
+    this->activeActor->SetMapper(this->activeMapper);
+    this->activeActor->GetProperty()->EdgeVisibilityOn();
+
+    this->activeActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+    this->activeActor->GetProperty()->LightingOff();
+
+    this->activeRenderer->AddActor(this->activeActor);
+
+    this->resetCamera();
+    this->refreshRender();
+}
+
+void MainWindow::displayCylinder()
+{
+    this->refreshGUI();
+    this->refreshGrid();
+    vtkSmartPointer<vtkCylinderSource> cylinder = vtkSmartPointer<vtkCylinderSource>::New();
+    this->activeActor = vtkSmartPointer<vtkActor>::New();
+
+    cylinder->SetResolution(51);
+
+    this->objectType = 0;
+
+    this->mapperStage(cylinder->GetOutputPort());
+
+    this->activeActor->SetMapper(this->activeMapper);
+    this->activeActor->GetProperty()->EdgeVisibilityOn();
+
+    this->activeActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+    this->activeActor->GetProperty()->LightingOff();
+
+    this->activeRenderer->AddActor(this->activeActor);
 
     this->resetCamera();
     this->refreshRender();
@@ -675,14 +825,15 @@ void MainWindow::displayPyramid()
 // return value: none (file is opened)
 void MainWindow::handleOpenButton()
 {
+    this->refreshGUI();
     this->activeFileName = QFileDialog::getOpenFileName(this, tr("Open STL File"), "./", tr("STL Files(*.stl *.mod)"));
     QFileInfo fi(this->activeFileName);
     emit statusUpdateMessage( QString("Loaded: ")+fi.suffix(), 0 );
     if(fi.suffix()=="stl")
     {
         this->refreshGrid();
-        vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
-        //emit statusUpdateMessage( QString("Loaded: ")+this->activeFileName, 0 );
+        this->activeActor = vtkSmartPointer<vtkActor>::New();
+
         this->activeReader->SetFileName(this->activeFileName.toLatin1().data());
         this->activeReader->Update();
         this->objectType = 1;
@@ -691,20 +842,17 @@ void MainWindow::handleOpenButton()
 
         this->objectVolume = this->objectParameters->GetVolume();
 
-        tempActor->SetMapper(this->mapperStage(this->activeReader->GetOutputPort()));
-        tempActor->GetProperty()->EdgeVisibilityOn();
+        this->mapperStage(this->activeReader->GetOutputPort());
 
-        //tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
-        tempActor->GetProperty()->LightingOff();
+        this->activeActor->SetMapper(this->activeMapper);
+        this->activeActor->GetProperty()->EdgeVisibilityOn();
 
-        if(ui->wireRadioB->isChecked()){
-            tempActor->GetProperty()->SetRepresentationToWireframe();
-        }
+        this->activeActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+        this->activeActor->GetProperty()->LightingOff();
 
-        this->activeRenderer->AddActor(tempActor);
+        this->activeRenderer->AddActor(this->activeActor);
 
-        this->updateText();
-        this->makeMeasurement();
+        this->updateViewer();
 
         ui->cellMinShow->setRange(1, 1);
         ui->cellMaxShow->setRange(1, 1);
@@ -715,9 +863,11 @@ void MainWindow::handleOpenButton()
     else if(fi.suffix()=="mod")
     {
         this->refreshGrid();
+        this->separateCellColors.clear();
 
         vtkSmartPointer<vtkUnstructuredGrid> tempGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
-        vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
+        this->activeActor = vtkSmartPointer<vtkActor>::New();
+
         vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
         vtkSmartPointer<vtkUnsignedCharArray> cellData = vtkSmartPointer<vtkUnsignedCharArray>::New();
         this->cells->Reset();
@@ -756,6 +906,7 @@ void MainWindow::handleOpenButton()
             }
 
             Vector3D color = this->activeVTKModel.getMaterial(tempCell.getMaterialID()).getColor();
+            this->separateCellColors.push_back({0.0,0.0,0.0,0.0});
 
             float rgb[3];
             rgb[0] = 255*color.getx();
@@ -768,69 +919,65 @@ void MainWindow::handleOpenButton()
         }
 
         tempGrid->GetCellData()->SetScalars(cellData);
-        this->objectType = 0;
 
+        this->allowGUIChange = 0;
         ui->cellMinShow->setRange(1, this->activeVTKModel.getCellAmount());
         ui->cellMaxShow->setRange(1, this->activeVTKModel.getCellAmount());
         ui->cellMinShow->setValue(1);
         ui->cellMaxShow->setValue(this->activeVTKModel.getCellAmount());
+        this->allowGUIChange = 1;
 
         this->objectType = 3;
 
-        tempActor->SetMapper(this->mapperGridStage(tempGrid));
-        tempActor->GetProperty()->EdgeVisibilityOn();
+        this->geometryFilter->SetInputData(tempGrid);
+        this->mapperStage(this->geometryFilter->GetOutputPort());
 
-        //tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
-        tempActor->GetProperty()->LightingOff();
+        this->activeActor->SetMapper(this->activeMapper);
+        this->activeActor->GetProperty()->EdgeVisibilityOn();
 
-        if(ui->wireRadioB->isChecked()){
-            tempActor->GetProperty()->SetRepresentationToWireframe();
-        }
+        this->activeActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
+        this->activeActor->GetProperty()->LightingOff();
 
-        this->activeRenderer->AddActor(tempActor);
-
-        this->updateText();
-        this->makeMeasurement();
-        this->updateAxes();
+        this->activeRenderer->AddActor(this->activeActor);
 
         this->activeGrid = tempGrid;
+
+        this->updateViewer();
     }
     this->resetCamera();
     this->refreshRender();
 }
 
+void MainWindow::handleSaveButton()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save model (*.stl *.mod)"),"/theFile");
+
+    QFileInfo fi(fileName);
+
+    if(fi.suffix()=="stl")
+    {
+        vtkSmartPointer<vtkSTLWriter> stlWriter = vtkSmartPointer<vtkSTLWriter>::New();
+        stlWriter->SetFileName(fileName.toLocal8Bit().data());
+        stlWriter->SetInputConnection(this->activeReader->GetOutputPort());
+        stlWriter->Write();
+    }
+    else if(fi.suffix()=="mod")
+    {
+        Model savingVTKModel;
+
+    }
+}
+
 void MainWindow::resetViewer()
 {
-    this->refreshGrid();
 
-    ui->cellMinShow->setRange(1, 1);
-    ui->cellMaxShow->setRange(1, 1);
-    ui->cellMinShow->setValue(1);
-    ui->cellMaxShow->setValue(1);
+    this->activeColor.setRed(255);
+    this->activeColor.setGreen(0);
+    this->activeColor.setBlue(0);
 
-    vtkSmartPointer<vtkActor> tempActor = vtkSmartPointer<vtkActor>::New();
+    this->displayHexahedron();
 
-    ui->shrinkCheck->setCheckState(Qt::Unchecked);
-    ui->clipCheck->setCheckState(Qt::Unchecked);
-    ui->solidRadioB->toggle();
-
-    this->objectType = 0;
-    this->objectVolume = 1.0;
-
-    vtkSmartPointer<vtkCubeSource> cubeSource = vtkSmartPointer<vtkCubeSource>::New();
-
-    tempActor->SetMapper(this->mapperStage(cubeSource->GetOutputPort()));
-
-    tempActor->GetProperty()->EdgeVisibilityOn();
-
-    tempActor->GetProperty()->SetColor( this->activeColors->GetColor3d("Red").GetData() );
-    tempActor->GetProperty()->LightingOff();
-
-    this->activeRenderer->AddActor(tempActor);
-
-    this->updateText();
-    this->makeMeasurement();
-    this->updateAxes();
+    this->updateViewer();
 
     this->activeRenderer->SetBackground( this->activeColors->GetColor3d("Silver").GetData() );
     this->activeRenderer->GetActiveCamera()->Azimuth(30);
@@ -846,23 +993,173 @@ void MainWindow::resetCamera()
     this->activeRenderer->GetActiveCamera()->Azimuth(30);
     this->activeRenderer->GetActiveCamera()->Elevation(30);
     this->activeRenderer->ResetCameraClippingRange();
-    this->activeRenderWindow->Render();
+    this->refreshRender();
+}
+
+void MainWindow::setCameraOrientationPosX()
+{
+    this->activeRenderer->GetActiveCamera()->SetPosition(this->objectPosition.getx()+3*this->objectDimensions.getx(),
+            this->objectPosition.gety(),
+            this->objectPosition.getz());
+    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->objectPosition.getx(),this->objectPosition.gety(),this->objectPosition.getz());
+    this->activeRenderer->GetActiveCamera()->SetViewUp(this->objectPosition.getx(),this->objectPosition.gety(),this->objectPosition.getz());
+    this->updateAxes(0.0,0.0,-1.0,1);
+
+    this->activeRenderer->ResetCameraClippingRange();
+    this->refreshRender();
+}
+void MainWindow::setCameraOrientationNegX()
+{
+    this->activeRenderer->ResetCamera();
+    this->activeRenderer->ResetCameraClippingRange();
+    this->activeRenderer->GetActiveCamera()->SetPosition(this->objectPosition.getx()-3*this->objectDimensions.getx(),
+            this->objectPosition.gety(),
+            this->objectPosition.getz());
+    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->objectPosition.getx(),this->objectPosition.gety(),this->objectPosition.getz());
+    this->activeRenderer->GetActiveCamera()->SetViewUp(this->objectPosition.getx(),this->objectPosition.gety(),this->objectPosition.getz());
+    this->updateAxes(0.0,0.0,1.0,1);
+
+    this->activeRenderer->ResetCameraClippingRange();
+    this->refreshRender();
+}
+void MainWindow::setCameraOrientationPosY()
+{
+    this->activeRenderer->ResetCamera();
+    this->activeRenderer->GetActiveCamera()->SetPosition(this->objectPosition.getx(),
+            this->objectPosition.gety()+3*this->objectDimensions.gety(),
+            this->objectPosition.getz());
+    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->objectPosition.getx(),this->objectPosition.gety(),this->objectPosition.getz());
+    this->activeRenderer->GetActiveCamera()->SetViewUp(1.0,this->objectPosition.gety(),this->objectPosition.getz());
+
+    this->updateAxes(1.0,0.0,-1.0,1);
+
+    //this->activeRenderer->ResetCameraClippingRange();
+    this->refreshRender();
+}
+
+void MainWindow::setCameraOrientationNegY()
+{
+    this->activeRenderer->ResetCamera();
+    this->activeRenderer->GetActiveCamera()->SetPosition(this->objectPosition.getx(),
+            this->objectPosition.gety()-3*this->objectDimensions.gety(),
+            this->objectPosition.getz());
+    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->objectPosition.getx(),this->objectPosition.gety(),this->objectPosition.getz());
+    this->activeRenderer->GetActiveCamera()->SetViewUp(1.0,this->objectPosition.gety(),this->objectPosition.getz());
+
+    this->updateAxes(-1.0,0.0,0.0,1);
+
+    //this->activeRenderer->ResetCameraClippingRange();
+    this->refreshRender();
+}
+void MainWindow::setCameraOrientationPosZ()
+{
+    this->activeRenderer->ResetCamera();
+    this->activeRenderer->GetActiveCamera()->SetPosition(this->objectPosition.getx(),
+            this->objectPosition.gety(),
+            this->objectPosition.getz()+3*this->objectDimensions.getz());
+    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->objectPosition.getx(),this->objectPosition.gety(),this->objectPosition.getz());
+    this->activeRenderer->GetActiveCamera()->SetViewUp(this->objectPosition.getx(),this->objectPosition.gety(),this->objectPosition.getz());
+    this->updateAxes(1.0,0.0,1.0,1);
+
+    this->activeRenderer->ResetCameraClippingRange();
+    this->refreshRender();
+}
+void MainWindow::setCameraOrientationNegZ()
+{
+    this->activeRenderer->ResetCamera();
+    this->activeRenderer->GetActiveCamera()->SetPosition(this->objectPosition.getx(),
+            this->objectPosition.gety(),
+            this->objectPosition.getz()-3*this->objectDimensions.getz());
+    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->objectPosition.getx(),this->objectPosition.gety(),this->objectPosition.getz());
+    this->activeRenderer->GetActiveCamera()->SetViewUp(this->objectPosition.getx(),this->objectPosition.gety(),this->objectPosition.getz());
+    this->updateAxes(-1.0,0.0,0.0,1);
+
+    this->activeRenderer->ResetCameraClippingRange();
+    this->refreshRender();
+}
+
+void MainWindow::setCameraOrientationPosShift()
+{
+    this->activeRenderer->GetActiveCamera()->Azimuth(90);
+    this->activeRenderer->ResetCameraClippingRange();
+    this->refreshRender();
+}
+
+void MainWindow::setCameraOrientationNegShift()
+{
+    this->activeRenderer->GetActiveCamera()->Azimuth(-90);
+    this->activeRenderer->ResetCameraClippingRange();
+    this->refreshRender();
+}
+
+void MainWindow::setCameraOrientationPosRotate()
+{
+    this->activeRenderer->GetActiveCamera()->Roll(-90.0);
+    this->refreshRender();
+}
+
+void MainWindow::setCameraOrientationNegRotate()
+{
+    this->activeRenderer->GetActiveCamera()->Roll(90.0);
+    this->refreshRender();
 }
 
 void MainWindow::changeBackgroundColor()
 {
     QColor color = QColorDialog::getColor(Qt::black, this, "Pick a color",  QColorDialog::DontUseNativeDialog);
     this->activeRenderer->SetBackground((double)color.red()/255,(double)color.green()/255,(double)color.blue()/255);
-    this->activeRenderWindow->Render();
+    this->refreshRender();
 }
 
 void MainWindow::changeObjectColor()
 {
     QColor color = QColorDialog::getColor(Qt::black, this, "Pick a color",  QColorDialog::DontUseNativeDialog);
 
-    //this->activeActor->GetProperty()->SetColor((double)color.red()/255,(double)color.green()/255,(double)color.blue()/255);
+    if(this->objectType>2)
+    {
+        for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
+        {
+            if((i+1)>=ui->cellMinShow->value()&&(i+1)<=ui->cellMaxShow->value())
+            {
+                this->separateCellColors[i][0] = 1.0;
+                this->separateCellColors[i][1] = (double)color.red()/255;
+                this->separateCellColors[i][2] = (double)color.green()/255;
+                this->separateCellColors[i][3] = (double)color.blue()/255;
+            }
+        }
+    }
+    else
+    {
+        this->activeColor = color;
 
-    this->activeRenderWindow->Render();
+    }
+    this->updateObject();
+    this->refreshRender();
+}
+
+void MainWindow::resetObjectColor()
+{
+    if(this->objectType<3)
+    {
+        this->activeColor.setRed(255);
+        this->activeColor.setGreen(0);
+        this->activeColor.setBlue(0);
+    }
+    else
+    {
+        for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
+        {
+            Cell tempCell = this->activeVTKModel.getCell(i);
+            this->separateCellColors[i][0] = 0.0;
+
+            Vector3D color = this->activeVTKModel.getMaterial(tempCell.getMaterialID()).getColor();
+            this->separateCellColors[i][1] = color.getx();
+            this->separateCellColors[i][2] = color.gety();
+            this->separateCellColors[i][3] = color.getz();
+        }
+    }
+    this->updateObject();
+    this->refreshRender();
 }
 
 void MainWindow::initFilter(int index)
@@ -878,11 +1175,11 @@ void MainWindow::initFilter(int index)
     case 1:
     {
         vtkSmartPointer<vtkPlane> planeLeft = vtkSmartPointer<vtkPlane>::New();
-        double originX = (clipNormalsX)*(this->objectPosition.getx()+(this->objectDimensions.getx()*(this->clipOriginPart)));
-        double originY = (clipNormalsY)*(this->objectPosition.gety()+(this->objectDimensions.gety()*(this->clipOriginPart)));
-        double originZ = (clipNormalsZ)*(this->objectPosition.getz()+(this->objectDimensions.getz()*(this->clipOriginPart)));
+        double originX = ((float)ui->clipX->isChecked())*(this->objectPosition.getx()+(this->objectDimensions.getx()*(this->clipOriginPart)));
+        double originY = ((float)ui->clipY->isChecked())*(this->objectPosition.gety()+(this->objectDimensions.gety()*(this->clipOriginPart)));
+        double originZ = ((float)ui->clipZ->isChecked())*(this->objectPosition.getz()+(this->objectDimensions.getz()*(this->clipOriginPart)));
         planeLeft->SetOrigin(originX, originY, originZ);
-        planeLeft->SetNormal(clipNormalsX, clipNormalsY, clipNormalsZ);
+        planeLeft->SetNormal((float)ui->clipX->isChecked(), (float)ui->clipY->isChecked(), (float)ui->clipZ->isChecked());
         this->clipFilter->SetClipFunction( planeLeft.Get() );
         break;
     }
@@ -906,133 +1203,87 @@ void MainWindow::initFilter(int index)
     }
 }
 
-void MainWindow::handleGeometryFilter()
+void MainWindow::handleUpdate()
 {
-    this->updateObject();
-    this->updateText();
-    this->refreshRender();
-}
-void MainWindow::handleShrinkFilter()
-{
-    this->activeFilters[0] = ui->shrinkCheck->isChecked();
-    this->updateObject();
-    this->updateText();
-    this->refreshRender();
-}
-void MainWindow::handleClipFilter()
-{
-    this->activeFilters[1] = ui->clipCheck->isChecked();
-    this->updateObject();
-    this->updateText();
-    this->refreshRender();
-}
-void MainWindow::handleContourFilter()
-{
-    this->activeFilters[2] = ui->clipCheck->isChecked();
-    this->updateObject();
-    this->updateText();
-    this->refreshRender();
-}
-void MainWindow::handleOutlineFilter()
-{
-    this->updateObject();
-    this->updateText();
-    this->refreshRender();
-}
-void MainWindow::handleOutlineCornerFilter()
-{
-    this->updateObject();
-    this->updateText();
-    this->refreshRender();
-}
-void MainWindow::handleSplineFilter()
-{
-    this->updateObject();
-    this->updateText();
-    this->refreshRender();
-}
-
-void MainWindow::changeShrinkFactor(double newVal)
-{
-    if(newVal>1.0)
+    if(this->allowGUIChange)
     {
-        ui->shrinkFactor->setValue(1.0);
+        this->updateObject();
+        this->refreshRender();
     }
-    this->updateObject();
-    this->refreshRender();
 }
 
 void MainWindow::changeClipValue(int newVal)
 {
     this->clipOriginPart = ((double)newVal/100);
-
     this->updateObject();
-    this->updateText();
     this->refreshRender();
 }
 
-void MainWindow::changeClipX()
+void MainWindow::handleHelpButton()
 {
-    clipNormalsX = ui->clipX->isChecked();
-    this->updateObject();
-    this->updateText();
-    this->refreshRender();
+    AppHelp helpWindow;
+    helpWindow.runHelp();
 }
 
-void MainWindow::changeClipY()
+void MainWindow::handleNewButton()
 {
-    clipNormalsY = ui->clipY->isChecked();
-    this->updateObject();
-    this->updateText();
-    this->refreshRender();
-}
-
-void MainWindow::changeClipZ()
-{
-    clipNormalsZ = ui->clipZ->isChecked();
-    this->updateObject();
-    this->updateText();
-    this->refreshRender();
-}
-
-void MainWindow::setMinCellShow(int newVal)
-{
-
-    if(newVal<1)
+    int chosenShape = 0;
+    NewShapeChoice choiceWindow;
+    choiceWindow.runChoice(chosenShape);
+    switch(chosenShape)
     {
-        ui->cellMinShow->setValue(1);
+    case 1:
+    {
+        this->displayHexahedron();
+        break;
+    }
+    case 2:
+    {
+        this->displayTetrahedron();
+        break;
+    }
+    case 3:
+    {
+        this->displayPyramid();
+        break;
+    }
+    case 4:
+    {
+        this->displaySphere();
+        break;
+    }
+    case 5:
+    {
+        this->displayDisk();
+        break;
+    }
+    case 6:
+    {
+        this->displayCone();
+        break;
+    }
+    case 7:
+    {
+        this->displayPlane();
+        break;
+    }
+    case 8:
+    {
+        this->displayPointCluster(500);
+        break;
+    }
+    case 9:
+    {
+        this->displayLine();
+        break;
+    }
+    case 10:
+    {
+        this->displayCylinder();
+        break;
+    }
     }
 
-    if(newVal>ui->cellMaxShow->value())
-    {
-        ui->cellMinShow->setValue(ui->cellMaxShow->value());
-    }
-
-    this->updateVTKModel();
-    this->refreshRender();
-
-}
-
-void MainWindow::setMaxCellShow(int newVal)
-{
-    if(newVal>this->activeVTKModel.getCellAmount())
-    {
-        ui->cellMaxShow->setValue(this->activeVTKModel.getCellAmount());
-    }
-
-    if(newVal<ui->cellMinShow->value())
-    {
-        ui->cellMaxShow->setValue(ui->cellMinShow->value());
-    }
-
-    this->updateVTKModel();
-
-    this->refreshRender();
-}
-
-void MainWindow::handleObjectState(){
-    this->updateObject();
-    this->refreshRender();
 }
 
 
@@ -1044,13 +1295,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 //Create connection to open action
     connect( ui->actionOpen, &QAction::triggered, this, &MainWindow::handleOpenButton);
-    connect( ui->makeHex, &QPushButton::released, this, &MainWindow::displayHexahedron );
-    connect( ui->makeTetra, &QPushButton::released, this, &MainWindow::displayTetrahedron );
-    connect( ui->makePyr, &QPushButton::released, this, &MainWindow::displayPyramid );
+    connect( ui->actionHelp, &QAction::triggered, this, &MainWindow::handleHelpButton);
+    connect( ui->actionNew, &QAction::triggered, this, &MainWindow::handleNewButton);
     connect( ui->resetObject, &QPushButton::released, this, &MainWindow::resetViewer );
     connect( ui->resetCamera, &QPushButton::released, this, &MainWindow::resetCamera );
     connect( ui->backgroundColor, &QPushButton::released, this, &MainWindow::changeBackgroundColor );
     connect( ui->objectColor, &QPushButton::released, this, &MainWindow::changeObjectColor );
+    connect( ui->resetObjColor, &QPushButton::released, this, &MainWindow::resetObjectColor );
+
+    //camera
+    connect( ui->orientationXPos, &QPushButton::released, this, MainWindow:: setCameraOrientationPosX);
+    connect( ui->orientationXNeg, &QPushButton::released, this, &MainWindow::setCameraOrientationNegX );
+    connect( ui->orientationYPos, &QPushButton::released, this, MainWindow:: setCameraOrientationPosY);
+    connect( ui->orientationYNeg, &QPushButton::released, this, &MainWindow::setCameraOrientationNegY);
+    connect( ui->orientationZPos, &QPushButton::released, this, MainWindow:: setCameraOrientationPosZ);
+    connect( ui->orientationZNeg, &QPushButton::released, this, &MainWindow::setCameraOrientationNegZ );
+    connect( ui->shift90Pos, &QPushButton::released, this, MainWindow:: setCameraOrientationPosShift);
+    connect( ui->shift90Neg, &QPushButton::released, this, &MainWindow::setCameraOrientationNegShift );
+    connect( ui->rotat90Pos, &QPushButton::released, this, MainWindow:: setCameraOrientationPosRotate);
+    connect( ui->rotat90Neg, &QPushButton::released, this, &MainWindow::setCameraOrientationNegRotate );
 
 //Create connection to message bar
     connect(this, &MainWindow::statusUpdateMessage, ui->statusbar, &QStatusBar::showMessage );
@@ -1059,24 +1322,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->clipSlider, SIGNAL(valueChanged(int)), this, SLOT(changeClipValue(int)));
 
 //check boxes
-    connect(ui->shrinkCheck, SIGNAL(stateChanged(int)), this, SLOT(handleShrinkFilter()));
-    connect(ui->clipCheck, SIGNAL(stateChanged(int)), this, SLOT(handleClipFilter()));
-    connect(ui->contourCheck, SIGNAL(stateChanged(int)), this, SLOT(handleContourFilter()));
+    connect(ui->shrinkCheck, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->clipCheck, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->contourCheck, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
 
-    connect(ui->clipX, SIGNAL(stateChanged(int)), this, SLOT(changeClipX()));
-    connect(ui->clipY, SIGNAL(stateChanged(int)), this, SLOT(changeClipY()));
-    connect(ui->clipZ, SIGNAL(stateChanged(int)), this, SLOT(changeClipZ()));
+    connect(ui->clipX, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->clipY, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->clipZ, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
+
+    connect(ui->showInfo, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->showAxis, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
 
 //spin boxes
-    connect(ui->shrinkFactor, SIGNAL(valueChanged(double)), this, SLOT(changeShrinkFactor(double)));
+    connect(ui->shrinkFactor, SIGNAL(valueChanged(double)), this, SLOT(handleUpdate()));
 
-    connect(ui->cellMinShow, SIGNAL(valueChanged(int)), this, SLOT(setMinCellShow(int)));
-    connect(ui->cellMaxShow, SIGNAL(valueChanged(int)), this, SLOT(setMaxCellShow(int)));
+    connect(ui->cellMinShow, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->cellMaxShow, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
 
 //radio buttons
-    connect(ui->solidRadioB, SIGNAL(clicked()), this, SLOT(handleObjectState()));
-    connect(ui->wireRadioB, SIGNAL(clicked()), this, SLOT(handleObjectState()));
-    connect(ui->pointsRadioB, SIGNAL(clicked()), this, SLOT(handleObjectState()));
+    connect(ui->solidRadioB, SIGNAL(clicked()), this, SLOT(handleUpdate()));
+    connect(ui->wireRadioB, SIGNAL(clicked()), this, SLOT(handleUpdate()));
+    connect(ui->pointsRadioB, SIGNAL(clicked()), this, SLOT(handleUpdate()));
 
 // creator
 
