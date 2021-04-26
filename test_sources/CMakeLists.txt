@@ -34,7 +34,7 @@ endif()
 add_executable(vector3DtestProg vector3Dtest.cpp)
 
 # The executable uses the library
-target_link_libraries(vector3DtestProg model3Dlib)
+target_link_libraries(vector3DtestProg model3DLib)
 
 add_test(vector3Dtest vector3DtestProg)
 
