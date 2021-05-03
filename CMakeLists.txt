@@ -77,7 +77,7 @@ set_target_properties(3D_software PROPERTIES
          RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/application)
 
 #link the created library to the created executable
-target_link_libraries(3D_software model3Dlib)
+target_link_libraries(3D_software model3DLib)
 
 # Tell CMake that the executable depends on the Qt::Widget libraries.
 target_link_libraries( 3D_software Qt5::Widgets )

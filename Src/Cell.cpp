@@ -13,6 +13,12 @@
 //#include "main.h"
 #include "../Inc/Cell.h"
 //-------------------------------------------------------------------------
+
+Cell::Cell()
+{
+	
+}
+
 //constructor
 Cell::Cell(int ID,int type,int materialID,std::vector<int> indices)
 {
