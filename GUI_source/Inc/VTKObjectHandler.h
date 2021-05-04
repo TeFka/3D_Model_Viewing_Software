@@ -46,6 +46,12 @@
 #include <QColorDialog>
 #include <vtkPlane.h>
 #include <vtkClipDataSet.h>
+#include <vtkShrinkFilter.h>
+#include <vtkGeometryFilter.h>
+#include <vtkContourFilter.h>
+#include <vtkOutlineFilter.h>
+#include <vtkOutlineCornerFilter.h>
+#include <vtkSplineFilter.h>
 #include <vtkInteractorStyleTrackballCamera.h>
 
 #include <vtkTextActor.h>
@@ -57,39 +63,112 @@
 #include <vtkOrientationMarkerWidget.h>
 #include <vtkRenderWindowInteractor.h>
 
+#include <vtkAlgorithmOutput.h>
+
 #include <vtkGlyph3DMapper.h>
 
-#include "../Inc/Model.h"
-#include "./apphelp.h"
-#include "./newshapechoice.h"
+#include <vtkIdList.h>
 
-#include "./Pipeline.h"
-#include "./VTKObjectHandler.h"
+#include "../Inc/Model.h"
+
+struct materialCellConnection{
+    int minCellAssigned = 0;
+    int maxCellAssigned = 0;
+    Material theMaterial;
+};
 
 class VTKObjectHandler{
 
 private:
+
+    Model activeVTKModel;
+
+    vtkSmartPointer<vtkSTLReader> activeReader = vtkSmartPointer<vtkSTLReader>::New();
+
+    vtkSmartPointer<vtkUnstructuredGrid> activeGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
+    vtkSmartPointer<vtkGeometryFilter> geometryFilter = vtkSmartPointer<vtkGeometryFilter>::New();
+
     vtkSmartPointer<vtkPoints> activePoints = vtkSmartPointer<vtkPoints>::New();
-    vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();
+    vtkSmartPointer<vtkCellArray> activeCells = vtkSmartPointer<vtkCellArray>::New();
+    vtkSmartPointer<vtkUnsignedCharArray> cellColorData = vtkSmartPointer<vtkUnsignedCharArray>::New();
 
+    std::vector<materialCellConnection> materials;
+
+    std::vector<std::array<double,3>> separateCellColors;
     QColor activeColor;
-    std::vector<std::array<double,4>> separateCellColors;
 
+    vtkSmartPointer<vtkMassProperties> objectParameters = vtkSmartPointer<vtkMassProperties>::New();
     Vector3D objectDimensions;
     Vector3D objectPosition;
+
+    int objectType = 0;
+
     double objectVolume = 0.0;
     double objectWeight = 0.0;
 
-    void updateVTKModel();
+    double dimensionAverage = 0.0;
+
+    int minActiveCell = 0;
+    int maxActiveCell = 0;
+    int cellAmount = 0;
+
+    void refresh();
+
+    vtkAlgorithmOutput* finalSourceAlgorithm = vtkAlgorithmOutput::New();
 
 public:
-    void makeMeasurement();
 
-    void updateObject();
+    VTKObjectHandler();
 
-    void drawHexahedron(Cell*,vtkSmartPointer<vtkUnstructuredGrid>);
-    void drawTetrahedron(Cell*,vtkSmartPointer<vtkUnstructuredGrid>);
-    void drawPyramid(Cell*,vtkSmartPointer<vtkUnstructuredGrid>);
-}
+    vtkAlgorithmOutput* getSource();
+    vtkSmartPointer<vtkUnstructuredGrid> getGrid();
+    vtkSmartPointer<vtkPoints> getPoints();
+    vtkSmartPointer<vtkCellArray> getCells();
+
+    QColor getColor();
+    std::array<double,3> getCellColor(int);
+
+    int getObjectType();
+    double getVolume();
+    double getWeight();
+
+    Vector3D getPosition();
+    Vector3D getDimensions();
+    double getDimensionAverage();
+
+    int getCellAmount();
+    int getMinActiveCell();
+    int getMaxActiveCell();
+
+    void setColor(QColor);
+    void setCellColor(int,double,double,double);
+    void setMinActiveCell(int);
+    void setMaxActiveCell(int);
+
+    void updateVTKModel();
+    void makeMeasurements();
+
+    void drawHexahedron(Cell*);
+    void drawTetrahedron(Cell*);
+    void drawPyramid(Cell*);
+
+    void displayHexahedron();
+    void displayTetrahedron();
+    void displayPyramid();
+    void displaySphere();
+    void displayDisk();
+    void displayCone();
+    void displayPlane();
+    void displayPointCluster(int);
+    void displayLine();
+    void displayCylinder();
+
+    void getModelFromFile(QString);
+    void saveModelToFile(QString);
+
+    void changeColor(QColor);
+    void resetColor();
+
+};
 
 #endif // VTKOBJECT_H_INCLUDED

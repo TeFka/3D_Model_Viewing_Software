@@ -69,8 +69,7 @@
 #include "./apphelp.h"
 #include "./newshapechoice.h"
 
-#include "./Pipeline.h"
-#include "./VTKObjectHandler.h"
+#include "./Inc/ViewerHandler.h"
 
 namespace Ui
 {
@@ -84,93 +83,29 @@ public:
 //MainWindow();
     ~MainWindow();
 private:
-    Model activeVTKModel;
 
-    vtkSmartPointer<vtkGeometryFilter> geometryFilter = vtkSmartPointer<vtkGeometryFilter>::New();
-    vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
-    vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
-    vtkSmartPointer<vtkContourFilter> contourFilter = vtkSmartPointer<vtkContourFilter>::New();
-    vtkSmartPointer<vtkOutlineFilter> outlineFilter = vtkSmartPointer<vtkOutlineFilter>::New();
-    vtkSmartPointer<vtkOutlineCornerFilter> outlineCornerFilter = vtkSmartPointer<vtkOutlineCornerFilter>::New();
-    vtkSmartPointer<vtkSplineFilter> splineFilter = vtkSmartPointer<vtkSplineFilter>::New();
+    ViewerHandler* appHandler = new ViewerHandler;
 
-    vtkSmartPointer<vtkUnstructuredGrid> activeGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
-    vtkSmartPointer<vtkDataSetMapper> activeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
-    vtkSmartPointer<vtkActor> activeActor = vtkSmartPointer<vtkActor>::New();
+    Ui::MainWindow* ui;
 
-    Ui::MainWindow * ui;
-    QString activeFileName;
-    vtkSmartPointer<vtkSTLReader> activeReader = vtkSmartPointer<vtkSTLReader>::New();
-    vtkSmartPointer<vtkNamedColors> activeColors = vtkSmartPointer<vtkNamedColors>::New();
+    vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
+    vtkSmartPointer<vtkRenderWindow> activeRenderWindow = vtkSmartPointer<vtkRenderWindow>::New();
 
     vtkSmartPointer<vtkRenderer> activeRenderer = vtkSmartPointer<vtkRenderer>::New();
 
-    vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
-    vtkSmartPointer<vtkRenderWindow> activeRenderWindow;
-
-    vtkSmartPointer<vtkCellArray> cells = vtkSmartPointer<vtkCellArray>::New();
-
-    vtkSmartPointer<vtkMassProperties> objectParameters = vtkSmartPointer<vtkMassProperties>::New();
-
-    vtkNew<vtkAxesActor> axes;
-
-    QColor activeColor;
-    std::vector<std::array<double,4>> separateCellColors;
-
-    int objectType = 0;
-
-    Vector3D objectDimensions;
-    Vector3D objectPosition;
-
-    double objectVolume = 0.0;
-    double objectWeight = 0.0;
+    QString activeFileName;
 
     int allowGUIChange = 1;
-    //clip filter
-    double clipOriginPart = 0.0;
 
     void refreshRender();
-    void refreshGrid();
     void refreshGUI();
-    void updateObject();
-
-    void updateVTKModel();
-
-    void updateText();
-
-    void updateAxes(double=1.0, double=0.0, double=0.0, int=0);
-
-    void updatePoints(vtkSmartPointer<vtkPoints>);
-
-    void updateViewer();
-
-    void makeMeasurement();
-
-    void initFilter(int);
-
-    vtkAlgorithmOutput* filterStage(vtkAlgorithmOutput*, int);
-
-    void mapperStage(vtkAlgorithmOutput*);
-
-    void drawHexahedron(Cell*,vtkSmartPointer<vtkUnstructuredGrid>);
-    void drawTetrahedron(Cell*,vtkSmartPointer<vtkUnstructuredGrid>);
-    void drawPyramid(Cell*,vtkSmartPointer<vtkUnstructuredGrid>);
-
-    void displayHexahedron();
-    void displayTetrahedron();
-    void displayPyramid();
-    void displaySphere();
-    void displayDisk();
-    void displayCone();
-    void displayPlane();
-    void displayPointCluster(int);
-    void displayLine();
-    void displayCylinder();
 
 public slots:
 
     void handleUpdate();
-    void changeClipValue(int);
+    void handleFilterUpdate();
+    void handleMinCellChange();
+    void handleMaxCellChange();
 
     void handleOpenButton();
     void handleSaveButton();

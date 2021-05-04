@@ -112,8 +112,8 @@ private:
 //Function with template of class Model, alignVectors()
 //Function to sort the array of objects.
 //type of objects is specified by template
-template<typename T>
-void alignArrayID(std::vector<T>&);
+    template<typename T>
+    void alignArrayID(std::vector<T>&);
 
 //Function of class Model, fixIDValues()
 //Function to make all ID values of vectors and materials that coresponds to their position in array
@@ -160,6 +160,18 @@ public:
 //Function of class Model, getCells()
 //Function to get cells array of model
     std::vector<Cell> getCells();
+
+//Function of class Model, setVectors()
+//Function to set vector array of model
+    void setVectors(std::vector<Vector3D>);
+
+//Function of class Model, setMaterials()
+//Function to set materials array of model
+    void setMaterials(std::vector<Material>);
+
+//Function of class Model, setCells()
+//Function to set cells array of model
+    void setCells(std::vector<Cell>);
 
 //Function of class Model, getCells()
 //Function to get cells array of model

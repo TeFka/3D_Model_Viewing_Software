@@ -167,6 +167,9 @@ background-color: rgb(150,150,150);</string>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="maximum">
+               <number>100</number>
+              </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
@@ -647,12 +650,12 @@ margin: 5px;</string>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="showAxis">
+         <widget class="QCheckBox" name="showAxes">
           <property name="styleSheet">
            <string notr="true">color: rgb(170, 0, 0);</string>
           </property>
           <property name="text">
-           <string>show Axis</string>
+           <string>show Axes</string>
           </property>
          </widget>
         </item>
@@ -667,7 +670,7 @@ margin: 5px;</string>
          </widget>
         </item>
         <item>
-         <widget class="QSlider" name="horizontalSlider">
+         <widget class="QSlider" name="lightIntensity">
           <property name="maximum">
            <number>100</number>
           </property>

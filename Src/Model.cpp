@@ -974,6 +974,33 @@ std::vector<Cell> Model::getCells()
     return this->cells;
 }
 
+//Function of class Model, setVectors()
+//Function to set vector array of model
+// Arguments for setVectors(): std::vector<Vector3D> - new array to be set.
+// return value: none
+void Model::setVectors(std::vector<Vector3D> newVectors)
+{
+    this->vectors = newVectors;
+}
+
+//Function of class Model, setMaterials()
+//Function to set materials array of model
+// Arguments for setMaterials(): std::vector<Material> - new array to be set.
+// return value: none
+void Model::setMaterials(std::vector<Material> newMaterials)
+{
+    this->materials = newMaterials;
+}
+
+//Function of class Model, setCells()
+//Function to set cells array of model
+// Arguments for setCells(): std::vector<Cell> - new array to be set.
+// return value: none
+void Model::setCells(std::vector<Cell> newCells)
+{
+    this->cells = newCells;
+}
+
 //Function of class Model, getCells()
 //Function to get a specific cell
 // Arguments for getCells(): none.
