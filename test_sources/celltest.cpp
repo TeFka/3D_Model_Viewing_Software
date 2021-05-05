@@ -1,7 +1,7 @@
 //celltest.cpp
 #include <iostream>
 #include <string>
-#include "../Inc/Cell.h"
+#include "../Model_Library/Inc/Cell.h"
 
 using namespace std;
 
@@ -285,7 +285,7 @@ int main(int argc, char *argv[])
 	
 	pyr.calculateVolume(pyr_vector);
 	
-	if(!(pyr.getVolume() < 1.33334 && pyr.getVolume() > 1.33332)){
+	if(!(pyr.getVolume() < 1.33333334 && pyr.getVolume() > 1.33333332)){
 			errors++;
 	}
 	
@@ -449,7 +449,7 @@ int main(int argc, char *argv[])
 	
 	tetra.calculateVolume(tetra_vector);
 	
-	if(!(tetra.getVolume() < 0.166668 && tetra.getVolume() > 0.166665)){
+	if(!(tetra.getVolume() < 0.166666668 && tetra.getVolume() > 0.166666665)){
 			errors++;
 	}
 	

@@ -1,7 +1,7 @@
 //materialtest.cpp
 #include <iostream>
 #include <string>
-#include "../Inc/Material.h"
+#include "../Model_Library/Inc/Material.h"
 
 using namespace std;
 
