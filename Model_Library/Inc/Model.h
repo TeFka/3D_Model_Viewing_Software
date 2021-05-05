@@ -135,7 +135,7 @@ public:
 
 //Function of class Model, loadModel()
 //Function to retrieve 3D model information from a VTK file
-    bool loadModel(const char*);
+    bool loadModel(const char);
 
 //Function of class Model, calcModelCenter()
 //Function to calculate position of model center

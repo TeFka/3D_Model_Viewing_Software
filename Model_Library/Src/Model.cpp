@@ -380,7 +380,7 @@ void Model::calcModelCenter()
 //      Vector: v vector_ID x_position y_position z_position
 //      Cell: c cell_ID cell_type(h - hexahedral, p - pyramid, t - tetrahedral) [cell_indices]
 // 2) In case of file being written incorrectly, incorrect values might be written, errors may occur or program can crash.
-bool Model::loadModel(const char* path)
+bool Model::loadModel(const char path)
 {
     //refresh storage arrays
     this->vectors.clear();
