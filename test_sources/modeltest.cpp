@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 // -------------------------------------------------------------------------------------
 	
 	Model m;
-	m.loadModel("../../Resources/ExampleModel2.mod");
+	m.loadModel("../Resources/ExampleModel2.mod");
 	
 	std::cout<<"File name: ExampleModel2"<<std::endl;
 	std::cout<<""<<std::endl;
@@ -111,9 +111,9 @@ int main(int argc, char *argv[])
 
 	// create a new file and load in information
 
-	m.loadInfoToFile("../../Test_programs/NewExampleModel2.mod");
+	m.loadInfoToFile("../Test_programs/NewExampleModel2.mod");
 	
-	std::cout<<"New file created in ../../Test_programs"<<std::endl;
+	std::cout<<"New file created in ../Test_programs"<<std::endl;
 	std::cout<<""<<std::endl;
 	
 
