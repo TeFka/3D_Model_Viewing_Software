@@ -47,6 +47,7 @@ public:
     void setID(int);
     void setName(std::string);
     void setColor(Vector3D);
+	void setColor(double, double, double);
     void setDensity(double);
 
 //Copy constructor:

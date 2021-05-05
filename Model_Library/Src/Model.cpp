@@ -1046,6 +1046,15 @@ int Model::getCellAmount()
     return this->cells.size();
 }
 
+//Function of class Model, getMaterialAmount()
+//Function to get amount of cells
+// Arguments for getMaterialAmount(): none.
+// return value: int - amount of Material
+int Model::getMaterialAmount()
+{
+    return this->materials.size();
+}
+
 //Function of class Model, loadInfoToFile()
 //Function to load model information into specified txt file.
 // Arguments for getvectorsAmount(): char - path to specified txt file

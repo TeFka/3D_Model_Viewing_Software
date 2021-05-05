@@ -13,12 +13,10 @@
 //#include "main.h"
 #include "../Inc/Cell.h"
 //-------------------------------------------------------------------------
-
 Cell::Cell()
 {
-	
+    
 }
-
 //constructor
 Cell::Cell(int ID,int type,int materialID,std::vector<int> indices)
 {
@@ -102,11 +100,21 @@ void Cell::pushIndice(int newIndice)
 }
 void Cell::insertIndice(int index,int newIndice)
 {
+	if(index<this->indices.size()){
     this->indices.insert(this->indices.begin()+index,newIndice);
+	}
+	else{
+		std::cout<<"index out of range"<<std::endl;
+	}
 }
 void Cell::setIndice(int index,int newIndice)
 {
+	if(index<this->indices.size()){
     this->indices[index] = newIndice;
+	}
+	else{
+		std::cout<<"index out of range"<<std::endl;
+	}
 }
 //-----------------------------------------------------------------------------------------------------
 //Function of class Cell, calcCentreOfGravity()
@@ -140,6 +148,10 @@ void Cell::calcWeight(std::vector<Material> materials)
 //--------------------------------------------------------------------------------
 //defining functions for the tetrahedron
 //---------------------------------------------------------------------------------
+Tetrahedron::Tetrahedron():Cell()
+{
+
+}
 //constructor
 Tetrahedron::Tetrahedron(int ID,int type,int materialID,std::vector<int> indices,std::vector<Vector3D> vertices,std::vector<Material> materials):Cell(ID,type,materialID,indices)//constructor
 {
@@ -200,6 +212,10 @@ void Tetrahedron::calculateVolume(std::vector<Vector3D> vectors)//will overwrite
 
 //defining functions for pyramid
 //--------------------------------------------------------------------------------------------------------------
+Pyramid::Pyramid():Cell()
+{
+
+}
 //constructor
 Pyramid::Pyramid(int ID,int type,int materialID,std::vector<int> indices,std::vector<Vector3D> vertices,std::vector<Material> materials):Cell(ID,type,materialID,indices)//constructor
 {
@@ -257,6 +273,10 @@ void Pyramid::calculateVolume(std::vector<Vector3D> vectors)
 //-------------------------------------------------------------------------------------------
 //defining functions for hexahedron
 //-------------------------------------------------------------------------------------------
+Hexahedron::Hexahedron():Cell()
+{
+
+}
 //constructor
 Hexahedron::Hexahedron(int ID,int type,int materialID,std::vector<int> indices,std::vector<Vector3D> vertices,std::vector<Material> materials):Cell(ID,type,materialID,indices)//constructor
 {

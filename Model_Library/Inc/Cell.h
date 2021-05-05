@@ -39,8 +39,8 @@ protected:
     //knowledge of the vertices position is requited for volume calculations
     std::vector<int> indices;
 public:
-	
-	//default constructor
+
+	//Default
 	Cell();
 	
     //cell class constructor
@@ -106,7 +106,11 @@ class Tetrahedron : public Cell
 private:
 
 public:
-//subclass tetrahedron constructor
+
+	//Default
+	Tetrahedron();
+	
+	//subclass tetrahedron constructor
     Tetrahedron(int,int,int,std::vector<int>,std::vector<Vector3D>,std::vector<Material>);
 
     //copy contructor
@@ -126,7 +130,11 @@ class Pyramid : public Cell
 private:
 
 public:
-//subclass pyramid constructor
+
+	//Default
+	Pyramid();
+	
+	//subclass pyramid constructor
     Pyramid(int,int,int,std::vector<int>,std::vector<Vector3D>,std::vector<Material>);
 
     //copy contructor
@@ -147,7 +155,11 @@ class Hexahedron : public Cell
 private:
 
 public:
-//constructor
+
+	//Default
+	Hexahedron();
+	
+	//constructor
     Hexahedron(int,int,int,std::vector<int>,std::vector<Vector3D>,std::vector<Material>);
 
     //copy contructor

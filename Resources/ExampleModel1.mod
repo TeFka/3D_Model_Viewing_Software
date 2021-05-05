@@ -38,7 +38,6 @@ v 7 0. 1. 1.
 c 0 h 0 0 1 2 3 4 5 6 7
 
 
-
 ## Second example
 # define some more verteces for a second tetrahedral (4 more)
 v 8 5. 5. 0.
