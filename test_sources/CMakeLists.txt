@@ -9,8 +9,6 @@ project(library_testing)
 include(CTest)
 
 #include relevant CMakeLists files
-#include(../Model_Library/Inc/CMakeLists.txt)
-#include(../Model_Library/Src/CMakeLists.txt)
 include(../Model_Library/CMakeLists.txt)
 
 #define minimum C++ version
