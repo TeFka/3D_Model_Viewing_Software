@@ -9,8 +9,8 @@ project(library_testing)
 include(CTest)
 
 #include relevant CMakeLists files
-include(../Inc/CMakeLists.txt)
-include(../Src/CMakeLists.txt)
+include(../Model_Library/Inc/CMakeLists.txt)
+include(../Model_Library/Src/CMakeLists.txt)
 
 #define minimum C++ version
 set(CMAKE_CXX_STANDARD 11)
