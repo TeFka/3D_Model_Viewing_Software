@@ -21,7 +21,7 @@ warning: ignoring unsupported tag `PLANTUML_CFG_FILE      =' at line 2589, file 
 /home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:33: warning: Compound cellInfo is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:146: warning: Compound Hexahedron is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:17: warning: Compound Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:80: warning: Compound MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:79: warning: Compound MainWindow is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:52: warning: Compound Matrix3x3 is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:28: warning: Compound Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:48: warning: Compound Vector3D is not documented.
@@ -181,29 +181,31 @@ error: Problems running epstopdf. Check your TeX installation!
 /home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:40: warning: Member indices (variable) of class Cell is not documented.
 sh: 1: epstopdf: not found
 error: Problems running epstopdf. Check your TeX installation!
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:172: warning: Member handleUpdate() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:173: warning: Member changeClipValue(int) (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:175: warning: Member handleOpenButton() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:176: warning: Member handleSaveButton() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:177: warning: Member handleHelpButton() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:178: warning: Member handleNewButton() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:180: warning: Member setCameraOrientationPosX() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:181: warning: Member setCameraOrientationNegX() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:182: warning: Member setCameraOrientationPosY() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:183: warning: Member setCameraOrientationNegY() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:184: warning: Member setCameraOrientationPosZ() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:185: warning: Member setCameraOrientationNegZ() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:186: warning: Member setCameraOrientationPosShift() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:187: warning: Member setCameraOrientationNegShift() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:188: warning: Member setCameraOrientationPosRotate() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:189: warning: Member setCameraOrientationNegRotate() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:191: warning: Member resetViewer() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:192: warning: Member resetCamera() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:193: warning: Member changeBackgroundColor() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:194: warning: Member changeObjectColor() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:195: warning: Member resetObjectColor() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:198: warning: Member statusUpdateMessage(const QString &message, int timeout) (signal) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:83: warning: Member MainWindow(QWidget *parent=0) (function) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:105: warning: Member handleUpdate() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:106: warning: Member handleFilterUpdate() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:107: warning: Member handleMinCellChange() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:108: warning: Member handleMaxCellChange() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:110: warning: Member handleOpenButton() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:111: warning: Member handleSaveButton() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:112: warning: Member handleHelpButton() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:113: warning: Member handleNewButton() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:115: warning: Member setCameraOrientationPosX() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:116: warning: Member setCameraOrientationNegX() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:117: warning: Member setCameraOrientationPosY() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:118: warning: Member setCameraOrientationNegY() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:119: warning: Member setCameraOrientationPosZ() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:120: warning: Member setCameraOrientationNegZ() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:121: warning: Member setCameraOrientationPosShift() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:122: warning: Member setCameraOrientationNegShift() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:123: warning: Member setCameraOrientationPosRotate() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:124: warning: Member setCameraOrientationNegRotate() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:126: warning: Member resetViewer() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:127: warning: Member resetCamera() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:128: warning: Member changeBackgroundColor() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:129: warning: Member changeObjectColor() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:130: warning: Member resetObjectColor() (slot) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:133: warning: Member statusUpdateMessage(const QString &message, int timeout) (signal) of class MainWindow is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:82: warning: Member MainWindow(QWidget *parent=0) (function) of class MainWindow is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:35: warning: Member Material(int, double, std::string, Vector3D) (function) of class Material is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:41: warning: Member getID() (function) of class Material is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:42: warning: Member getName() (function) of class Material is not documented.
@@ -236,15 +238,18 @@ error: Problems running epstopdf. Check your TeX installation!
 /home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:154: warning: Member getVectors() (function) of class Model is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:158: warning: Member getMaterials() (function) of class Model is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:162: warning: Member getCells() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:166: warning: Member getCell(int) (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:170: warning: Member getVector(int) (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:174: warning: Member getMaterial(int) (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:178: warning: Member getVectorAmount() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:182: warning: Member getCellAmount() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:186: warning: Member showMaterials() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:190: warning: Member showVectors() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:194: warning: Member showCells() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:198: warning: Member loadInfoToFile(char *) (function) of class Model is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:166: warning: Member setVectors(std::vector< Vector3D >) (function) of class Model is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:170: warning: Member setMaterials(std::vector< Material >) (function) of class Model is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:174: warning: Member setCells(std::vector< Cell >) (function) of class Model is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:178: warning: Member getCell(int) (function) of class Model is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:182: warning: Member getVector(int) (function) of class Model is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:186: warning: Member getMaterial(int) (function) of class Model is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:190: warning: Member getVectorAmount() (function) of class Model is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:194: warning: Member getCellAmount() (function) of class Model is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:198: warning: Member showMaterials() (function) of class Model is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:202: warning: Member showVectors() (function) of class Model is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:206: warning: Member showCells() (function) of class Model is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:210: warning: Member loadInfoToFile(char *) (function) of class Model is not documented.
 sh: 1: epstopdf: not found
 error: Problems running epstopdf. Check your TeX installation!
 /home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:22: warning: Member pickHexahedron() (slot) of class NewShapeChoice is not documented.
@@ -395,5 +400,5 @@ Generating file member index...
 Generating example index...
 finalizing index lists...
 writing tag file...
-lookup cache used 283/65536 hits=1508 misses=296
+lookup cache used 237/65536 hits=1301 misses=248
 finished...
