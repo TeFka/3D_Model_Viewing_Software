@@ -17,25 +17,12 @@ warning: ignoring unsupported tag `XML_NS_MEMB_FILE_SCOPE =' at line 2121, file 
 warning: ignoring unsupported tag `DOT_UML_DETAILS        =' at line 2449, file /home/travis/build/TeFka/2020_GROUP_19/Doxyfile
 warning: ignoring unsupported tag `DOT_WRAP_THRESHOLD     =' at line 2458, file /home/travis/build/TeFka/2020_GROUP_19/Doxyfile
 warning: ignoring unsupported tag `PLANTUML_CFG_FILE      =' at line 2589, file /home/travis/build/TeFka/2020_GROUP_19/Doxyfile
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:105: warning: Compound Tetrahedron is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:33: warning: Compound cellInfo is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:146: warning: Compound Hexahedron is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:17: warning: Compound Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:79: warning: Compound MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:52: warning: Compound Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:28: warning: Compound Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:48: warning: Compound Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:125: warning: Compound Pyramid is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/apphelp.h:12: warning: Compound AppHelp is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:11: warning: Compound NewShapeChoice is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:85: warning: Compound Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Src/Material.cpp:20: warning: no matching class member found for 
-  Material::Material(int id, double d, string name, Vector3D col)
-Possible candidates:
-  Material::Material()
-  Material::Material(int, double, std::string, Vector3D)
-  Material::Material(const Material &m)
-
+warning: tag INPUT: input source `../../Src' does not exist
+warning: tag INPUT: input source `../../Inc' does not exist
+warning: tag INPUT: input source `../../GUI_source' does not exist
+warning: source ../../Src is not a readable file or directory... skipping.
+warning: source ../../Inc is not a readable file or directory... skipping.
+warning: source ../../GUI_source is not a readable file or directory... skipping.
 Searching for include files...
 Searching for example files...
 Searching for images...
@@ -44,45 +31,8 @@ Searching for msc files...
 Searching for dia files...
 Searching for files to exclude
 Searching INPUT for files to process...
-Searching for files in directory /home/travis/build/TeFka/2020_GROUP_19/Src
-Searching for files in directory /home/travis/build/TeFka/2020_GROUP_19/Inc
-Searching for files in directory /home/travis/build/TeFka/2020_GROUP_19/GUI_source
 Reading and parsing tag files
 Parsing files
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/Src/Cell.cpp...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/Src/Cell.cpp...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/Src/Material.cpp...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/Src/Material.cpp...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/Src/Matrix3x3.cpp...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/Src/Matrix3x3.cpp...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/Src/Model.cpp...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/Src/Model.cpp...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/Src/Vector3D.cpp...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/Src/Vector3D.cpp...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/GUI_source/apphelp.cpp...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/GUI_source/apphelp.cpp...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/GUI_source/apphelp.h...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/GUI_source/apphelp.h...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/GUI_source/main.cpp...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/GUI_source/main.cpp...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.cpp...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.cpp...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.cpp...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.cpp...
-Preprocessing /home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h...
-Parsing file /home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h...
 Building group list...
 Building directory list...
 Building namespace list...
@@ -114,231 +64,7 @@ Determining the scope of groups...
 Sorting lists...
 Freeing entry tree
 Determining which enums are documented
-Computing member relationssh: 1: epstopdf: not found
-error: Problems running epstopdf. Check your TeX installation!
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/apphelp.h:16: warning: Member AppHelp(QWidget *parent=nullptr) (function) of class AppHelp is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/apphelp.h:19: warning: Member runHelp() (function) of class AppHelp is not documented.
-sh: 1: epstopdf: not found
-error: Problems running epstopdf. Check your TeX installation!
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:47: warning: Member Cell(int, int, int, std::vector< int >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:50: warning: Member Cell(const Cell &) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:60: warning: Member getID() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:64: warning: Member getType() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:68: warning: Member getMaterialID() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:72: warning: Member getIndices() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:76: warning: Member getCentreOfGravity() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:80: warning: Member getWeight() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:81: warning: Member getVolume() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:84: warning: Member setID(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:85: warning: Member setType(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:86: warning: Member setMaterialID(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:87: warning: Member setIndices(std::vector< int >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:88: warning: Member pushIndice(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:89: warning: Member insertIndice(int, int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:90: warning: Member setIndice(int, int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:96: warning: Member calcWeight(std::vector< Material >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:100: warning: Member calcCentreOfGravity(std::vector< Vector3D >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:30: warning: Member ID (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:31: warning: Member type (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:32: warning: Member materialID (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:33: warning: Member weight (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:34: warning: Member volume (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:36: warning: Member centre_of_gravity (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:40: warning: Member indices (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:34: warning: Member ID (variable) of class cellInfo is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:35: warning: Member materialID (variable) of class cellInfo is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:36: warning: Member type (variable) of class cellInfo is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:37: warning: Member indixes (variable) of class cellInfo is not documented.
-sh: 1: epstopdf: not found
-error: Problems running epstopdf. Check your TeX installation!
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:151: warning: Member Hexahedron(int, int, int, std::vector< int >, std::vector< Vector3D >, std::vector< Material >) (function) of class Hexahedron is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:154: warning: Member Hexahedron(const Cell &) (function) of class Hexahedron is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:160: warning: Member calculateVolume(std::vector< Vector3D >) (function) of class Hexahedron is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:47: warning: Member Cell(int, int, int, std::vector< int >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:50: warning: Member Cell(const Cell &) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:60: warning: Member getID() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:64: warning: Member getType() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:68: warning: Member getMaterialID() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:72: warning: Member getIndices() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:76: warning: Member getCentreOfGravity() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:80: warning: Member getWeight() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:81: warning: Member getVolume() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:84: warning: Member setID(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:85: warning: Member setType(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:86: warning: Member setMaterialID(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:87: warning: Member setIndices(std::vector< int >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:88: warning: Member pushIndice(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:89: warning: Member insertIndice(int, int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:90: warning: Member setIndice(int, int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:96: warning: Member calcWeight(std::vector< Material >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:100: warning: Member calcCentreOfGravity(std::vector< Vector3D >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:30: warning: Member ID (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:31: warning: Member type (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:32: warning: Member materialID (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:33: warning: Member weight (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:34: warning: Member volume (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:36: warning: Member centre_of_gravity (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:40: warning: Member indices (variable) of class Cell is not documented.
-sh: 1: epstopdf: not found
-error: Problems running epstopdf. Check your TeX installation!
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:105: warning: Member handleUpdate() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:106: warning: Member handleFilterUpdate() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:107: warning: Member handleMinCellChange() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:108: warning: Member handleMaxCellChange() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:110: warning: Member handleOpenButton() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:111: warning: Member handleSaveButton() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:112: warning: Member handleHelpButton() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:113: warning: Member handleNewButton() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:115: warning: Member setCameraOrientationPosX() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:116: warning: Member setCameraOrientationNegX() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:117: warning: Member setCameraOrientationPosY() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:118: warning: Member setCameraOrientationNegY() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:119: warning: Member setCameraOrientationPosZ() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:120: warning: Member setCameraOrientationNegZ() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:121: warning: Member setCameraOrientationPosShift() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:122: warning: Member setCameraOrientationNegShift() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:123: warning: Member setCameraOrientationPosRotate() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:124: warning: Member setCameraOrientationNegRotate() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:126: warning: Member resetViewer() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:127: warning: Member resetCamera() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:128: warning: Member changeBackgroundColor() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:129: warning: Member changeObjectColor() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:130: warning: Member resetObjectColor() (slot) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:133: warning: Member statusUpdateMessage(const QString &message, int timeout) (signal) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h:82: warning: Member MainWindow(QWidget *parent=0) (function) of class MainWindow is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:35: warning: Member Material(int, double, std::string, Vector3D) (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:41: warning: Member getID() (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:42: warning: Member getName() (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:43: warning: Member getDensity() (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:44: warning: Member getColor() (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:47: warning: Member setID(int) (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:48: warning: Member setName(std::string) (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:49: warning: Member setColor(Vector3D) (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:50: warning: Member setDensity(double) (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h:53: warning: Member Material(const Material &m) (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:65: warning: Member Matrix3x3(double) (function) of class Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:69: warning: Member Matrix3x3(const Matrix3x3 &) (function) of class Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:71: warning: Member operator()(int, int) (function) of class Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:74: warning: Member operator+(Matrix3x3 &) (function) of class Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:76: warning: Member operator-(Matrix3x3 &) (function) of class Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:78: warning: Member operator*(Matrix3x3 &) (function) of class Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:80: warning: Member operator*(Vector3D &) (function) of class Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:84: warning: Member setValue(int, int, double) (function) of class Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:88: warning: Member getMatrix3x3() (function) of class Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:92: warning: Member setIdentityMatrix3x3() (function) of class Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:96: warning: Member invert() (function) of class Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:100: warning: Member transpose() (function) of class Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h:104: warning: Member getRotationMatrix3x3(double, double, double, double) (function) of class Matrix3x3 is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:128: warning: Member Model(char *) (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:134: warning: Member Model(const Model &) (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:138: warning: Member loadModel(const char *) (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:142: warning: Member calcModelCenter() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:146: warning: Member getModelCenter() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:150: warning: Member getModelDimensions() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:154: warning: Member getVectors() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:158: warning: Member getMaterials() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:162: warning: Member getCells() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:166: warning: Member setVectors(std::vector< Vector3D >) (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:170: warning: Member setMaterials(std::vector< Material >) (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:174: warning: Member setCells(std::vector< Cell >) (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:178: warning: Member getCell(int) (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:182: warning: Member getVector(int) (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:186: warning: Member getMaterial(int) (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:190: warning: Member getVectorAmount() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:194: warning: Member getCellAmount() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:198: warning: Member showMaterials() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:202: warning: Member showVectors() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:206: warning: Member showCells() (function) of class Model is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h:210: warning: Member loadInfoToFile(char *) (function) of class Model is not documented.
-sh: 1: epstopdf: not found
-error: Problems running epstopdf. Check your TeX installation!
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:22: warning: Member pickHexahedron() (slot) of class NewShapeChoice is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:23: warning: Member pickTetrahedron() (slot) of class NewShapeChoice is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:24: warning: Member pickPyramid() (slot) of class NewShapeChoice is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:25: warning: Member pickSphere() (slot) of class NewShapeChoice is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:26: warning: Member pickDisk() (slot) of class NewShapeChoice is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:27: warning: Member pickCone() (slot) of class NewShapeChoice is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:28: warning: Member pickPlane() (slot) of class NewShapeChoice is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:29: warning: Member pickPoints() (slot) of class NewShapeChoice is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:30: warning: Member pickLine() (slot) of class NewShapeChoice is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:31: warning: Member pickCylinder() (slot) of class NewShapeChoice is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:15: warning: Member NewShapeChoice(QWidget *parent=nullptr) (function) of class NewShapeChoice is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h:18: warning: Member runChoice(int &) (function) of class NewShapeChoice is not documented.
-sh: 1: epstopdf: not found
-error: Problems running epstopdf. Check your TeX installation!
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:130: warning: Member Pyramid(int, int, int, std::vector< int >, std::vector< Vector3D >, std::vector< Material >) (function) of class Pyramid is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:133: warning: Member Pyramid(const Cell &) (function) of class Pyramid is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:140: warning: Member calculateVolume(std::vector< Vector3D >) (function) of class Pyramid is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:47: warning: Member Cell(int, int, int, std::vector< int >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:50: warning: Member Cell(const Cell &) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:60: warning: Member getID() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:64: warning: Member getType() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:68: warning: Member getMaterialID() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:72: warning: Member getIndices() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:76: warning: Member getCentreOfGravity() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:80: warning: Member getWeight() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:81: warning: Member getVolume() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:84: warning: Member setID(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:85: warning: Member setType(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:86: warning: Member setMaterialID(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:87: warning: Member setIndices(std::vector< int >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:88: warning: Member pushIndice(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:89: warning: Member insertIndice(int, int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:90: warning: Member setIndice(int, int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:96: warning: Member calcWeight(std::vector< Material >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:100: warning: Member calcCentreOfGravity(std::vector< Vector3D >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:30: warning: Member ID (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:31: warning: Member type (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:32: warning: Member materialID (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:33: warning: Member weight (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:34: warning: Member volume (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:36: warning: Member centre_of_gravity (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:40: warning: Member indices (variable) of class Cell is not documented.
-sh: 1: epstopdf: not found
-error: Problems running epstopdf. Check your TeX installation!
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:110: warning: Member Tetrahedron(int, int, int, std::vector< int >, std::vector< Vector3D >, std::vector< Material >) (function) of class Tetrahedron is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:113: warning: Member Tetrahedron(const Cell &) (function) of class Tetrahedron is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:119: warning: Member calculateVolume(std::vector< Vector3D >) (function) of class Tetrahedron is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:47: warning: Member Cell(int, int, int, std::vector< int >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:50: warning: Member Cell(const Cell &) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:60: warning: Member getID() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:64: warning: Member getType() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:68: warning: Member getMaterialID() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:72: warning: Member getIndices() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:76: warning: Member getCentreOfGravity() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:80: warning: Member getWeight() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:81: warning: Member getVolume() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:84: warning: Member setID(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:85: warning: Member setType(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:86: warning: Member setMaterialID(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:87: warning: Member setIndices(std::vector< int >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:88: warning: Member pushIndice(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:89: warning: Member insertIndice(int, int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:90: warning: Member setIndice(int, int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:96: warning: Member calcWeight(std::vector< Material >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:100: warning: Member calcCentreOfGravity(std::vector< Vector3D >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:30: warning: Member ID (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:31: warning: Member type (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:32: warning: Member materialID (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:33: warning: Member weight (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:34: warning: Member volume (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:36: warning: Member centre_of_gravity (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h:40: warning: Member indices (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:60: warning: Member Vector3D(double, double, double) (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:66: warning: Member Vector3D(const Vector3D &vec) (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:71: warning: Member setID(int) (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:72: warning: Member setx(double) (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:73: warning: Member sety(double) (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:74: warning: Member setz(double) (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:79: warning: Member getID() (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:80: warning: Member getx() (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:81: warning: Member gety() (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:82: warning: Member getz() (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:89: warning: Member operator+(const Vector3D &vec) (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:93: warning: Member operator-(const Vector3D &vec) (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:97: warning: Member operator*(const Vector3D &vec) (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h:102: warning: Member cross_product(const Vector3D &vec) (function) of class Vector3D is not documented.
-...
+Computing member relations...
 Building full member lists recursively...
 Adding members to member groups.
 Computing member references...
@@ -359,30 +85,10 @@ Generating style sheet...
 Generating search indices...
 Generating example documentation...
 Generating file sources...
-Generating code for file /home/travis/build/TeFka/2020_GROUP_19/GUI_source/apphelp.h...
-Generating code for file /home/travis/build/TeFka/2020_GROUP_19/GUI_source/mainwindow.h...
-Generating code for file /home/travis/build/TeFka/2020_GROUP_19/GUI_source/newshapechoice.h...
-Generating code for file /home/travis/build/TeFka/2020_GROUP_19/Inc/Cell.h...
-Generating code for file /home/travis/build/TeFka/2020_GROUP_19/Inc/Material.h...
-Generating code for file /home/travis/build/TeFka/2020_GROUP_19/Inc/Matrix3x3.h...
-Generating code for file /home/travis/build/TeFka/2020_GROUP_19/Inc/Model.h...
-Generating code for file /home/travis/build/TeFka/2020_GROUP_19/Inc/Vector3D.h...
 Generating file documentation...
 Generating page documentation...
 Generating group documentation...
 Generating class documentation...
-Generating docs for compound AppHelp...
-Generating docs for compound Cell...
-Generating docs for compound cellInfo...
-Generating docs for compound Hexahedron...
-Generating docs for compound MainWindow...
-Generating docs for compound Material...
-Generating docs for compound Matrix3x3...
-Generating docs for compound Model...
-Generating docs for compound NewShapeChoice...
-Generating docs for compound Pyramid...
-Generating docs for compound Tetrahedron...
-Generating docs for compound Vector3D...
 Generating namespace index...
 Generating graph info page...
 Generating directory documentation...
@@ -400,5 +106,5 @@ Generating file member index...
 Generating example index...
 finalizing index lists...
 writing tag file...
-lookup cache used 237/65536 hits=1301 misses=248
+lookup cache used 0/65536 hits=0 misses=0
 finished...
