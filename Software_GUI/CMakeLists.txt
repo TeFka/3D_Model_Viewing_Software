@@ -15,10 +15,10 @@ list(APPEND software_sources
     ${CMAKE_CURRENT_LIST_DIR}/newshapechoice.ui
     ${CMAKE_CURRENT_LIST_DIR}/Src/Pipeline.cpp
     ${CMAKE_CURRENT_LIST_DIR}/Inc/Pipeline.h
-    ${CMAKE_CURRENT_LIST_DIR}/Src/VTKObject.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/Inc/VTKObject.h
-    ${CMAKE_CURRENT_LIST_DIR}/Src/PipelineHandler.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/Inc/PipelinHandler.h
+    ${CMAKE_CURRENT_LIST_DIR}/Src/VTKObjectHandler.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/Inc/VTKObjectHandler.h
+    ${CMAKE_CURRENT_LIST_DIR}/Src/ViewerHandler.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/Inc/ViewerHandler.h
 )
 
 

@@ -69,6 +69,7 @@ NewShapeChoice::NewShapeChoice(QWidget *parent) :
     connect( ui->makePlane, &QPushButton::released, this, &NewShapeChoice::pickPlane );
     connect( ui->makePoints, &QPushButton::released, this, &NewShapeChoice::pickPoints );
     connect( ui->makeLine, &QPushButton::released, this, &NewShapeChoice::pickLine );
+    connect( ui->makeCyl, &QPushButton::released, this, &NewShapeChoice::pickCylinder );
 }
 
 bool NewShapeChoice::runChoice(int& chosenShape)

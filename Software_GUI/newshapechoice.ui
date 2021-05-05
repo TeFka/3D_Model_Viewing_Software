@@ -106,7 +106,7 @@ color: rgb(255, 0, 0);</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="makeCyl">
        <property name="font">
         <font>
          <pointsize>10</pointsize>
