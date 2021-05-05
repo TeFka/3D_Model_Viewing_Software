@@ -23,8 +23,6 @@
 
 #include <vtkIdList.h>
 
-#include "../Inc/Model.h"
-
 #include "./VTKObjectHandler.h"
 
 

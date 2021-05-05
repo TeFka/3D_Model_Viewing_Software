@@ -38,9 +38,6 @@
 #include <vtkOrientationMarkerWidget.h>
 #include <vtkRenderWindowInteractor.h>
 
-#include "../Inc/Model.h"
-
-
 #include "./Pipeline.h"
 
 class ViewerHandler{

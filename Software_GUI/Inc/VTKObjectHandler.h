@@ -69,7 +69,7 @@
 
 #include <vtkIdList.h>
 
-#include "../Inc/Model.h"
+#include "../Model_Library/Inc/Model.h"
 
 struct materialCellConnection{
     int minCellAssigned = 0;

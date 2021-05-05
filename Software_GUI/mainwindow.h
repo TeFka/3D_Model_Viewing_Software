@@ -65,7 +65,7 @@
 
 #include <vtkGlyph3DMapper.h>
 
-#include "../Inc/Model.h"
+#include "../Model_Library/Inc/Model.h"
 #include "./apphelp.h"
 #include "./newshapechoice.h"
 

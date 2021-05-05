@@ -20,9 +20,8 @@ set( CMAKE_AUTOUIC ON )
 include(CTest)
 
 #include relevant CMakeLists files
-include(Inc/CMakeLists.txt)
-include(Src/CMakeLists.txt)
-include(GUI_source/CMakeLists.txt)
+include(Model_Library/CMakeLists.txt)
+include(Software_GUI/CMakeLists.txt)
 
 set_property(SOURCE ${modelLib_includes} PROPERTY SKIP_AUTOMOC ON)
 set_property(SOURCE ${modelLib_includes} PROPERTY SKIP_AUTOUIC ON)
