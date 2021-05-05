@@ -10,18 +10,18 @@
 Material::Material()
 {
     ID = 0;
+	Density = 0;
     Color = Vector3D(0.0,0.0,0.0);
-    Density = 0;
     Name = "";
 
 }
 
 //set value for the function
-Material :: Material( int id, double d, string name, Vector3D col )
+Material :: Material( int id, double d, std::string name, Vector3D col)
 {
     this->ID = id ;
+	this->Density = d ;
     this->Color = col ;
-    this->Density = d ;
     this->Name = name ;
 }
 //----------------------------------------------------
@@ -36,19 +36,19 @@ Material :: Material( int id, double d, string name, Vector3D col )
 
 int Material::getID()
 {
-    return this->ID;
+    return ID;
 }
 std::string Material::getName()
 {
-    return this->Name;
+    return Name;
 }
 Vector3D Material::getColor()
 {
-    return this->Color;
+    return Color;
 }
 double Material::getDensity()
 {
-    return this->Density;
+    return Density;
 }
 
 
@@ -70,6 +70,12 @@ void Material::setName( std::string name )
 void Material::setColor( Vector3D col )
 {
     this->Color = col;
+}
+void Material::setColor( double redVal, double greenVal, double blueVal)
+{
+    this->Color.setx(redVal);
+	this->Color.sety(greenVal);
+	this->Color.setz(blueVal);
 }
 void Material::setDensity( double density )
 {

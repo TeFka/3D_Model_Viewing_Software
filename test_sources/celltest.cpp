@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
 	
 	
 	
+/////////////////////////////////////////////////////////////////////////////////////////	
+	
 //----------HEXAHEDRON TEST--------------------------------------------------//	
 
 	std::cout<<""<<std::endl;
@@ -42,64 +44,62 @@ int main(int argc, char *argv[])
 	std::vector<int> hex_indices = {0,1,2,3,4,5,6,7}; //leave our 6th indice to use function insertIndice
 	
 	
-	
 	// hex_materials: indicate the materials of the celltest
 	std::vector<Material> hex_materials = {m1};
 	
 	
 	// HEXAHEDRON CELL
-		//Hexahedron hex;
 	Hexahedron hex(1, 1, 0, hex_indices, hex_vector, hex_materials);
 	
-	
-/*Test SET functions*/
+// -------------------------------------------------------------------------------------
 
-	// Set hexahedron cell properties
-	//hex.setID(1);
-	//hex.setType(1);
-	//hex.setMaterialID(1);
-	//hex.setIndices(hex_indices);
-
-
-
-/*Test GET functions*/	 
+	/*Test GET functions*/	 
 	 
 	 
     //check ID
 	//if ID does not match, errors will be counted.
 	std::cout<<"ID"<<std::endl;
+	
 	if(hex.getID()!=1){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 1"<<std::endl;
 	std::cout<<"--test results: "<<hex.getID()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
-	
+
+// -------------------------------------------------------------------------------------	
 	
 	//check type
 	//if type does not match, errors will be counted.
 	std::cout<<"Type"<<std::endl;
+	
 	if(hex.getType()!=1){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 1"<<std::endl;
 	std::cout<<"--test results: "<<hex.getType()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
-	
+
+// -------------------------------------------------------------------------------------	
 	
 	//check materialID
 	//if materialID does not match, errors will be counted.
 	std::cout<<"MaterialID"<<std::endl;
+	
 	if(hex.getMaterialID()!=0){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 0"<<std::endl;
 	std::cout<<"--test results: "<<hex.getMaterialID()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
-	
+
+// -------------------------------------------------------------------------------------	
 	
 	//check Indices
 	//if Indiced does not match, errors will be counted.
@@ -110,6 +110,7 @@ int main(int argc, char *argv[])
 			errors++;
 		}
 	}
+	
 	std::cout<<"--expected value: 01234567"<<std::endl;
 	std::cout<<"--test results: ";
 	for(int i =0; i<hex_indices.size(); i++){std::cout<<hex.getIndices()[i];}
@@ -117,7 +118,7 @@ int main(int argc, char *argv[])
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
 	
-	
+// -------------------------------------------------------------------------------------	
 	
 	//check Volume
 	//if Volume does not match, errors will be counted.
@@ -129,12 +130,13 @@ int main(int argc, char *argv[])
 	{
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 8"<<std::endl;
 	std::cout<<"--test results: "<<hex.getVolume()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
 	
-	
+// -------------------------------------------------------------------------------------	
 
 	//check Centre of Gravity
 	//if centre of gravity does not match, errors will be counted.
@@ -147,12 +149,13 @@ int main(int argc, char *argv[])
 	   hex.getCentreOfGravity().getz()!=1.0){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: (1.0,1.0,1.0)"<<std::endl;
 	std::cout<<"--test results: ("<<hex.getCentreOfGravity().getx()<<","<<hex.getCentreOfGravity().gety()<<","<<hex.getCentreOfGravity().getz()<<")"<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
 	
-	
+// -------------------------------------------------------------------------------------	
 	
 	//check Weight
 	//if weight does not match, errors will be counted.
@@ -163,13 +166,14 @@ int main(int argc, char *argv[])
 	if(!(hex.getWeight() < 1600.000001 && hex.getWeight() > 1599.999999)){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 1600"<<std::endl;
 	std::cout<<"--test results: "<<hex.getWeight()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;	
+
 	
-	
-	
+/////////////////////////////////////////////////////////////////////////////////////////	
 	
 //----------PYRAMID TEST--------------------------------------------------//	
 
@@ -196,7 +200,9 @@ int main(int argc, char *argv[])
 	// PYRAMID CELL
 	Pyramid pyr;
 
-/*Test SET functions*/
+// -------------------------------------------------------------------------------------
+
+	/*Test SET functions*/
 
 	// Set pyramid cell properties
 	pyr.setID(2);
@@ -204,46 +210,55 @@ int main(int argc, char *argv[])
 	pyr.setMaterialID(1);
 	pyr.setIndices(pyr_indices);
 	
+// -------------------------------------------------------------------------------------
 
-
-/*Test GET functions*/	 
+	/*Test GET functions*/	 
 	 
 	 
     //check ID
 	//if ID does not match, errors will be counted.
 	std::cout<<"ID"<<std::endl;
+	
 	if(pyr.getID()!=2){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 2"<<std::endl;
 	std::cout<<"--test results: "<<pyr.getID()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
-	
+
+// -------------------------------------------------------------------------------------	
 	
 	//check type
 	//if type does not match, errors will be counted.
 	std::cout<<"Type"<<std::endl;
+	
 	if(pyr.getType()!=2){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 2"<<std::endl;
 	std::cout<<"--test results: "<<pyr.getType()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
-	
+
+// -------------------------------------------------------------------------------------	
 	
 	//check materialID
 	//if materialID does not match, errors will be counted.
 	std::cout<<"MaterialID"<<std::endl;
+	
 	if(pyr.getMaterialID()!=1){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 1"<<std::endl;
 	std::cout<<"--test results: "<<pyr.getMaterialID()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
-	
+
+// -------------------------------------------------------------------------------------	
 	
 	//check Indices
 	//if Indiced does not match, errors will be counted.
@@ -254,6 +269,7 @@ int main(int argc, char *argv[])
 			errors++;
 		}
 	}
+	
 	std::cout<<"--expected value: 01234"<<std::endl;
 	std::cout<<"--test results: ";
 	for(int i =0; i<pyr_indices.size(); i++){std::cout<<pyr.getIndices()[i];}
@@ -261,7 +277,7 @@ int main(int argc, char *argv[])
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
 	
-	
+// -------------------------------------------------------------------------------------	
 	
 	//check Volume
 	//if Volume does not match, errors will be counted.
@@ -272,12 +288,13 @@ int main(int argc, char *argv[])
 	if(!(pyr.getVolume() < 1.33334 && pyr.getVolume() > 1.33332)){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 1.33333"<<std::endl;
 	std::cout<<"--test results: "<<pyr.getVolume()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
 	
-	
+// -------------------------------------------------------------------------------------	
 
 	//check Centre of Gravity
 	//if centre of gravity does not match, errors will be counted.
@@ -290,12 +307,13 @@ int main(int argc, char *argv[])
 	   pyr.getCentreOfGravity().getz()!=0.8){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: (0.0,0.0,0.8)"<<std::endl;
 	std::cout<<"--test results: ("<<pyr.getCentreOfGravity().getx()<<","<<pyr.getCentreOfGravity().gety()<<","<<pyr.getCentreOfGravity().getz()<<")"<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
 	
-	
+// -------------------------------------------------------------------------------------	
 	
 	//check Weight
 	//if weight does not match, errors will be counted.
@@ -306,12 +324,16 @@ int main(int argc, char *argv[])
 	if(pyr.getWeight()!=1600){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 1600"<<std::endl;
 	std::cout<<"--test results: "<<pyr.getWeight()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
+
+
+
 	
-	
+/////////////////////////////////////////////////////////////////////////////////////////	
 	
 //----------TETRAHEDRON TEST--------------------------------------------------//	
 
@@ -336,9 +358,10 @@ int main(int argc, char *argv[])
 	
 	// PYRAMID CELL
 	Tetrahedron tetra;
-		
 
-/*Test SET functions*/
+// -------------------------------------------------------------------------------------		
+
+	/*Test SET functions*/
 
 	// Set pyramid cell properties
 	tetra.setID(3);
@@ -351,44 +374,55 @@ int main(int argc, char *argv[])
 	tetra.insertIndice(2,2);
 	tetra.setIndice(3,3);
 
-/*Test GET functions*/	 
+// -------------------------------------------------------------------------------------
+
+	/*Test GET functions*/	 
 	 
 	 
     //check ID
 	//if ID does not match, errors will be counted.
 	std::cout<<"ID"<<std::endl;
+	
 	if(tetra.getID()!=3){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 3"<<std::endl;
 	std::cout<<"--test results: "<<tetra.getID()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
-	
+
+// -------------------------------------------------------------------------------------	
 	
 	//check type
 	//if type does not match, errors will be counted.
 	std::cout<<"Type"<<std::endl;
+	
 	if(tetra.getType()!=3){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 3"<<std::endl;
 	std::cout<<"--test results: "<<tetra.getType()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
-	
+
+// -------------------------------------------------------------------------------------	
 	
 	//check materialID
 	//if materialID does not match, errors will be counted.
 	std::cout<<"MaterialID"<<std::endl;
+	
 	if(tetra.getMaterialID()!=2){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 2"<<std::endl;
 	std::cout<<"--test results: "<<tetra.getMaterialID()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
 	
+// -------------------------------------------------------------------------------------
 	
 	//check Indices
 	//if Indiced does not match, errors will be counted.
@@ -406,7 +440,8 @@ int main(int argc, char *argv[])
 	std::cout<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
-	
+
+// -------------------------------------------------------------------------------------	
 	
 	//check Volume
 	//if Volume does not match, errors will be counted.
@@ -417,12 +452,13 @@ int main(int argc, char *argv[])
 	if(!(tetra.getVolume() < 0.166668 && tetra.getVolume() > 0.166665)){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 0.166667"<<std::endl;
 	std::cout<<"--test results: "<<tetra.getVolume()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
 	
-	
+// -------------------------------------------------------------------------------------	
 
 	//check Centre of Gravity
 	//if centre of gravity does not match, errors will be counted.
@@ -435,12 +471,13 @@ int main(int argc, char *argv[])
 	   tetra.getCentreOfGravity().getz()!=0.25){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: (0.5,0.5,0.25)"<<std::endl;
 	std::cout<<"--test results: ("<<tetra.getCentreOfGravity().getx()<<","<<tetra.getCentreOfGravity().gety()<<","<<tetra.getCentreOfGravity().getz()<<")"<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
 	
-	
+// -------------------------------------------------------------------------------------	
 	
 	//check Weight
 	//if weight does not match, errors will be counted.
@@ -451,11 +488,14 @@ int main(int argc, char *argv[])
 	if(tetra.getWeight()!=100){
 			errors++;
 	}
+	
 	std::cout<<"--expected value: 100"<<std::endl;
 	std::cout<<"--test results: "<<tetra.getWeight()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
 	
+// -------------------------------------------------------------------------------------
+
 
 	return (errors==0)? 0:1;
    

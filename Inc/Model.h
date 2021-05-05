@@ -17,10 +17,10 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include<math.h>
-#include "../Inc/Vector3D.h"
-#include "../Inc/Material.h"
-#include "../Inc/Cell.h"
+#include <math.h>
+#include "Vector3D.h"
+#include "Material.h"
+#include "Cell.h"
 
 // Structure 'cellInfo'
 // Temporarily stores cell information before a Cell object is created with it.
@@ -180,6 +180,10 @@ public:
 //Function of class Model, getCellAmount()
 //Function to get amount of cells
     int getCellAmount();
+	
+//Function of class Model, getMaterialAmount()
+//Function to get amount of materials
+    int getMaterialAmount();
 
 //Function of class Model, showMaterials()
 //Function to show information about all materials
