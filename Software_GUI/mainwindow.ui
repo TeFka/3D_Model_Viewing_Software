@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1003</width>
-    <height>595</height>
+    <width>1152</width>
+    <height>625</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -66,6 +66,24 @@ color: #FF0000;</string>
            <enum>QLayout::SetNoConstraint</enum>
           </property>
           <item>
+           <widget class="QLabel" name="label_5">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(170, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string>Filters</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <property name="sizeConstraint">
              <enum>QLayout::SetNoConstraint</enum>
@@ -77,7 +95,7 @@ color: #FF0000;</string>
 background-color: rgb(150,150,150);</string>
               </property>
               <property name="text">
-               <string>Shrink filter</string>
+               <string>Shrink</string>
               </property>
              </widget>
             </item>
@@ -108,7 +126,7 @@ background-color: rgb(150,150,150);</string>
                <string notr="true">color: rgb(170, 0, 0)</string>
               </property>
               <property name="text">
-               <string>Clip filter</string>
+               <string>Clip</string>
               </property>
              </widget>
             </item>
@@ -160,20 +178,31 @@ background-color: rgb(150,150,150);</string>
              </layout>
             </item>
             <item>
-             <widget class="QSlider" name="clipSlider">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximum">
-               <number>100</number>
-              </property>
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_15">
+              <item>
+               <widget class="QSlider" name="clipSlider">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="spinBox_3">
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </item>
@@ -184,17 +213,17 @@ background-color: rgb(150,150,150);</string>
 background-color: rgb(150,150,150);</string>
             </property>
             <property name="text">
-             <string>Contour filter</string>
+             <string>Contour</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="check1">
+           <widget class="QCheckBox" name="smoothCheck">
             <property name="styleSheet">
              <string notr="true">color: rgb(170, 0, 0)</string>
             </property>
             <property name="text">
-             <string>X filter</string>
+             <string>Smooth</string>
             </property>
            </widget>
           </item>
@@ -253,11 +282,12 @@ background-color: rgb(150,150,150);</string>
          <enum>QLayout::SetNoConstraint</enum>
         </property>
         <item>
-         <widget class="QPushButton" name="resetObject">
+         <widget class="QPushButton" name="resetViewer">
           <property name="styleSheet">
            <string notr="true">border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+Padding: 2px;</string>
           </property>
           <property name="text">
            <string>Reset Viewer</string>
@@ -269,7 +299,8 @@ color: rgb(255, 0, 0);</string>
           <property name="styleSheet">
            <string notr="true">border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+Padding: 2px;</string>
           </property>
           <property name="text">
            <string>Reset Camera</string>
@@ -457,13 +488,27 @@ color: rgb(255,0, 0);</string>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_10">
         <item>
+         <widget class="QPushButton" name="resetObject">
+          <property name="styleSheet">
+           <string notr="true">border: 3px solid rgb(170, 0, 0);
+background: rgb(0, 0, 0);
+color: rgb(255, 0, 0);
+Padding: 2px;</string>
+          </property>
+          <property name="text">
+           <string>Reset Object</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
            <widget class="QPushButton" name="objectColor">
             <property name="styleSheet">
              <string notr="true">border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+Padding: 2px;</string>
             </property>
             <property name="text">
              <string>Object Color</string>
@@ -475,7 +520,8 @@ color: rgb(255, 0, 0);</string>
             <property name="styleSheet">
              <string notr="true">border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+Padding: 2px;</string>
             </property>
             <property name="text">
              <string>Reset color</string>
@@ -489,7 +535,8 @@ color: rgb(255, 0, 0);</string>
           <property name="styleSheet">
            <string notr="true">border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+Padding: 2px;</string>
           </property>
           <property name="text">
            <string>Background Color</string>
@@ -660,27 +707,90 @@ margin: 5px;</string>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="lightCheck">
-          <property name="styleSheet">
-           <string notr="true">color: rgb(170, 0, 0);</string>
-          </property>
-          <property name="text">
-           <string>Light</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSlider" name="lightIntensity">
-          <property name="maximum">
-           <number>100</number>
-          </property>
-          <property name="value">
-           <number>100</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item>
+           <widget class="QCheckBox" name="lightCheck">
+            <property name="styleSheet">
+             <string notr="true">color: rgb(170, 0, 0);</string>
+            </property>
+            <property name="text">
+             <string>Light</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_12">
+              <item>
+               <widget class="QLabel" name="label_3">
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(170, 0, 0);</string>
+                </property>
+                <property name="text">
+                 <string>Intensity</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSlider" name="lightIntensity">
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="value">
+                 <number>100</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="lightIntensityN">
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_14">
+              <item>
+               <widget class="QLabel" name="label_4">
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(170, 0, 0);</string>
+                </property>
+                <property name="text">
+                 <string>Specular</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSlider" name="lightSpecular">
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="value">
+                 <number>100</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="lightSpecularN">
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </item>
         <item>
          <spacer name="horizontalSpacer">
@@ -706,7 +816,7 @@ margin: 5px;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1003</width>
+     <width>1152</width>
      <height>26</height>
     </rect>
    </property>
@@ -718,8 +828,17 @@ margin: 5px;</string>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
     <addaction name="actionHelp"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionFullScreen"/>
+    <addaction name="actionBorderedScreen"/>
    </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuView"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -771,6 +890,21 @@ margin: 5px;</string>
    </property>
    <property name="text">
     <string>Help</string>
+   </property>
+  </action>
+  <action name="actionFullScreen">
+   <property name="text">
+    <string>Full Screen</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionBorderedScreen">
+   <property name="text">
+    <string>Bordered Screen</string>
    </property>
   </action>
  </widget>

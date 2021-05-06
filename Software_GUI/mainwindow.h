@@ -4,6 +4,7 @@
 #include <string>
 #include <math.h>
 #include <QMainWindow>
+#include <QCoreApplication>
 #include <vtkSmartPointer.h>
 
 #include <vtkConeSource.h>
@@ -124,6 +125,7 @@ public slots:
     void setCameraOrientationNegRotate();
 
     void resetViewer();
+    void resetObject();
     void resetCamera();
     void changeBackgroundColor();
     void changeObjectColor();

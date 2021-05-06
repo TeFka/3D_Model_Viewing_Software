@@ -53,10 +53,11 @@ private:
 
     vtkSmartPointer<vtkNamedColors> colorHandler = vtkSmartPointer<vtkNamedColors>::New();
 
-    vtkSmartPointer<vtkTextActor> tempVolumeTextActor = vtkSmartPointer<vtkTextActor>::New();
-    vtkSmartPointer<vtkTextActor> tempMaxCellNumTextActor = vtkSmartPointer<vtkTextActor>::New();
-    vtkSmartPointer<vtkTextActor> tempWeightTextActor = vtkSmartPointer<vtkTextActor>::New();
-    vtkSmartPointer<vtkTextActor> tempPositionTextActor = vtkSmartPointer<vtkTextActor>::New();
+    vtkSmartPointer<vtkTextActor> volumeTextActor = vtkSmartPointer<vtkTextActor>::New();
+    vtkSmartPointer<vtkTextActor> maxCellNumTextActor = vtkSmartPointer<vtkTextActor>::New();
+    vtkSmartPointer<vtkTextActor> weightTextActor = vtkSmartPointer<vtkTextActor>::New();
+    vtkSmartPointer<vtkTextActor> positionTextActor = vtkSmartPointer<vtkTextActor>::New();
+    vtkSmartPointer<vtkTextActor> pointsTextActor = vtkSmartPointer<vtkTextActor>::New();
 
     vtkNew<vtkAxesActor> axes;
 
@@ -91,6 +92,7 @@ public:
     void setCameraOrientationNegRotate();
 
     void resetViewer();
+    void resetObject();
     void resetCamera();
     void changeBackgroundColor(QColor);
 

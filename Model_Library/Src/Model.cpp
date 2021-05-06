@@ -370,6 +370,30 @@ void Model::calcModelCenter()
     this->modelCenter = Vector3D((xMax+xMin)/2,(yMax+yMin)/2,(zMax+zMin)/2);
 }
 
+//Function of class Model, calcModelVolume()
+//Function to calculate volume of model
+// Arguments for calcModelVolume(): none.
+// return value: none(model volume value updated)
+void Model::calcModelVolume()
+{
+    for(int i = 0; i<this->cells.size(); i++)
+    {
+        this->modelVolume+=this->cells[i].getVolume();
+    }
+}
+
+//Function of class Model, calcModelWeight()
+//Function to calculate weight of model
+// Arguments for calcModelWeight(): none.
+// return value: none(model weight value updated)
+void Model::calcModelWeight()
+{
+    for(int i = 0; i<this->cells.size(); i++)
+    {
+        this->modelWeight+=this->cells[i].getWeight();
+    }
+}
+
 //Function of class Model, loadModel()
 //Function to retrieve 3D model information from a VTK file
 // Arguments for loadModel(): char - path to
@@ -945,6 +969,24 @@ Vector3D Model::getModelCenter()
 Vector3D Model::getModelDimensions()
 {
     return this->modelDimensions;
+}
+
+//Function of class Model, getModelVolume()
+//Function to get volume of model.
+// Arguments for getModelVolume(): none.
+// return value: double - double showing model volume
+double Model::getModelVolume()
+{
+    return this->modelVolume;
+}
+
+//Function of class Model, getModelWeight()
+//Function to get weight of model.
+// Arguments for getModelWeight(): none.
+// return value: double - double showing model weight
+double Model::getModelWeight()
+{
+    return this->modelWeight;
 }
 
 //Function of class Model, getVectors()

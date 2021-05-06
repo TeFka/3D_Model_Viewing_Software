@@ -29,67 +29,76 @@ void ViewerHandler::refreshRender()
 
 void ViewerHandler::setText()
 {
-    this->tempVolumeTextActor->SetInput ("");
-    this->tempVolumeTextActor->SetPosition ( 10, 70 );
-    this->tempVolumeTextActor->GetTextProperty()->SetFontSize ( 15 );
-    this->tempVolumeTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
-    this->activeRenderer->AddActor2D ( this->tempVolumeTextActor );
+    this->pointsTextActor->SetInput ("");
+    this->pointsTextActor->SetPosition ( 10, 90 );
+    this->pointsTextActor->GetTextProperty()->SetFontSize ( 15 );
+    this->pointsTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+    this->activeRenderer->AddActor2D ( this->pointsTextActor );
 
-    this->tempMaxCellNumTextActor->SetInput ("");
-    this->tempMaxCellNumTextActor->SetPosition ( 10, 50 );
-    this->tempMaxCellNumTextActor->GetTextProperty()->SetFontSize ( 15 );
-    this->tempMaxCellNumTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
-    this->activeRenderer->AddActor2D ( this->tempMaxCellNumTextActor );
+    this->volumeTextActor->SetInput ("");
+    this->volumeTextActor->SetPosition ( 10, 70 );
+    this->volumeTextActor->GetTextProperty()->SetFontSize ( 15 );
+    this->volumeTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+    this->activeRenderer->AddActor2D ( this->volumeTextActor );
 
-    this->tempWeightTextActor->SetInput ("");
-    this->tempWeightTextActor->SetPosition ( 10, 30 );
-    this->tempWeightTextActor->GetTextProperty()->SetFontSize ( 15 );
-    this->tempWeightTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
-    this->activeRenderer->AddActor2D ( this->tempWeightTextActor );
+    this->maxCellNumTextActor->SetInput ("");
+    this->maxCellNumTextActor->SetPosition ( 10, 50 );
+    this->maxCellNumTextActor->GetTextProperty()->SetFontSize ( 15 );
+    this->maxCellNumTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+    this->activeRenderer->AddActor2D ( this->maxCellNumTextActor );
 
-    this->tempPositionTextActor->SetInput ("");
-    this->tempPositionTextActor->SetPosition ( 10, 10 );
-    this->tempPositionTextActor->GetTextProperty()->SetFontSize ( 15 );
-    this->tempPositionTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
-    this->activeRenderer->AddActor2D ( this->tempPositionTextActor );
+    this->weightTextActor->SetInput ("");
+    this->weightTextActor->SetPosition ( 10, 30 );
+    this->weightTextActor->GetTextProperty()->SetFontSize ( 15 );
+    this->weightTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+    this->activeRenderer->AddActor2D ( this->weightTextActor );
+
+    this->positionTextActor->SetInput ("");
+    this->positionTextActor->SetPosition ( 10, 10 );
+    this->positionTextActor->GetTextProperty()->SetFontSize ( 15 );
+    this->positionTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+    this->activeRenderer->AddActor2D ( this->positionTextActor );
 }
 
 void ViewerHandler::updateText()
 {
     if(this->showInfo)
     {
+        this->pointsTextActor->SetInput (("Points: "+std::to_string(this->thePipeline->getObject()->getPoints()->GetNumberOfPoints())).data());
+
         if(this->thePipeline->getObject()->getVolume()<0.00001)
         {
-            this->tempVolumeTextActor->SetInput (("Volume: "+std::to_string(this->thePipeline->getObject()->getVolume()*1000000)+"cm3").data());
+            this->volumeTextActor->SetInput (("Volume: "+std::to_string(this->thePipeline->getObject()->getVolume()*1000000)+"cm3").data());
         }
         else
         {
-            this->tempVolumeTextActor->SetInput (("Volume: "+std::to_string(this->thePipeline->getObject()->getVolume())+"m3").data());
+            this->volumeTextActor->SetInput (("Volume: "+std::to_string(this->thePipeline->getObject()->getVolume())+"m3").data());
         }
 
-        this->tempMaxCellNumTextActor->SetInput (("Max Cells: "+std::to_string(this->thePipeline->getObject()->getCellAmount())).data());
+        this->maxCellNumTextActor->SetInput (("Max Cells: "+std::to_string(this->thePipeline->getObject()->getCellAmount())).data());
 
         if(this->thePipeline->getObject()->getWeight()<0.001)
         {
-            this->tempWeightTextActor->SetInput (("Weight: "+std::to_string(this->thePipeline->getObject()->getWeight()*1000)+"g").data());
+            this->weightTextActor->SetInput (("Weight: "+std::to_string(this->thePipeline->getObject()->getWeight()*1000)+"g").data());
         }
         else
         {
-            this->tempWeightTextActor->SetInput (("Weight: "+std::to_string(this->thePipeline->getObject()->getWeight())+"kg").data());
+            this->weightTextActor->SetInput (("Weight: "+std::to_string(this->thePipeline->getObject()->getWeight())+"kg").data());
         }
 
         Vector3D objPos;
 
-        this->tempPositionTextActor->SetInput (("Position: "+std::to_string(this->thePipeline->getObject()->getPosition().getx())+
+        this->positionTextActor->SetInput (("Position: "+std::to_string(this->thePipeline->getObject()->getPosition().getx())+
                                                 " "+std::to_string(this->thePipeline->getObject()->getPosition().gety())+
                                                 " "+std::to_string(this->thePipeline->getObject()->getPosition().getz())).data());
     }
     else
     {
-        this->tempVolumeTextActor->SetInput ("");
-        this->tempMaxCellNumTextActor->SetInput ("");
-        this->tempWeightTextActor->SetInput ("");
-        this->tempPositionTextActor->SetInput ("");
+        this->volumeTextActor->SetInput ("");
+        this->maxCellNumTextActor->SetInput ("");
+        this->weightTextActor->SetInput ("");
+        this->positionTextActor->SetInput ("");
+        this->pointsTextActor->SetInput ("");
     }
 }
 
@@ -168,6 +177,15 @@ void ViewerHandler::resetViewer()
     this->activeRenderer->SetBackground( this->colorHandler->GetColor3d("Silver").GetData() );
 
     this->resetCamera();
+    this->refreshRender();
+}
+
+void ViewerHandler::resetObject()
+{
+    this->thePipeline->getObject()->resetColor();
+
+    this->thePipeline->setNewPipeline();
+
     this->refreshRender();
 }
 

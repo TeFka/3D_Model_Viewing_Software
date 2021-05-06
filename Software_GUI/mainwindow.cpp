@@ -34,9 +34,10 @@ void MainWindow::refreshGUI()
     ui->cellMaxShow->setValue(1);
     ui->shrinkCheck->setCheckState(Qt::Unchecked);
     ui->clipCheck->setCheckState(Qt::Unchecked);
-    ui->check1->setCheckState(Qt::Unchecked);
+    ui->smoothCheck->setCheckState(Qt::Unchecked);
     ui->check2->setCheckState(Qt::Unchecked);
     ui->check3->setCheckState(Qt::Unchecked);
+    ui->lightCheck->setCheckState(Qt::Unchecked);
 
     ui->clipX->setCheckState(Qt::Unchecked);
     ui->clipY->setCheckState(Qt::Unchecked);
@@ -140,6 +141,14 @@ void MainWindow::resetViewer()
     this->appHandler->resetViewer();
     this->refreshRender();
 }
+
+void MainWindow::resetObject()
+{
+    this->refreshGUI();
+    this->appHandler->resetObject();
+    this->refreshRender();
+}
+
 void MainWindow::resetCamera()
 {
     this->appHandler->resetCamera();
@@ -245,15 +254,6 @@ void MainWindow::handleNewButton()
     this->refreshRender();
 }
 
-void MainWindow::handleFilterUpdate()
-{
-    std::vector<int> filtersInUse = {ui->shrinkCheck->isChecked(),ui->clipCheck->isChecked(),ui->contourCheck->isChecked(),0,0,0};
-    this->appHandler->getPipeline()->setFilters(filtersInUse);
-    this->appHandler->updateViewer();
-    this->refreshRender();
-
-}
-
 void MainWindow::handleMinCellChange()
 {
     if(this->allowGUIChange)
@@ -284,6 +284,15 @@ void MainWindow::handleMaxCellChange()
         this->appHandler->updateViewer();
         this->refreshRender();
     }
+}
+
+void MainWindow::handleFilterUpdate()
+{
+    std::vector<int> filtersInUse = {ui->shrinkCheck->isChecked(),ui->clipCheck->isChecked(),ui->contourCheck->isChecked(),ui->smoothCheck->isChecked(),0,0};
+    this->appHandler->getPipeline()->setFilters(filtersInUse);
+    this->appHandler->updateViewer();
+    this->refreshRender();
+
 }
 
 void MainWindow::handleUpdate()
@@ -321,8 +330,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect( ui->actionHelp, &QAction::triggered, this, &MainWindow::handleHelpButton);
     connect( ui->actionNew, &QAction::triggered, this, &MainWindow::handleNewButton);
     connect( ui->actionSave, &QAction::triggered, this, &MainWindow::handleSaveButton);
+    connect( ui->actionFullScreen, &QAction::triggered, this, &MainWindow::showFullScreen);
+    connect( ui->actionBorderedScreen, &QAction::triggered, this, &MainWindow::showNormal);
+    connect( ui->actionExit, &QAction::triggered, this, &MainWindow::close);
 
-    connect( ui->resetObject, &QPushButton::released, this, &MainWindow::resetViewer );
+
+    connect( ui->resetViewer, &QPushButton::released, this, &MainWindow::resetViewer );
     connect( ui->resetCamera, &QPushButton::released, this, &MainWindow::resetCamera );
     connect( ui->backgroundColor, &QPushButton::released, this, &MainWindow::changeBackgroundColor );
     connect( ui->objectColor, &QPushButton::released, this, &MainWindow::changeObjectColor );
@@ -342,6 +355,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 //slider control
     connect(ui->clipSlider, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->lightIntensity, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->lightSpecular, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
 
 //check boxes
     connect(ui->shrinkCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
@@ -354,6 +369,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->showInfo, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
     connect(ui->showAxes, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->lightCheck, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
 
 //spin boxes
     connect(ui->shrinkFactor, SIGNAL(valueChanged(double)), this, SLOT(handleUpdate()));

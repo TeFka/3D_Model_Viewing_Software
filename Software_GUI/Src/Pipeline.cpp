@@ -94,8 +94,9 @@ void Pipeline::actorStage()
                 (double)this->theObject->getColor().blue()/255);
 
     }
-
+    if(!this->activeFilters[3]){
     this->activeActor->GetProperty()->EdgeVisibilityOn();
+    }
 
     if(!this->showLight){
         this->activeActor->GetProperty()->LightingOff();

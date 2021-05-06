@@ -101,6 +101,12 @@ private:
 //Vector3D object storing model dimensions
     Vector3D modelDimensions;
 
+//double storing model volume
+    double modelVolume = 0;
+
+//double storing model weight
+    double modelWeight = 0;
+
 //Function of class Model, getVectorIndex()
 //Function to get index in vectors array of vector with specified ID.
     int getVectorIndex(int);
@@ -141,6 +147,14 @@ public:
 //Function to calculate position of model center
     void calcModelCenter();
 
+//Function of class Model, calcModelVolume()
+//Function to calculate volume of model
+    void calcModelVolume();
+
+//Function of class Model, calcModelWeight()
+//Function to calculate weight of model
+    void calcModelWeight();
+
 //Function of class Model, getModelCenter()
 //Function to get position of model center
     Vector3D getModelCenter();
@@ -148,6 +162,14 @@ public:
 //Function of class Model, getModelDimensions()
 //Function to get position of model dimensions
     Vector3D getModelDimensions();
+
+//Function of class Model, getModelVolume()
+//Function to get volume of model
+    double getModelVolume();
+
+//Function of class Model, getModelWeight()
+//Function to get weight of model
+    double getModelWeight();
 
 //Function of class Model, getVectors()
 //Function to get vector array of model
@@ -192,7 +214,7 @@ public:
 //Function of class Model, getCellAmount()
 //Function to get amount of cells
     int getCellAmount();
-	
+
 //Function of class Model, getMaterialAmount()
 //Function to get amount of materials
     int getMaterialAmount();
