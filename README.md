@@ -21,3 +21,6 @@ demo - folder containing a test executable</br>
 
 ***Initial software***</br>
 Allows to load STL model and create basic shapes.
+
+[![Build Status](https://travis-ci.com/TeFka/2020_GROUP_19.svg?token=atrfb9xdTGWV9e1aoA6s&branch=main)]
+(https://travis-ci.com/github/TeFka/2020_GROUP_19)
