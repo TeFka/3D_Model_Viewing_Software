@@ -16,15 +16,15 @@ int main(int argc, char *argv[])
 // -------------------------------------------------------------------------------------
 	
 	Model m;
-	m.loadModel("../Resources/ExampleModel2.mod");
+	m.loadModel("../../Resources/ExampleModel2.mod");
 	
 	std::cout<<"File name: ExampleModel2"<<std::endl;
 	std::cout<<""<<std::endl;
 	
 // -------------------------------------------------------------------------------------
 	
-	//check ModelCenter
-	//if ModelCenter does not match, errors will be counted.
+	// check ModelCenter
+	// if ModelCenter does not match, errors will be counted.
 	
 	std::cout<<"Model Center"<<std::endl;
 	
@@ -106,14 +106,52 @@ int main(int argc, char *argv[])
 	std::cout<<"--test results: "<<m.getMaterialAmount()<<std::endl;
 	std::cout<<"--errors count: "<<errors<<std::endl;
 	std::cout<<""<<std::endl;
+	
+// -------------------------------------------------------------------------------------
+
+	// check model's volume
+		
+	std::cout<<"Model Volume"<<std::endl;
+	
+	// calculate model's volume
+	m.calcModelVolume();
+
+	// if model's volume does not match, errors will be counted.
+	if(!(m.getModelVolume()<(5.3915e-07) && m.getModelVolume()>(5.3905e-07))){
+			errors++;
+	}
+	
+	std::cout<<"--expected value: 5.391e-07"<<std::endl;
+	std::cout<<"--test results: "<<m.getModelVolume()<<std::endl;
+	std::cout<<"--errors count: "<<errors<<std::endl;
+	std::cout<<""<<std::endl;
+	
+// -------------------------------------------------------------------------------------
+
+	// check model's weight
+		
+	std::cout<<"Model Weight"<<std::endl;
+	
+	// calculate model's weight
+	m.calcModelWeight();
+
+	// if model's weight does not match, errors will be counted.
+	if(!(m.getModelWeight()< 0.002281595 && m.getModelWeight()>0.002281585)){
+			errors++;
+	}
+	
+	std::cout<<"--expected value: 0.00228159"<<std::endl;
+	std::cout<<"--test results: "<<m.getModelWeight()<<std::endl;
+	std::cout<<"--errors count: "<<errors<<std::endl;
+	std::cout<<""<<std::endl;
 
 // -------------------------------------------------------------------------------------	
 
 	// create a new file and load in information
 
-	m.loadInfoToFile("../Test_programs/NewExampleModel2.mod");
+	m.loadInfoToFile("../../Test_programs/NewExampleModel2.mod");
 	
-	std::cout<<"New file created in ../Test_programs"<<std::endl;
+	std::cout<<"New file created in ../../Test_programs"<<std::endl;
 	std::cout<<""<<std::endl;
 	
 
