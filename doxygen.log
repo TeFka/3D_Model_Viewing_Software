@@ -19,10 +19,12 @@ warning: ignoring unsupported tag `DOT_WRAP_THRESHOLD     =' at line 2458, file 
 warning: ignoring unsupported tag `PLANTUML_CFG_FILE      =' at line 2589, file /home/travis/build/TeFka/2020_GROUP_19/Doxyfile
 warning: tag INPUT: input source `./Model_Library/Inc' does not exist
 warning: tag INPUT: input source `./Model_Library/Src' does not exist
+warning: tag INPUT: input source `./Software_GUI' does not exist
 warning: tag INPUT: input source `./Software_GUI/Inc' does not exist
 warning: tag INPUT: input source `./Software_GUI/Src' does not exist
 warning: source ./Model_Library/Inc is not a readable file or directory... skipping.
 warning: source ./Model_Library/Src is not a readable file or directory... skipping.
+warning: source ./Software_GUI is not a readable file or directory... skipping.
 warning: source ./Software_GUI/Inc is not a readable file or directory... skipping.
 warning: source ./Software_GUI/Src is not a readable file or directory... skipping.
 Searching for include files...
