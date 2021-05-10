@@ -6,25 +6,36 @@ ViewerHandler::ViewerHandler()
     this->setText();
 }
 
-ViewerHandler::ViewerHandler(vtkSmartPointer<vtkRenderWindow> renderWindow)
+ViewerHandler::ViewerHandler(vtkSmartPointer<vtkRenderWindow> renderWindow, vtkSmartPointer<vtkRenderWindowInteractor> interactor)
 {
     this->setText();
     this->activeRenderWindow = renderWindow;
     this->activeRenderWindow->AddRenderer( this->activeRenderer );
+    this->renderWindowInteractor = interactor;
     this->thePipeline->setRenderer(this->activeRenderer);
+    this->thePipeline->setLight();
+
+    this->setAxes();
+
 }
 
-void ViewerHandler::setup(vtkSmartPointer<vtkRenderWindow> renderWindow)
+void ViewerHandler::setup(vtkSmartPointer<vtkRenderWindow> renderWindow, vtkSmartPointer<vtkRenderWindowInteractor> interactor)
 {
 
     this->activeRenderWindow = renderWindow;
     this->activeRenderWindow->AddRenderer( this->activeRenderer );
+    this->renderWindowInteractor = interactor;
     this->thePipeline->setRenderer(this->activeRenderer);
+    this->thePipeline->setLight();
+
+    this->setAxes();
+
 }
 
 void ViewerHandler::refreshRender()
 {
     this->activeRenderWindow->Render();
+
 }
 
 void ViewerHandler::setText()
@@ -64,7 +75,7 @@ void ViewerHandler::updateText()
 {
     if(this->showInfo)
     {
-        this->pointsTextActor->SetInput (("Points: "+std::to_string(this->thePipeline->getObject()->getPoints()->GetNumberOfPoints())).data());
+        this->pointsTextActor->SetInput (("Points: "+std::to_string(this->thePipeline->getObject()->getShownPointAmount())).data());
 
         if(this->thePipeline->getObject()->getVolume()<0.00001)
         {
@@ -77,20 +88,27 @@ void ViewerHandler::updateText()
 
         this->maxCellNumTextActor->SetInput (("Max Cells: "+std::to_string(this->thePipeline->getObject()->getCellAmount())).data());
 
-        if(this->thePipeline->getObject()->getWeight()<0.001)
+        if(this->thePipeline->getObject()->getObjectType()==3)
         {
-            this->weightTextActor->SetInput (("Weight: "+std::to_string(this->thePipeline->getObject()->getWeight()*1000)+"g").data());
+            if(this->thePipeline->getObject()->getWeight()<0.001)
+            {
+                this->weightTextActor->SetInput (("Weight: "+std::to_string(this->thePipeline->getObject()->getWeight()*1000)+"g").data());
+            }
+            else
+            {
+                this->weightTextActor->SetInput (("Weight: "+std::to_string(this->thePipeline->getObject()->getWeight())+"kg").data());
+            }
         }
         else
         {
-            this->weightTextActor->SetInput (("Weight: "+std::to_string(this->thePipeline->getObject()->getWeight())+"kg").data());
+            this->weightTextActor->SetInput ("Weight: N/A");
         }
 
         Vector3D objPos;
 
         this->positionTextActor->SetInput (("Position: "+std::to_string(this->thePipeline->getObject()->getPosition().getx())+
-                                                " "+std::to_string(this->thePipeline->getObject()->getPosition().gety())+
-                                                " "+std::to_string(this->thePipeline->getObject()->getPosition().getz())).data());
+                                            " "+std::to_string(this->thePipeline->getObject()->getPosition().gety())+
+                                            " "+std::to_string(this->thePipeline->getObject()->getPosition().getz())).data());
     }
     else
     {
@@ -102,38 +120,144 @@ void ViewerHandler::updateText()
     }
 }
 
-void ViewerHandler::updateAxes(double xOffset,double yOffset,double zOffset)
+//******************************* DO THIS
+void ViewerHandler::setAxes()
 {
-    if(this->showAxes)
+    double rgba[4] {0.0, 0.0, 0.0, 0.0};
+    this->colorHandler->GetColor("Green", rgba);
+    this->axesWidget->SetOutlineColor(rgba[0], rgba[1], rgba[2]);
+    this->axesWidget->SetOrientationMarker(this->axesActor);
+    this->axesWidget->SetInteractor(this->renderWindowInteractor);
+    this->axesWidget->SetViewport(0.0, 0.0, 0.4, 0.4);
+    this->axesWidget->SetEnabled(0);
+    this->axesWidget->InteractiveOn();
+}
+
+//******************************* DO THIS
+void ViewerHandler::updateCubeAxes()
+{
+    if(this->showCubeAxes)
     {
-        if(this->axesExist){
-        this->activeRenderer->RemoveActor(this->axes);
+        if(this->cubeAxesExist)
+        {
+            this->activeRenderer->RemoveActor(this->cubeAxesActor);
         }
-        vtkSmartPointer<vtkTransform> uTransform = vtkSmartPointer<vtkTransform>::New();
+        this->cubeAxesActor->SetUseTextActor3D(1);
+        this->cubeAxesActor->SetBounds(this->thePipeline->getObject()->GetPolydata()->GetBounds());
+        this->cubeAxesActor->SetCamera(this->activeRenderer->GetActiveCamera());
+        this->cubeAxesActor->GetTitleTextProperty(0)->SetColor(this->colorHandler->GetColor3d("Red").GetData());
+        this->cubeAxesActor->GetTitleTextProperty(0)->SetFontSize(48);
+        this->cubeAxesActor->GetLabelTextProperty(0)->SetColor(this->colorHandler->GetColor3d("Red").GetData());
 
-        uTransform->Translate(this->thePipeline->getObject()->getPosition().getx()+(2*this->thePipeline->getObject()->getDimensionAverage()*xOffset),
-                              this->thePipeline->getObject()->getPosition().gety()+(2*this->thePipeline->getObject()->getDimensionAverage()*yOffset),
-                              this->thePipeline->getObject()->getPosition().getz()+(2*this->thePipeline->getObject()->getDimensionAverage()*zOffset));
+        this->cubeAxesActor->GetTitleTextProperty(1)->SetColor(this->colorHandler->GetColor3d("Green").GetData());
+        this->cubeAxesActor->GetLabelTextProperty(1)->SetColor(this->colorHandler->GetColor3d("green").GetData());
 
-        this->axes->SetUserTransform(uTransform);
+        this->cubeAxesActor->GetTitleTextProperty(2)->SetColor(this->colorHandler->GetColor3d("Blue").GetData());
+        this->cubeAxesActor->GetLabelTextProperty(2)->SetColor(this->colorHandler->GetColor3d("Blue").GetData());
 
-        this->axes->SetTotalLength(this->thePipeline->getObject()->getDimensionAverage(),
-                                   this->thePipeline->getObject()->getDimensionAverage(),
-                                   this->thePipeline->getObject()->getDimensionAverage());
-        this->activeRenderer->AddActor(this->axes);
+        this->cubeAxesActor->DrawXGridlinesOn();
+        this->cubeAxesActor->DrawYGridlinesOn();
+        this->cubeAxesActor->DrawZGridlinesOn();
+#if VTK_MAJOR_VERSION == 6
+        this->cubeAxesActor->SetGridLineLocation(VTK_GRID_LINES_FURTHEST);
+#endif
+#if VTK_MAJOR_VERSION > 6
+        this->cubeAxesActor->SetGridLineLocation(this->cubeAxesActor->VTK_GRID_LINES_FURTHEST);
+#endif
 
-        this->axesExist = 1;
+        this->cubeAxesActor->XAxisMinorTickVisibilityOff();
+        this->cubeAxesActor->YAxisMinorTickVisibilityOff();
+        this->cubeAxesActor->ZAxisMinorTickVisibilityOff();
+
+        this->cubeAxesActor->SetFlyModeToStaticEdges();
+        this->activeRenderer->AddActor(this->cubeAxesActor);
+        this->cubeAxesExist = 1;
     }
     else
     {
-        if(this->axesExist){
-        this->activeRenderer->RemoveActor(this->axes);
-        this->axesExist = 0;
+        if(this->cubeAxesExist)
+        {
+            this->activeRenderer->RemoveActor(this->cubeAxesActor);
+            this->cubeAxesExist = 0;
         }
     }
 }
+void ViewerHandler::updateNormals()
+{
 
-void ViewerHandler::viewNewObject(){
+    if(this->showNormals)
+    {
+        if(this->normalsExist)
+        {
+            this->activeRenderer->RemoveActor(this->normalsActor);
+        }
+        vtkNew<vtkPCANormalEstimation> normals;
+        normals->SetInputConnection(this->thePipeline->getAlgorithm());
+        normals->SetSampleSize(10);
+        normals->SetNormalOrientationToGraphTraversal();
+        normals->Update();
+
+        vtkNew<vtkGlyph3D> glyph3D;
+        // Source for the glyph filter
+        vtkNew<vtkArrowSource> arrow;
+        arrow->SetTipResolution(16);
+        arrow->SetTipLength(0.3);
+        arrow->SetTipRadius(0.1);
+
+        glyph3D->SetSourceConnection(arrow->GetOutputPort());
+        glyph3D->SetInputData(normals->GetOutput());
+        glyph3D->SetVectorModeToUseNormal();
+        glyph3D->SetScaleModeToScaleByVector();
+        glyph3D->SetScaleFactor(this->thePipeline->getObject()->getDimensionAverage()/2);
+        glyph3D->OrientOn();
+        glyph3D->Update();
+
+        vtkNew<vtkPolyDataMapper> glyph3DMapper;
+        glyph3DMapper->SetInputConnection(glyph3D->GetOutputPort());
+
+        this->normalsActor->SetMapper(glyph3DMapper);
+        this->normalsActor->GetProperty()->SetDiffuseColor(
+            colorHandler->GetColor3d("red").GetData());
+
+        this->activeRenderer->AddActor(this->normalsActor);
+
+        this->normalsExist = 1;
+    }
+    else
+    {
+        if(this->normalsExist)
+        {
+            this->activeRenderer->RemoveActor(this->normalsActor);
+            this->normalsExist = 0;
+        }
+    }
+
+}
+
+void ViewerHandler::updateAffineInteraction()
+{
+/*
+    vtkNew<vtkAffineWidget> affineWidget;
+    affineWidget->SetInteractor(renderWindowInteractor);
+    affineWidget->CreateDefaultRepresentation();
+    dynamic_cast<vtkAffineRepresentation2D*>(affineWidget->GetRepresentation())
+    ->PlaceWidget(actor->GetBounds());
+
+    vtkNew<vtkAffineCallback> affineCallback;
+    affineCallback->Actor = actor;
+    affineCallback->AffineRep = dynamic_cast<vtkAffineRepresentation2D*>(
+                                    affineWidget->GetRepresentation());
+
+    affineWidget->AddObserver(vtkCommand::InteractionEvent, affineCallback);
+    affineWidget->AddObserver(vtkCommand::EndInteractionEvent, affineCallback);
+
+    affineWidget->On();
+    */
+
+}
+
+void ViewerHandler::viewNewObject()
+{
 
     QColor theColor;
     theColor.setRed(255);
@@ -142,10 +266,9 @@ void ViewerHandler::viewNewObject(){
     this->thePipeline->getObject()->setColor(theColor);
 
     this->activeRenderer->SetBackground( this->colorHandler->GetColor3d("Silver").GetData() );
-
     this->thePipeline->setNewPipeline();
+
     this->updateText();
-    this->updateAxes();
 
     this->resetCamera();
     this->refreshRender();
@@ -153,11 +276,10 @@ void ViewerHandler::viewNewObject(){
 
 void ViewerHandler::updateViewer()
 {
-
     this->thePipeline->updatePipeline();
-
     this->updateText();
-    this->updateAxes();
+    this->updateNormals();
+    this->updateCubeAxes();
     this->refreshRender();
 }
 
@@ -204,8 +326,7 @@ void ViewerHandler::setCameraOrientationPosX()
             this->thePipeline->getObject()->getPosition().gety(),
             this->thePipeline->getObject()->getPosition().getz());
     this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetViewUp(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->updateAxes(0.0,0.0,-1.0);
+    this->activeRenderer->GetActiveCamera()->SetViewUp(this->thePipeline->getObject()->getPosition().getx(),1.0,this->thePipeline->getObject()->getPosition().getz());
 
     this->activeRenderer->ResetCameraClippingRange();
     this->refreshRender();
@@ -218,8 +339,7 @@ void ViewerHandler::setCameraOrientationNegX()
             this->thePipeline->getObject()->getPosition().gety(),
             this->thePipeline->getObject()->getPosition().getz());
     this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetViewUp(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->updateAxes(0.0,0.0,1.0);
+    this->activeRenderer->GetActiveCamera()->SetViewUp(this->thePipeline->getObject()->getPosition().getx(),1.0,this->thePipeline->getObject()->getPosition().getz());
 
     this->activeRenderer->ResetCameraClippingRange();
     this->refreshRender();
@@ -232,8 +352,6 @@ void ViewerHandler::setCameraOrientationPosY()
             this->thePipeline->getObject()->getPosition().getz());
     this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
     this->activeRenderer->GetActiveCamera()->SetViewUp(1.0,this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-
-    this->updateAxes(1.0,0.0,-1.0);
 
     this->activeRenderer->ResetCameraClippingRange();
     this->refreshRender();
@@ -248,8 +366,6 @@ void ViewerHandler::setCameraOrientationNegY()
     this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
     this->activeRenderer->GetActiveCamera()->SetViewUp(1.0,this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
 
-    this->updateAxes(-1.0,0.0,0.0);
-
     this->activeRenderer->ResetCameraClippingRange();
     this->refreshRender();
 }
@@ -260,8 +376,7 @@ void ViewerHandler::setCameraOrientationPosZ()
             this->thePipeline->getObject()->getPosition().gety(),
             this->thePipeline->getObject()->getPosition().getz()+3*this->thePipeline->getObject()->getDimensionAverage());
     this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetViewUp(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->updateAxes(1.0,0.0,1.0);
+    this->activeRenderer->GetActiveCamera()->SetViewUp(this->thePipeline->getObject()->getPosition().getx(),1.0,this->thePipeline->getObject()->getPosition().getz());
 
     this->activeRenderer->ResetCameraClippingRange();
     this->refreshRender();
@@ -273,8 +388,7 @@ void ViewerHandler::setCameraOrientationNegZ()
             this->thePipeline->getObject()->getPosition().gety(),
             this->thePipeline->getObject()->getPosition().getz()-3*this->thePipeline->getObject()->getDimensionAverage());
     this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetViewUp(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->updateAxes(-1.0,0.0,0.0);
+    this->activeRenderer->GetActiveCamera()->SetViewUp(this->thePipeline->getObject()->getPosition().getx(),1.0,this->thePipeline->getObject()->getPosition().getz());
 
     this->activeRenderer->ResetCameraClippingRange();
     this->refreshRender();
@@ -322,7 +436,49 @@ void ViewerHandler::enableInfo(int value)
 {
     this->showInfo = value;
 }
+
 void ViewerHandler::enableAxes(int value)
 {
-    this->showAxes = value;
+    this->axesWidget->SetEnabled(value);
+}
+
+void ViewerHandler::enableNormals(int value)
+{
+    this->showNormals = value;
+}
+
+void ViewerHandler::enableCubeAxes(int value)
+{
+    this->showCubeAxes = value;
+}
+
+void ViewerHandler::saveScreenshot(QString fileName)
+{
+    QFileInfo fi(fileName);
+
+    if(fi.suffix()=="png")
+    {
+        this->activeRenderWindow->Render();
+
+        vtkNew<vtkWindowToImageFilter> windowToImageFilter;
+        windowToImageFilter->SetInput(this->activeRenderWindow);
+#if VTK_MAJOR_VERSION >= 8 || VTK_MAJOR_VERSION == 8 && VTK_MINOR_VERSION >= 90
+        windowToImageFilter->SetScale(2); // image quality
+#else
+        windowToImageFilter->SetMagnification(2); // image quality
+#endif
+        windowToImageFilter->SetInputBufferTypeToRGBA(); // also record the alpha
+        // (transparency) channel
+        windowToImageFilter->ReadFrontBufferOff();       // read from the back buffer
+        windowToImageFilter->Update();
+
+        vtkNew<vtkPNGWriter> writer;
+        writer->SetFileName(fileName.toLocal8Bit().data());
+        writer->SetInputConnection(windowToImageFilter->GetOutputPort());
+        writer->Write();
+
+        this->activeRenderWindow->Render();
+        this->activeRenderer->ResetCamera();
+        this->activeRenderWindow->Render();
+    }
 }

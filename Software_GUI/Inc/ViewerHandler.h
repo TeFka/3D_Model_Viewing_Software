@@ -7,8 +7,14 @@
 #include <vtkSmartPointer.h>
 
 #include <vtkCubeSource.h>
+#include <vtkArrowSource.h>
 
 #include <vtkAxesActor.h>
+#include <vtkCubeAxesActor.h>
+
+#include <vtkAffineRepresentation2D.h>
+#include <vtkAffineWidget.h>
+
 #include <vtkActor.h>
 #include <vtkProperty.h>
 #include <vtkCamera.h>
@@ -31,8 +37,13 @@
 #include <QColorDialog>
 #include <vtkInteractorStyleTrackballCamera.h>
 
+#include <vtkPCANormalEstimation.h>
+
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>
+
+#include <vtkPNGWriter.h>
+#include <vtkWindowToImageFilter.h>
 
 #include <vtkTransform.h>
 #include <vtkOrientationMarkerWidget.h>
@@ -48,8 +59,10 @@ private:
 
     vtkSmartPointer<vtkRenderer> activeRenderer = vtkSmartPointer<vtkRenderer>::New();
 
-    vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
+    vtkNew<vtkGenericOpenGLRenderWindow> OPENGLrenderWindow;
     vtkSmartPointer<vtkRenderWindow> activeRenderWindow;
+
+    vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
 
     vtkSmartPointer<vtkNamedColors> colorHandler = vtkSmartPointer<vtkNamedColors>::New();
 
@@ -59,26 +72,41 @@ private:
     vtkSmartPointer<vtkTextActor> positionTextActor = vtkSmartPointer<vtkTextActor>::New();
     vtkSmartPointer<vtkTextActor> pointsTextActor = vtkSmartPointer<vtkTextActor>::New();
 
-    vtkNew<vtkAxesActor> axes;
+    vtkNew<vtkAxesActor> axesActor;
+    vtkNew<vtkActor> normalsActor;
+    vtkNew<vtkCubeAxesActor> cubeAxesActor;
+
+    vtkNew<vtkOrientationMarkerWidget> axesWidget;
 
     int showInfo = 0;
+
     int showAxes = 0;
     int axesExist = 0;
+    int cubeAxesExist = 0;
+
+    int showNormals = 0;
+    int normalsExist = 0;
+    int showCubeAxes = 0;
 
 public:
     ViewerHandler();
-    ViewerHandler(vtkSmartPointer<vtkRenderWindow>);
+    ViewerHandler(vtkSmartPointer<vtkRenderWindow>, vtkSmartPointer<vtkRenderWindowInteractor>);
 
-    void setup(vtkSmartPointer<vtkRenderWindow>);
+    void setup(vtkSmartPointer<vtkRenderWindow>, vtkSmartPointer<vtkRenderWindowInteractor>);
 
     void refreshRender();
 
     void setText();
     void updateText();
-    void updateAxes(double=1.0, double=0.0, double=0.0);
+
+    void setAxes();
+    void updateCubeAxes();
 
     void viewNewObject();
     void updateViewer();
+    void updateNormals();
+
+    void updateAffineInteraction();
 
     void setCameraOrientationPosX();
     void setCameraOrientationNegX();
@@ -100,7 +128,10 @@ public:
 
     void enableInfo(int);
     void enableAxes(int);
+    void enableNormals(int);
+    void enableCubeAxes(int);
 
+    void saveScreenshot(QString);
 };
 
 #endif // PIPELINEHANDLER_H_INCLUDED

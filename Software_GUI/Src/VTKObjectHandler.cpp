@@ -19,17 +19,31 @@ vtkAlgorithmOutput* VTKObjectHandler::getSource()
 {
     return this->finalSourceAlgorithm;
 }
+
+vtkPolyData* VTKObjectHandler::GetPolydata()
+{
+    return this->finalPolyData;
+}
 vtkSmartPointer<vtkUnstructuredGrid> VTKObjectHandler::getGrid()
 {
     return this->activeGrid;
 }
 vtkSmartPointer<vtkPoints> VTKObjectHandler::getPoints()
 {
-    return this->activePoints;
+    return this->finalPolyData->GetPoints();
 }
 vtkSmartPointer<vtkCellArray> VTKObjectHandler::getCells()
 {
     return this->activeCells;
+}
+
+int VTKObjectHandler::getShownPointAmount(){
+    if(this->objectType==3){
+    return this->shownPoints;
+    }
+    else{
+        return this->finalPolyData->GetPoints()->GetNumberOfPoints();
+    }
 }
 
 QColor VTKObjectHandler::getColor()
@@ -39,7 +53,7 @@ QColor VTKObjectHandler::getColor()
 
 std::array<double,3> VTKObjectHandler::getCellColor(int index)
 {
-    this->separateCellColors[index];
+    return this->separateCellColors[index];
 }
 
 int VTKObjectHandler::getObjectType()
@@ -105,6 +119,28 @@ void VTKObjectHandler::setMaxActiveCell(int newVal)
 
 void VTKObjectHandler::makeMeasurements()
 {
+    if(this->objectType==3){
+
+        this->objectDimensions.setx(this->activeVTKModel.getModelDimensions().getx());
+        this->objectDimensions.sety(this->activeVTKModel.getModelDimensions().gety());
+        this->objectDimensions.setz(this->activeVTKModel.getModelDimensions().getz());
+
+        this->objectPosition.setx(this->activeVTKModel.getModelCenter().getx());
+        this->objectPosition.sety(this->activeVTKModel.getModelCenter().gety());
+        this->objectPosition.setz(this->activeVTKModel.getModelCenter().getz());
+
+        this->dimensionAverage = ((this->objectDimensions.getx()+this->objectDimensions.gety()+this->objectDimensions.getz())/3);
+
+        for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
+        {
+                this->objectVolume += this->activeVTKModel.getCell(i).getVolume();
+                this->objectWeight += this->activeVTKModel.getCell(i).getWeight();
+        }
+    }
+    else{
+        this->objectParameters->SetInputData(this->finalPolyData);
+        this->objectVolume = this->objectParameters->GetVolume();
+        this->objectWeight = 0;
     if(objectType==2||objectType==0)
     {
         this->objectDimensions.setx(1.0);
@@ -169,23 +205,6 @@ void VTKObjectHandler::makeMeasurements()
 
         this->dimensionAverage = ((this->objectDimensions.getx()+this->objectDimensions.gety()+this->objectDimensions.getz())/3);
     }
-    else
-    {
-        this->objectDimensions.setx(this->activeVTKModel.getModelDimensions().getx());
-        this->objectDimensions.sety(this->activeVTKModel.getModelDimensions().gety());
-        this->objectDimensions.setz(this->activeVTKModel.getModelDimensions().getz());
-
-        this->objectPosition.setx(this->activeVTKModel.getModelCenter().getx());
-        this->objectPosition.setx(this->activeVTKModel.getModelCenter().gety());
-        this->objectPosition.setx(this->activeVTKModel.getModelCenter().getz());
-
-        this->dimensionAverage = ((this->objectDimensions.getx()+this->objectDimensions.gety()+this->objectDimensions.getz())/3);
-    }
-
-    if(this->objectType<3)
-    {
-        this->objectParameters->SetInputConnection(this->finalSourceAlgorithm);
-        this->objectVolume = this->objectParameters->GetVolume();
     }
 }
 
@@ -193,11 +212,19 @@ void VTKObjectHandler::updateVTKModel()
 {
     if(this->objectType==3)
     {
+        std::cout<<this->finalPolyData->GetPoints()->GetNumberOfPoints()<<std::endl;
         this->activeCells->Reset();
         this->activeCells->Squeeze();
 
         this->activeGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
         this->cellColorData = vtkSmartPointer<vtkUnsignedCharArray>::New();
+
+        this->shownPoints = 0;
+        int chosenPoints[this->activeVTKModel.getVectorAmount()];
+
+        for(int i = 0;i<this->activeVTKModel.getVectorAmount();i++){
+            chosenPoints[i] = 0;
+        }
 
         this->activeGrid->SetPoints(this->activePoints);
 
@@ -212,6 +239,10 @@ void VTKObjectHandler::updateVTKModel()
             if(i>=(minActiveCell-1)&&i<maxActiveCell)
             {
                 Cell tempCell = this->activeVTKModel.getCell(i);
+                for(int n = 0;n<tempCell.getIndices().size();n++){
+                    chosenPoints[tempCell.getIndices()[n]] = 1;
+                }
+
                 if(tempCell.getType()==1)
                 {
                     this->drawHexahedron(&tempCell);
@@ -235,6 +266,13 @@ void VTKObjectHandler::updateVTKModel()
                 cellColorData->InsertNextTuple(rgb);
             }
         }
+
+        for(int i = 0;i<this->activeVTKModel.getVectorAmount();i++){
+            if(chosenPoints[i]){
+                this->shownPoints++;
+            }
+        }
+
         this->activeGrid->GetCellData()->SetScalars(this->cellColorData);
 
         this->objectType = 3;
@@ -242,8 +280,10 @@ void VTKObjectHandler::updateVTKModel()
 
         this->geometryFilter->SetInputData(this->activeGrid);
         this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+        this->finalPolyData = this->geometryFilter->GetOutput();
 
         this->makeMeasurements();
+        std::cout<<this->finalPolyData->GetPoints()->GetNumberOfPoints()<<std::endl;
     }
 }
 
@@ -300,14 +340,14 @@ void VTKObjectHandler::displayHexahedron()
     this->activeCells->Reset();
     this->activeCells->Squeeze();
     //draw
-    this->activePoints->InsertNextPoint(0.0, 0.0, 0.0); // Face 1
-    this->activePoints->InsertNextPoint(1.0, 0.0, 0.0);
-    this->activePoints->InsertNextPoint(1.0, 1.0, 0.0);
-    this->activePoints->InsertNextPoint(0.0, 1.0, 0.0);
-    this->activePoints->InsertNextPoint(0.0, 0.0, 1.0); // Face 2
-    this->activePoints->InsertNextPoint(1.0, 0.0, 1.0);
-    this->activePoints->InsertNextPoint(1.0, 1.0, 1.0);
-    this->activePoints->InsertNextPoint(0.0, 1.0, 1.0);
+    this->activePoints->InsertNextPoint(-0.5, -0.5, -0.5); // Face 1
+    this->activePoints->InsertNextPoint(0.5, -0.5, -0.5);
+    this->activePoints->InsertNextPoint(0.5, 0.5, -0.5);
+    this->activePoints->InsertNextPoint(-0.5, 0.5, -0.5);
+    this->activePoints->InsertNextPoint(-0.5, -0.5, 0.5); // Face 2
+    this->activePoints->InsertNextPoint(0.5, -0.5, 0.5);
+    this->activePoints->InsertNextPoint(0.5, 0.5, 0.5);
+    this->activePoints->InsertNextPoint(-0.5, 0.5, 0.5);
 
     // Create a hexahedron from the this->activePoints.
     vtkSmartPointer<vtkHexahedron> hex = vtkSmartPointer<vtkHexahedron>::New();
@@ -325,9 +365,9 @@ void VTKObjectHandler::displayHexahedron()
 
     this->geometryFilter->SetInputData(this->activeGrid);
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->finalPolyData = this->geometryFilter->GetOutput();
 
     this->cellAmount = 1;
-
     this->makeMeasurements();
 
     this->minActiveCell = 1;
@@ -345,10 +385,10 @@ void VTKObjectHandler::displayTetrahedron()
     this->activeCells->Squeeze();
 
     //draw
-    this->activePoints->InsertNextPoint(0.0, 0.0, 0.0); // Face 1
-    this->activePoints->InsertNextPoint(1.0, 0.0, 0.0);
-    this->activePoints->InsertNextPoint(1.0, 1.0, 0.0);
-    this->activePoints->InsertNextPoint(0.0, 1.0, 1.0);
+    this->activePoints->InsertNextPoint(-0.5, -0.5, -0.5); // Face 1
+    this->activePoints->InsertNextPoint(0.5, -0.5, -0.5);
+    this->activePoints->InsertNextPoint(0.5, 0.5, -0.5);
+    this->activePoints->InsertNextPoint(-0.5, 0.5, 0.5);
 
     // Create a hexahedron from the this->activePoints.
     vtkSmartPointer<vtkTetra> tetr = vtkSmartPointer<vtkTetra>::New();
@@ -365,6 +405,7 @@ void VTKObjectHandler::displayTetrahedron()
 
     this->geometryFilter->SetInputData(this->activeGrid);
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->finalPolyData = this->geometryFilter->GetOutput();
 
     this->cellAmount = 1;
 
@@ -382,11 +423,11 @@ void VTKObjectHandler::displayPyramid()
     this->activePoints = vtkSmartPointer<vtkPoints>::New();
 
     //draw
-    this->activePoints->InsertNextPoint(1.0, 1.0, 1.0); // Face 1
-    this->activePoints->InsertNextPoint(-1.0, 1.0, 1.0);
-    this->activePoints->InsertNextPoint(-1.0, -1.0, 1.0);
-    this->activePoints->InsertNextPoint(1.0, -1.0, 1.0);
-    this->activePoints->InsertNextPoint(0.0, 0.0, 0.0); // Face 2
+    this->activePoints->InsertNextPoint(0.5, -0.5, 0.5); // Face 1
+    this->activePoints->InsertNextPoint(-0.5, -0.5, 0.5);
+    this->activePoints->InsertNextPoint(-0.5, -0.5, -0.5);
+    this->activePoints->InsertNextPoint(0.5, -0.5, -0.5);
+    this->activePoints->InsertNextPoint(0.0, 0.5, 0.0); // Face 2
 
     // Create a hexahedron from the this->activePoints.
     vtkSmartPointer<vtkPyramid> pyr = vtkSmartPointer<vtkPyramid>::New();
@@ -403,6 +444,7 @@ void VTKObjectHandler::displayPyramid()
 
     this->geometryFilter->SetInputData(this->activeGrid);
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->finalPolyData = this->geometryFilter->GetOutput();
 
     this->cellAmount = 1;
 
@@ -414,22 +456,20 @@ void VTKObjectHandler::displayPyramid()
 
 void VTKObjectHandler::displaySphere()
 {
-
     this->refresh();
     vtkSmartPointer<vtkSphereSource> sphere = vtkSmartPointer<vtkSphereSource>::New();
 
 
     sphere->SetPhiResolution(21);
     sphere->SetThetaResolution(21);
+    sphere->Update();
 
     this->objectType = 0;
-
-    this->finalSourceAlgorithm = sphere->GetOutputPort();
-
+    this->geometryFilter->SetInputConnection(sphere->GetOutputPort());
+    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->finalPolyData = sphere->GetOutput();
     this->cellAmount = 1;
-
     this->makeMeasurements();
-
     this->minActiveCell = 1;
     this->maxActiveCell = 1;
 }
@@ -441,12 +481,15 @@ void VTKObjectHandler::displayDisk()
 
 
     disk->SetCircumferentialResolution(51);
+    disk->Update();
 
     this->objectType = 0;
-
-    this->finalSourceAlgorithm = disk->GetOutputPort();
+    this->geometryFilter->SetInputConnection(disk->GetOutputPort());
+    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->finalPolyData = disk->GetOutput();
 
     this->cellAmount = 1;
+
 
     this->makeMeasurements();
 
@@ -460,12 +503,15 @@ void VTKObjectHandler::displayCone()
     vtkSmartPointer<vtkConeSource> cone = vtkSmartPointer<vtkConeSource>::New();
 
     cone->SetResolution(51);
+    cone->Update();
 
     this->objectType = 0;
-
-    this->finalSourceAlgorithm = cone->GetOutputPort();
+    this->geometryFilter->SetInputConnection(cone->GetOutputPort());
+    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->finalPolyData = cone->GetOutput();
 
     this->cellAmount = 1;
+
 
     this->makeMeasurements();
 
@@ -478,8 +524,10 @@ void VTKObjectHandler::displayPlane()
     vtkSmartPointer<vtkPlaneSource> plane = vtkSmartPointer<vtkPlaneSource>::New();
 
     this->objectType = 0;
-
-    this->finalSourceAlgorithm = plane->GetOutputPort();
+    plane->Update();
+    this->geometryFilter->SetInputConnection(plane->GetOutputPort());
+    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->finalPolyData = plane->GetOutput();
 
     this->cellAmount = 1;
 
@@ -496,10 +544,12 @@ void VTKObjectHandler::displayPointCluster(int numberOfPoints)
 
 
     cluster->SetNumberOfPoints(numberOfPoints);
+    cluster->Update();
 
     this->objectType = 0;
-
-    this->finalSourceAlgorithm = cluster->GetOutputPort();
+    this->geometryFilter->SetInputConnection(cluster->GetOutputPort());
+    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->finalPolyData = cluster->GetOutput();
 
     this->cellAmount = 1;
 
@@ -515,8 +565,10 @@ void VTKObjectHandler::displayLine()
     vtkSmartPointer<vtkLineSource> line = vtkSmartPointer<vtkLineSource>::New();
 
     this->objectType = 0;
-
-    this->finalSourceAlgorithm = line->GetOutputPort();
+    line->Update();
+    this->geometryFilter->SetInputConnection(line->GetOutputPort());
+    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->finalPolyData = line->GetOutput();
 
     this->cellAmount = 1;
 
@@ -533,10 +585,33 @@ void VTKObjectHandler::displayCylinder()
     vtkSmartPointer<vtkCylinderSource> cylinder = vtkSmartPointer<vtkCylinderSource>::New();
 
     cylinder->SetResolution(51);
+    cylinder->Update();
 
     this->objectType = 0;
+    this->geometryFilter->SetInputConnection(cylinder->GetOutputPort());
+    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->finalPolyData = cylinder->GetOutput();
 
-    this->finalSourceAlgorithm = cylinder->GetOutputPort();
+    this->cellAmount = 1;
+
+    this->makeMeasurements();
+
+    this->minActiveCell = 1;
+    this->maxActiveCell = 1;
+}
+
+void VTKObjectHandler::displayEarth()
+{
+    this->refresh();
+    vtkSmartPointer<vtkEarthSource> earth = vtkSmartPointer<vtkEarthSource>::New();
+
+    earth->OutlineOn();
+    earth->Update();
+
+    this->objectType = 0;
+    this->geometryFilter->SetInputConnection(earth->GetOutputPort());
+    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->finalPolyData = earth->GetOutput();
 
     this->cellAmount = 1;
 
@@ -561,8 +636,10 @@ void VTKObjectHandler::getModelFromFile(QString fileName)
         this->objectParameters->SetInputConnection(this->activeReader->GetOutputPort());
 
         this->finalSourceAlgorithm = this->activeReader->GetOutputPort();
+        this->finalPolyData = this->activeReader->GetOutput();
 
         this->cellAmount = 1;
+        this->shownPoints = this->finalPolyData->GetPoints()->GetNumberOfPoints();
 
         this->makeMeasurements();
 
@@ -630,10 +707,12 @@ void VTKObjectHandler::getModelFromFile(QString fileName)
 
         this->objectType = 3;
 
-        this->cellAmount = this->activeVTKModel.getCellAmount();
-
         this->geometryFilter->SetInputData(this->activeGrid);
         this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+        this->finalPolyData = this->geometryFilter->GetOutput();
+
+        this->cellAmount = this->activeVTKModel.getCellAmount();
+        this->shownPoints = this->finalPolyData->GetPoints()->GetNumberOfPoints();
 
         this->makeMeasurements();
 
@@ -669,9 +748,9 @@ void VTKObjectHandler::saveModelToFile(QString fileName)
                     this->separateCellColors[minActiveCell-1][1]==tempMaterials[0].getColor().gety()&&
                     this->separateCellColors[minActiveCell-1][2]==tempMaterials[0].getColor().getz()))
             {
-               tempMaterials[0].setColor(Vector3D(this->separateCellColors[minActiveCell-1][0],
-                                                  this->separateCellColors[minActiveCell-1][1],
-                                                  this->separateCellColors[minActiveCell-1][2]));
+                tempMaterials[0].setColor(Vector3D(this->separateCellColors[minActiveCell-1][0],
+                                                   this->separateCellColors[minActiveCell-1][1],
+                                                   this->separateCellColors[minActiveCell-1][2]));
             }
             for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
             {
@@ -692,11 +771,12 @@ void VTKObjectHandler::saveModelToFile(QString fileName)
                         }
                     }
 
-                    if(!materialExists){
+                    if(!materialExists)
+                    {
                         Material newMaterial = this->activeVTKModel.getMaterial(materialID);
-                            newMaterial.setColor(Vector3D(this->separateCellColors[i][0],this->separateCellColors[i][1],this->separateCellColors[i][2]));
-                            materialID = tempMaterials.size();
-                            tempMaterials.push_back(newMaterial);
+                        newMaterial.setColor(Vector3D(this->separateCellColors[i][0],this->separateCellColors[i][1],this->separateCellColors[i][2]));
+                        materialID = tempMaterials.size();
+                        tempMaterials.push_back(newMaterial);
                     }
 
                     std::vector<int> indices;
@@ -707,22 +787,26 @@ void VTKObjectHandler::saveModelToFile(QString fileName)
                         Vector3D theVector = this->activeVTKModel.getVector(tempModelCell.getIndices()[n]);
                         int vecExists = 0;
                         int vectorPosition = 0;
-                        for(int v = 0;v<tempVectors.size();v++){
+                        for(int v = 0; v<tempVectors.size(); v++)
+                        {
                             if(theVector.getx()==tempVectors[v].getx()&&
-                               theVector.gety()==tempVectors[v].gety()&&
-                               theVector.getz()==tempVectors[v].getz()){
-                                    vecExists = 1;
-                                    vectorPosition = v;
-                                    v = tempVectors.size();
-                               }
+                                    theVector.gety()==tempVectors[v].gety()&&
+                                    theVector.getz()==tempVectors[v].getz())
+                            {
+                                vecExists = 1;
+                                vectorPosition = v;
+                                v = tempVectors.size();
+                            }
                         }
 
-                        if(!vecExists){
+                        if(!vecExists)
+                        {
                             indices.push_back(tempVectors.size());
                             theVector.setID(tempVectors.size());
-                             tempVectors.push_back(theVector);
+                            tempVectors.push_back(theVector);
                         }
-                        else{
+                        else
+                        {
                             indices.push_back(vectorPosition);
                         }
                     }

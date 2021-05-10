@@ -100,6 +100,7 @@ private:
 
     void refreshRender();
     void refreshGUI();
+    void refreshObjectGUI();
 
 public slots:
 

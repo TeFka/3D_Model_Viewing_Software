@@ -24,6 +24,4 @@ list(APPEND software_sources
 
 set( UIS ${CMAKE_CURRENT_LIST_DIR}/mainwindow.ui )
 
-set( ICONS ${CMAKE_CURRENT_LIST_DIR}/images/resource.qrc )
-
 # /CMakeLists.txt-------------------------------------------------------------

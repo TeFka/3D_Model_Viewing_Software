@@ -243,6 +243,23 @@ color: rgb(255, 0, 0);</string>
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="makeEarth">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border: 3px solid rgb(170, 0, 0);
+background: rgb(0, 0, 0);
+color: rgb(255, 0, 0);</string>
+       </property>
+       <property name="text">
+        <string>Earth</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="verticalSpacer_2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>

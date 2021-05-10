@@ -22,13 +22,21 @@
 #include "Material.h"
 #include "Cell.h"
 
-// Structure 'cellInfo'
-// Temporarily stores cell information before a Cell object is created with it.
-//Stored values:
-// Cell ID
-// ID of materials that the Cell uses
-// the type of Cell: 1 - hexahredal, 2 - pyramid, 3 - tetrahedral
-// the std::vector array of index values
+/** @file
+* This file contains the declarations of all exported functions of Model class.
+*/
+
+
+/** Cell information structure:
+* Structure 'cellInfo'
+* Temporarily stores cell information before a Cell object is created with it.
+* Stored values:
+* Cell ID
+* ID of materials that the Cell uses
+* the type of Cell: 1 - hexahredal, 2 - pyramid, 3 - tetrahedral
+* the std::vector array of index values
+*/
+
 struct cellInfo
 {
     int ID;

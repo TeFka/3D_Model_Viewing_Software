@@ -2,16 +2,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-void MainWindow::refreshRender()
-{
-    this->activeRenderWindow->Render();
-}
-
 void MainWindow::refreshGUI()
 {
 
-    this->appHandler->getPipeline()->getObject()->setMinActiveCell(0);
-    this->appHandler->getPipeline()->getObject()->setMaxActiveCell(0);
+    this->appHandler->getPipeline()->getObject()->setMinActiveCell(1);
+    this->appHandler->getPipeline()->getObject()->setMaxActiveCell(1);
 
     this->appHandler->getPipeline()->enableWireframe(0);
     this->appHandler->getPipeline()->enablePoints(0);
@@ -34,20 +29,65 @@ void MainWindow::refreshGUI()
     ui->cellMaxShow->setValue(1);
     ui->shrinkCheck->setCheckState(Qt::Unchecked);
     ui->clipCheck->setCheckState(Qt::Unchecked);
+    ui->contourCheck->setCheckState(Qt::Unchecked);
     ui->smoothCheck->setCheckState(Qt::Unchecked);
-    ui->check2->setCheckState(Qt::Unchecked);
-    ui->check3->setCheckState(Qt::Unchecked);
+    ui->sphereCheck->setCheckState(Qt::Unchecked);
+    ui->tubeCheck->setCheckState(Qt::Unchecked);
     ui->lightCheck->setCheckState(Qt::Unchecked);
+    ui->curveCheck->setCheckState(Qt::Unchecked);
 
     ui->clipX->setCheckState(Qt::Unchecked);
     ui->clipY->setCheckState(Qt::Unchecked);
     ui->clipZ->setCheckState(Qt::Unchecked);
     ui->clipSlider->setValue(0);
 
-    ui->showInfo->setCheckState(Qt::Unchecked);
-    ui->showAxes->setCheckState(Qt::Unchecked);
+    ui->showInfo->setChecked(Qt::Unchecked);
+    ui->actionDirectionAxes->setChecked(Qt::Unchecked);
+    ui->showNormals->setChecked(Qt::Unchecked);
     ui->lightCheck->setCheckState(Qt::Unchecked);
-    ui->lightIntensity->setValue(100);
+    ui->lightIntensity->setValue(0);
+    ui->lightSpecular->setValue(0);
+
+    ui->solidRadioB->toggle();
+
+    this->allowGUIChange = 1;
+
+}
+
+void MainWindow::refreshObjectGUI()
+{
+
+    this->appHandler->getPipeline()->getObject()->setMinActiveCell(0);
+    this->appHandler->getPipeline()->getObject()->setMaxActiveCell(0);
+
+    this->appHandler->getPipeline()->enableWireframe(0);
+    this->appHandler->getPipeline()->enablePoints(0);
+
+    this->appHandler->getPipeline()->enableClipX(0);
+    this->appHandler->getPipeline()->enableClipY(0);
+    this->appHandler->getPipeline()->enableClipZ(0);
+
+    this->appHandler->getPipeline()->setShrinkFactor(0);
+    this->appHandler->getPipeline()->setClipPart(0);
+
+    this->allowGUIChange = 0;
+
+    ui->cellMinShow->setRange(1, 1);
+    ui->cellMaxShow->setRange(1, 1);
+    ui->cellMinShow->setValue(1);
+    ui->cellMaxShow->setValue(1);
+    ui->shrinkCheck->setCheckState(Qt::Unchecked);
+    ui->clipCheck->setCheckState(Qt::Unchecked);
+    ui->smoothCheck->setCheckState(Qt::Unchecked);
+    ui->sphereCheck->setCheckState(Qt::Unchecked);
+    ui->tubeCheck->setCheckState(Qt::Unchecked);
+    ui->lightCheck->setCheckState(Qt::Unchecked);
+    ui->curveCheck->setCheckState(Qt::Unchecked);
+
+    ui->clipX->setCheckState(Qt::Unchecked);
+    ui->clipY->setCheckState(Qt::Unchecked);
+    ui->clipZ->setCheckState(Qt::Unchecked);
+    ui->clipSlider->setValue(0);
 
     ui->solidRadioB->toggle();
 
@@ -71,95 +111,95 @@ void MainWindow::handleOpenButton()
     ui->cellMinShow->setValue(this->appHandler->getPipeline()->getObject()->getMinActiveCell());
     ui->cellMaxShow->setValue(this->appHandler->getPipeline()->getObject()->getMaxActiveCell());
     this->allowGUIChange = 1;
-    std::cout<< ui->cellMinShow->value()<<"  "<<ui->cellMaxShow->value()<<std::endl;
     this->appHandler->viewNewObject();
-    this->refreshRender();
+
 }
 
 
 void MainWindow::handleSaveButton()
 {
-    this->activeFileName = QFileDialog::getSaveFileName(this, tr("Save model (*.stl *.mod)"),"/theFile");
+    this->activeFileName = QFileDialog::getSaveFileName(this, tr("Save File"), "./untitled.png", tr("Types (*.stl *.mod *.png)"));
 
     this->appHandler->getPipeline()->getObject()->saveModelToFile(this->activeFileName);
+    this->appHandler->saveScreenshot(this->activeFileName);
 }
 
 void MainWindow::setCameraOrientationPosX()
 {
     this->appHandler->setCameraOrientationPosX();
-    this->refreshRender();
+
 }
 void MainWindow::setCameraOrientationNegX()
 {
     this->appHandler->setCameraOrientationNegX();
-    this->refreshRender();
+
 }
 void MainWindow::setCameraOrientationPosY()
 {
     this->appHandler->setCameraOrientationPosY();
-    this->refreshRender();
+
 }
 void MainWindow::setCameraOrientationNegY()
 {
     this->appHandler->setCameraOrientationNegY();
-    this->refreshRender();
+
 }
 void MainWindow::setCameraOrientationPosZ()
 {
     this->appHandler->setCameraOrientationPosZ();
-    this->refreshRender();
+
 }
 void MainWindow::setCameraOrientationNegZ()
 {
     this->appHandler->setCameraOrientationNegZ();
-    this->refreshRender();
+
 }
 void MainWindow::setCameraOrientationPosShift()
 {
     this->appHandler->setCameraOrientationPosShift();
-    this->refreshRender();
+
 }
 void MainWindow::setCameraOrientationNegShift()
 {
     this->appHandler->setCameraOrientationNegShift();
-    this->refreshRender();
+
 }
 void MainWindow::setCameraOrientationPosRotate()
 {
     this->appHandler->setCameraOrientationPosRotate();
-    this->refreshRender();
+
 }
 void MainWindow::setCameraOrientationNegRotate()
 {
     this->appHandler->setCameraOrientationNegRotate();
-    this->refreshRender();
+
 }
 
 void MainWindow::resetViewer()
 {
     this->refreshGUI();
     this->appHandler->resetViewer();
-    this->refreshRender();
+
 }
 
 void MainWindow::resetObject()
 {
-    this->refreshGUI();
+    this->refreshObjectGUI();
     this->appHandler->resetObject();
-    this->refreshRender();
+
 }
 
 void MainWindow::resetCamera()
 {
     this->appHandler->resetCamera();
-    this->refreshRender();
+
 }
 void MainWindow::changeBackgroundColor()
 {
     QColor color = QColorDialog::getColor(Qt::black, this, "Pick a color",  QColorDialog::DontUseNativeDialog);
 
     this->appHandler->changeBackgroundColor(color);
-    this->refreshRender();
+
 }
 void MainWindow::changeObjectColor()
 {
@@ -167,13 +207,13 @@ void MainWindow::changeObjectColor()
 
     this->appHandler->getPipeline()->getObject()->changeColor(color);
     this->appHandler->updateViewer();
-    this->refreshRender();
+
 }
 void MainWindow::resetObjectColor()
 {
     this->appHandler->getPipeline()->getObject()->resetColor();
     this->appHandler->updateViewer();
-    this->refreshRender();
+
 }
 
 
@@ -241,6 +281,11 @@ void MainWindow::handleNewButton()
         this->appHandler->getPipeline()->getObject()->displayCylinder();
         break;
     }
+    case 11:
+    {
+        this->appHandler->getPipeline()->getObject()->displayEarth();
+        break;
+    }
     }
 
     this->allowGUIChange = 0;
@@ -249,9 +294,8 @@ void MainWindow::handleNewButton()
     ui->cellMinShow->setValue(1);
     ui->cellMaxShow->setValue(1);
     this->allowGUIChange = 1;
-
     this->appHandler->viewNewObject();
-    this->refreshRender();
+
 }
 
 void MainWindow::handleMinCellChange()
@@ -266,7 +310,7 @@ void MainWindow::handleMinCellChange()
         this->appHandler->getPipeline()->getObject()->setMaxActiveCell(ui->cellMaxShow->value());
 
         this->appHandler->updateViewer();
-        this->refreshRender();
+
     }
 }
 
@@ -282,16 +326,16 @@ void MainWindow::handleMaxCellChange()
         this->appHandler->getPipeline()->getObject()->setMaxActiveCell(ui->cellMaxShow->value());
 
         this->appHandler->updateViewer();
-        this->refreshRender();
+
     }
 }
 
 void MainWindow::handleFilterUpdate()
 {
-    std::vector<int> filtersInUse = {ui->shrinkCheck->isChecked(),ui->clipCheck->isChecked(),ui->contourCheck->isChecked(),ui->smoothCheck->isChecked(),0,0};
+    std::vector<int> filtersInUse = {ui->shrinkCheck->isChecked(),ui->clipCheck->isChecked(),ui->contourCheck->isChecked(),
+    ui->smoothCheck->isChecked(),ui->sphereCheck->isChecked(),ui->tubeCheck->isChecked(),ui->curveCheck->isChecked()};
     this->appHandler->getPipeline()->setFilters(filtersInUse);
     this->appHandler->updateViewer();
-    this->refreshRender();
 
 }
 
@@ -302,19 +346,26 @@ void MainWindow::handleUpdate()
 
         this->appHandler->getPipeline()->enableWireframe(ui->wireRadioB->isChecked());
         this->appHandler->getPipeline()->enablePoints(ui->pointsRadioB->isChecked());
+        this->appHandler->getPipeline()->enableLight(ui->lightCheck->isChecked());
 
         this->appHandler->getPipeline()->enableClipX(ui->clipX->isChecked());
         this->appHandler->getPipeline()->enableClipY(ui->clipY->isChecked());
         this->appHandler->getPipeline()->enableClipZ(ui->clipZ->isChecked());
 
         this->appHandler->getPipeline()->setShrinkFactor(ui->shrinkFactor->value());
-        this->appHandler->getPipeline()->setClipPart(ui->clipSlider->value());
+        this->appHandler->getPipeline()->setClipPart((double)ui->clipSlider->value()/100);
+
+        this->appHandler->getPipeline()->setLightIntensity((double)ui->lightIntensity->value()/100);
+        this->appHandler->getPipeline()->setLightSpecular((double)ui->lightSpecular->value()/100);
+        this->appHandler->getPipeline()->setOpacity((double)ui->objOpacity->value()/100);
 
         this->appHandler->enableInfo(ui->showInfo->isChecked());
-        this->appHandler->enableAxes(ui->showAxes->isChecked());
+        this->appHandler->enableAxes(ui->actionDirectionAxes->isChecked());
+        this->appHandler->enableCubeAxes(ui->actionCubeAxes->isChecked());
+        this->appHandler->enableNormals(ui->showNormals->isChecked());
 
         this->appHandler->updateViewer();
-        this->refreshRender();
+
     }
 }
 
@@ -330,16 +381,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect( ui->actionHelp, &QAction::triggered, this, &MainWindow::handleHelpButton);
     connect( ui->actionNew, &QAction::triggered, this, &MainWindow::handleNewButton);
     connect( ui->actionSave, &QAction::triggered, this, &MainWindow::handleSaveButton);
+
     connect( ui->actionFullScreen, &QAction::triggered, this, &MainWindow::showFullScreen);
     connect( ui->actionBorderedScreen, &QAction::triggered, this, &MainWindow::showNormal);
     connect( ui->actionExit, &QAction::triggered, this, &MainWindow::close);
 
+    connect(ui->showInfo, SIGNAL(toggled(bool)), this, SLOT(handleUpdate()));
+    connect(ui->actionDirectionAxes, SIGNAL(toggled(bool)), this, SLOT(handleUpdate()));
+    connect(ui->actionCubeAxes, SIGNAL(toggled(bool)), this, SLOT(handleUpdate()));
+    connect(ui->showNormals, SIGNAL(toggled(bool)), this, SLOT(handleUpdate()));
 
-    connect( ui->resetViewer, &QPushButton::released, this, &MainWindow::resetViewer );
-    connect( ui->resetCamera, &QPushButton::released, this, &MainWindow::resetCamera );
+    connect( ui->actionResetViewer, &QAction::triggered, this, &MainWindow::resetViewer );
+    connect( ui->actionResetObject, &QAction::triggered, this, &MainWindow::resetObject );
+    connect( ui->actionResetCamera, &QAction::triggered, this, &MainWindow::resetCamera );
+    connect( ui->actionResetObjColor, &QAction::triggered, this, &MainWindow::resetObjectColor );
+
+    //buttons
     connect( ui->backgroundColor, &QPushButton::released, this, &MainWindow::changeBackgroundColor );
     connect( ui->objectColor, &QPushButton::released, this, &MainWindow::changeObjectColor );
-    connect( ui->resetObjColor, &QPushButton::released, this, &MainWindow::resetObjectColor );
+
 
     //camera
     connect( ui->orientationXPos, &QPushButton::released, this, &MainWindow:: setCameraOrientationPosX);
@@ -357,19 +417,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->clipSlider, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
     connect(ui->lightIntensity, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
     connect(ui->lightSpecular, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->objOpacity, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
 
 //check boxes
     connect(ui->shrinkCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
     connect(ui->clipCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
     connect(ui->contourCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
+    connect(ui->smoothCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
+    connect(ui->tubeCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
+    connect(ui->sphereCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
+    connect(ui->curveCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
 
     connect(ui->clipX, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
     connect(ui->clipY, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
     connect(ui->clipZ, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
 
-    connect(ui->showInfo, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
-    connect(ui->showAxes, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
     connect(ui->lightCheck, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
+
 
 //spin boxes
     connect(ui->shrinkFactor, SIGNAL(valueChanged(double)), this, SLOT(handleUpdate()));
@@ -384,9 +448,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 // creator
 
-    ui->qvtkWidget->SetRenderWindow( this->renderWindow );
-
-    this->appHandler->setup(ui->qvtkWidget->GetRenderWindow());
+    this->appHandler->setup(ui->qvtkWidget->GetRenderWindow(), ui->qvtkWidget->GetRenderWindow()->GetInteractor());
     this->appHandler->resetViewer();
 }
 MainWindow::~MainWindow()

@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 // -------------------------------------------------------------------------------------
 	
 	Model m;
-	m.loadModel("../Resources/ExampleModel2.mod");
+	m.loadModel("../Resources/Test_Models/ExampleModel2.mod");
 	
 	std::cout<<"File name: ExampleModel2"<<std::endl;
 	std::cout<<""<<std::endl;

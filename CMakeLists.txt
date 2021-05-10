@@ -49,6 +49,8 @@ qt5_wrap_ui( UI_Srcs ${UIS} )
 find_package( VTK REQUIRED )
 include( ${VTK_USE_FILE} )
 
+set( ICONS ${CMAKE_CURRENT_LIST_DIR}/Resources/GUI_Icons/resource.qrc )
+
 qt5_add_resources( QRC_Srcs ${ICONS} )
 
 # Make a library

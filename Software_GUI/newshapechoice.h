@@ -29,6 +29,7 @@ public slots:
     void pickPoints();
     void pickLine();
 	void pickCylinder();
+	void pickEarth();
 private:
     Ui::NewShapeChoice *ui;
 

@@ -14,6 +14,7 @@
 #include <vtkLineSource.h>
 #include <vtkPlaneSource.h>
 #include <vtkPointSource.h>
+#include <vtkEarthSource.h>
 
 #include <vtkAxesActor.h>
 #include <vtkActor.h>
@@ -111,19 +112,24 @@ private:
     int minActiveCell = 0;
     int maxActiveCell = 0;
     int cellAmount = 0;
+    int shownPoints = 0;
 
     void refresh();
 
     vtkAlgorithmOutput* finalSourceAlgorithm = vtkAlgorithmOutput::New();
+    vtkPolyData* finalPolyData = vtkPolyData::New();
 
 public:
 
     VTKObjectHandler();
 
     vtkAlgorithmOutput* getSource();
+    vtkPolyData* GetPolydata();
     vtkSmartPointer<vtkUnstructuredGrid> getGrid();
     vtkSmartPointer<vtkPoints> getPoints();
     vtkSmartPointer<vtkCellArray> getCells();
+
+    int getShownPointAmount();
 
     QColor getColor();
     std::array<double,3> getCellColor(int);
@@ -162,6 +168,8 @@ public:
     void displayPointCluster(int);
     void displayLine();
     void displayCylinder();
+    void displayEarth();
+
 
     void getModelFromFile(QString);
     void saveModelToFile(QString);

@@ -54,6 +54,12 @@ void NewShapeChoice::pickCylinder(){
     this->accept();
 }
 
+void NewShapeChoice::pickEarth(){
+
+    this->shapeChoice = 11;
+    this->accept();
+}
+
 NewShapeChoice::NewShapeChoice(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::NewShapeChoice)
@@ -70,6 +76,7 @@ NewShapeChoice::NewShapeChoice(QWidget *parent) :
     connect( ui->makePoints, &QPushButton::released, this, &NewShapeChoice::pickPoints );
     connect( ui->makeLine, &QPushButton::released, this, &NewShapeChoice::pickLine );
     connect( ui->makeCyl, &QPushButton::released, this, &NewShapeChoice::pickCylinder );
+    connect( ui->makeEarth, &QPushButton::released, this, &NewShapeChoice::pickEarth );
 }
 
 bool NewShapeChoice::runChoice(int& chosenShape)
