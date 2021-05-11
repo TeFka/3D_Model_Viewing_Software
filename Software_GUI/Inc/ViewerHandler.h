@@ -131,7 +131,7 @@ public:
     void enableNormals(int);
     void enableCubeAxes(int);
 
-    void saveScreenshot(QString);
+    void saveScene(QString);
 };
 
 #endif // PIPELINEHANDLER_H_INCLUDED

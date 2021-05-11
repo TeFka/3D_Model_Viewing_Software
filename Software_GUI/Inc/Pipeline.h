@@ -54,7 +54,6 @@ private:
     vtkSmartPointer<vtkRenderer> activeRenderer = vtkSmartPointer<vtkRenderer>::New();
 
     vtkAlgorithmOutput* finalAlgorithm = vtkAlgorithmOutput::New();
-    vtkPolyData* finalPolyData = vtkPolyData::New();
 
     std::vector<int> activeFilters = {0,0,0,0,0,0,0};
 

@@ -300,11 +300,6 @@ vtkAlgorithmOutput* Pipeline::getAlgorithm()
     return this->finalAlgorithm;
 }
 
-vtkPolyData* Pipeline::GetPolydata()
-{
-    return this->finalPolyData;
-}
-
 void Pipeline::setActor(vtkSmartPointer<vtkActor> theActor)
 {
     this->activeActor = theActor;

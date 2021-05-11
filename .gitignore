@@ -21,3 +21,8 @@
 *.layout
 
 *[Bb]uild/
+
+*.css
+*.php.
+*.html
+*[Hh]tml/

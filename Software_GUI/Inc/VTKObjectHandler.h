@@ -1,7 +1,9 @@
 #ifndef VTKOBJECT_H_INCLUDED
 #define VTKOBJECT_H_INCLUDED
 
+#include <iostream>
 #include <string>
+#include <array>
 #include <math.h>
 #include <QMainWindow>
 #include <vtkSmartPointer.h>
@@ -151,6 +153,7 @@ public:
     void setMinActiveCell(int);
     void setMaxActiveCell(int);
 
+    void handlePolydata();
     void updateVTKModel();
     void makeMeasurements();
 

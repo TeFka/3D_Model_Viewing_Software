@@ -117,8 +117,15 @@ void VTKObjectHandler::setMaxActiveCell(int newVal)
     this->maxActiveCell = newVal;
 }
 
+void VTKObjectHandler::handlePolydata(){
+    this->activePoints = this->finalPolyData->GetPoints();
+    this->activeCells = this->finalPolyData->GetPolys();
+}
+
 void VTKObjectHandler::makeMeasurements()
 {
+    this->handlePolydata();
+
     if(this->objectType==3){
 
         this->objectDimensions.setx(this->activeVTKModel.getModelDimensions().getx());
@@ -819,7 +826,7 @@ void VTKObjectHandler::saveModelToFile(QString fileName)
             }
 
         }
-        else if(this->objectType==2)
+        else
         {
             for(int i = 0; i<this->activePoints->GetNumberOfPoints(); i++)
             {
@@ -827,15 +834,19 @@ void VTKObjectHandler::saveModelToFile(QString fileName)
                 this->activePoints->GetPoint(i,tempPoint);
                 tempVectors.push_back(Vector3D(tempPoint[0],tempPoint[1],tempPoint[2]));
             }
+            std::cout<<"yes1"<<std::endl;
+
+            this->activeCells->InitTraversal();
 
             for(int i = 0; i<this->activeCells->GetNumberOfCells(); i++)
             {
                 int type = 0;
 
-                vtkSmartPointer<vtkIdList> idList;
-
-                this->activeCells->GetCell(i,idList);
-
+                vtkSmartPointer<vtkIdList> idList = vtkSmartPointer<vtkIdList>::New();
+                std::cout<<"yes11-"<<this->activeCells->GetNumberOfCells()<<std::endl;
+                //this->activeCells->GetCell(i,idList);
+                this->activeCells->GetNextCell(idList);
+                std::cout<<"yes12"<<std::endl;
                 if(idList->GetNumberOfIds()==8)
                 {
                     type = 1;
@@ -848,33 +859,31 @@ void VTKObjectHandler::saveModelToFile(QString fileName)
                 {
                     type = 3;
                 }
-
+                std::cout<<"yes13"<<std::endl;
                 std::vector<int> indices;
 
                 for(int n = 0; n<idList->GetNumberOfIds(); n++)
                 {
                     indices.push_back(idList->GetId(n));
                 }
-
+                std::cout<<"yes14"<<std::endl;
                 Cell tempCell(i,type,0,indices);
-
+                std::cout<<"yes15"<<std::endl;
                 tempCells.push_back(tempCell);
+                std::cout<<"yes16"<<std::endl;
             }
-
+            std::cout<<"yes2"<<std::endl;
             Vector3D color((double)this->activeColor.red()/255,(double)this->activeColor.green()/255,(double)this->activeColor.blue()/255);
             Material theMaterial(0,1,"N/A",color);
             tempMaterials.push_back(theMaterial);
         }
-        else
-        {
-            std::cout<<"Cannot save as VTK"<<std::endl;
-        }
-
+             std::cout<<"yes3"<<std::endl;
         savingVTKModel.setVectors(tempVectors);
         savingVTKModel.setCells(tempCells);
         savingVTKModel.setMaterials(tempMaterials);
-
+         std::cout<<"yes4"<<std::endl;
         savingVTKModel.loadInfoToFile(fileName.toLocal8Bit().data());
+         std::cout<<"yes5"<<std::endl;
     }
 }
 

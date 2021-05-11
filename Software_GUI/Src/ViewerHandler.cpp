@@ -452,11 +452,18 @@ void ViewerHandler::enableCubeAxes(int value)
     this->showCubeAxes = value;
 }
 
-void ViewerHandler::saveScreenshot(QString fileName)
+void ViewerHandler::saveScene(QString fileName)
 {
     QFileInfo fi(fileName);
 
-    if(fi.suffix()=="png")
+    if(fi.suffix()=="stl")
+    {
+        vtkSmartPointer<vtkSTLWriter> stlWriter = vtkSmartPointer<vtkSTLWriter>::New();
+        stlWriter->SetFileName(fileName.toLocal8Bit().data());
+        stlWriter->SetInputConnection(this->thePipeline->getAlgorithm());
+        stlWriter->Write();
+    }
+    else if(fi.suffix()=="png")
     {
         this->activeRenderWindow->Render();
 
@@ -477,7 +484,6 @@ void ViewerHandler::saveScreenshot(QString fileName)
         writer->SetInputConnection(windowToImageFilter->GetOutputPort());
         writer->Write();
 
-        this->activeRenderWindow->Render();
         this->activeRenderer->ResetCamera();
         this->activeRenderWindow->Render();
     }

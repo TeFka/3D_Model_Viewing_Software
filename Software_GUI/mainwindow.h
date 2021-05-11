@@ -110,7 +110,8 @@ public slots:
     void handleMaxCellChange();
 
     void handleOpenButton();
-    void handleSaveButton();
+    void handleSaveModelButton();
+    void handleSaveSceneButton();
     void handleHelpButton();
     void handleNewButton();
 

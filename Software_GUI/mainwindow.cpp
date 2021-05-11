@@ -116,12 +116,18 @@ void MainWindow::handleOpenButton()
 }
 
 
-void MainWindow::handleSaveButton()
+void MainWindow::handleSaveModelButton()
 {
-    this->activeFileName = QFileDialog::getSaveFileName(this, tr("Save File"), "./untitled.png", tr("Types (*.stl *.mod *.png)"));
+    this->activeFileName = QFileDialog::getSaveFileName(this, tr("Save File"), "./untitled.png", tr("Types (*.stl *.mod)"));
 
     this->appHandler->getPipeline()->getObject()->saveModelToFile(this->activeFileName);
-    this->appHandler->saveScreenshot(this->activeFileName);
+}
+
+void MainWindow::handleSaveSceneButton()
+{
+    this->activeFileName = QFileDialog::getSaveFileName(this, tr("Save File"), "./untitled.png", tr("Types (*.stl *.png)"));
+
+    this->appHandler->saveScene(this->activeFileName);
 }
 
 void MainWindow::setCameraOrientationPosX()
@@ -380,7 +386,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect( ui->actionOpen, &QAction::triggered, this, &MainWindow::handleOpenButton);
     connect( ui->actionHelp, &QAction::triggered, this, &MainWindow::handleHelpButton);
     connect( ui->actionNew, &QAction::triggered, this, &MainWindow::handleNewButton);
-    connect( ui->actionSave, &QAction::triggered, this, &MainWindow::handleSaveButton);
+    connect( ui->actionSaveModel, &QAction::triggered, this, &MainWindow::handleSaveModelButton);
+    connect( ui->actionSaveScene, &QAction::triggered, this, &MainWindow::handleSaveSceneButton);
 
     connect( ui->actionFullScreen, &QAction::triggered, this, &MainWindow::showFullScreen);
     connect( ui->actionBorderedScreen, &QAction::triggered, this, &MainWindow::showNormal);
