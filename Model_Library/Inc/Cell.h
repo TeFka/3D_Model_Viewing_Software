@@ -1,9 +1,9 @@
 /*! \file Cell.h File Reference
 
-    \brief    Copyright Code part: Michael Michael (StudentID: 20143147)
-              Documentation  part: Michael Michael with Chen xu  (StudenTID: 20187733)
+    \author   \n Copyright Code part: Michael Michael (StudentID: 20143147)
+              \n Documentation  part: Michael Michael and Chen xu  (StudenTID: 20187733)
 
-              Required header files: iostream(for printing with cout), vector, string, fstream,
+    \brief    Required header files: iostream(for printing with cout), vector, string, fstream,
                                      Vector3D.h, Material.h, Cell.h
 
 */
@@ -18,11 +18,11 @@
 
 /*! \class 'Cell'
     \brief cell class describes various parameters of the shape such as how many vertices it has, their positions, and the material it is made out of
-    Stored values:
-    Cell ID
-    ID of materials that the Cell uses
-    the type of Cell: 1 - hexahedral, 2 - pyramid, 3 - tetrahedral
-    the std::vector array of index values
+    \n Stored values:
+    \n Cell ID
+    \n ID of materials that the Cell uses
+    \n the type of Cell: 1 - hexahedral, 2 - pyramid, 3 - tetrahedral
+    \n the std::vector array of index values
 */
 
 class Cell
@@ -36,7 +36,7 @@ protected:
 
     Vector3D centre_of_gravity;
 
-    /*! array of all indices which each correspond to a vertex and its positions.
+    /*! array of all indices which each correspond to a vertex and its positions.  \n
         knowledge of the vertices position is requited for volume calculations.*/
     std::vector<int> indices;
 public:
@@ -54,35 +54,42 @@ public:
 
 //! get functions:
 /*!
-    function of cell class,getID
+    function of cell class,getID  \n
     function to get ID of cell
 */
     int getID();
 
    
     
-    int getType(); /*! function of cell class,getType.
+    int getType(); /*! function of cell class,getType. \n
                        function to get type of cell. */
 
     
-    int getMaterialID(); /*! function of cell class,getMaterialID. 
+    int getMaterialID(); /*! function of cell class,getMaterialID. \n
                              function to get ID of the material, to gain access of the density of material, needed for weight calculation. */
 
    
-    std::vector<int> getIndices(); /*! function of cell class, getIndices. 
+    std::vector<int> getIndices(); /*! function of cell class, getIndices. \n
                                        function to get indice array of model. */
 
     
-    Vector3D getCentreOfGravity();/*! function of cell class, getCentreOFGravity. 
+    Vector3D getCentreOfGravity();/*! function of cell class, getCentreOFGravity. \n
                                       function to find the centre of gravity of the cell. */
 
    
-   double getWeight(); /* function of cell class, getWeight.
-                          function to find the weight of the cell. */
+   double getWeight(); 
+   /*! function of cell class, getWeight.  \n
+       function to find the weight of the cell. 
+       \arg calcWeight(std::vector<Material> materials)
+       \return weight (double)  
+    */
 
-   double getVolume(); /* function of cell class, getVolume.
-                          function of find the volume of the cell. */
-
+   double getVolume(); 
+    /*! function of cell class, getVolume.  \n
+        function of find the volume of the cell. 
+        \arg getvolume(std::vector<Vector3D> vectors) : array of vectors
+        \return volume (double)
+    */
 
 //! set functions:
     void setID(int);
@@ -94,18 +101,42 @@ public:
     void setIndice(int,int);
 
 //! calculation functions:
+
    
-    void calcWeight(std::vector<Material>); /*! function of class Cell calcWeight().
-                                                function to calculate weight of the cell */
+    void calcWeight(std::vector<Material>); 
+    /*! function of class Cell calcWeight().   \n
+        function to calculate weight of the cell */
 
     
-    void calcCentreOfGravity(std::vector<Vector3D>);/*! function of class Cell calcCenterOfGravity().
-                                                        function to calculate center of gravity position of the cell. */
+    void calcCentreOfGravity(std::vector<Vector3D>);
+    /*! function of class Cell calcCenterOfGravity().  \n
+        function to calculate center of gravity position of the cell. 
+        \arg calcCentreOfGravity(std::vector<Vector3D> vectors)
+        \return Centre_of_gravity(Vector3)(model center value updated)
+        \note
+        1) Model center of gravity will become {0,0,0} if vector array is empty.    
+    */
 };
 
 
 /*!  \class Tetrahedron
      \brief subclass of class cell.
+    
+    \n              _   _    _
+    \n Vtetra = 1/6|(a x b) * c|
+
+    \n              __   __    __
+    \n Vtetra = 1/6|(AB x AC) * AD|
+
+    \n       __
+    \n to get AB for example, the subtraction function should be used to subtract vector A with Vector B
+    \n eg: A(2,3,4) B(5,4,3) AB = (5-2, 4-3,3-4) = (3, 1, -1)
+
+    \n     __  __     __                                                                             __   __
+    \n once AB, AC and AD have been aquired, use cross product function to achieve the calculation of AB x AC
+    \n The next step is to do the dot product of (AB x AC) and AD, using the dot product function in the vector class
+    \n find modulus of this value, using fabs(a) where a is the value we have at this point in the calculation
+    \n finally, divide by 6 and the volume will be given.
 */
 class Tetrahedron : public Cell
 {
@@ -133,9 +164,17 @@ public:
 
 /*!  \class Pyramid
      \brief subclass of class cell.
-*/
+    \n plan to get volume of pyramid
+    \n essentially, a pyramid is just 2 tetrahedrons put together, therefore to find the volume of the pyramid, we must repeat the same method
+    \n of finding the volume of a tetrahedron twice.
+    \n consider the new 5th vertex is called E.
+    \n the following calculation would be
+    \n Vpyramid = Vtetra1+Vtetra2 where...
+    \n                __   __    __                     __   __    __
+    \n Vtetra1 = 1/6|(AB x AC) * AD| and Vtetra2 = 1/6|(EB x EC) * ED|*/
 class Pyramid : public Cell
 {
+
 private:
 
 public:
@@ -161,6 +200,9 @@ public:
 
 /*! \class Hexahedron
     \brief subclass of class cell.
+    \n plan to get volume of hexahedron
+    \n a hexahedron is 6 tetrahedrons put together
+    \n use the same method as the one used for finding the volume of tetrahedron but this time repeating it 6 times using the correct vertices
 */ 
 class Hexahedron : public Cell
 {
