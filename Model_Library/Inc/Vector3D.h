@@ -1,8 +1,8 @@
 /*! \file Vector3D.h File Reference
-    \brief    Copyright Woranan Kamonlattana (Student ID: 20310814)
-              Documentation  part: Woranan Kamonlattana and Chen xu  (StudenTID: 20187733)
+    \author    Copyright \n Code part: Woranan Kamonlattana (Student ID: 20310814)
+                         \n Documentation  part: Woranan Kamonlattana and Chen xu  (Student ID: 20187733)
 
-              Required header files: vector.h math.h(for some mathematic functions)
+    \brief     Required header files: vector.h math.h(for some mathematic functions)
 */
 
 
@@ -14,34 +14,6 @@
 
 /*! \class 'Vector3D'
     \brief Creates a virtual Vector3D by storing information.
-   Class is made to be row major
-   Stored values:
-        int ID;
-        double x, y, z;
-   Available functions:
-    public:
-        Vector3D(double,double,double);
-    setters:
-        void setID(int)
-        void setx(double)
-        void sety(double)
-        void setz(double)
-    getters:
-        int getID()
-        double getx()
-        double gety()
-        double getz()
-  Available operator
-        Vector3D+Vector3D
-        Vector3D-Vector3D
-        Vector3D*Vector3D
-  Function
-        Vector3D cross_product
-  Constructor:
-        Creates Vector3D object with specified values
-  Destructor
-  Copy constructor
-        creates a copy of a specified object
 */
 
 class Vector3D
@@ -66,16 +38,22 @@ public:
     Vector3D (const Vector3D & vec);
 
     //! Setters
-    /*! Function of class Vector, setID(), setx(), sety(), setz()
-        Function to set the values of vector coordinates */
+    /*! Function of class Vector, setID(), setx(), sety(), setz() \n
+        Function to set the values of vector coordinates 
+        \arg setID(), setx(), sety(), setz(): none.
+        \return  newID, xc, yc and zc
+    */
     void setID(int);
     void setx(double);
     void sety(double);
     void setz(double);
 
     //! Getters
-    /*! Function of class Vector, getID(), getx(), gety(), getz()
-        Function to get value vector coordinates */
+    /*! Function of class Vector, getID(), getx(), gety(), getz()  \n
+        Function to get value vector coordinates 
+    \arg getID(), getx(), gety(), getz(): none.
+    \return ID, x, y and z
+    */
     int getID();
     double getx();
     double gety();
@@ -84,21 +62,29 @@ public:
 
 //! Operations
 
-    //! Addition
-    //! action: add 2 vectors together
+    /*! Addition
+      \n action: add 2 vectors together
+      \return added results of the addition operation
+    */
     Vector3D operator+(const Vector3D &vec);
 
-    //! Subtraction
-    //! action: subtract current vector from another vector
+    /*! Subtraction
+       \n action: subtract current vector from another vector
+       \return results of the subtraction operation 
+    */
     Vector3D operator-(const Vector3D &vec);
 
-	//! Dot Product
-	//! action: perform dot product operation
+	/*! Dot Product
+	   \n action: perform dot product operation
+       \return scalar product obtained from dot operation
+    */
     double operator*(const Vector3D &vec);
 
-//! Functions
-    //! Cross Product
-    //! action: perform cross product operation
+/*! Functions
+     \n Cross Product
+     \n action: perform cross product operation
+     \return the vector results from the cross product operation 
+*/
     Vector3D cross_product(const Vector3D &vec);
 
 };

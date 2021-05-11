@@ -1,9 +1,7 @@
 /*! \file   Material.h File Reference 
-    \brief  It should be three parts for material ID, color, and density.
- 
-            Copyright  Chen Xu (student ID : 20187733)
+    \author Copyright Code and Documatation part: Chen Xu (student ID : 20187733)
             
-            Required header files: iostream(for printing with cout), string,Vector3D.h, Material.h
+    \brief  Required header files: iostream(for printing with cout), string,Vector3D.h, Material.h
 */
 
 #ifndef MATERIALCLASS_H_INCLUDED
@@ -18,31 +16,6 @@ using namespace std;
 /*! 
     \class 'Material'
     \brief Material class describes the functions that get the ID, Density Name and Color.And store it for the other parts to use.
-  Stored values:
-         int rowDimension;
-         int columnDimension;
-  Available functions:
-    public:
-         int getID();
-         std::string getName();
-         double getDensity();
-         Vector3D getColor();
-         void setID(int);
-         void setName(std::string);
-         void setColor(Vector3D);
-	     void setColor(double, double, double);
-         void setDensity(double);
-    private:
-         int ID;
-         double Density;
-         string Name;
-         Vector3D Color;
-  Constructor:
-        Creates empty matrix with all values set to zero
-  Destructor:
-        clears array of matrix values
-  Copy constructor
-        creates a copy of a specified object
 */
 
 class Material
@@ -68,14 +41,25 @@ public:
 
 
     ~Material();//! Destructor.
-
+    
+    /*! Get function
+     \n Function of class material, getID(),getName(), getColor(), getDensity()
+     \n Function to get value material coordinates
+     \arg  getID(), getNamee(),getColor(), getDensity()
+     \return value of ID, Name,Color, Density
+    */
 
     int getID();
     std::string getName();
     double getDensity();
     Vector3D getColor();
 
-
+    /*! Set functions
+     \n Function of class material, setID(),setName(); setColor(), setDensity()
+     \n Function to set the values of material coordinates
+     \arg setID(), setName(); setColor(), setDensity()
+     \return: value of id, ,name , col and  d  
+    */
     void setID(int);
     void setName(std::string);
     void setColor(Vector3D);
