@@ -1,3 +1,8 @@
+/*! \file VTKObjectHandler.h File Reference
+    \author   Copyright: \n Code part: Danielius Zurlys (StudentID: 20130611)
+                         \n Comments part: Chen xu  (StudentID: 20187733)
+    \brief build the functions to gain and change the variables of specified objects.
+*/
 #ifndef VTKOBJECT_H_INCLUDED
 #define VTKOBJECT_H_INCLUDED
 
@@ -74,12 +79,18 @@
 
 #include "../Model_Library/Inc/Model.h"
 
+/*! Struct 'materilCellConnection'
+   \brief  build the connection between material and cell class.
+*/
 struct materialCellConnection{
     int minCellAssigned = 0;
     int maxCellAssigned = 0;
     Material theMaterial;
 };
 
+/*! \class VTKObjectHandler
+    \brief the major functions to achieve gaining and changing the variables of objects
+*/
 class VTKObjectHandler{
 
 private:
@@ -123,63 +134,303 @@ private:
 
 public:
 
-    VTKObjectHandler();
-
+    VTKObjectHandler();  //! Destructor
+    
+    /*! Function getSource() \n
+        Function to make connection between the source and output.
+        \n Agruements:none
+        \return  vtkAlgorithmOutput - Source
+    */
     vtkAlgorithmOutput* getSource();
+   
+    /*! Function GetPolydata() \n
+        Function to Retrieve an instance of this class from an information object.
+        \n Agruements:none 
+        \return  vtkPolyData - Polydata
+    */
     vtkPolyData* GetPolydata();
+  
+   /*! Function getGrid() \n
+        Function to get Grid from the specified object.
+        \n Agruements: none
+        \return  vtkSmartPointer<vtkUnstructuredGrid> - Grid
+    */
     vtkSmartPointer<vtkUnstructuredGrid> getGrid();
+  
+    /*! Function getPoints() \n
+        Function to get pointers from the polydata.
+        \n Agruements:none  
+        \return vtkSmartPointer<vtkPoints> - Points
+    */
     vtkSmartPointer<vtkPoints> getPoints();
+  
+    /*! Function getCells() \n
+        Function to get cells from the specified object.
+        \n Agruements:none
+        \return vtkSmartPointer<vtkCellArray> - Cells 
+    */
     vtkSmartPointer<vtkCellArray> getCells();
-
+   
+    /*! Function getShownPointAmount() \n
+        Function to get amount of point from the specified object and show it.
+        \n Agruements:none 
+        \return   int - the amount of point
+    */
     int getShownPointAmount();
-
+   
+    /*! Function getColor() \n
+        Function to get color from the specified object.
+        \n Agruements:none
+        \return  QColor - color of the object
+    */
     QColor getColor();
+   
+    /*! Function getCellColor() \n
+        Function to get color of cell from the specified object.
+        \n Arguments: int - index of cell
+        \return  std::array<double,3> - cell color
+    */
     std::array<double,3> getCellColor(int);
-
+   
+    /*! Function getObjectType() \n
+        Function to get type of the specified object.
+        \n Agruements:none
+        \return  int - object type
+    */
     int getObjectType();
+    
+    /*! Function getVolume() \n
+        Function to get volume of the specified object.
+        \n Agruements:none
+        \return   double - object Volume
+    */
     double getVolume();
+    
+    /*! Function getWeight() \n
+        Function to get weight of the specified object.
+        \n Agruements:none
+        \return   double - object Weight
+    */
     double getWeight();
-
+    
+    /*! Function getPosition() \n
+        Function to get a vector as the position from the specified object.
+        \n Agruements:none
+        \return   Vector3D - object Position 
+    */
     Vector3D getPosition();
+    
+    /*! Function getDimensions() \n
+        Function to get a vector as the Dimensions from the specified object.
+        \n Agruements:none
+        \return   Vector3D - object Dimensions
+    */
     Vector3D getDimensions();
+    
+     /*! Function getDimensionAverage() \n
+         Function to get average Dimensions of the specified object.
+         \n Agruements:none
+         \return   double - average dimension of object 
+    */
     double getDimensionAverage();
-
+    
+    /*!  Function getCellAmount() \n
+         Function to get amount of cell of the specified object.
+         \n Agruements:none
+         \return   double - the amount of cell 
+    */
     int getCellAmount();
+    
+    /*! Function getMinActiveCell() \n
+        Function to get min cell of the specified object.
+        \n Agruements:none
+        \return   int - the min cell  
+    */
     int getMinActiveCell();
+    
+    /*! Function getMaxActiveCell() \n
+        Function to get max cell of the specified object and show it.
+        \n Agruements:none
+        \return   int - the max cell
+    */
     int getMaxActiveCell();
-
+    
+    /*! Function setColor(QColor) \n
+        Function to get color of specified object with the QColor.
+        \n Agruements: QColor - 
+        \return   void - color
+    */
     void setColor(QColor);
+    
+     /*! Function setCellColor(int,double,double,double) \n
+         Function to set cell color of specified object with specific variables.
+         \n Agruements: int,double,double,double - the specific variables  
+         \return   void - cell color
+    */
     void setCellColor(int,double,double,double);
+    
+     /*! Function setMinActiveCell(int) \n
+         Function to set min cell of specified object with specific variables.
+         \n Agruements: int,double,double,double - the specific variable  
+         \return   void - min cell
+    */
     void setMinActiveCell(int);
+   
+    /*! Function setMaxActiveCell(int) \n
+        Function to set max cell of the specified object.
+        \n Agruements: int - the specific variable  
+        \return   void - max cell  
+    */
     void setMaxActiveCell(int);
-
+    
+    /*! Function handlePolydata() \n
+        Function to handle the poly data of the specified object
+        \n Agruements: none  
+        \return   void - Polydata    
+    */
     void handlePolydata();
+    
+    /*! Function updateVTKModel() \n
+        Function to update vtk model.
+        \n Agruements: none  
+        \return   void - vtk model
+    */
     void updateVTKModel();
+    
+    /*! Function makeMeasurements() \n
+        Function to make measurements.
+        \n Agruements: none  
+        \return   void - measurement 
+    */
     void makeMeasurements();
-
+    
+    /*! Function drawHexahedron(Cell*) \n
+        Function to draw the Hexahedron.
+        \n Agruements: Cell*  
+        \return   void - draw hexahedron
+    */
     void drawHexahedron(Cell*);
+    
+    /*! Function drawTetrahedron(Cell*) \n
+        Function to draw the Tetrahedron.
+        \n Agruements: Cell*  
+        \return   void - draw Tetrahedron
+    */
     void drawTetrahedron(Cell*);
+    
+     /*! Function drawPyramid(Cell*) \n
+        Function to draw the Pyramid.
+        \n Agruements: Cell*  
+        \return   void - draw Pyramid
+    */  
     void drawPyramid(Cell*);
-
+    
+    /*! Function displayHexahedron() \n
+        Function to display the Hexahedron.
+        \n Agruements: none  
+        \return   void - display Hexahedron
+    */
     void displayHexahedron();
+    
+    /*! Function displayTetrahedron() \n
+        Function to display the Tetrahedron.
+        \n Agruements: none  
+        \return   void - display Tetrahedron
+    */
     void displayTetrahedron();
+    
+    /*! Function displayPyramid() \n
+        Function to display the Pyramid.
+        \n Agruements: none  
+        \return   void - display Pyramid
+    */
     void displayPyramid();
+    
+    /*! Function displaySphere() \n
+        Function to display the Sphere.
+        \n Agruements: none  
+        \return   void - display Sphere
+    */
     void displaySphere();
+    
+     /*! Function displayDisk() \n
+        Function to display the Disk.
+        \n Agruements: none  
+        \return   void - display Disk
+    */
     void displayDisk();
+    
+     /*! Function displayCone() \n
+        Function to display the Cone.
+        \n Agruements: none  
+        \return   void - display Cone
+    */
     void displayCone();
+    
+    /*! Function displayPlane() \n
+        Function to display the Plane.
+        \n Agruements: none  
+        \return   void - display Plane
+    */
     void displayPlane();
+    
+    /*! Function displayPointCluster() \n
+        Function to display the Point of Cluster.
+        \n Agruements: int - point of cluster  
+        \return   void - display the Point of Cluster
+    */
     void displayPointCluster(int);
+    
+    /*! Function displayLine() \n
+        Function to display the line.
+        \n Agruements: none  
+        \return   void - display the line
+    */
     void displayLine();
+    
+    /*! Function displayCylinder() \n
+        Function to display the Cylinder.
+        \n Agruements: none  
+        \return   void - display the Cylinder
+    */
     void displayCylinder();
+    
+    /*! Function displayEarth() \n
+        Function to display the Earth.
+        \n Agruements: none  
+        \return   void - display the Earth
+    */
     void displayEarth();
-
-
+    
+    /*! Function getModelFromFile(QString) \n
+        Function to get the model from the selected file.
+        \n Agruements: QString - model  
+        \return   void - get the model from the selected file
+    */
     void getModelFromFile(QString);
+    
+    /*! Function saveModelFromFile(QString) \n
+        Function to save the model from the selected file.
+        \n Agruements: QString - model  
+        \return   void - save the model from the selected file
+    */
     void saveModelToFile(QString);
-
+    
+     /*! Function changeColor(QColor) \n
+        Function to change the color of object.
+        \n Agruements: QColor - color  
+        \return   void - change the color of object
+    */
     void changeColor(QColor);
+    
+    /*! Function resetColor() \n
+        Function to reset the color of object.
+        \n Agruements: none 
+        \return   void - reset the color of object
+    */
     void resetColor();
+
 
 };
 
-#endif // VTKOBJECT_H_INCLUDED
+#endif //! VTKOBJECT_H_INCLUDED
