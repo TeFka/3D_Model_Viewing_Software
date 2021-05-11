@@ -92,7 +92,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Copyright Code part: Danielius Zurlys (StudentID: 20130611) Documentation part: Danielius Zurlys and Chen xu (StudenTID: 20187733)  
+<p>Required header files: iostream(for printing with cout), vector, string, fstream, <a class="el" href="_vector3_d_8h.html" title="Required header files: vector.h math.h(for some mathematic functions) ">Vector3D.h</a>, <a class="el" href="_material_8h.html" title="Required header files: iostream(for printing with cout), string,Vector3D.h, Material.h. ">Material.h</a>, <a class="el" href="_cell_8h.html" title="Required header files: iostream(for printing with cout), vector, string, fstream, Vector3D...">Cell.h</a>.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
@@ -108,10 +108,41 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcell_info.html">cellInfo</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Temporarily stores cell information before a <a class="el" href="class_cell.html" title="cell class describes various parameters of the shape such as how many vertices it has...">Cell</a> object is created with it. Stored values: <a class="el" href="class_cell.html" title="cell class describes various parameters of the shape such as how many vertices it has...">Cell</a> ID ID of materials that the <a class="el" href="class_cell.html" title="cell class describes various parameters of the shape such as how many vertices it has...">Cell</a> uses the type of <a class="el" href="class_cell.html" title="cell class describes various parameters of the shape such as how many vertices it has...">Cell</a>: 1 - hexahredal, 2 - pyramid, 3 - tetrahedral the std::vector array of index values.  <a href="structcell_info.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Temporarily stores cell information before a <a class="el" href="class_cell.html" title="cell class describes various parameters of the shape such as how many vertices it has...">Cell</a> object is created with it. <br />
+ Stored values: <br />
+ <a class="el" href="class_cell.html" title="cell class describes various parameters of the shape such as how many vertices it has...">Cell</a> ID <br />
+ ID of materials that the <a class="el" href="class_cell.html" title="cell class describes various parameters of the shape such as how many vertices it has...">Cell</a> uses <br />
+ the type of <a class="el" href="class_cell.html" title="cell class describes various parameters of the shape such as how many vertices it has...">Cell</a>: 1 - hexahredal, 2 - pyramid, 3 - tetrahedral <br />
+ the std::vector array of index values   <a href="structcell_info.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model.html">Model</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of model vectors An std::vector array of model materials An std::vector array of model cells a <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information. Class is made to be row major Stored values: int I...">Vector3D</a> of model center point. Available functions: private: int getVectorIndex(int) int getMaterialIndex(int); void alignVectors() void alignCells() void alignMaterials() void fixIDValues(); public: void loadModel(char*) void <a class="el" href="class_model.html#a554d27aa6a6d2e93be7d957f3b610f78">calcModelCenter()</a> int getVectorsAmount() int <a class="el" href="class_model.html#a29b97b575c9ebfa2aaa9806cfa094f1e">getCellAmount()</a> <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information. Class is made to be row major Stored values: int I...">Vector3D</a> <a class="el" href="class_model.html#a3616941d01a129c90a81891f6aa78819">getModelCenter()</a> std::vector&lt;Vector3D&gt; <a class="el" href="class_model.html#ab37cfe36bfc8ba85a0894cb11c156e11">getVectors()</a> std::vector&lt;Material*&gt; <a class="el" href="class_model.html#acebb51323259e2f11494e0626490c64e">getMaterials()</a> std::vector&lt;Cell*&gt; <a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a> void <a class="el" href="class_model.html#ae7b7dfcec56ec095782b672745f64c7e">showMaterials()</a> void <a class="el" href="class_model.html#ac6201ae8b810e878da7c0af337cc6e84">showVectors()</a> void <a class="el" href="class_model.html#adb18726e9aee1ec6f0980f5e4624e481">showCells()</a> void <a class="el" href="class_model.html#a6f31f2c1849ca236b837521a5303f320">loadInfoToFile(char*)</a>  <a href="class_model.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores information about a 3D model retrieved from VTK file. <br />
+ Stored values: An std::vector array of model vectors <br />
+ An std::vector array of model materials <br />
+ An std::vector array of model cells <br />
+ a <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> of model center point. <br />
+Available functions: <br />
+ private: <br />
+ <br />
+ int getVectorIndex(int) <br />
+ int getMaterialIndex(int); <br />
+ void alignVectors() <br />
+ void alignCells() <br />
+ void alignMaterials() <br />
+ void fixIDValues(); public: <br />
+ <br />
+ void loadModel(char*) <br />
+ void <a class="el" href="class_model.html#a554d27aa6a6d2e93be7d957f3b610f78">calcModelCenter()</a> <br />
+ int getVectorsAmount() <br />
+ int <a class="el" href="class_model.html#a29b97b575c9ebfa2aaa9806cfa094f1e">getCellAmount()</a> <br />
+ <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> <a class="el" href="class_model.html#a3616941d01a129c90a81891f6aa78819">getModelCenter()</a> <br />
+ std::vector&lt;Vector3D&gt; <a class="el" href="class_model.html#ab37cfe36bfc8ba85a0894cb11c156e11">getVectors()</a> <br />
+ std::vector&lt;Material*&gt; <a class="el" href="class_model.html#acebb51323259e2f11494e0626490c64e">getMaterials()</a> <br />
+ std::vector&lt;Cell*&gt; <a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a> <br />
+ void <a class="el" href="class_model.html#ae7b7dfcec56ec095782b672745f64c7e">showMaterials()</a> <br />
+ void <a class="el" href="class_model.html#ac6201ae8b810e878da7c0af337cc6e84">showVectors()</a> <br />
+ void <a class="el" href="class_model.html#adb18726e9aee1ec6f0980f5e4624e481">showCells()</a> <br />
+ void <a class="el" href="class_model.html#a6f31f2c1849ca236b837521a5303f320">loadInfoToFile(char*)</a>  <a href="class_model.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -122,8 +153,10 @@ Functions</h2></td></tr>
 <tr class="separator:acce25be846289fba62f75dec3db99e55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Copyright Code part: Danielius Zurlys (StudentID: 20130611) Documentation part: Danielius Zurlys and Chen xu (StudenTID: 20187733) </p>
-<p>File Reference Required header files: iostream(for printing with cout), vector, string, fstream, <a class="el" href="_vector3_d_8h.html" title="Copyright Woranan Kamonlattana (Student ID: 20310814) Documentation part: Woranan Kamonlattana and Ch...">Vector3D.h</a>, <a class="el" href="_material_8h.html" title="It should be three parts for material ID, color, and density. ">Material.h</a>, <a class="el" href="_cell_8h.html" title="Copyright Code part: Michael Michael (StudentID: 20143147) Documentation part: Michael Michael with C...">Cell.h</a> </p>
+<div class="textblock"><p>Required header files: iostream(for printing with cout), vector, string, fstream, <a class="el" href="_vector3_d_8h.html" title="Required header files: vector.h math.h(for some mathematic functions) ">Vector3D.h</a>, <a class="el" href="_material_8h.html" title="Required header files: iostream(for printing with cout), string,Vector3D.h, Material.h. ">Material.h</a>, <a class="el" href="_cell_8h.html" title="Required header files: iostream(for printing with cout), vector, string, fstream, Vector3D...">Cell.h</a>. </p>
+<p>File Reference </p><dl class="section author"><dt>Author</dt><dd>Copyright: <br />
+ Code part: Danielius Zurlys (StudentID: 20130611) <br />
+ Documentation part: Danielius Zurlys and Chen xu (StudentID: 20187733) </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="acce25be846289fba62f75dec3db99e55"></a>
 <div class="memitem">
@@ -138,7 +171,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function <a class="el" href="_model_8h.html#acce25be846289fba62f75dec3db99e55">floatToHex()</a> Function to convert float color value to hex value </p>
+<p>Function <a class="el" href="_model_8h.html#acce25be846289fba62f75dec3db99e55">floatToHex()</a> <br />
+Function to convert float color value to hex value </p><ul>
+<li><a class="el" href="_model_8h.html#acce25be846289fba62f75dec3db99e55">floatToHex()</a>: float - float value to convert <dl class="section return"><dt>Returns</dt><dd>a converted std::string letter of color </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>1) Input float value has to be in range [0;1.0] </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -155,7 +193,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function <a class="el" href="_model_8h.html#aba1fd5d1aedadc7f5d243fca0fd262a1">hexToFloat()</a> Function to convert hex color value to float value </p>
+<p>Function <a class="el" href="_model_8h.html#aba1fd5d1aedadc7f5d243fca0fd262a1">hexToFloat()</a> <br />
+Function to convert hex color value to float value </p><ul>
+<li>getHexValue(): char - hex letter to convert <dl class="section return"><dt>Returns</dt><dd>value: a converted float value of color </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>: 1) Input hex value has to be in range [0;F] </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>

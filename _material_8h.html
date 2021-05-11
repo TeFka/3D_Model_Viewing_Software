@@ -91,7 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>It should be three parts for material ID, color, and density.  
+<p>Required header files: iostream(for printing with cout), string,<a class="el" href="_vector3_d_8h.html" title="Required header files: vector.h math.h(for some mathematic functions) ">Vector3D.h</a>, <a class="el" href="_material_8h.html" title="Required header files: iostream(for printing with cout), string,Vector3D.h, Material.h. ">Material.h</a>.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;string&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
@@ -102,13 +102,36 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_material.html">Material</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_material.html" title="Material class describes the functions that get the ID, Density Name and Color.And store it for the o...">Material</a> class describes the functions that get the ID, Density Name and Color.And store it for the other parts to use. Stored values: int rowDimension; int columnDimension; Available functions: public: int <a class="el" href="class_material.html#ad31f04334fa5bc9ff16170149f037f2a" title="Destructor. ">getID()</a>; std::string getName(); double getDensity(); <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information. Class is made to be row major Stored values: int I...">Vector3D</a> getColor(); void setID(int); void setName(std::string); void setColor(Vector3D); void setColor(double, double, double); void setDensity(double); private: int ID; double Density; string Name; <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information. Class is made to be row major Stored values: int I...">Vector3D</a> Color; Constructor: Creates empty matrix with all values set to zero Destructor: clears array of matrix values Copy constructor creates a copy of a specified object.  <a href="class_material.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_material.html" title="Material class describes the functions that get the ID, Density Name and Color.And store it for the o...">Material</a> class describes the functions that get the ID, Density Name and Color.And store it for the other parts to use. <br />
+ Stored values: <br />
+ calue of specified ID; double Density; string Name; <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> Color; <br />
+ Available functions: <br />
+ public: <br />
+ int <a class="el" href="class_material.html#ad31f04334fa5bc9ff16170149f037f2a" title="Destructor. ">getID()</a>; <br />
+ std::string getName(); <br />
+ double getDensity(); <br />
+ <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> getColor(); <br />
+ void <a class="el" href="class_material.html#a219ae8a9fd2ff596d28625cfb8b2b317">setID(int)</a>; <br />
+ void setName(std::string); <br />
+ void setColor(Vector3D); <br />
+ void setColor(double, double, double); <br />
+ void setDensity(double); <br />
+ private: <br />
+ int ID; <br />
+ double Density; <br />
+ string Name; <br />
+ <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> Color; <br />
+ Constructor: <br />
+ Gains the required material information from specifed file <br />
+ Destructor: <br />
+ clears ID Density Name and Color values <br />
+ Copy constructor <br />
+ creates a copy of a specified material object.  <a href="class_material.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>It should be three parts for material ID, color, and density. </p>
-<p>File Reference Copyright Chen Xu (student ID : 20187733)</p>
-<p>Required header files: iostream(for printing with cout), string,<a class="el" href="_vector3_d_8h.html" title="Copyright Woranan Kamonlattana (Student ID: 20310814) Documentation part: Woranan Kamonlattana and Ch...">Vector3D.h</a>, <a class="el" href="_material_8h.html" title="It should be three parts for material ID, color, and density. ">Material.h</a> </p>
+<div class="textblock"><p>Required header files: iostream(for printing with cout), string,<a class="el" href="_vector3_d_8h.html" title="Required header files: vector.h math.h(for some mathematic functions) ">Vector3D.h</a>, <a class="el" href="_material_8h.html" title="Required header files: iostream(for printing with cout), string,Vector3D.h, Material.h. ">Material.h</a>. </p>
+<p>File Reference </p><dl class="section author"><dt>Author</dt><dd>Copyright Code and Documatation part: Chen Xu (student ID : 20187733) </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

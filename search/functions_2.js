@@ -19,5 +19,6 @@ var searchData=
   ['getvector',['getVector',['../class_model.html#a6d877aa2a535c2a613fd92d6ef80b576',1,'Model']]],
   ['getvectoramount',['getVectorAmount',['../class_model.html#acd0f324509ae2321c04f259fd0133a7a',1,'Model']]],
   ['getvectors',['getVectors',['../class_model.html#ab37cfe36bfc8ba85a0894cb11c156e11',1,'Model']]],
+  ['getvolume',['getVolume',['../class_cell.html#aac8a5f3d06691efa17d909cc4e9c248b',1,'Cell']]],
   ['getweight',['getWeight',['../class_cell.html#a8894ea0d3bf52c4837b95b7ec547392b',1,'Cell']]]
 ];

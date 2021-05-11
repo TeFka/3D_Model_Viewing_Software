@@ -90,7 +90,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>subclass of class cell.  
+<p>subclass of class cell. <br />
+ plan to get volume of pyramid <br />
+ essentially, a pyramid is just 2 tetrahedrons put together, therefore to find the volume of the pyramid, we must repeat the same method <br />
+ of finding the volume of a tetrahedron twice. <br />
+ consider the new 5th vertex is called E. <br />
+ the following calculation would be <br />
+ Vpyramid = Vtetra1+Vtetra2 where... <br />
+ __ __ __ __ __ __ <br />
+ Vtetra1 = 1/6|(AB x AC) * AD| and Vtetra2 = 1/6|(EB x EC) * ED|  
  <a href="class_pyramid.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_cell_8h_source.html">Cell.h</a>&gt;</code></p>
@@ -149,12 +157,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>getType</b> ()</td></t
 <tr class="separator:ac6f89d89f65ac570dbfee6630e8ac77a inherit pub_methods_class_cell"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8894ea0d3bf52c4837b95b7ec547392b inherit pub_methods_class_cell"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cell.html#a8894ea0d3bf52c4837b95b7ec547392b">getWeight</a> ()</td></tr>
 <tr class="separator:a8894ea0d3bf52c4837b95b7ec547392b inherit pub_methods_class_cell"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac8a5f3d06691efa17d909cc4e9c248b inherit pub_methods_class_cell"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aac8a5f3d06691efa17d909cc4e9c248b"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>getVolume</b> ()</td></tr>
+<tr class="memitem:aac8a5f3d06691efa17d909cc4e9c248b inherit pub_methods_class_cell"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cell.html#aac8a5f3d06691efa17d909cc4e9c248b">getVolume</a> ()</td></tr>
 <tr class="separator:aac8a5f3d06691efa17d909cc4e9c248b inherit pub_methods_class_cell"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bb0817022a7e100b204ef7ba40d2789 inherit pub_methods_class_cell"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8bb0817022a7e100b204ef7ba40d2789"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cell.html#a8bb0817022a7e100b204ef7ba40d2789">setID</a> (int)</td></tr>
-<tr class="memdesc:a8bb0817022a7e100b204ef7ba40d2789 inherit pub_methods_class_cell"><td class="mdescLeft">&#160;</td><td class="mdescRight">set functions: <br /></td></tr>
+<tr class="memitem:a8bb0817022a7e100b204ef7ba40d2789 inherit pub_methods_class_cell"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cell.html#a8bb0817022a7e100b204ef7ba40d2789">setID</a> (int)</td></tr>
+<tr class="memdesc:a8bb0817022a7e100b204ef7ba40d2789 inherit pub_methods_class_cell"><td class="mdescLeft">&#160;</td><td class="mdescRight">set functions:  <a href="#a8bb0817022a7e100b204ef7ba40d2789">More...</a><br /></td></tr>
 <tr class="separator:a8bb0817022a7e100b204ef7ba40d2789 inherit pub_methods_class_cell"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6dc5008f3f6d93dc0154ca62ec280771 inherit pub_methods_class_cell"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6dc5008f3f6d93dc0154ca62ec280771"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setType</b> (int)</td></tr>
@@ -206,7 +212,15 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>volume</b></td></tr
 <tr class="separator:a9e0ea8c2547718c8b34694d6d0db2c9e inherit pro_attribs_class_cell"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>subclass of class cell. </p>
+<div class="textblock"><p>subclass of class cell. <br />
+ plan to get volume of pyramid <br />
+ essentially, a pyramid is just 2 tetrahedrons put together, therefore to find the volume of the pyramid, we must repeat the same method <br />
+ of finding the volume of a tetrahedron twice. <br />
+ consider the new 5th vertex is called E. <br />
+ the following calculation would be <br />
+ Vpyramid = Vtetra1+Vtetra2 where... <br />
+ __ __ __ __ __ __ <br />
+ Vtetra1 = 1/6|(AB x AC) * AD| and Vtetra2 = 1/6|(EB x EC) * ED| </p>
 </div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/<a class="el" href="_cell_8h_source.html">Cell.h</a></li>
 <li>/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Src/Cell.cpp</li>

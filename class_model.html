@@ -90,28 +90,46 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of model vectors An std::vector array of model materials An std::vector array of model cells a <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information. Class is made to be row major Stored values: int I...">Vector3D</a> of model center point. Available functions: private: int getVectorIndex(int) int getMaterialIndex(int); void alignVectors() void alignCells() void alignMaterials() void fixIDValues(); public: void loadModel(char*) void <a class="el" href="class_model.html#a554d27aa6a6d2e93be7d957f3b610f78">calcModelCenter()</a> int getVectorsAmount() int <a class="el" href="class_model.html#a29b97b575c9ebfa2aaa9806cfa094f1e">getCellAmount()</a> <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information. Class is made to be row major Stored values: int I...">Vector3D</a> <a class="el" href="class_model.html#a3616941d01a129c90a81891f6aa78819">getModelCenter()</a> std::vector&lt;Vector3D&gt; <a class="el" href="class_model.html#ab37cfe36bfc8ba85a0894cb11c156e11">getVectors()</a> std::vector&lt;Material*&gt; <a class="el" href="class_model.html#acebb51323259e2f11494e0626490c64e">getMaterials()</a> std::vector&lt;Cell*&gt; <a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a> void <a class="el" href="class_model.html#ae7b7dfcec56ec095782b672745f64c7e">showMaterials()</a> void <a class="el" href="class_model.html#ac6201ae8b810e878da7c0af337cc6e84">showVectors()</a> void <a class="el" href="class_model.html#adb18726e9aee1ec6f0980f5e4624e481">showCells()</a> void <a class="el" href="class_model.html#a6f31f2c1849ca236b837521a5303f320">loadInfoToFile(char*)</a>  
+<p>Stores information about a 3D model retrieved from VTK file. <br />
+ Stored values: An std::vector array of model vectors <br />
+ An std::vector array of model materials <br />
+ An std::vector array of model cells <br />
+ a <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> of model center point. <br />
+Available functions: <br />
+ private: <br />
+ <br />
+ int getVectorIndex(int) <br />
+ int getMaterialIndex(int); <br />
+ void alignVectors() <br />
+ void alignCells() <br />
+ void alignMaterials() <br />
+ void fixIDValues(); public: <br />
+ <br />
+ void loadModel(char*) <br />
+ void <a class="el" href="class_model.html#a554d27aa6a6d2e93be7d957f3b610f78">calcModelCenter()</a> <br />
+ int getVectorsAmount() <br />
+ int <a class="el" href="class_model.html#a29b97b575c9ebfa2aaa9806cfa094f1e">getCellAmount()</a> <br />
+ <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> <a class="el" href="class_model.html#a3616941d01a129c90a81891f6aa78819">getModelCenter()</a> <br />
+ std::vector&lt;Vector3D&gt; <a class="el" href="class_model.html#ab37cfe36bfc8ba85a0894cb11c156e11">getVectors()</a> <br />
+ std::vector&lt;Material*&gt; <a class="el" href="class_model.html#acebb51323259e2f11494e0626490c64e">getMaterials()</a> <br />
+ std::vector&lt;Cell*&gt; <a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a> <br />
+ void <a class="el" href="class_model.html#ae7b7dfcec56ec095782b672745f64c7e">showMaterials()</a> <br />
+ void <a class="el" href="class_model.html#ac6201ae8b810e878da7c0af337cc6e84">showVectors()</a> <br />
+ void <a class="el" href="class_model.html#adb18726e9aee1ec6f0980f5e4624e481">showCells()</a> <br />
+ void <a class="el" href="class_model.html#a6f31f2c1849ca236b837521a5303f320">loadInfoToFile(char*)</a>  
  <a href="class_model.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_model_8h_source.html">Model.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae3b375de5f6df4faf74a95d64748e048"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae3b375de5f6df4faf74a95d64748e048"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model.html#ae3b375de5f6df4faf74a95d64748e048">Model</a> ()</td></tr>
-<tr class="memdesc:ae3b375de5f6df4faf74a95d64748e048"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a> class constructor. <br /></td></tr>
+<tr class="memitem:ae3b375de5f6df4faf74a95d64748e048"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model.html#ae3b375de5f6df4faf74a95d64748e048">Model</a> ()</td></tr>
 <tr class="separator:ae3b375de5f6df4faf74a95d64748e048"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf455b46c4e80f1736f0d81b67bea1f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf455b46c4e80f1736f0d81b67bea1f8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model.html#acf455b46c4e80f1736f0d81b67bea1f8">Model</a> (char *)</td></tr>
-<tr class="memdesc:acf455b46c4e80f1736f0d81b67bea1f8"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a> class constructor. <br /></td></tr>
+<tr class="memitem:acf455b46c4e80f1736f0d81b67bea1f8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model.html#acf455b46c4e80f1736f0d81b67bea1f8">Model</a> (char *)</td></tr>
 <tr class="separator:acf455b46c4e80f1736f0d81b67bea1f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6ebd2062a0b823db841a0b88baac4c0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad6ebd2062a0b823db841a0b88baac4c0"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model.html#ad6ebd2062a0b823db841a0b88baac4c0">~Model</a> ()</td></tr>
-<tr class="memdesc:ad6ebd2062a0b823db841a0b88baac4c0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a> class destructor. <br /></td></tr>
+<tr class="memitem:ad6ebd2062a0b823db841a0b88baac4c0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model.html#ad6ebd2062a0b823db841a0b88baac4c0">~Model</a> ()</td></tr>
 <tr class="separator:ad6ebd2062a0b823db841a0b88baac4c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0386968ae522e868e3b6028c8b154837"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0386968ae522e868e3b6028c8b154837"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model.html#a0386968ae522e868e3b6028c8b154837">Model</a> (const <a class="el" href="class_model.html">Model</a> &amp;)</td></tr>
-<tr class="memdesc:a0386968ae522e868e3b6028c8b154837"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor. <br /></td></tr>
+<tr class="memitem:a0386968ae522e868e3b6028c8b154837"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model.html#a0386968ae522e868e3b6028c8b154837">Model</a> (const <a class="el" href="class_model.html">Model</a> &amp;)</td></tr>
 <tr class="separator:a0386968ae522e868e3b6028c8b154837"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25792de725bf3e5d16b6d17af762f49a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model.html#a25792de725bf3e5d16b6d17af762f49a">loadModel</a> (const char *)</td></tr>
 <tr class="separator:a25792de725bf3e5d16b6d17af762f49a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,9 +181,117 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6f31f2c1849ca236b837521a5303f320"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of model vectors An std::vector array of model materials An std::vector array of model cells a <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information. Class is made to be row major Stored values: int I...">Vector3D</a> of model center point. Available functions: private: int getVectorIndex(int) int getMaterialIndex(int); void alignVectors() void alignCells() void alignMaterials() void fixIDValues(); public: void loadModel(char*) void <a class="el" href="class_model.html#a554d27aa6a6d2e93be7d957f3b610f78">calcModelCenter()</a> int getVectorsAmount() int <a class="el" href="class_model.html#a29b97b575c9ebfa2aaa9806cfa094f1e">getCellAmount()</a> <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information. Class is made to be row major Stored values: int I...">Vector3D</a> <a class="el" href="class_model.html#a3616941d01a129c90a81891f6aa78819">getModelCenter()</a> std::vector&lt;Vector3D&gt; <a class="el" href="class_model.html#ab37cfe36bfc8ba85a0894cb11c156e11">getVectors()</a> std::vector&lt;Material*&gt; <a class="el" href="class_model.html#acebb51323259e2f11494e0626490c64e">getMaterials()</a> std::vector&lt;Cell*&gt; <a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a> void <a class="el" href="class_model.html#ae7b7dfcec56ec095782b672745f64c7e">showMaterials()</a> void <a class="el" href="class_model.html#ac6201ae8b810e878da7c0af337cc6e84">showVectors()</a> void <a class="el" href="class_model.html#adb18726e9aee1ec6f0980f5e4624e481">showCells()</a> void <a class="el" href="class_model.html#a6f31f2c1849ca236b837521a5303f320">loadInfoToFile(char*)</a> </p>
-<p>Constructor: Loads 3D model information from specified file Destructor: Clears vector, material and cell arrays. Copy constructor creates a copy of a specified <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a> object </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+<div class="textblock"><p>Stores information about a 3D model retrieved from VTK file. <br />
+ Stored values: An std::vector array of model vectors <br />
+ An std::vector array of model materials <br />
+ An std::vector array of model cells <br />
+ a <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> of model center point. <br />
+Available functions: <br />
+ private: <br />
+ <br />
+ int getVectorIndex(int) <br />
+ int getMaterialIndex(int); <br />
+ void alignVectors() <br />
+ void alignCells() <br />
+ void alignMaterials() <br />
+ void fixIDValues(); public: <br />
+ <br />
+ void loadModel(char*) <br />
+ void <a class="el" href="class_model.html#a554d27aa6a6d2e93be7d957f3b610f78">calcModelCenter()</a> <br />
+ int getVectorsAmount() <br />
+ int <a class="el" href="class_model.html#a29b97b575c9ebfa2aaa9806cfa094f1e">getCellAmount()</a> <br />
+ <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> <a class="el" href="class_model.html#a3616941d01a129c90a81891f6aa78819">getModelCenter()</a> <br />
+ std::vector&lt;Vector3D&gt; <a class="el" href="class_model.html#ab37cfe36bfc8ba85a0894cb11c156e11">getVectors()</a> <br />
+ std::vector&lt;Material*&gt; <a class="el" href="class_model.html#acebb51323259e2f11494e0626490c64e">getMaterials()</a> <br />
+ std::vector&lt;Cell*&gt; <a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a> <br />
+ void <a class="el" href="class_model.html#ae7b7dfcec56ec095782b672745f64c7e">showMaterials()</a> <br />
+ void <a class="el" href="class_model.html#ac6201ae8b810e878da7c0af337cc6e84">showVectors()</a> <br />
+ void <a class="el" href="class_model.html#adb18726e9aee1ec6f0980f5e4624e481">showCells()</a> <br />
+ void <a class="el" href="class_model.html#a6f31f2c1849ca236b837521a5303f320">loadInfoToFile(char*)</a> </p>
+<p>Constructor: <br />
+ Loads 3D model information from specified file <br />
+Destructor: <br />
+ Clears vector, material and cell arrays. <br />
+Copy constructor: <br />
+ creates a copy of a specified <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a> object </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ae3b375de5f6df4faf74a95d64748e048"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Model::Model </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Default <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a> class constructor </p><dl class="section note"><dt>Note</dt><dd>Action: <br />
+ creates an empty model object <ul>
+<li>none. </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="acf455b46c4e80f1736f0d81b67bea1f8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Model::Model </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p><a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a> class constructor </p><dl class="section note"><dt>Note</dt><dd>Action: <br />
+ Load a 3D model from specified file. <ul>
+<li>char - path to a model file. </li>
+</ul>
+</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad6ebd2062a0b823db841a0b88baac4c0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Model::~Model </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p><a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a> class destructor </p><dl class="section note"><dt>Note</dt><dd>Action: <br />
+ Clears vectors, materials and cells arrays. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a0386968ae522e868e3b6028c8b154837"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Model::Model </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_model.html">Model</a> &amp;&#160;</td>
+          <td class="paramname"><em>copied_Model</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Copy constructor </p><dl class="section note"><dt>Note</dt><dd>Action: <br />
+ copies vectors, materials, cells arrays and the model center information to a new <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a> object. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a554d27aa6a6d2e93be7d957f3b610f78"></a>
 <div class="memitem">
 <div class="memproto">
@@ -178,7 +304,12 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#a554d27aa6a6d2e93be7d957f3b610f78">calcModelCenter()</a> Function to calculate position of model center </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a554d27aa6a6d2e93be7d957f3b610f78">calcModelCenter()</a> <br />
+Function to calculate position of model center </p><ul>
+<li><a class="el" href="class_model.html#a554d27aa6a6d2e93be7d957f3b610f78">calcModelCenter()</a>: none. <dl class="section return"><dt>Returns</dt><dd>none(model center value updated) </dd></dl>
+<dl class="section note"><dt>Note</dt><dd><a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a> center position will become {0,0,0} if vector array is empty. </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -194,7 +325,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#af116b277417a2e93f3f0a0750e281ca9">calcModelVolume()</a> Function to calculate volume of model </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#af116b277417a2e93f3f0a0750e281ca9">calcModelVolume()</a> <br />
+Function to calculate volume of model </p><ul>
+<li><a class="el" href="class_model.html#af116b277417a2e93f3f0a0750e281ca9">calcModelVolume()</a>: none. <dl class="section return"><dt>Returns</dt><dd>none(model volume value updated) </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -210,7 +345,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#ae2347fd4e8a199945c10b168b58d111c">calcModelWeight()</a> Function to calculate weight of model </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#ae2347fd4e8a199945c10b168b58d111c">calcModelWeight()</a> <br />
+Function to calculate weight of model </p><ul>
+<li><a class="el" href="class_model.html#ae2347fd4e8a199945c10b168b58d111c">calcModelWeight()</a>: none. <dl class="section return"><dt>Returns</dt><dd>value: none(model weight value updated) </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -227,7 +366,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a> Function to get cells array of model </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a> <br />
+Function to get cells array of model </p><ul>
+<li><a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a>: none. <dl class="section return"><dt>Returns</dt><dd>cell - the retrieved cell </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -243,7 +386,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#a29b97b575c9ebfa2aaa9806cfa094f1e">getCellAmount()</a> Function to get amount of cells </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a29b97b575c9ebfa2aaa9806cfa094f1e">getCellAmount()</a> <br />
+Function to get amount of cells </p><ul>
+<li><a class="el" href="class_model.html#a29b97b575c9ebfa2aaa9806cfa094f1e">getCellAmount()</a>: none. <dl class="section return"><dt>Returns</dt><dd>int - amount of cells </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -259,7 +406,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a> Function to set cells array of model </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a> <br />
+Function to set cells array of model </p><ul>
+<li><a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a>: none. <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;Cell*&gt; - array of all model cell pointers </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -276,7 +427,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a> Function to get cells array of model </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a9dfba34e1752702d74e8c77e3f591b3f">getMaterial()</a> <br />
+Function to get material array of model </p><ul>
+<li><a class="el" href="class_model.html#a9dfba34e1752702d74e8c77e3f591b3f">getMaterial()</a>: none. <dl class="section return"><dt>Returns</dt><dd>int - amount of vectors </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -292,7 +447,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#a58e863ec999fe5b325d462757efc66f2">getMaterialAmount()</a> Function to get amount of materials </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a58e863ec999fe5b325d462757efc66f2">getMaterialAmount()</a> <br />
+Function to get amount of materials </p><ul>
+<li><a class="el" href="class_model.html#a58e863ec999fe5b325d462757efc66f2">getMaterialAmount()</a>: none. <dl class="section return"><dt>Returns</dt><dd>int - amount of <a class="el" href="class_material.html" title="Material class describes the functions that get the ID, Density Name and Color.And store it for the o...">Material</a> </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -308,7 +467,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#acebb51323259e2f11494e0626490c64e">getMaterials()</a> Function to set cells array of model </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#acebb51323259e2f11494e0626490c64e">getMaterials()</a> <br />
+Function to set cells array of model </p><ul>
+<li><a class="el" href="class_model.html#acebb51323259e2f11494e0626490c64e">getMaterials()</a>: none. <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;Material*&gt; - array of all model material pointers </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -324,7 +487,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#a3616941d01a129c90a81891f6aa78819">getModelCenter()</a> Function to get position of model center </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a3616941d01a129c90a81891f6aa78819">getModelCenter()</a> <br />
+Function to get position of model center </p><ul>
+<li><a class="el" href="class_model.html#a3616941d01a129c90a81891f6aa78819">getModelCenter()</a>: none. <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> - model center position </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -340,7 +507,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#a11ca5f07bd3e8b60ed5cb70ab673dc50">getModelDimensions()</a> Function to get position of model dimensions </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a11ca5f07bd3e8b60ed5cb70ab673dc50">getModelDimensions()</a> <br />
+Function to get position of model dimensions </p><ul>
+<li><a class="el" href="class_model.html#a11ca5f07bd3e8b60ed5cb70ab673dc50">getModelDimensions()</a>: none. <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> - vector showing model dimensions </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -356,7 +527,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#a58b42d42b41849ddbcdf347e2a708baf">getModelVolume()</a> Function to get volume of model </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a58b42d42b41849ddbcdf347e2a708baf">getModelVolume()</a> <br />
+Function to get volume of model </p><ul>
+<li><a class="el" href="class_model.html#a58b42d42b41849ddbcdf347e2a708baf">getModelVolume()</a>: none. <dl class="section return"><dt>Returns</dt><dd>double - double showing model volume </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -372,7 +547,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#a8d8eb596294933ce56bab2fe041d8c68">getModelWeight()</a> Function to set cells array of model </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a8d8eb596294933ce56bab2fe041d8c68">getModelWeight()</a> <br />
+Function to set cells array of model </p><ul>
+<li><a class="el" href="class_model.html#a8d8eb596294933ce56bab2fe041d8c68">getModelWeight()</a>: none. <dl class="section return"><dt>Returns</dt><dd>double - double showing model weight </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -389,7 +568,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#af1b55cd1a07b6ecf6858c78ebc3d56d0">getCells()</a> Function to get cells array of model </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a6d877aa2a535c2a613fd92d6ef80b576">getVector()</a> Function to get a specific vector <br />
+</p><ul>
+<li><a class="el" href="class_model.html#a6d877aa2a535c2a613fd92d6ef80b576">getVector()</a>: none. <dl class="section return"><dt>Returns</dt><dd>cell - the retrieved cell </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -405,7 +588,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, getVectorsAmount() Function to get amount of vectors </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, getVectorsAmount() <br />
+Function to get amount of vectors </p><ul>
+<li><a class="el" href="class_model.html#acd0f324509ae2321c04f259fd0133a7a">getVectorAmount()</a>: none. <dl class="section return"><dt>Returns</dt><dd>int - amount of vectors </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -421,7 +608,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#ab37cfe36bfc8ba85a0894cb11c156e11">getVectors()</a> Function to set cells array of model </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#ab37cfe36bfc8ba85a0894cb11c156e11">getVectors()</a> <br />
+Function to set cells array of model </p><ul>
+<li><a class="el" href="class_model.html#ab37cfe36bfc8ba85a0894cb11c156e11">getVectors()</a>: none. <dl class="section return"><dt>Returns</dt><dd>std::vector&lt;Vector3D&gt; - array of all model vectors </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -438,7 +629,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#a6f31f2c1849ca236b837521a5303f320">loadInfoToFile()</a> Function to load model information into specified txt file. </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a6f31f2c1849ca236b837521a5303f320">loadInfoToFile()</a> <br />
+Function to load model information into specified txt file. </p><ul>
+<li>getvectorsAmount(): char - path to specified txt file <dl class="section return"><dt>Returns</dt><dd>none(information loaded) </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -455,7 +650,17 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#a25792de725bf3e5d16b6d17af762f49a">loadModel()</a> Function to retrieve 3D model information from a VTK file </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a25792de725bf3e5d16b6d17af762f49a">loadModel()</a> <br />
+Function to retrieve 3D model information from a VTK file </p><ul>
+<li><a class="el" href="class_model.html#a25792de725bf3e5d16b6d17af762f49a">loadModel()</a>: char - path to <dl class="section return"><dt>Returns</dt><dd>bool - statement whether file could be open </dd></dl>
+<dl class="section note"><dt>Note</dt><dd><br />
+ 1) The way function reads each file line and retrieves infromation: <br />
+ <a class="el" href="class_material.html" title="Material class describes the functions that get the ID, Density Name and Color.And store it for the o...">Material</a>: m material_ID material_density material_color(#000000 form hex code) material_name <br />
+ Vector: v vector_ID x_position y_position z_position <br />
+ <a class="el" href="class_cell.html" title="cell class describes various parameters of the shape such as how many vertices it has...">Cell</a>: c cell_ID cell_type(h - hexahedral, p - pyramid, t - tetrahedral) [cell_indices] <br />
+ 2) In case of file being written incorrectly, incorrect values might be written, errors may occur or program can crash. </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -472,7 +677,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#a4aa2d9e458f8424cc56655d1528e03df">setCells()</a> Function to set cells array of model </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a4aa2d9e458f8424cc56655d1528e03df">setCells()</a> <br />
+Function to set cells array of model </p><ul>
+<li><a class="el" href="class_model.html#a4aa2d9e458f8424cc56655d1528e03df">setCells()</a>: std::vector&lt;Cell&gt; - new array to be set. <dl class="section return"><dt>Returns</dt><dd>none </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -489,7 +698,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#a48c4184a5a21e0f8682097624bad9060">setMaterials()</a> Function to set cells array of model </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a48c4184a5a21e0f8682097624bad9060">setMaterials()</a> <br />
+Function to set cells array of model </p><ul>
+<li><a class="el" href="class_model.html#a48c4184a5a21e0f8682097624bad9060">setMaterials()</a>: std::vector&lt;Material&gt; - new array to be set. <dl class="section return"><dt>Returns</dt><dd>none </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -506,7 +719,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#a7e9d800350b33a82091373db395b05c6">setVectors()</a> Function to set cells array of model </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#a7e9d800350b33a82091373db395b05c6">setVectors()</a> <br />
+Function to set cells array of model </p><ul>
+<li><a class="el" href="class_model.html#a7e9d800350b33a82091373db395b05c6">setVectors()</a>: std::vector&lt;Vector3D&gt; - new array to be set. <dl class="section return"><dt>Returns</dt><dd>none </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -522,7 +739,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#adb18726e9aee1ec6f0980f5e4624e481">showCells()</a> Function to show information about all cells </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#adb18726e9aee1ec6f0980f5e4624e481">showCells()</a> <br />
+Function to show information about all cells </p><ul>
+<li><a class="el" href="class_model.html#adb18726e9aee1ec6f0980f5e4624e481">showCells()</a>: none. <dl class="section return"><dt>Returns</dt><dd>none(information printed) </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -538,7 +759,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#ae7b7dfcec56ec095782b672745f64c7e">showMaterials()</a> Function to show information about all materials </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#ae7b7dfcec56ec095782b672745f64c7e">showMaterials()</a> <br />
+Function to show information about all materials </p><ul>
+<li><a class="el" href="class_model.html#ae7b7dfcec56ec095782b672745f64c7e">showMaterials()</a>: none. <dl class="section return"><dt>Returns</dt><dd>none(information printed) </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -554,7 +779,11 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file. Stored values: An std::vector array of m...">Model</a>, <a class="el" href="class_model.html#ac6201ae8b810e878da7c0af337cc6e84">showVectors()</a> Function to show information about all vectors </p>
+<p>Function of class <a class="el" href="class_model.html" title="Stores information about a 3D model retrieved from VTK file.   Stored values: An std::vector array of...">Model</a>, <a class="el" href="class_model.html#ac6201ae8b810e878da7c0af337cc6e84">showVectors()</a> <br />
+Function to show information about all vectors </p><ul>
+<li><a class="el" href="class_model.html#ac6201ae8b810e878da7c0af337cc6e84">showVectors()</a>: none. <dl class="section return"><dt>Returns</dt><dd>none(information printed) </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>

@@ -79,34 +79,36 @@ Preproces/home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/ViewerHandler.h
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/VTKObjectHandler.h:75: warning: Compound materialCellConnection is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/apphelp.h:12: warning: Compound AppHelp is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/newshapechoice.h:11: warning: Compound NewShapeChoice is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:26: warning: found </pre> tag without matching <pre>
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:26: warning: found </pre> tag without matching <pre>
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/apphelp.h:16: warning: Member AppHelp(QWidget *parent=nullptr) (function) of class AppHelp is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/apphelp.h:19: warning: Member runHelp() (function) of class AppHelp is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:64: warning: Member getType() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:83: warning: Member getVolume() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:89: warning: Member setType(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:90: warning: Member setMaterialID(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:91: warning: Member setIndices(std::vector< int >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:92: warning: Member pushIndice(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:93: warning: Member insertIndice(int, int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:94: warning: Member setIndice(int, int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:96: warning: Member setType(int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:97: warning: Member setMaterialID(int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:98: warning: Member setIndices(std::vector< int >) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:99: warning: Member pushIndice(int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:100: warning: Member insertIndice(int, int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:101: warning: Member setIndice(int, int) (function) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:31: warning: Member ID (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:32: warning: Member type (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:33: warning: Member materialID (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:34: warning: Member weight (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:35: warning: Member volume (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:37: warning: Member centre_of_gravity (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:31: warning: Member ID (variable) of class cellInfo is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:32: warning: Member materialID (variable) of class cellInfo is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:33: warning: Member type (variable) of class cellInfo is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:34: warning: Member indixes (variable) of class cellInfo is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:26: warning: found </pre> tag without matching <pre>
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:30: warning: Member ID (variable) of class cellInfo is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:31: warning: Member materialID (variable) of class cellInfo is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:32: warning: Member type (variable) of class cellInfo is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:33: warning: Member indixes (variable) of class cellInfo is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:26: warning: found </pre> tag without matching <pre>
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:64: warning: Member getType() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:83: warning: Member getVolume() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:89: warning: Member setType(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:90: warning: Member setMaterialID(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:91: warning: Member setIndices(std::vector< int >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:92: warning: Member pushIndice(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:93: warning: Member insertIndice(int, int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:94: warning: Member setIndice(int, int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:96: warning: Member setType(int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:97: warning: Member setMaterialID(int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:98: warning: Member setIndices(std::vector< int >) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:99: warning: Member pushIndice(int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:100: warning: Member insertIndice(int, int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:101: warning: Member setIndice(int, int) (function) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:31: warning: Member ID (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:32: warning: Member type (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:33: warning: Member materialID (variable) of class Cell is not documented.
@@ -222,15 +224,14 @@ Generating docs for compound Cell...
 Generating docs for compound cellInfo...
 Generating docs for compound Hexahedron...
 Generating docs for compound MainWindow...
-Genera/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:74: warning: Member getName() (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:75: warning: Member getDensity() (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:76: warning: Member getColor() (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:79: warning: Member setID(int) (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:80: warning: Member setName(std::string) (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:81: warning: Member setColor(Vector3D) (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:82: warning: Member setColor(double, double, double) (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:83: warning: Member setDensity(double) (function) of class Material is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:86: warning: Member Material(const Material &m) (function) of class Material is not documented.
+Genera/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:80: warning: Member getName() (function) of class Material is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:81: warning: Member getDensity() (function) of class Material is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:82: warning: Member getColor() (function) of class Material is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:91: warning: Member setName(std::string) (function) of class Material is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:92: warning: Member setColor(Vector3D) (function) of class Material is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:93: warning: Member setColor(double, double, double) (function) of class Material is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:94: warning: Member setDensity(double) (function) of class Material is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:97: warning: Member Material(const Material &m) (function) of class Material is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/VTKObjectHandler.h:76: warning: Member minCellAssigned (variable) of class materialCellConnection is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/VTKObjectHandler.h:77: warning: Member maxCellAssigned (variable) of class materialCellConnection is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/VTKObjectHandler.h:78: warning: Member theMaterial (variable) of class materialCellConnection is not documented.
@@ -274,13 +275,12 @@ Genera/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:74: wa
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/Pipeline.h:126: warning: Member setLightSpecular(double) (function) of class Pipeline is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/Pipeline.h:127: warning: Member setOpacity(double) (function) of class Pipeline is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:64: warning: Member getType() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:83: warning: Member getVolume() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:89: warning: Member setType(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:90: warning: Member setMaterialID(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:91: warning: Member setIndices(std::vector< int >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:92: warning: Member pushIndice(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:93: warning: Member insertIndice(int, int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:94: warning: Member setIndice(int, int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:96: warning: Member setType(int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:97: warning: Member setMaterialID(int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:98: warning: Member setIndices(std::vector< int >) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:99: warning: Member pushIndice(int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:100: warning: Member insertIndice(int, int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:101: warning: Member setIndice(int, int) (function) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:31: warning: Member ID (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:32: warning: Member type (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:33: warning: Member materialID (variable) of class Cell is not documented.
@@ -288,25 +288,24 @@ Genera/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:74: wa
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:35: warning: Member volume (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:37: warning: Member centre_of_gravity (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:64: warning: Member getType() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:83: warning: Member getVolume() (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:89: warning: Member setType(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:90: warning: Member setMaterialID(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:91: warning: Member setIndices(std::vector< int >) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:92: warning: Member pushIndice(int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:93: warning: Member insertIndice(int, int) (function) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:94: warning: Member setIndice(int, int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:96: warning: Member setType(int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:97: warning: Member setMaterialID(int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:98: warning: Member setIndices(std::vector< int >) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:99: warning: Member pushIndice(int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:100: warning: Member insertIndice(int, int) (function) of class Cell is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:101: warning: Member setIndice(int, int) (function) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:31: warning: Member ID (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:32: warning: Member type (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:33: warning: Member materialID (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:34: warning: Member weight (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:35: warning: Member volume (variable) of class Cell is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Cell.h:37: warning: Member centre_of_gravity (variable) of class Cell is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Vector3D.h:72: warning: Member setx(double) (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Vector3D.h:73: warning: Member sety(double) (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Vector3D.h:74: warning: Member setz(double) (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Vector3D.h:80: warning: Member getx() (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Vector3D.h:81: warning: Member gety() (function) of class Vector3D is not documented.
-/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Vector3D.h:82: warning: Member getz() (function) of class Vector3D is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Vector3D.h:75: warning: Member setx(double) (function) of class Vector3D is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Vector3D.h:76: warning: Member sety(double) (function) of class Vector3D is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Vector3D.h:77: warning: Member setz(double) (function) of class Vector3D is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Vector3D.h:86: warning: Member getx() (function) of class Vector3D is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Vector3D.h:87: warning: Member gety() (function) of class Vector3D is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Vector3D.h:88: warning: Member getz() (function) of class Vector3D is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/ViewerHandler.h:93: warning: Member ViewerHandler(vtkSmartPointer< vtkRenderWindow >, vtkSmartPointer< vtkRenderWindowInteractor >) (function) of class ViewerHandler is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/ViewerHandler.h:95: warning: Member setup(vtkSmartPointer< vtkRenderWindow >, vtkSmartPointer< vtkRenderWindowInteractor >) (function) of class ViewerHandler is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/ViewerHandler.h:97: warning: Member refreshRender() (function) of class ViewerHandler is not documented.
@@ -379,6 +378,8 @@ Genera/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Material.h:74: wa
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/VTKObjectHandler.h:175: warning: Member saveModelToFile(QString) (function) of class VTKObjectHandler is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/VTKObjectHandler.h:177: warning: Member changeColor(QColor) (function) of class VTKObjectHandler is not documented.
 /home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/VTKObjectHandler.h:178: warning: Member resetColor() (function) of class VTKObjectHandler is not documented.
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:26: warning: found </pre> tag without matching <pre>
+/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/Model.h:26: warning: found </pre> tag without matching <pre>
 ting docs for compound Material...
 Generating docs for compound materialCellConnection...
 Generating docs for compound Matrix3x3...
@@ -407,5 +408,5 @@ Generating file member index...
 Generating example index...
 finalizing index lists...
 writing tag file...
-lookup cache used 467/65536 hits=2457 misses=483
+lookup cache used 473/65536 hits=2542 misses=489
 finished...

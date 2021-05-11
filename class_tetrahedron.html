@@ -149,12 +149,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>getType</b> ()</td></t
 <tr class="separator:ac6f89d89f65ac570dbfee6630e8ac77a inherit pub_methods_class_cell"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8894ea0d3bf52c4837b95b7ec547392b inherit pub_methods_class_cell"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cell.html#a8894ea0d3bf52c4837b95b7ec547392b">getWeight</a> ()</td></tr>
 <tr class="separator:a8894ea0d3bf52c4837b95b7ec547392b inherit pub_methods_class_cell"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac8a5f3d06691efa17d909cc4e9c248b inherit pub_methods_class_cell"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aac8a5f3d06691efa17d909cc4e9c248b"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>getVolume</b> ()</td></tr>
+<tr class="memitem:aac8a5f3d06691efa17d909cc4e9c248b inherit pub_methods_class_cell"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cell.html#aac8a5f3d06691efa17d909cc4e9c248b">getVolume</a> ()</td></tr>
 <tr class="separator:aac8a5f3d06691efa17d909cc4e9c248b inherit pub_methods_class_cell"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bb0817022a7e100b204ef7ba40d2789 inherit pub_methods_class_cell"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8bb0817022a7e100b204ef7ba40d2789"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cell.html#a8bb0817022a7e100b204ef7ba40d2789">setID</a> (int)</td></tr>
-<tr class="memdesc:a8bb0817022a7e100b204ef7ba40d2789 inherit pub_methods_class_cell"><td class="mdescLeft">&#160;</td><td class="mdescRight">set functions: <br /></td></tr>
+<tr class="memitem:a8bb0817022a7e100b204ef7ba40d2789 inherit pub_methods_class_cell"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_cell.html#a8bb0817022a7e100b204ef7ba40d2789">setID</a> (int)</td></tr>
+<tr class="memdesc:a8bb0817022a7e100b204ef7ba40d2789 inherit pub_methods_class_cell"><td class="mdescLeft">&#160;</td><td class="mdescRight">set functions:  <a href="#a8bb0817022a7e100b204ef7ba40d2789">More...</a><br /></td></tr>
 <tr class="separator:a8bb0817022a7e100b204ef7ba40d2789 inherit pub_methods_class_cell"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6dc5008f3f6d93dc0154ca62ec280771 inherit pub_methods_class_cell"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6dc5008f3f6d93dc0154ca62ec280771"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setType</b> (int)</td></tr>
@@ -207,6 +205,22 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>volume</b></td></tr
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>subclass of class cell. </p>
+<p><br />
+ _ _ _ <br />
+ Vtetra = 1/6|(a x b) * c|</p>
+<p><br />
+ __ __ __ <br />
+ Vtetra = 1/6|(AB x AC) * AD|</p>
+<p><br />
+ __ <br />
+ to get AB for example, the subtraction function should be used to subtract vector A with Vector B <br />
+ eg: A(2,3,4) B(5,4,3) AB = (5-2, 4-3,3-4) = (3, 1, -1)</p>
+<p><br />
+ __ __ __ __ __ <br />
+ once AB, AC and AD have been aquired, use cross product function to achieve the calculation of AB x AC <br />
+ The next step is to do the dot product of (AB x AC) and AD, using the dot product function in the vector class <br />
+ find modulus of this value, using fabs(a) where a is the value we have at this point in the calculation <br />
+ finally, divide by 6 and the volume will be given. </p>
 </div><hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/<a class="el" href="_cell_8h_source.html">Cell.h</a></li>
 <li>/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Src/Cell.cpp</li>

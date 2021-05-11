@@ -90,7 +90,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="class_material.html" title="Material class describes the functions that get the ID, Density Name and Color.And store it for the o...">Material</a> class describes the functions that get the ID, Density Name and Color.And store it for the other parts to use. Stored values: int rowDimension; int columnDimension; Available functions: public: int <a class="el" href="class_material.html#ad31f04334fa5bc9ff16170149f037f2a" title="Destructor. ">getID()</a>; std::string getName(); double getDensity(); <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information. Class is made to be row major Stored values: int I...">Vector3D</a> getColor(); void setID(int); void setName(std::string); void setColor(Vector3D); void setColor(double, double, double); void setDensity(double); private: int ID; double Density; string Name; <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information. Class is made to be row major Stored values: int I...">Vector3D</a> Color; Constructor: Creates empty matrix with all values set to zero Destructor: clears array of matrix values Copy constructor creates a copy of a specified object.  
+<p><a class="el" href="class_material.html" title="Material class describes the functions that get the ID, Density Name and Color.And store it for the o...">Material</a> class describes the functions that get the ID, Density Name and Color.And store it for the other parts to use. <br />
+ Stored values: <br />
+ calue of specified ID; double Density; string Name; <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> Color; <br />
+ Available functions: <br />
+ public: <br />
+ int <a class="el" href="class_material.html#ad31f04334fa5bc9ff16170149f037f2a" title="Destructor. ">getID()</a>; <br />
+ std::string getName(); <br />
+ double getDensity(); <br />
+ <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> getColor(); <br />
+ void <a class="el" href="class_material.html#a219ae8a9fd2ff596d28625cfb8b2b317">setID(int)</a>; <br />
+ void setName(std::string); <br />
+ void setColor(Vector3D); <br />
+ void setColor(double, double, double); <br />
+ void setDensity(double); <br />
+ private: <br />
+ int ID; <br />
+ double Density; <br />
+ string Name; <br />
+ <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> Color; <br />
+ Constructor: <br />
+ Gains the required material information from specifed file <br />
+ Destructor: <br />
+ clears ID Density Name and Color values <br />
+ Copy constructor <br />
+ creates a copy of a specified material object.  
  <a href="class_material.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_material_8h_source.html">Material.h</a>&gt;</code></p>
@@ -105,9 +129,8 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_material.html#a2c19452d71f54075df8f5405b03129f4">~Material</a> ()</td></tr>
 <tr class="memdesc:a2c19452d71f54075df8f5405b03129f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br /></td></tr>
 <tr class="separator:a2c19452d71f54075df8f5405b03129f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad31f04334fa5bc9ff16170149f037f2a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad31f04334fa5bc9ff16170149f037f2a"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_material.html#ad31f04334fa5bc9ff16170149f037f2a">getID</a> ()</td></tr>
-<tr class="memdesc:ad31f04334fa5bc9ff16170149f037f2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
+<tr class="memitem:ad31f04334fa5bc9ff16170149f037f2a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_material.html#ad31f04334fa5bc9ff16170149f037f2a">getID</a> ()</td></tr>
+<tr class="memdesc:ad31f04334fa5bc9ff16170149f037f2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#ad31f04334fa5bc9ff16170149f037f2a">More...</a><br /></td></tr>
 <tr class="separator:ad31f04334fa5bc9ff16170149f037f2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6dd6278a55af611612d999c7d3ab63f3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6dd6278a55af611612d999c7d3ab63f3"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getName</b> ()</td></tr>
@@ -118,8 +141,7 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>getDensity</b> ()</
 <tr class="memitem:acf6f174b41cddbe6d8f21d11525f6f7b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf6f174b41cddbe6d8f21d11525f6f7b"></a>
 <a class="el" href="class_vector3_d.html">Vector3D</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getColor</b> ()</td></tr>
 <tr class="separator:acf6f174b41cddbe6d8f21d11525f6f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a219ae8a9fd2ff596d28625cfb8b2b317"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a219ae8a9fd2ff596d28625cfb8b2b317"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setID</b> (int)</td></tr>
+<tr class="memitem:a219ae8a9fd2ff596d28625cfb8b2b317"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_material.html#a219ae8a9fd2ff596d28625cfb8b2b317">setID</a> (int)</td></tr>
 <tr class="separator:a219ae8a9fd2ff596d28625cfb8b2b317"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a0580361765d0f3c21df7f21af7981c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0a0580361765d0f3c21df7f21af7981c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setName</b> (std::string)</td></tr>
@@ -138,8 +160,78 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setDensity</b> (doubl
 <tr class="separator:a65005757f3572b988460eff5544e9527"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="class_material.html" title="Material class describes the functions that get the ID, Density Name and Color.And store it for the o...">Material</a> class describes the functions that get the ID, Density Name and Color.And store it for the other parts to use. Stored values: int rowDimension; int columnDimension; Available functions: public: int <a class="el" href="class_material.html#ad31f04334fa5bc9ff16170149f037f2a" title="Destructor. ">getID()</a>; std::string getName(); double getDensity(); <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information. Class is made to be row major Stored values: int I...">Vector3D</a> getColor(); void setID(int); void setName(std::string); void setColor(Vector3D); void setColor(double, double, double); void setDensity(double); private: int ID; double Density; string Name; <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information. Class is made to be row major Stored values: int I...">Vector3D</a> Color; Constructor: Creates empty matrix with all values set to zero Destructor: clears array of matrix values Copy constructor creates a copy of a specified object. </p>
-</div><hr/>The documentation for this class was generated from the following files:<ul>
+<div class="textblock"><p><a class="el" href="class_material.html" title="Material class describes the functions that get the ID, Density Name and Color.And store it for the o...">Material</a> class describes the functions that get the ID, Density Name and Color.And store it for the other parts to use. <br />
+ Stored values: <br />
+ calue of specified ID; double Density; string Name; <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> Color; <br />
+ Available functions: <br />
+ public: <br />
+ int <a class="el" href="class_material.html#ad31f04334fa5bc9ff16170149f037f2a" title="Destructor. ">getID()</a>; <br />
+ std::string getName(); <br />
+ double getDensity(); <br />
+ <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> getColor(); <br />
+ void <a class="el" href="class_material.html#a219ae8a9fd2ff596d28625cfb8b2b317">setID(int)</a>; <br />
+ void setName(std::string); <br />
+ void setColor(Vector3D); <br />
+ void setColor(double, double, double); <br />
+ void setDensity(double); <br />
+ private: <br />
+ int ID; <br />
+ double Density; <br />
+ string Name; <br />
+ <a class="el" href="class_vector3_d.html" title="Creates a virtual Vector3D by storing information.   Class is made to be row major   Stored values:  ...">Vector3D</a> Color; <br />
+ Constructor: <br />
+ Gains the required material information from specifed file <br />
+ Destructor: <br />
+ clears ID Density Name and Color values <br />
+ Copy constructor <br />
+ creates a copy of a specified material object. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ad31f04334fa5bc9ff16170149f037f2a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Material::getID </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+<p>Get function <br />
+ Function of class material, <a class="el" href="class_material.html#ad31f04334fa5bc9ff16170149f037f2a" title="Destructor. ">getID()</a>,getName(), getColor(), getDensity() <br />
+ Function to get value material coordinates </p><ul>
+<li><a class="el" href="class_material.html#ad31f04334fa5bc9ff16170149f037f2a" title="Destructor. ">getID()</a>, getNamee(),getColor(), getDensity() <dl class="section return"><dt>Returns</dt><dd>value of ID, Name,Color, Density </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="a219ae8a9fd2ff596d28625cfb8b2b317"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Material::setID </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set functions <br />
+ Function of class material, <a class="el" href="class_material.html#a219ae8a9fd2ff596d28625cfb8b2b317">setID()</a>,setName(); setColor(), setDensity() <br />
+ Function to set the values of material coordinates </p><ul>
+<li><a class="el" href="class_material.html#a219ae8a9fd2ff596d28625cfb8b2b317">setID()</a>, setName(); setColor(), setDensity() <dl class="section return"><dt>Returns</dt><dd>: value of id, ,name , col and d </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Inc/<a class="el" href="_material_8h_source.html">Material.h</a></li>
 <li>/home/travis/build/TeFka/2020_GROUP_19/Model_Library/Src/Material.cpp</li>
 </ul>
