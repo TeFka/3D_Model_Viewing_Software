@@ -19,32 +19,6 @@ class Vector3D;//! Vector3D class is used with Matrix3x3 class, because of that,
 
 /*! \class Matrix3x3
     \brief Creates a virtual Matrix3x3 by storing information.
-        \n   Class is made to be row major
-    \n  Stored values:
-    \n     int rowDimension;
-    \n     int columnDimension;
-    \n Available functions:
-    \n public:
-    \n  void setValue(int, int, double);
-    \n  std::vector<std::vector<double>> getMatrix3x3();
-    \n  void setIdentityMatrix3x3();
-    \n   void invert();
-    \n   void transpose();
-    \n   void rotateMatrix3x3(double, double, double, double);
-    \n Available operator overloading
-    \n   Matrix3x3()
-    \n   Matrix3x3+Matrix3x3
-    \n    Matrix3x3-Matrix3x3
-    \n    Matrix3x3*Matrix3x3
-    \n    Matrix3x3*Vector3D
-    \n Constructor1:
-    \n    Creates empty matrix with all values set to zero
-    \n Constructor2:
-    \n    Creates matrix with specified diagonal values
-    \n Destructor:
-    \n    clears array of matrix values
-    \n Copy constructor
-    \n  creates a copy of a specified object
 */
 class Matrix3x3
 {

@@ -18,11 +18,6 @@
 
 /*! \class 'Cell'
     \brief cell class describes various parameters of the shape such as how many vertices it has, their positions, and the material it is made out of
-    \n Stored values:
-    \n Cell ID
-    \n ID of materials that the Cell uses
-    \n the type of Cell: 1 - hexahedral, 2 - pyramid, 3 - tetrahedral
-    \n the std::vector array of index values
 */
 
 class Cell

@@ -16,33 +16,6 @@ using namespace std;
 /*! 
     \class 'Material'
     \brief Material class describes the functions that get the ID, Density Name and Color.And store it for the other parts to use.
-     \n Stored values:
-     \n    calue of specified ID;
-           double Density;
-           string Name;
-           Vector3D Color;
-     \n Available functions:
-     \n public:
-     \n    int getID();
-     \n    std::string getName();
-     \n    double getDensity();
-     \n    Vector3D getColor();
-     \n    void setID(int);
-     \n    void setName(std::string);
-     \n    void setColor(Vector3D);
-	 \n    void setColor(double, double, double);
-     \n    void setDensity(double);
-     \n private:
-     \n    int ID;
-     \n    double Density;
-     \n    string Name;
-     \n    Vector3D Color;
-     \n Constructor:
-     \n   Gains the required material information from specifed file
-     \n Destructor:
-     \n   clears ID Density Name and Color values
-     \n Copy constructor
-     \n   creates a copy of a specified material object
 */
 
 class Material

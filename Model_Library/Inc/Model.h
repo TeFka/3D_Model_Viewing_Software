@@ -19,11 +19,6 @@
 
 /*! Struct 'cellInfo'
     \brief Temporarily stores cell information before a Cell object is created with it.
-    \n Stored values:
-    \n Cell ID
-    \n ID of materials that the Cell uses
-    \n the type of Cell: 1 - hexahredal, 2 - pyramid, 3 - tetrahedral
-    \n the std::vector array of index values  </pre>
 */
 struct cellInfo
 {
@@ -53,39 +48,6 @@ std::string floatToHex(float val);
 
 /*! \class Model
     \brief Stores information about a 3D model retrieved from VTK file.
-  \n Stored values:
-        An std::vector array of model vectors \n
-        An std::vector array of model materials \n
-        An std::vector array of model cells \n
-        a Vector3D of model center point. \n
-  Available functions: \n
-    private: \n
-        \n int getVectorIndex(int)
-        \n int getMaterialIndex(int);
-        \n void alignVectors()
-        \n void alignCells()
-        \n void alignMaterials()
-        \n void fixIDValues();
-    public: \n 
-        \n void loadModel(char*)
-        \n void calcModelCenter()
-        \n int getVectorsAmount()
-        \n int getCellAmount()
-        \n Vector3D getModelCenter()
-        \n std::vector<Vector3D> getVectors()
-        \n std::vector<Material*> getMaterials()
-        \n std::vector<Cell*> getCells()
-        \n void showMaterials()
-        \n void showVectors()
-        \n void showCells()
-        \n void loadInfoToFile(char*)
-  
-  Constructor: \n 
-        Loads 3D model information from specified file \n
-  Destructor:  \n
-        Clears vector, material and cell arrays. \n
-  Copy constructor: \n
-        creates a copy of a specified Model object
 */
 class Model
 {

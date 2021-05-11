@@ -14,34 +14,6 @@
 
 /*! \class 'Vector3D'
     \brief Creates a virtual Vector3D by storing information.
-    \n Class is made to be row major
-    \n Stored values:
-    \n    int ID;
-    \n    double x, y, z;
-    \n Available functions:
-    \n public:
-    \n    Vector3D(double,double,double);
-    \n setters:
-    \n    void setID(int)
-    \n    void setx(double)
-    \n    void sety(double)
-    \n    void setz(double)
-    \n getters:
-    \n    int getID()
-    \n    double getx()
-    \n    double gety()
-    \n    double getz()
-  \n Available operator
-    \n    Vector3D+Vector3D
-    \n    Vector3D-Vector3D
-    \n    Vector3D*Vector3D
-  \n Function
-    \n    Vector3D cross_product
-  \n Constructor:
-    \n    Creates Vector3D object with specified values
-  \n Destructor
-  \n Copy constructor
-     \n   creates a copy of a specified object
 */
 
 class Vector3D
