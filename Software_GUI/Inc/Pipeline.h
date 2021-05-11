@@ -20,6 +20,9 @@
 #include <vtkSplineFilter.h>
 #include <vtkTubeFilter.h>
 #include <vtkCompositeDataGeometryFilter.h>
+#include <vtkTriangleFilter.h>
+
+#include <vtkCleanPolyData.h>
 
 #include <vtkExtractEdges.h>
 
@@ -59,6 +62,8 @@ private:
 
     int polyDataUsed = 0;
     double shrinkFactor = 0;
+    int tubeFilterRadius = 0;
+    int sphereFilterRadius = 0;
     int clipX = 0;
     int clipY = 0;
     int clipZ = 0;
@@ -120,6 +125,8 @@ public:
     void enableClipZ(int);
 
     void setShrinkFactor(double);
+    void setSphereRad(double);
+    void setTubeRad(double);
     void setClipPart(double);
     void setLightIntensity(double);
     void setLightSpecular(double);

@@ -45,9 +45,28 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 3px solid rgb(170, 0, 0);
+        <string notr="true">QPushButton{
+border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+padding: 2px;
+}
+
+QPushButton:hover{
+	border: 3px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+}
+
+QPushButton:pressed{
+    border: 4px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+	font-weight:bold;
+}
+</string>
        </property>
        <property name="text">
         <string>Hexahedron</string>
@@ -62,9 +81,28 @@ color: rgb(255, 0, 0);</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 3px solid rgb(170, 0, 0);
+        <string notr="true">QPushButton{
+border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+padding: 2px;
+}
+
+QPushButton:hover{
+	border: 3px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+}
+
+QPushButton:pressed{
+    border: 4px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+	font-weight:bold;
+}
+</string>
        </property>
        <property name="text">
         <string>Tetrahedron</string>
@@ -79,9 +117,28 @@ color: rgb(255, 0, 0);</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 3px solid rgb(170, 0, 0);
+        <string notr="true">QPushButton{
+border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+padding: 2px;
+}
+
+QPushButton:hover{
+	border: 3px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+}
+
+QPushButton:pressed{
+    border: 4px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+	font-weight:bold;
+}
+</string>
        </property>
        <property name="text">
         <string>Pyramid</string>
@@ -96,9 +153,28 @@ color: rgb(255, 0, 0);</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 3px solid rgb(170, 0, 0);
+        <string notr="true">QPushButton{
+border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+padding: 2px;
+}
+
+QPushButton:hover{
+	border: 3px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+}
+
+QPushButton:pressed{
+    border: 4px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+	font-weight:bold;
+}
+</string>
        </property>
        <property name="text">
         <string>Sphere</string>
@@ -113,9 +189,28 @@ color: rgb(255, 0, 0);</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 3px solid rgb(170, 0, 0);
+        <string notr="true">QPushButton{
+border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+padding: 2px;
+}
+
+QPushButton:hover{
+	border: 3px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+}
+
+QPushButton:pressed{
+    border: 4px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+	font-weight:bold;
+}
+</string>
        </property>
        <property name="text">
         <string>Cylinder</string>
@@ -130,9 +225,28 @@ color: rgb(255, 0, 0);</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 3px solid rgb(170, 0, 0);
+        <string notr="true">QPushButton{
+border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+padding: 2px;
+}
+
+QPushButton:hover{
+	border: 3px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+}
+
+QPushButton:pressed{
+    border: 4px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+	font-weight:bold;
+}
+</string>
        </property>
        <property name="text">
         <string>Cone</string>
@@ -147,9 +261,28 @@ color: rgb(255, 0, 0);</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 3px solid rgb(170, 0, 0);
+        <string notr="true">QPushButton{
+border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+padding: 2px;
+}
+
+QPushButton:hover{
+	border: 3px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+}
+
+QPushButton:pressed{
+    border: 4px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+	font-weight:bold;
+}
+</string>
        </property>
        <property name="text">
         <string>Disk</string>
@@ -164,9 +297,28 @@ color: rgb(255, 0, 0);</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 3px solid rgb(170, 0, 0);
+        <string notr="true">QPushButton{
+border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+padding: 2px;
+}
+
+QPushButton:hover{
+	border: 3px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+}
+
+QPushButton:pressed{
+    border: 4px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+	font-weight:bold;
+}
+</string>
        </property>
        <property name="text">
         <string>Plane</string>
@@ -216,9 +368,28 @@ color: rgb(255, 0, 0);</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 3px solid rgb(170, 0, 0);
+        <string notr="true">QPushButton{
+border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+padding: 2px;
+}
+
+QPushButton:hover{
+	border: 3px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+}
+
+QPushButton:pressed{
+    border: 4px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+	font-weight:bold;
+}
+</string>
        </property>
        <property name="text">
         <string>Point cluster</string>
@@ -233,9 +404,28 @@ color: rgb(255, 0, 0);</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 3px solid rgb(170, 0, 0);
+        <string notr="true">QPushButton{
+border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+padding: 2px;
+}
+
+QPushButton:hover{
+	border: 3px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+}
+
+QPushButton:pressed{
+    border: 4px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+	font-weight:bold;
+}
+</string>
        </property>
        <property name="text">
         <string>Line</string>
@@ -250,9 +440,28 @@ color: rgb(255, 0, 0);</string>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">border: 3px solid rgb(170, 0, 0);
+        <string notr="true">QPushButton{
+border: 3px solid rgb(170, 0, 0);
 background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);</string>
+color: rgb(255, 0, 0);
+padding: 2px;
+}
+
+QPushButton:hover{
+	border: 3px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+}
+
+QPushButton:pressed{
+    border: 4px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+	font-weight:bold;
+}
+</string>
        </property>
        <property name="text">
         <string>Earth</string>

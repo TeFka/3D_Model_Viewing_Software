@@ -51,6 +51,29 @@
 
 #include "./Pipeline.h"
 
+namespace {
+class vtkAffineCallback : public vtkCommand
+{
+public:
+  static vtkAffineCallback* New()
+  {
+    return new vtkAffineCallback;
+  }
+  virtual void Execute(vtkObject* caller, unsigned long, void*);
+  vtkAffineCallback() : Actor(0), AffineRep(0)
+  {
+    this->Transform = vtkTransform::New();
+  }
+  ~vtkAffineCallback()
+  {
+    this->Transform->Delete();
+  }
+  vtkActor* Actor;
+  vtkAffineRepresentation2D* AffineRep;
+  vtkTransform* Transform;
+};
+} // namespace
+
 class ViewerHandler{
 
 private:
@@ -65,6 +88,7 @@ private:
     vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
 
     vtkSmartPointer<vtkNamedColors> colorHandler = vtkSmartPointer<vtkNamedColors>::New();
+     vtkSmartPointer<vtkSTLWriter> stlWriter = vtkSmartPointer<vtkSTLWriter>::New();
 
     vtkSmartPointer<vtkTextActor> volumeTextActor = vtkSmartPointer<vtkTextActor>::New();
     vtkSmartPointer<vtkTextActor> maxCellNumTextActor = vtkSmartPointer<vtkTextActor>::New();
@@ -77,6 +101,8 @@ private:
     vtkNew<vtkCubeAxesActor> cubeAxesActor;
 
     vtkNew<vtkOrientationMarkerWidget> axesWidget;
+    vtkNew<vtkAffineWidget> affineWidget;
+     vtkNew<vtkAffineCallback> affineCallback;
 
     int showInfo = 0;
 
@@ -87,6 +113,8 @@ private:
     int showNormals = 0;
     int normalsExist = 0;
     int showCubeAxes = 0;
+
+    void setupComponents();
 
 public:
     ViewerHandler();
@@ -106,6 +134,7 @@ public:
     void updateViewer();
     void updateNormals();
 
+    void setAffineInteraction();
     void updateAffineInteraction();
 
     void setCameraOrientationPosX();
@@ -130,6 +159,7 @@ public:
     void enableAxes(int);
     void enableNormals(int);
     void enableCubeAxes(int);
+    void enableAffineInteraction(int);
 
     void saveScene(QString);
 };

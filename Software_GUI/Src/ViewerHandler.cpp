@@ -1,6 +1,16 @@
 
 #include"../Inc/ViewerHandler.h"
 
+namespace {
+void vtkAffineCallback::Execute(vtkObject*, unsigned long vtkNotUsed(event),
+                                void*)
+{
+  this->AffineRep->GetTransform(this->Transform);
+  this->Actor->SetUserTransform(this->Transform);
+}
+} // namespace
+
+
 ViewerHandler::ViewerHandler()
 {
     this->setText();
@@ -8,14 +18,12 @@ ViewerHandler::ViewerHandler()
 
 ViewerHandler::ViewerHandler(vtkSmartPointer<vtkRenderWindow> renderWindow, vtkSmartPointer<vtkRenderWindowInteractor> interactor)
 {
-    this->setText();
-    this->activeRenderWindow = renderWindow;
-    this->activeRenderWindow->AddRenderer( this->activeRenderer );
-    this->renderWindowInteractor = interactor;
-    this->thePipeline->setRenderer(this->activeRenderer);
-    this->thePipeline->setLight();
 
-    this->setAxes();
+    this->activeRenderWindow = renderWindow;
+
+    this->renderWindowInteractor = interactor;
+
+    this->setupComponents();
 
 }
 
@@ -23,13 +31,22 @@ void ViewerHandler::setup(vtkSmartPointer<vtkRenderWindow> renderWindow, vtkSmar
 {
 
     this->activeRenderWindow = renderWindow;
-    this->activeRenderWindow->AddRenderer( this->activeRenderer );
+
     this->renderWindowInteractor = interactor;
+
+    this->setupComponents();
+}
+
+void ViewerHandler::setupComponents(){
+
+    this->setText();
+    this->activeRenderWindow->AddRenderer( this->activeRenderer );
+
     this->thePipeline->setRenderer(this->activeRenderer);
     this->thePipeline->setLight();
 
     this->setAxes();
-
+    this->setAffineInteraction();
 }
 
 void ViewerHandler::refreshRender()
@@ -234,26 +251,28 @@ void ViewerHandler::updateNormals()
 
 }
 
-void ViewerHandler::updateAffineInteraction()
+void ViewerHandler::setAffineInteraction()
 {
-/*
-    vtkNew<vtkAffineWidget> affineWidget;
-    affineWidget->SetInteractor(renderWindowInteractor);
-    affineWidget->CreateDefaultRepresentation();
-    dynamic_cast<vtkAffineRepresentation2D*>(affineWidget->GetRepresentation())
-    ->PlaceWidget(actor->GetBounds());
+    this->affineWidget->SetInteractor(this->renderWindowInteractor);
+    this->affineWidget->CreateDefaultRepresentation();
+    dynamic_cast<vtkAffineRepresentation2D*>(this->affineWidget->GetRepresentation())
+    ->PlaceWidget(this->thePipeline->getActor()->GetBounds());
 
-    vtkNew<vtkAffineCallback> affineCallback;
-    affineCallback->Actor = actor;
-    affineCallback->AffineRep = dynamic_cast<vtkAffineRepresentation2D*>(
-                                    affineWidget->GetRepresentation());
+    this->affineCallback->Actor = this->thePipeline->getActor();
+    this->affineCallback->AffineRep = dynamic_cast<vtkAffineRepresentation2D*>(
+                                    this->affineWidget->GetRepresentation());
 
-    affineWidget->AddObserver(vtkCommand::InteractionEvent, affineCallback);
-    affineWidget->AddObserver(vtkCommand::EndInteractionEvent, affineCallback);
+    this->affineWidget->AddObserver(vtkCommand::InteractionEvent, this->affineCallback);
+    this->affineWidget->AddObserver(vtkCommand::EndInteractionEvent, this->affineCallback);
+}
 
-    affineWidget->On();
-    */
+void ViewerHandler::updateAffineInteraction(){
+    dynamic_cast<vtkAffineRepresentation2D*>(this->affineWidget->GetRepresentation())
+    ->PlaceWidget(this->thePipeline->getActor()->GetBounds());
 
+    this->affineCallback->Actor = this->thePipeline->getActor();
+    this->affineCallback->AffineRep = dynamic_cast<vtkAffineRepresentation2D*>(
+                                    this->affineWidget->GetRepresentation());
 }
 
 void ViewerHandler::viewNewObject()
@@ -269,6 +288,7 @@ void ViewerHandler::viewNewObject()
     this->thePipeline->setNewPipeline();
 
     this->updateText();
+    this->updateAffineInteraction();
 
     this->resetCamera();
     this->refreshRender();
@@ -295,6 +315,7 @@ void ViewerHandler::resetViewer()
 
     this->thePipeline->setNewPipeline();
 
+    this->setAffineInteraction();
 
     this->activeRenderer->SetBackground( this->colorHandler->GetColor3d("Silver").GetData() );
 
@@ -452,16 +473,25 @@ void ViewerHandler::enableCubeAxes(int value)
     this->showCubeAxes = value;
 }
 
+void ViewerHandler::enableAffineInteraction(int value)
+{
+    if(value){
+        affineWidget->On();
+    }
+    else{
+        affineWidget->Off();
+    }
+}
+
 void ViewerHandler::saveScene(QString fileName)
 {
     QFileInfo fi(fileName);
 
     if(fi.suffix()=="stl")
     {
-        vtkSmartPointer<vtkSTLWriter> stlWriter = vtkSmartPointer<vtkSTLWriter>::New();
-        stlWriter->SetFileName(fileName.toLocal8Bit().data());
-        stlWriter->SetInputConnection(this->thePipeline->getAlgorithm());
-        stlWriter->Write();
+        this->stlWriter->SetFileName(fileName.toLocal8Bit().data());
+        this->stlWriter->SetInputConnection(this->thePipeline->getAlgorithm());
+        this->stlWriter->Write();
     }
     else if(fi.suffix()=="png")
     {

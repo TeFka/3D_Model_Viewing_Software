@@ -197,8 +197,9 @@ void Pipeline::actorStage()
 
     if(this->activeFilters[4])
     {
+        this->activeActor->GetProperty()->SetRepresentationToPoints();
         this->activeActor->GetProperty()->RenderPointsAsSpheresOn();
-        this->activeActor->GetProperty()->SetPointSize(this->theObject->getDimensionAverage()*0.1);
+        this->activeActor->GetProperty()->SetPointSize(sphereFilterRadius);
     }
     else
     {
@@ -210,8 +211,9 @@ void Pipeline::actorStage()
     {
         this->activeActor->GetProperty()->LightingOn();
         this->light->SetIntensity( this->lightIntensity );
+        std::cout<<this->lightSpecular<<std::endl;
         this->activeActor->GetProperty()->SetSpecular(this->lightSpecular);
-        this->activeActor->GetProperty()->SetSpecularPower(this->lightSpecular*100);
+        this->activeActor->GetProperty()->SetSpecularPower(this->lightSpecular);
     }
     else
     {
@@ -255,7 +257,7 @@ void Pipeline::initTubeFilter()
     vtkSmartPointer<vtkExtractEdges> edges = vtkSmartPointer<vtkExtractEdges>::New();
     edges->SetInputConnection(this->finalAlgorithm);
     this->tubeFilter->SetInputConnection(edges->GetOutputPort());
-    this->tubeFilter->SetRadius(this->theObject->getDimensionAverage()*0.03);
+    this->tubeFilter->SetRadius((double)tubeFilterRadius*this->theObject->getDimensionAverage()/100);
     this->tubeFilter->SetVaryRadiusToVaryRadiusOff();
     this->tubeFilter->SetNumberOfSides(40);
     this->finalAlgorithm = this->tubeFilter->GetOutputPort();
@@ -264,22 +266,122 @@ void Pipeline::initTubeFilter()
 void Pipeline::initCurvatureFilter()
 {
     /*
-    this->shrinkFilter->SetInputConnection(this->finalAlgorithm);
-    std::vector<vtkSmartPointer<vtkCurvatures>> curvatures;
-    for (auto idx = 0; idx < sources.size(); ++idx)
+      vtkNew<vtkTriangleFilter> tri;
+      tri->SetInputConnection(this->finalAlgorithm);
+
+      vtkNew<vtkCleanPolyData> cleaner;
+      cleaner->SetInputConnection(tri->GetOutputPort());
+      cleaner->SetTolerance(0.005);
+     // The next source will be a parametric function
+  vtkNew<vtkParametricRandomHills> rh;
+  vtkNew<vtkParametricFunctionSource> rhFnSrc;
+  rhFnSrc->SetParametricFunction(rh);
+
+  // Now we have the sources, lets put them into a vector
+  std::vector<vtkSmartPointer<vtkPolyDataAlgorithm>> sources;
+  sources.push_back(cleaner);
+  sources.push_back(cleaner);
+  sources.push_back(rhFnSrc);
+  sources.push_back(rhFnSrc);
+
+  // Colour transfer function.
+  vtkNew<vtkColorTransferFunction> ctf;
+  ctf->SetColorSpaceToDiverging();
+  ctf->AddRGBPoint(0.0, colors->GetColor3d("MidnightBlue").GetRed(),
+                   colors->GetColor3d("MidnightBlue").GetGreen(),
+                   colors->GetColor3d("MidnightBlue").GetBlue());
+  ctf->AddRGBPoint(1.0, colors->GetColor3d("DarkOrange").GetRed(),
+                   colors->GetColor3d("DarkOrange").GetGreen(),
+                   colors->GetColor3d("DarkOrange").GetBlue());
+
+  // Lookup table.
+  std::vector<vtkSmartPointer<vtkLookupTable>> luts;
+  for (auto idx = 0; idx < sources.size(); ++idx)
+  {
+    vtkNew<vtkLookupTable> lut;
+    lut->SetNumberOfColors(256);
+    for (auto i = 0; i < lut->GetNumberOfColors(); ++i)
     {
-        curvatures.push_back(vtkSmartPointer<vtkCurvatures>::New());
-        if (idx % 2 == 0)
-        {
-            curvatures[idx]->SetCurvatureTypeToGaussian();
-        }
-        else
-        {
-            curvatures[idx]->SetCurvatureTypeToMean();
-        }
+      std::array<double, 4> color;
+      ctf->GetColor(double(i) / lut->GetNumberOfColors(), color.data());
+      color[3] = 1.0;
+      lut->SetTableValue(i, color.data());
     }
-    this->finalAlgorithm = this->shrinkFilter->GetOutputPort();
-    */
+    if (idx == 0)
+    {
+      lut->SetRange(-10, 10);
+    }
+    else if (idx == 1)
+    {
+      lut->SetRange(0, 4);
+    }
+    else if (idx == 2)
+    {
+      lut->SetRange(-1, 1);
+    }
+    else
+    {
+      lut->SetRange(-1, 1);
+    }
+    lut->Build();
+    luts.push_back(lut);
+  }
+
+  std::vector<vtkSmartPointer<vtkCurvatures>> curvatures;
+  for (auto idx = 0; idx < sources.size(); ++idx)
+  {
+    curvatures.push_back(vtkSmartPointer<vtkCurvatures>::New());
+    if (idx % 2 == 0)
+    {
+      curvatures[idx]->SetCurvatureTypeToGaussian();
+    }
+    else
+    {
+      curvatures[idx]->SetCurvatureTypeToMean();
+    }
+  }
+  std::vector<vtkSmartPointer<vtkRenderer>> renderers;
+  std::vector<vtkSmartPointer<vtkActor>> actors;
+  std::vector<vtkSmartPointer<vtkPolyDataMapper>> mappers;
+  std::vector<vtkSmartPointer<vtkTextMapper>> textmappers;
+  std::vector<vtkSmartPointer<vtkActor2D>> textactors;
+  for (auto idx = 0; idx < sources.size(); ++idx)
+  {
+    mappers.push_back(vtkSmartPointer<vtkPolyDataMapper>::New());
+    actors.push_back(vtkSmartPointer<vtkActor>::New());
+    textmappers.push_back(vtkSmartPointer<vtkTextMapper>::New());
+    textactors.push_back(vtkSmartPointer<vtkActor2D>::New());
+    renderers.push_back(vtkSmartPointer<vtkRenderer>::New());
+  }
+
+  // Create a common text property.
+  vtkNew<vtkTextProperty> textProperty;
+  textProperty->SetFontSize(24);
+  textProperty->SetJustificationToCentered();
+
+  std::vector<std::string> names;
+  names.push_back("Torus - Gaussian Curvature");
+  names.push_back("Torus - Mean Curvature");
+  names.push_back("Random Hills - Gaussian Curvature");
+  names.push_back("Random Hills - Mean Curvature");
+  // Link the pipeline together.
+  for (auto idx = 0; idx < sources.size(); ++idx)
+  {
+    curvatures[idx]->SetInputConnection(sources[idx]->GetOutputPort());
+
+    mappers[idx]->SetInputConnection(curvatures[idx]->GetOutputPort());
+    mappers[idx]->SetLookupTable(luts[idx]);
+    mappers[idx]->SetUseLookupTableScalarRange(1);
+
+    actors[idx]->SetMapper(mappers[idx]);
+
+    textmappers[idx]->SetInput(names[idx].c_str());
+    textmappers[idx]->SetTextProperty(textProperty);
+
+    textactors[idx]->SetMapper(textmappers[idx]);
+    textactors[idx]->SetPosition(250, 16);
+  }*/
+
 }
 
 VTKObjectHandler* Pipeline::getObject()
@@ -337,6 +439,16 @@ void Pipeline::setFilters(std::vector<int> filters)
 void Pipeline::setShrinkFactor(double newVal)
 {
     this->shrinkFactor = newVal;
+}
+
+void Pipeline::setTubeRad(double newVal)
+{
+    this->tubeFilterRadius = newVal;
+}
+
+void Pipeline::setSphereRad(double newVal)
+{
+    this->sphereFilterRadius = newVal;
 }
 
 void Pipeline::setClipPart(double newVal)

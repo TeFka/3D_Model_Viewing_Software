@@ -18,6 +18,9 @@ void MainWindow::refreshGUI()
     this->appHandler->getPipeline()->setShrinkFactor(0);
     this->appHandler->getPipeline()->setClipPart(0);
 
+    ui->sphereFilterRad->setValue(0);
+    ui->tubeFilterRad->setValue(0);
+
     this->appHandler->enableInfo(0);
     this->appHandler->enableAxes(0);
 
@@ -29,7 +32,6 @@ void MainWindow::refreshGUI()
     ui->cellMaxShow->setValue(1);
     ui->shrinkCheck->setCheckState(Qt::Unchecked);
     ui->clipCheck->setCheckState(Qt::Unchecked);
-    ui->contourCheck->setCheckState(Qt::Unchecked);
     ui->smoothCheck->setCheckState(Qt::Unchecked);
     ui->sphereCheck->setCheckState(Qt::Unchecked);
     ui->tubeCheck->setCheckState(Qt::Unchecked);
@@ -40,13 +42,25 @@ void MainWindow::refreshGUI()
     ui->clipY->setCheckState(Qt::Unchecked);
     ui->clipZ->setCheckState(Qt::Unchecked);
     ui->clipSlider->setValue(0);
+    ui->clipNumBox->setValue(0);
 
     ui->showInfo->setChecked(Qt::Unchecked);
     ui->actionDirectionAxes->setChecked(Qt::Unchecked);
+    ui->actionCubeAxes->setChecked(Qt::Unchecked);
     ui->showNormals->setChecked(Qt::Unchecked);
+    ui->actionAffine->setChecked(Qt::Unchecked);
+
     ui->lightCheck->setCheckState(Qt::Unchecked);
-    ui->lightIntensity->setValue(0);
-    ui->lightSpecular->setValue(0);
+
+
+    ui->lightIntensitySlider->setValue(0);
+    ui->lightSpecularSlider->setValue(0);
+
+    ui->lightIntensityNumBox->setValue(0);
+    ui->lightSpecularNumBox->setValue(0);
+
+    ui->objOpacitySlider->setValue(1);
+    ui->objOpacityNumBox->setValue(1.0);
 
     ui->solidRadioB->toggle();
 
@@ -70,6 +84,9 @@ void MainWindow::refreshObjectGUI()
     this->appHandler->getPipeline()->setShrinkFactor(0);
     this->appHandler->getPipeline()->setClipPart(0);
 
+    ui->sphereFilterRad->setValue(0);
+    ui->tubeFilterRad->setValue(0);
+
     this->allowGUIChange = 0;
 
     ui->cellMinShow->setRange(1, 1);
@@ -88,6 +105,10 @@ void MainWindow::refreshObjectGUI()
     ui->clipY->setCheckState(Qt::Unchecked);
     ui->clipZ->setCheckState(Qt::Unchecked);
     ui->clipSlider->setValue(0);
+    ui->clipNumBox->setValue(0);
+
+    ui->objOpacitySlider->setValue(1);
+    ui->objOpacityNumBox->setValue(1.0);
 
     ui->solidRadioB->toggle();
 
@@ -304,6 +325,10 @@ void MainWindow::handleNewButton()
 
 }
 
+void MainWindow::applyCurveFilter(){
+
+}
+
 void MainWindow::handleMinCellChange()
 {
     if(this->allowGUIChange)
@@ -338,7 +363,7 @@ void MainWindow::handleMaxCellChange()
 
 void MainWindow::handleFilterUpdate()
 {
-    std::vector<int> filtersInUse = {ui->shrinkCheck->isChecked(),ui->clipCheck->isChecked(),ui->contourCheck->isChecked(),
+    std::vector<int> filtersInUse = {ui->shrinkCheck->isChecked(),ui->clipCheck->isChecked(),0,
     ui->smoothCheck->isChecked(),ui->sphereCheck->isChecked(),ui->tubeCheck->isChecked(),ui->curveCheck->isChecked()};
     this->appHandler->getPipeline()->setFilters(filtersInUse);
     this->appHandler->updateViewer();
@@ -359,16 +384,50 @@ void MainWindow::handleUpdate()
         this->appHandler->getPipeline()->enableClipZ(ui->clipZ->isChecked());
 
         this->appHandler->getPipeline()->setShrinkFactor(ui->shrinkFactor->value());
-        this->appHandler->getPipeline()->setClipPart((double)ui->clipSlider->value()/100);
+        this->appHandler->getPipeline()->setTubeRad(ui->tubeFilterRad->value());
+        this->appHandler->getPipeline()->setSphereRad(ui->sphereFilterRad->value());
 
-        this->appHandler->getPipeline()->setLightIntensity((double)ui->lightIntensity->value()/100);
-        this->appHandler->getPipeline()->setLightSpecular((double)ui->lightSpecular->value()/100);
-        this->appHandler->getPipeline()->setOpacity((double)ui->objOpacity->value()/100);
+        this->appHandler->getPipeline()->setClipPart((double)ui->clipNumBox->value()/100);
+        this->appHandler->getPipeline()->setLightIntensity((double)ui->lightIntensityNumBox->value()/100);
+        this->appHandler->getPipeline()->setLightSpecular((double)ui->lightSpecularNumBox->value()/100);
+        this->appHandler->getPipeline()->setOpacity(ui->objOpacityNumBox->value());
+
+        this->allowGUIChange = 0;
+        ui->clipSlider->setValue(ui->clipNumBox->value());
+        ui->lightIntensitySlider->setValue(ui->lightIntensityNumBox->value());
+        ui->lightSpecularSlider->setValue(ui->lightSpecularNumBox->value());
+        ui->objOpacitySlider->setValue(ui->objOpacityNumBox->value()*100);
+        this->allowGUIChange = 1;
 
         this->appHandler->enableInfo(ui->showInfo->isChecked());
         this->appHandler->enableAxes(ui->actionDirectionAxes->isChecked());
         this->appHandler->enableCubeAxes(ui->actionCubeAxes->isChecked());
         this->appHandler->enableNormals(ui->showNormals->isChecked());
+
+        this->appHandler->enableAffineInteraction(ui->actionAffine->isChecked());
+
+        this->appHandler->updateViewer();
+
+    }
+}
+
+void MainWindow::handleSliderUpdate()
+{
+    if(this->allowGUIChange)
+    {
+
+        this->appHandler->getPipeline()->setClipPart((double)ui->clipSlider->value()/100);
+
+        this->appHandler->getPipeline()->setLightIntensity((double)ui->lightIntensitySlider->value()/100);
+        this->appHandler->getPipeline()->setLightSpecular((double)ui->lightSpecularSlider->value()/100);
+        this->appHandler->getPipeline()->setOpacity((double)ui->objOpacitySlider->value()/100);
+
+        this->allowGUIChange = 0;
+            ui->clipNumBox->setValue(ui->clipSlider->value());
+            ui->lightIntensityNumBox->setValue(ui->lightIntensitySlider->value());
+            ui->lightSpecularNumBox->setValue(ui->lightSpecularSlider->value());
+            ui->objOpacityNumBox->setValue((double)ui->objOpacitySlider->value()/100);
+        this->allowGUIChange = 1;
 
         this->appHandler->updateViewer();
 
@@ -403,6 +462,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect( ui->actionResetCamera, &QAction::triggered, this, &MainWindow::resetCamera );
     connect( ui->actionResetObjColor, &QAction::triggered, this, &MainWindow::resetObjectColor );
 
+    connect(ui->actionAffine, SIGNAL(toggled(bool)), this, SLOT(handleUpdate()));
+
     //buttons
     connect( ui->backgroundColor, &QPushButton::released, this, &MainWindow::changeBackgroundColor );
     connect( ui->objectColor, &QPushButton::released, this, &MainWindow::changeObjectColor );
@@ -421,19 +482,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect( ui->rotat90Neg, &QPushButton::released, this, &MainWindow::setCameraOrientationNegRotate );
 
 //slider control
-    connect(ui->clipSlider, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
-    connect(ui->lightIntensity, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
-    connect(ui->lightSpecular, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
-    connect(ui->objOpacity, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->clipSlider, SIGNAL(valueChanged(int)), this, SLOT(handleSliderUpdate()));
+    connect(ui->lightIntensitySlider, SIGNAL(valueChanged(int)), this, SLOT(handleSliderUpdate()));
+    connect(ui->lightSpecularSlider, SIGNAL(valueChanged(int)), this, SLOT(handleSliderUpdate()));
+    connect(ui->objOpacitySlider, SIGNAL(valueChanged(int)), this, SLOT(handleSliderUpdate()));
 
 //check boxes
     connect(ui->shrinkCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
     connect(ui->clipCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
-    connect(ui->contourCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
     connect(ui->smoothCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
     connect(ui->tubeCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
     connect(ui->sphereCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
-    connect(ui->curveCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
+    connect(ui->curveCheck, SIGNAL(stateChanged(int)), this, SLOT(applyCurveFilter()));
 
     connect(ui->clipX, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
     connect(ui->clipY, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
@@ -441,12 +501,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->lightCheck, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
 
-
 //spin boxes
     connect(ui->shrinkFactor, SIGNAL(valueChanged(double)), this, SLOT(handleUpdate()));
+    connect(ui->sphereFilterRad, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->tubeFilterRad, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
 
     connect(ui->cellMinShow, SIGNAL(valueChanged(int)), this, SLOT(handleMinCellChange()));
     connect(ui->cellMaxShow, SIGNAL(valueChanged(int)), this, SLOT(handleMaxCellChange()));
+
+    connect(ui->clipNumBox, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->lightIntensityNumBox, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->lightSpecularNumBox, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->objOpacityNumBox, SIGNAL(valueChanged(double)), this, SLOT(handleUpdate()));
 
 //radio buttons
     connect(ui->solidRadioB, SIGNAL(clicked()), this, SLOT(handleUpdate()));

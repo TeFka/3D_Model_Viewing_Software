@@ -66,11 +66,11 @@
 
 #include <vtkGlyph3DMapper.h>
 
-#include "../Model_Library/Inc/Model.h"
+#include "../../Model_Library/Inc/Model.h"
 #include "./apphelp.h"
 #include "./newshapechoice.h"
 
-#include "./Inc/ViewerHandler.h"
+#include "../Inc/ViewerHandler.h"
 
 namespace Ui
 {
@@ -105,6 +105,7 @@ private:
 public slots:
 
     void handleUpdate();
+    void handleSliderUpdate();
     void handleFilterUpdate();
     void handleMinCellChange();
     void handleMaxCellChange();
@@ -132,6 +133,8 @@ public slots:
     void changeBackgroundColor();
     void changeObjectColor();
     void resetObjectColor();
+
+    void applyCurveFilter();
 
 signals:
     void statusUpdateMessage( const QString & message, int timeout );
