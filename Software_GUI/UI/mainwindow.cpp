@@ -65,7 +65,7 @@ void MainWindow::refreshGUI()
     ui->solidRadioB->toggle();
 
     this->allowGUIChange = 1;
-
+    emit statusUpdateMessage( QString("Refreshed GUI"), 0 );
 }
 
 void MainWindow::refreshObjectGUI()
@@ -113,7 +113,7 @@ void MainWindow::refreshObjectGUI()
     ui->solidRadioB->toggle();
 
     this->allowGUIChange = 1;
-
+    emit statusUpdateMessage( QString("Refreshed object modifications"), 0 );
 }
 
 //Function of class Mainwindow, handleOpenButton()
@@ -124,6 +124,8 @@ void MainWindow::handleOpenButton()
 {
     this->refreshGUI();
     this->activeFileName = QFileDialog::getOpenFileName(this, tr("Open File"), "./", tr("Files(*.stl *.mod)"));
+
+    emit statusUpdateMessage( QString("Opening file: ")+this->activeFileName, 0 );
     this->appHandler->getPipeline()->getObject()->getModelFromFile(this->activeFileName);
 
     this->allowGUIChange = 0;
@@ -140,64 +142,74 @@ void MainWindow::handleOpenButton()
 void MainWindow::handleSaveModelButton()
 {
     this->activeFileName = QFileDialog::getSaveFileName(this, tr("Save File"), "./untitled.png", tr("Types (*.stl *.mod)"));
-
+    emit statusUpdateMessage( QString("Saving to file: ")+this->activeFileName, 0 );
     this->appHandler->getPipeline()->getObject()->saveModelToFile(this->activeFileName);
 }
 
 void MainWindow::handleSaveSceneButton()
 {
     this->activeFileName = QFileDialog::getSaveFileName(this, tr("Save File"), "./untitled.png", tr("Types (*.stl *.png)"));
-
+    emit statusUpdateMessage( QString("Saving to file: ")+this->activeFileName, 0 );
     this->appHandler->saveScene(this->activeFileName);
 }
 
 void MainWindow::setCameraOrientationPosX()
 {
+    emit statusUpdateMessage( QString("Orienting camera from positive X axis"), 0 );
     this->appHandler->setCameraOrientationPosX();
 
 }
 void MainWindow::setCameraOrientationNegX()
 {
+    emit statusUpdateMessage( QString("Orienting camera from negative X axis"), 0 );
     this->appHandler->setCameraOrientationNegX();
 
 }
 void MainWindow::setCameraOrientationPosY()
 {
+    emit statusUpdateMessage( QString("Orienting camera from positive Y axis"), 0 );
     this->appHandler->setCameraOrientationPosY();
 
 }
 void MainWindow::setCameraOrientationNegY()
 {
+    emit statusUpdateMessage( QString("Orienting camera from negative Y axis"), 0 );
     this->appHandler->setCameraOrientationNegY();
 
 }
 void MainWindow::setCameraOrientationPosZ()
 {
+    emit statusUpdateMessage( QString("Orienting camera from positive Z axis"), 0 );
     this->appHandler->setCameraOrientationPosZ();
 
 }
 void MainWindow::setCameraOrientationNegZ()
 {
+    emit statusUpdateMessage( QString("Orienting camera from negative Z axis"), 0 );
     this->appHandler->setCameraOrientationNegZ();
 
 }
 void MainWindow::setCameraOrientationPosShift()
 {
+    emit statusUpdateMessage( QString("Shifting Camera orientation to right"), 0 );
     this->appHandler->setCameraOrientationPosShift();
 
 }
 void MainWindow::setCameraOrientationNegShift()
 {
+    emit statusUpdateMessage( QString("Shifting Camera orientation to left"), 0 );
     this->appHandler->setCameraOrientationNegShift();
 
 }
 void MainWindow::setCameraOrientationPosRotate()
 {
+    emit statusUpdateMessage( QString("Rotating camera clockwise"), 0 );
     this->appHandler->setCameraOrientationPosRotate();
 
 }
 void MainWindow::setCameraOrientationNegRotate()
 {
+    emit statusUpdateMessage( QString("Rotating camera anti-clockwise"), 0 );
     this->appHandler->setCameraOrientationNegRotate();
 
 }
@@ -218,26 +230,28 @@ void MainWindow::resetObject()
 
 void MainWindow::resetCamera()
 {
+    emit statusUpdateMessage( QString("Resetting camera"), 0 );
     this->appHandler->resetCamera();
 
 }
 void MainWindow::changeBackgroundColor()
 {
     QColor color = QColorDialog::getColor(Qt::black, this, "Pick a color",  QColorDialog::DontUseNativeDialog);
-
+    emit statusUpdateMessage( QString("Changing background color"), 0 );
     this->appHandler->changeBackgroundColor(color);
 
 }
 void MainWindow::changeObjectColor()
 {
     QColor color = QColorDialog::getColor(Qt::black, this, "Pick a color",  QColorDialog::DontUseNativeDialog);
-
+    emit statusUpdateMessage( QString("Changing object color"), 0 );
     this->appHandler->getPipeline()->getObject()->changeColor(color);
     this->appHandler->updateViewer();
 
 }
 void MainWindow::resetObjectColor()
 {
+    emit statusUpdateMessage( QString("Resetting object color"), 0 );
     this->appHandler->getPipeline()->getObject()->resetColor();
     this->appHandler->updateViewer();
 
@@ -247,6 +261,7 @@ void MainWindow::resetObjectColor()
 void MainWindow::handleHelpButton()
 {
     AppHelp helpWindow;
+    emit statusUpdateMessage( QString("Showing help"), 0 );
     helpWindow.runHelp();
 }
 
@@ -256,6 +271,7 @@ void MainWindow::handleNewButton()
     int chosenShape = 0;
     NewShapeChoice choiceWindow;
     choiceWindow.runChoice(chosenShape);
+    emit statusUpdateMessage( QString("Loading new object"), 0 );
     switch(chosenShape)
     {
     case 1:
@@ -331,6 +347,7 @@ void MainWindow::applyCurveFilter(){
 
 void MainWindow::handleMinCellChange()
 {
+    emit statusUpdateMessage( QString("Change smallest cell shown"), 0 );
     if(this->allowGUIChange)
     {
         if(ui->cellMinShow->value()>ui->cellMaxShow->value())
@@ -347,6 +364,7 @@ void MainWindow::handleMinCellChange()
 
 void MainWindow::handleMaxCellChange()
 {
+    emit statusUpdateMessage( QString("Change highest cell shown"), 0 );
     if(this->allowGUIChange)
     {
         if(ui->cellMaxShow->value()<ui->cellMinShow->value())
@@ -363,6 +381,7 @@ void MainWindow::handleMaxCellChange()
 
 void MainWindow::handleFilterUpdate()
 {
+    emit statusUpdateMessage( QString("Update filters"), 0 );
     std::vector<int> filtersInUse = {ui->shrinkCheck->isChecked(),ui->clipCheck->isChecked(),0,
     ui->smoothCheck->isChecked(),ui->sphereCheck->isChecked(),ui->tubeCheck->isChecked(),ui->curveCheck->isChecked()};
     this->appHandler->getPipeline()->setFilters(filtersInUse);
@@ -374,7 +393,7 @@ void MainWindow::handleUpdate()
 {
     if(this->allowGUIChange)
     {
-
+        emit statusUpdateMessage( QString("Update"), 0 );
         this->appHandler->getPipeline()->enableWireframe(ui->wireRadioB->isChecked());
         this->appHandler->getPipeline()->enablePoints(ui->pointsRadioB->isChecked());
         this->appHandler->getPipeline()->enableLight(ui->lightCheck->isChecked());
@@ -415,7 +434,7 @@ void MainWindow::handleSliderUpdate()
 {
     if(this->allowGUIChange)
     {
-
+        emit statusUpdateMessage( QString("Update"), 0 );
         this->appHandler->getPipeline()->setClipPart((double)ui->clipSlider->value()/100);
 
         this->appHandler->getPipeline()->setLightIntensity((double)ui->lightIntensitySlider->value()/100);
@@ -518,6 +537,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->solidRadioB, SIGNAL(clicked()), this, SLOT(handleUpdate()));
     connect(ui->wireRadioB, SIGNAL(clicked()), this, SLOT(handleUpdate()));
     connect(ui->pointsRadioB, SIGNAL(clicked()), this, SLOT(handleUpdate()));
+
+//message box
+    connect( this, &MainWindow::statusUpdateMessage, ui->statusbar, &QStatusBar::showMessage );
 
 // creator
 

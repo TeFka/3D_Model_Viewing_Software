@@ -139,5 +139,7 @@ public slots:
 signals:
     void statusUpdateMessage( const QString & message, int timeout );
 };
+
+
 #endif // MAINWINDOW_H
 //mainwindow.h----------------------------------------------------------------

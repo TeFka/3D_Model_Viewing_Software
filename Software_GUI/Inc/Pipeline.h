@@ -30,8 +30,6 @@
 
 #include "./VTKObjectHandler.h"
 
-
-
 class Pipeline{
 
 

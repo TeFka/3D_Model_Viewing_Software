@@ -51,30 +51,92 @@
 
 #include "./Pipeline.h"
 
-namespace {
+class ViewerHandler;
+
+namespace
+{
 class vtkAffineCallback : public vtkCommand
 {
 public:
-  static vtkAffineCallback* New()
-  {
-    return new vtkAffineCallback;
-  }
-  virtual void Execute(vtkObject* caller, unsigned long, void*);
-  vtkAffineCallback() : Actor(0), AffineRep(0)
-  {
-    this->Transform = vtkTransform::New();
-  }
-  ~vtkAffineCallback()
-  {
-    this->Transform->Delete();
-  }
-  vtkActor* Actor;
-  vtkAffineRepresentation2D* AffineRep;
-  vtkTransform* Transform;
+    static vtkAffineCallback* New()
+    {
+        return new vtkAffineCallback;
+    }
+    virtual void Execute(vtkObject* caller, unsigned long, void*);
+    vtkAffineCallback() : Actor(0), AffineRep(0)
+    {
+        this->Transform = vtkTransform::New();
+    }
+    ~vtkAffineCallback()
+    {
+        this->Transform->Delete();
+    }
+    vtkActor* Actor;
+    vtkAffineRepresentation2D* AffineRep;
+    vtkTransform* Transform;
 };
 } // namespace
 
-class ViewerHandler{
+namespace
+{
+// Define interaction style
+class MouseInteractorStyleDoubleClick : public vtkInteractorStyleTrackballCamera
+{
+public:
+    static MouseInteractorStyleDoubleClick* New();
+    vtkTypeMacro(MouseInteractorStyleDoubleClick,
+                 vtkInteractorStyleTrackballCamera);
+
+    MouseInteractorStyleDoubleClick() : NumberOfClicks(0), ResetPixelDistance(5)
+    {
+        this->PreviousPosition[0] = 0;
+        this->PreviousPosition[1] = 0;
+    }
+
+
+    virtual void OnLeftButtonDown() override
+    {
+        this->NumberOfClicks++;
+        int pickPosition[2];
+        this->GetInteractor()->GetEventPosition(pickPosition);
+
+        int xdist = pickPosition[0] - this->PreviousPosition[0];
+        int ydist = pickPosition[1] - this->PreviousPosition[1];
+
+        this->PreviousPosition[0] = pickPosition[0];
+        this->PreviousPosition[1] = pickPosition[1];
+
+        int moveDistance = (int)sqrt((double)(xdist * xdist + ydist * ydist));
+
+        // Reset numClicks - If mouse moved further than resetPixelDistance
+        if (moveDistance > this->ResetPixelDistance)
+        {
+            this->NumberOfClicks = 1;
+        }
+
+        if (this->NumberOfClicks == 2)
+        {
+            std::cout<<"yes"<<std::endl;
+            this->NumberOfClicks = 0;
+        }
+
+        // forward events
+        vtkInteractorStyleTrackballCamera::OnLeftButtonDown();
+    }
+
+    void setupHandler(ViewerHandler*);
+
+private:
+    ViewerHandler* handler;
+    unsigned int NumberOfClicks;
+    int PreviousPosition[2];
+    int ResetPixelDistance;
+};
+vtkStandardNewMacro(MouseInteractorStyleDoubleClick);
+} // namespace
+
+class ViewerHandler
+{
 
 private:
 
@@ -88,7 +150,7 @@ private:
     vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
 
     vtkSmartPointer<vtkNamedColors> colorHandler = vtkSmartPointer<vtkNamedColors>::New();
-     vtkSmartPointer<vtkSTLWriter> stlWriter = vtkSmartPointer<vtkSTLWriter>::New();
+    vtkSmartPointer<vtkSTLWriter> stlWriter = vtkSmartPointer<vtkSTLWriter>::New();
 
     vtkSmartPointer<vtkTextActor> volumeTextActor = vtkSmartPointer<vtkTextActor>::New();
     vtkSmartPointer<vtkTextActor> maxCellNumTextActor = vtkSmartPointer<vtkTextActor>::New();
@@ -102,7 +164,9 @@ private:
 
     vtkNew<vtkOrientationMarkerWidget> axesWidget;
     vtkNew<vtkAffineWidget> affineWidget;
-     vtkNew<vtkAffineCallback> affineCallback;
+    vtkNew<vtkAffineCallback> affineCallback;
+
+    vtkNew<MouseInteractorStyleDoubleClick> doubleClickInteratction;
 
     int showInfo = 0;
 
@@ -162,6 +226,8 @@ public:
     void enableAffineInteraction(int);
 
     void saveScene(QString);
+
+    void mouseClick();
 };
 
 #endif // PIPELINEHANDLER_H_INCLUDED

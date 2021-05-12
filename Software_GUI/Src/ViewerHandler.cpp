@@ -1,15 +1,20 @@
 
 #include"../Inc/ViewerHandler.h"
 
-namespace {
+namespace
+{
 void vtkAffineCallback::Execute(vtkObject*, unsigned long vtkNotUsed(event),
                                 void*)
 {
-  this->AffineRep->GetTransform(this->Transform);
-  this->Actor->SetUserTransform(this->Transform);
+    this->AffineRep->GetTransform(this->Transform);
+    this->Actor->SetUserTransform(this->Transform);
 }
 } // namespace
 
+void MouseInteractorStyleDoubleClick::setupHandler(ViewerHandler* hand)
+{
+    this->handler = hand;
+}
 
 ViewerHandler::ViewerHandler()
 {
@@ -37,7 +42,8 @@ void ViewerHandler::setup(vtkSmartPointer<vtkRenderWindow> renderWindow, vtkSmar
     this->setupComponents();
 }
 
-void ViewerHandler::setupComponents(){
+void ViewerHandler::setupComponents()
+{
 
     this->setText();
     this->activeRenderWindow->AddRenderer( this->activeRenderer );
@@ -47,6 +53,8 @@ void ViewerHandler::setupComponents(){
 
     this->setAxes();
     this->setAffineInteraction();
+    this->renderWindowInteractor->SetInteractorStyle(this->doubleClickInteratction);
+    this->doubleClickInteratction->setupHandler(this);
 }
 
 void ViewerHandler::refreshRender()
@@ -260,19 +268,20 @@ void ViewerHandler::setAffineInteraction()
 
     this->affineCallback->Actor = this->thePipeline->getActor();
     this->affineCallback->AffineRep = dynamic_cast<vtkAffineRepresentation2D*>(
-                                    this->affineWidget->GetRepresentation());
+                                          this->affineWidget->GetRepresentation());
 
     this->affineWidget->AddObserver(vtkCommand::InteractionEvent, this->affineCallback);
     this->affineWidget->AddObserver(vtkCommand::EndInteractionEvent, this->affineCallback);
 }
 
-void ViewerHandler::updateAffineInteraction(){
+void ViewerHandler::updateAffineInteraction()
+{
     dynamic_cast<vtkAffineRepresentation2D*>(this->affineWidget->GetRepresentation())
     ->PlaceWidget(this->thePipeline->getActor()->GetBounds());
 
     this->affineCallback->Actor = this->thePipeline->getActor();
     this->affineCallback->AffineRep = dynamic_cast<vtkAffineRepresentation2D*>(
-                                    this->affineWidget->GetRepresentation());
+                                          this->affineWidget->GetRepresentation());
 }
 
 void ViewerHandler::viewNewObject()
@@ -475,10 +484,12 @@ void ViewerHandler::enableCubeAxes(int value)
 
 void ViewerHandler::enableAffineInteraction(int value)
 {
-    if(value){
+    if(value)
+    {
         affineWidget->On();
     }
-    else{
+    else
+    {
         affineWidget->Off();
     }
 }
@@ -517,4 +528,9 @@ void ViewerHandler::saveScene(QString fileName)
         this->activeRenderer->ResetCamera();
         this->activeRenderWindow->Render();
     }
+}
+
+void ViewerHandler::mouseClick()
+{
+    std::cout<<"Clicked"<<std::endl;
 }
