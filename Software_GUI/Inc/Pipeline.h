@@ -23,12 +23,18 @@
 #include <vtkTriangleFilter.h>
 
 #include <vtkCleanPolyData.h>
+#include <vtkColorTransferFunction.h>
+#include <vtkCurvatures.h>
+#include <vtkLookupTable.h>
+#include <vtkTransformFilter.h>
 
 #include <vtkExtractEdges.h>
 
 #include <vtkIdList.h>
 
 #include "./VTKObjectHandler.h"
+
+//class to handle VTK pipeline operation
 
 class Pipeline{
 
@@ -43,7 +49,10 @@ private:
     vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
     vtkSmartPointer<vtkContourFilter> contourFilter = vtkSmartPointer<vtkContourFilter>::New();
     vtkSmartPointer<vtkSplineFilter> splineFilter = vtkSmartPointer<vtkSplineFilter>::New();
-    vtkSmartPointer<vtkTubeFilter> tubeFilter = vtkSmartPointer<vtkTubeFilter>::New();;
+    vtkSmartPointer<vtkTubeFilter> tubeFilter = vtkSmartPointer<vtkTubeFilter>::New();
+    vtkSmartPointer<vtkCurvatures> curvature = vtkSmartPointer<vtkCurvatures>::New();
+
+    vtkSmartPointer<vtkNamedColors> colorHandler = vtkSmartPointer<vtkNamedColors>::New();
 
     vtkSmartPointer<vtkActor> activeActor = vtkSmartPointer<vtkActor>::New();
     vtkSmartPointer<vtkActor> activePolyActor = vtkSmartPointer<vtkActor>::New();
@@ -55,10 +64,14 @@ private:
     vtkSmartPointer<vtkRenderer> activeRenderer = vtkSmartPointer<vtkRenderer>::New();
 
     vtkAlgorithmOutput* finalAlgorithm = vtkAlgorithmOutput::New();
+    vtkAlgorithmOutput* finalPolyAlgorithmOutput = vtkAlgorithmOutput::New();
+    vtkPolyDataAlgorithm* finalPolyAlgorithm = vtkPolyDataAlgorithm::New();
 
     std::vector<int> activeFilters = {0,0,0,0,0,0,0};
 
     int polyDataUsed = 0;
+
+    int colorAffected = 0;
     double shrinkFactor = 0;
     int tubeFilterRadius = 0;
     int sphereFilterRadius = 0;
@@ -74,9 +87,10 @@ private:
     double lightIntensity = 1.0;
     double lightSpecular = 0.0;
 
-    int actorSetupRequired = 0;
-
     void refreshPipeline();
+
+    void setPolyAlgorithm();
+
     void filterStage();
     void mapperStage();
     void polyActorStage();

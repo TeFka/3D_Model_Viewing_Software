@@ -5,24 +5,8 @@
 void MainWindow::refreshGUI()
 {
 
-    this->appHandler->getPipeline()->getObject()->setMinActiveCell(1);
-    this->appHandler->getPipeline()->getObject()->setMaxActiveCell(1);
-
-    this->appHandler->getPipeline()->enableWireframe(0);
-    this->appHandler->getPipeline()->enablePoints(0);
-
-    this->appHandler->getPipeline()->enableClipX(0);
-    this->appHandler->getPipeline()->enableClipY(0);
-    this->appHandler->getPipeline()->enableClipZ(0);
-
-    this->appHandler->getPipeline()->setShrinkFactor(0);
-    this->appHandler->getPipeline()->setClipPart(0);
-
-    ui->sphereFilterRad->setValue(0);
-    ui->tubeFilterRad->setValue(0);
-
-    this->appHandler->enableInfo(0);
-    this->appHandler->enableAxes(0);
+    ui->sphereFilterRad->setValue(10);
+    ui->tubeFilterRad->setValue(10);
 
     this->allowGUIChange = 0;
 
@@ -52,6 +36,7 @@ void MainWindow::refreshGUI()
 
     ui->lightCheck->setCheckState(Qt::Unchecked);
 
+    ui->shrinkFactor->setValue(1.0);
 
     ui->lightIntensitySlider->setValue(0);
     ui->lightSpecularSlider->setValue(0);
@@ -70,22 +55,6 @@ void MainWindow::refreshGUI()
 
 void MainWindow::refreshObjectGUI()
 {
-
-    this->appHandler->getPipeline()->getObject()->setMinActiveCell(0);
-    this->appHandler->getPipeline()->getObject()->setMaxActiveCell(0);
-
-    this->appHandler->getPipeline()->enableWireframe(0);
-    this->appHandler->getPipeline()->enablePoints(0);
-
-    this->appHandler->getPipeline()->enableClipX(0);
-    this->appHandler->getPipeline()->enableClipY(0);
-    this->appHandler->getPipeline()->enableClipZ(0);
-
-    this->appHandler->getPipeline()->setShrinkFactor(0);
-    this->appHandler->getPipeline()->setClipPart(0);
-
-    ui->sphereFilterRad->setValue(0);
-    ui->tubeFilterRad->setValue(0);
 
     this->allowGUIChange = 0;
 
@@ -122,9 +91,11 @@ void MainWindow::refreshObjectGUI()
 // return value: none (file is opened)
 void MainWindow::handleOpenButton()
 {
-    this->refreshGUI();
     this->activeFileName = QFileDialog::getOpenFileName(this, tr("Open File"), "./", tr("Files(*.stl *.mod)"));
+    QFileInfo fi(fileName);
 
+    if(fi.suffix()=="stl"||fi.suffix()=="mod"){
+    this->resetViewer();
     emit statusUpdateMessage( QString("Opening file: ")+this->activeFileName, 0 );
     this->appHandler->getPipeline()->getObject()->getModelFromFile(this->activeFileName);
 
@@ -135,13 +106,18 @@ void MainWindow::handleOpenButton()
     ui->cellMaxShow->setValue(this->appHandler->getPipeline()->getObject()->getMaxActiveCell());
     this->allowGUIChange = 1;
     this->appHandler->viewNewObject();
-
+    }
 }
 
 
 void MainWindow::handleSaveModelButton()
 {
-    this->activeFileName = QFileDialog::getSaveFileName(this, tr("Save File"), "./untitled.png", tr("Types (*.stl *.mod)"));
+    if(this->appHandler->getPipeline()->getObject()->getObjectType()==2||this->appHandler->getPipeline()->getObject()->getObjectType()==3){
+    this->activeFileName = QFileDialog::getSaveFileName(this, tr("Save File"), "./untitled.stl", tr("Types (*.stl *.mod)"));
+    }
+    else{
+        this->activeFileName = QFileDialog::getSaveFileName(this, tr("Save File"), "./untitled.stl", tr("Types (*.stl)"));
+    }
     emit statusUpdateMessage( QString("Saving to file: ")+this->activeFileName, 0 );
     this->appHandler->getPipeline()->getObject()->saveModelToFile(this->activeFileName);
 }
@@ -267,11 +243,13 @@ void MainWindow::handleHelpButton()
 
 void MainWindow::handleNewButton()
 {
-    this->refreshGUI();
     int chosenShape = 0;
     NewShapeChoice choiceWindow;
     choiceWindow.runChoice(chosenShape);
-    emit statusUpdateMessage( QString("Loading new object"), 0 );
+    if(chosenShape>0){
+        emit statusUpdateMessage( QString("Loading new object"), 0 );
+        this->resetViewer();
+    }
     switch(chosenShape)
     {
     case 1:
@@ -330,7 +308,6 @@ void MainWindow::handleNewButton()
         break;
     }
     }
-
     this->allowGUIChange = 0;
     ui->cellMinShow->setRange(1, 1);
     ui->cellMaxShow->setRange(1, 1);
@@ -342,7 +319,7 @@ void MainWindow::handleNewButton()
 }
 
 void MainWindow::applyCurveFilter(){
-
+    this->handleFilterUpdate();
 }
 
 void MainWindow::handleMinCellChange()
@@ -383,7 +360,7 @@ void MainWindow::handleFilterUpdate()
 {
     emit statusUpdateMessage( QString("Update filters"), 0 );
     std::vector<int> filtersInUse = {ui->shrinkCheck->isChecked(),ui->clipCheck->isChecked(),0,
-    ui->smoothCheck->isChecked(),ui->sphereCheck->isChecked(),ui->tubeCheck->isChecked(),ui->curveCheck->isChecked()};
+    ui->smoothCheck->isChecked(),ui->sphereCheck->isChecked(),ui->tubeCheck->isChecked(),0};
     this->appHandler->getPipeline()->setFilters(filtersInUse);
     this->appHandler->updateViewer();
 

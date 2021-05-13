@@ -1,42 +1,50 @@
 
 #include "../Inc/VTKObjectHandler.h"
 
-
+//default constructor
 VTKObjectHandler::VTKObjectHandler()
 {
 
 }
 
-
+//function to refresh object data
 void VTKObjectHandler::refresh()
 {
     this->activeCells->Reset();
     this->activeCells->Squeeze();
-    this->materials.clear();
 }
 
+//function to get  object final source algorithm
 vtkAlgorithmOutput* VTKObjectHandler::getSource()
 {
     return this->finalSourceAlgorithm;
 }
 
+//function to get object poly data
 vtkPolyData* VTKObjectHandler::GetPolydata()
 {
     return this->finalPolyData;
 }
+
+//function to get object grid
 vtkSmartPointer<vtkUnstructuredGrid> VTKObjectHandler::getGrid()
 {
     return this->activeGrid;
 }
+
+//function to get object points
 vtkSmartPointer<vtkPoints> VTKObjectHandler::getPoints()
 {
     return this->finalPolyData->GetPoints();
 }
+
+//function to get object cells
 vtkSmartPointer<vtkCellArray> VTKObjectHandler::getCells()
 {
     return this->activeCells;
 }
 
+//function to get number of shown object points
 int VTKObjectHandler::getShownPointAmount(){
     if(this->objectType==3){
     return this->shownPoints;
@@ -46,60 +54,81 @@ int VTKObjectHandler::getShownPointAmount(){
     }
 }
 
+//function to get object main color
 QColor VTKObjectHandler::getColor()
 {
     return this->activeColor;
 }
 
+//function to get color of specific object cell
 std::array<double,3> VTKObjectHandler::getCellColor(int index)
 {
     return this->separateCellColors[index];
 }
 
+//function to get object type
 int VTKObjectHandler::getObjectType()
 {
     return this->objectType;
 }
+
+//function to get object volume
 double VTKObjectHandler::getVolume()
 {
     return this->objectVolume;
 }
+
+//function to get object weight
 double VTKObjectHandler::getWeight()
 {
     return this->objectWeight;
 }
 
+//function to get number of cells object has
 int VTKObjectHandler::getCellAmount()
 {
     return this->cellAmount;
 }
 
+//function to get the number of the lowest cell of the cell list that is shown
 int VTKObjectHandler::getMinActiveCell()
 {
     return this->minActiveCell;
 }
+
+//function to get the number of the highest cell of the cell list that is shown
 int VTKObjectHandler::getMaxActiveCell()
 {
     return this->maxActiveCell;
 }
 
+
+//function to get object position
 Vector3D VTKObjectHandler::getPosition()
 {
     return this->objectPosition;
 }
+
+//function to get object dimensions
 Vector3D VTKObjectHandler::getDimensions()
 {
     return this->objectDimensions;
 }
+
+//function to get the object dimension average
 double VTKObjectHandler::getDimensionAverage()
 {
     return this->dimensionAverage;
 }
 
+
+//function to set object color
 void VTKObjectHandler::setColor(QColor color)
 {
     this->activeColor = color;
 }
+
+//function to set color of a specific object cell
 void VTKObjectHandler::setCellColor(int index,double redVal,double greenVal,double blueVal)
 {
     this->separateCellColors[index][0] = redVal;
@@ -107,27 +136,30 @@ void VTKObjectHandler::setCellColor(int index,double redVal,double greenVal,doub
     this->separateCellColors[index][2] = blueVal;
 }
 
+//function to set minimum cell that will be shown
 void VTKObjectHandler::setMinActiveCell(int newVal)
 {
     this->minActiveCell = newVal;
 }
 
+//function to set maximum cell that will be shown
 void VTKObjectHandler::setMaxActiveCell(int newVal)
 {
     this->maxActiveCell = newVal;
 }
 
+//function to set polydata of object
 void VTKObjectHandler::handlePolydata(){
     this->activePoints = this->finalPolyData->GetPoints();
     this->activeCells = this->finalPolyData->GetPolys();
 }
 
+//function to set object parameters
 void VTKObjectHandler::makeMeasurements()
 {
-    this->handlePolydata();
-
     if(this->objectType==3){
 
+        //use VTK model calss to set parameters of VTk object
         this->objectDimensions.setx(this->activeVTKModel.getModelDimensions().getx());
         this->objectDimensions.sety(this->activeVTKModel.getModelDimensions().gety());
         this->objectDimensions.setz(this->activeVTKModel.getModelDimensions().getz());
@@ -145,11 +177,21 @@ void VTKObjectHandler::makeMeasurements()
         }
     }
     else{
+
+        //set input of parameters for non VTK object
+        if(this->objectType==2){
+            this->objectParameters->SetInputData(this->activeGrid);
+        }
+        else{
         this->objectParameters->SetInputData(this->finalPolyData);
+        }
         this->objectVolume = this->objectParameters->GetVolume();
+
         this->objectWeight = 0;
+
     if(objectType==2||objectType==0)
     {
+        //set default parameters for basic object
         this->objectDimensions.setx(1.0);
         this->objectDimensions.sety(1.0);
         this->objectDimensions.setz(1.0);
@@ -162,6 +204,7 @@ void VTKObjectHandler::makeMeasurements()
     }
     else if(objectType==1)
     {
+        //set parameters for STl object
         this->activePoints = this->activeReader->GetOutput()->GetPoints();
         double xMin=0;
         double yMin=0;
@@ -201,31 +244,33 @@ void VTKObjectHandler::makeMeasurements()
             }
         }
 
-        //set model dimensions
+        //set model dimensions based on minimum and maximum values
         this->objectDimensions.setx(xMax-xMin);
         this->objectDimensions.sety(yMax-yMin);
         this->objectDimensions.setz(zMax-zMin);
 
+        this->dimensionAverage = ((this->objectDimensions.getx()+this->objectDimensions.gety()+this->objectDimensions.getz())/3);
+
+        //set model position based on minimum and maximum values
         this->objectPosition.setx((xMax+xMin)/2);
         this->objectPosition.setx((yMax+yMin)/2);
         this->objectPosition.setx((zMax+zMin)/2);
-
-        this->dimensionAverage = ((this->objectDimensions.getx()+this->objectDimensions.gety()+this->objectDimensions.getz())/3);
     }
     }
 }
 
+//function to update VTK object
 void VTKObjectHandler::updateVTKModel()
 {
     if(this->objectType==3)
     {
-        std::cout<<this->finalPolyData->GetPoints()->GetNumberOfPoints()<<std::endl;
-        this->activeCells->Reset();
-        this->activeCells->Squeeze();
+        //refresh data
+        this->refresh();
 
         this->activeGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
         this->cellColorData = vtkSmartPointer<vtkUnsignedCharArray>::New();
 
+        //set points that are chosen to be shown
         this->shownPoints = 0;
         int chosenPoints[this->activeVTKModel.getVectorAmount()];
 
@@ -240,7 +285,7 @@ void VTKObjectHandler::updateVTKModel()
         this->objectVolume = 0.0;
         this->objectWeight = 0.0;
 
-        //set values
+        //set cells that should be shown
         for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
         {
             if(i>=(minActiveCell-1)&&i<maxActiveCell)
@@ -274,6 +319,7 @@ void VTKObjectHandler::updateVTKModel()
             }
         }
 
+        //get amount of point that should be shown
         for(int i = 0;i<this->activeVTKModel.getVectorAmount();i++){
             if(chosenPoints[i]){
                 this->shownPoints++;
@@ -284,61 +330,79 @@ void VTKObjectHandler::updateVTKModel()
 
         this->objectType = 3;
 
-
         this->geometryFilter->SetInputData(this->activeGrid);
         this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
         this->finalPolyData = this->geometryFilter->GetOutput();
 
+        //make object measurements
         this->makeMeasurements();
-        std::cout<<this->finalPolyData->GetPoints()->GetNumberOfPoints()<<std::endl;
     }
 }
 
+//function to create and add hexahedron to the active grid
 void VTKObjectHandler::drawHexahedron(Cell *cell)
 {
+    //get indices of required cell
     std::vector<int> indx = cell->getIndices();
+
+    //declare VTK cell
     vtkSmartPointer<vtkHexahedron> hex = vtkSmartPointer<vtkHexahedron>::New();
 
+    //set cell points
     for(auto n = 0; n<8; n++)
     {
         hex->GetPointIds()->SetId(n,indx[n]);
     }
 
+    //add cell to grid
     this->activeCells->InsertNextCell(hex);
     this->activeGrid->InsertNextCell(hex->GetCellType(), hex->GetPointIds());
 }
 
+//function to create and add tetrahedron to the active grid
 void VTKObjectHandler::drawTetrahedron(Cell *cell)
 {
+    //get indices of required cell
     std::vector<int> indx = cell->getIndices();
+
+    //declare VTK cell
     vtkSmartPointer<vtkTetra> tetr = vtkSmartPointer<vtkTetra>::New();
 
+    //set cell points
     for(auto n = 0; n<4; n++)
     {
         tetr->GetPointIds()->SetId(n,indx[n]);
     }
 
+    //add cell to grid
     this->activeCells->InsertNextCell(tetr);
     this->activeGrid->InsertNextCell(tetr->GetCellType(), tetr->GetPointIds());
 }
 
+//function to create and add pyramid to the active grid
 void VTKObjectHandler::drawPyramid(Cell *cell)
 {
+    //get indices of required cell
     std::vector<int> indx = cell->getIndices();
+
+    //declare VTK cell
     vtkSmartPointer<vtkPyramid> pyr = vtkSmartPointer<vtkPyramid>::New();
 
+    //set cell points
     for(auto n = 0; n<5; n++)
     {
         pyr->GetPointIds()->SetId(n,indx[n]);
     }
 
+    //add cell to grid
     this->activeCells->InsertNextCell(pyr);
     this->activeGrid->InsertNextCell(pyr->GetCellType(), pyr->GetPointIds());
 }
 
+//function to display hexahedron using grid
 void VTKObjectHandler::displayHexahedron()
 {
-
+    //refresh object data
     this->refresh();
     this->activeGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
 
@@ -346,7 +410,8 @@ void VTKObjectHandler::displayHexahedron()
 
     this->activeCells->Reset();
     this->activeCells->Squeeze();
-    //draw
+
+    //define object points
     this->activePoints->InsertNextPoint(-0.5, -0.5, -0.5); // Face 1
     this->activePoints->InsertNextPoint(0.5, -0.5, -0.5);
     this->activePoints->InsertNextPoint(0.5, 0.5, -0.5);
@@ -356,284 +421,383 @@ void VTKObjectHandler::displayHexahedron()
     this->activePoints->InsertNextPoint(0.5, 0.5, 0.5);
     this->activePoints->InsertNextPoint(-0.5, 0.5, 0.5);
 
-    // Create a hexahedron from the this->activePoints.
+    // Create a VTK cell
     vtkSmartPointer<vtkHexahedron> hex = vtkSmartPointer<vtkHexahedron>::New();
 
+    //set cell points
     for (auto i = 0; i < 8; ++i)
     {
         hex->GetPointIds()->SetId(i, i);
     }
 
+    //add cell to grid
     this->activeCells->InsertNextCell(hex);
     this->activeGrid->SetPoints(this->activePoints);
     this->activeGrid->InsertNextCell(hex->GetCellType(), hex->GetPointIds());
 
-    this->objectType = 2;
-
+    //define final algorithm
     this->geometryFilter->SetInputData(this->activeGrid);
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+
+    //define final poly data
+    this->geometryFilter->Update();
     this->finalPolyData = this->geometryFilter->GetOutput();
 
+    //set object data
+    this->objectType = 2;
     this->cellAmount = 1;
-    this->makeMeasurements();
-
     this->minActiveCell = 1;
     this->maxActiveCell = 1;
+
+    //make object measurements
+    this->makeMeasurements();
+
 }
 
+//function to display hexahedron using grid
 void VTKObjectHandler::displayTetrahedron()
 {
-
+     //refresh object data
     this->refresh();
     this->activeGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
 
     this->activePoints = vtkSmartPointer<vtkPoints>::New();
-    this->activeCells->Reset();
-    this->activeCells->Squeeze();
 
-    //draw
+    //define object points
     this->activePoints->InsertNextPoint(-0.5, -0.5, -0.5); // Face 1
     this->activePoints->InsertNextPoint(0.5, -0.5, -0.5);
     this->activePoints->InsertNextPoint(0.5, 0.5, -0.5);
     this->activePoints->InsertNextPoint(-0.5, 0.5, 0.5);
 
-    // Create a hexahedron from the this->activePoints.
+   // Create a VTK cell
     vtkSmartPointer<vtkTetra> tetr = vtkSmartPointer<vtkTetra>::New();
 
+    //set cell points
     for (auto i = 0; i < 4; ++i)
     {
         tetr->GetPointIds()->SetId(i, i);
     }
+
+    //add cell to grid
     this->activeCells->InsertNextCell(tetr);
     this->activeGrid->SetPoints(this->activePoints);
     this->activeGrid->InsertNextCell(tetr->GetCellType(), tetr->GetPointIds());
 
-    this->objectType = 2;
-
+     //define final algorithm
     this->geometryFilter->SetInputData(this->activeGrid);
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+
+    //define final poly data
+    this->geometryFilter->Update();
     this->finalPolyData = this->geometryFilter->GetOutput();
 
+    //set object data
+    this->objectType = 2;
     this->cellAmount = 1;
-
-    this->makeMeasurements();
-
     this->minActiveCell = 1;
     this->maxActiveCell = 1;
+
+    //make object measurements
+    this->makeMeasurements();
 }
 
+//function to display hexahedron using grid
 void VTKObjectHandler::displayPyramid()
 {
-
+    //refresh object data
     this->refresh();
     this->activeGrid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     this->activePoints = vtkSmartPointer<vtkPoints>::New();
 
-    //draw
+    //define object points
     this->activePoints->InsertNextPoint(0.5, -0.5, 0.5); // Face 1
     this->activePoints->InsertNextPoint(-0.5, -0.5, 0.5);
     this->activePoints->InsertNextPoint(-0.5, -0.5, -0.5);
     this->activePoints->InsertNextPoint(0.5, -0.5, -0.5);
     this->activePoints->InsertNextPoint(0.0, 0.5, 0.0); // Face 2
 
-    // Create a hexahedron from the this->activePoints.
+    // Create a VTK cell
     vtkSmartPointer<vtkPyramid> pyr = vtkSmartPointer<vtkPyramid>::New();
 
+    //set cell points
     for (auto i = 0; i < 5; ++i)
     {
         pyr->GetPointIds()->SetId(i, i);
     }
+
+    //add cell to grid
     this->activeCells->InsertNextCell(pyr);
     this->activeGrid->SetPoints(this->activePoints);
     this->activeGrid->InsertNextCell(pyr->GetCellType(), pyr->GetPointIds());
 
-    this->objectType = 2;
-
+     //define final algorithm
     this->geometryFilter->SetInputData(this->activeGrid);
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+
+    //define final poly data
+    this->geometryFilter->Update();
     this->finalPolyData = this->geometryFilter->GetOutput();
 
+    //set object data
+    this->objectType = 2;
     this->cellAmount = 1;
-
-    this->makeMeasurements();
-
     this->minActiveCell = 1;
     this->maxActiveCell = 1;
+
+    //make object measurements
+    this->makeMeasurements();
 }
 
+//function to display sphere using VTK source
 void VTKObjectHandler::displaySphere()
 {
     this->refresh();
+
+    //define VTk source
     vtkSmartPointer<vtkSphereSource> sphere = vtkSmartPointer<vtkSphereSource>::New();
 
-
+    //set parameters
     sphere->SetPhiResolution(21);
     sphere->SetThetaResolution(21);
     sphere->Update();
 
     this->objectType = 0;
+
+    //define final algorithm
     this->geometryFilter->SetInputConnection(sphere->GetOutputPort());
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+
+    //define final polydata
     this->finalPolyData = sphere->GetOutput();
+
+    //set object data
     this->cellAmount = 1;
-    this->makeMeasurements();
     this->minActiveCell = 1;
     this->maxActiveCell = 1;
-}
+
+    //make measurements
+    this->makeMeasurements();
+
+//function to display hexahedron using VTk source
 void VTKObjectHandler::displayDisk()
 {
 
     this->refresh();
+
+    //define VTk source
     vtkSmartPointer<vtkDiskSource> disk = vtkSmartPointer<vtkDiskSource>::New();
 
-
+    //set parameters
     disk->SetCircumferentialResolution(51);
     disk->Update();
 
     this->objectType = 0;
+
+    //define final algorithm
     this->geometryFilter->SetInputConnection(disk->GetOutputPort());
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+
+    //define final polydata
     this->finalPolyData = disk->GetOutput();
 
+    //set object data
     this->cellAmount = 1;
-
-
-    this->makeMeasurements();
-
     this->minActiveCell = 1;
     this->maxActiveCell = 1;
+
+    //make measurements
+    this->makeMeasurements();
 }
+
+//function to display hexahedron using VTk source
 void VTKObjectHandler::displayCone()
 {
 
     this->refresh();
+
+    //define VTk source
     vtkSmartPointer<vtkConeSource> cone = vtkSmartPointer<vtkConeSource>::New();
 
+    //set parameters
     cone->SetResolution(51);
     cone->Update();
 
     this->objectType = 0;
+
+    //define final algorithm
     this->geometryFilter->SetInputConnection(cone->GetOutputPort());
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+
+    //define final polydata
     this->finalPolyData = cone->GetOutput();
 
+    //set object data
     this->cellAmount = 1;
-
-
-    this->makeMeasurements();
-
     this->minActiveCell = 1;
     this->maxActiveCell = 1;
+
+    //make measurements
+    this->makeMeasurements();
 }
+
+//function to display hexahedron using VTk source
 void VTKObjectHandler::displayPlane()
 {
     this->refresh();
+
+    //define VTk source
     vtkSmartPointer<vtkPlaneSource> plane = vtkSmartPointer<vtkPlaneSource>::New();
 
-    this->objectType = 0;
+    //set parameters
     plane->Update();
+
+    this->objectType = 0;
+
+    //define final algorithm
     this->geometryFilter->SetInputConnection(plane->GetOutputPort());
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+
+    //define final polydata
     this->finalPolyData = plane->GetOutput();
 
+    //set object data
     this->cellAmount = 1;
-
-    this->makeMeasurements();
-
     this->minActiveCell = 1;
     this->maxActiveCell = 1;
+
+    //make measurements
+    this->makeMeasurements();
 }
+
+//function to display hexahedron using VTk source
 void VTKObjectHandler::displayPointCluster(int numberOfPoints)
 {
 
     this->refresh();
+
+    //define VTk source
     vtkSmartPointer<vtkPointSource> cluster = vtkSmartPointer<vtkPointSource>::New();
 
-
+    //set parameters
     cluster->SetNumberOfPoints(numberOfPoints);
     cluster->Update();
 
     this->objectType = 0;
+
+    //define final algorithm
     this->geometryFilter->SetInputConnection(cluster->GetOutputPort());
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+
+    //define final polydata
     this->finalPolyData = cluster->GetOutput();
 
+    //set object data
     this->cellAmount = 1;
-
-    this->makeMeasurements();
-
     this->minActiveCell = 1;
     this->maxActiveCell = 1;
+
+    //make measurements
+    this->makeMeasurements();
 }
+
+//function to display hexahedron using VTk source
 void VTKObjectHandler::displayLine()
 {
 
     this->refresh();
+
+    //define VTk source
     vtkSmartPointer<vtkLineSource> line = vtkSmartPointer<vtkLineSource>::New();
 
-    this->objectType = 0;
     line->Update();
+
+    this->objectType = 0;
+
+    //define final algorithm
     this->geometryFilter->SetInputConnection(line->GetOutputPort());
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+
+    //define final polydata
     this->finalPolyData = line->GetOutput();
 
+    //set object data
     this->cellAmount = 1;
-
-    this->makeMeasurements();
-
     this->minActiveCell = 1;
     this->maxActiveCell = 1;
+
+    //make measurements
+    this->makeMeasurements();
 }
 
+//function to display hexahedron using VTk source
 void VTKObjectHandler::displayCylinder()
 {
 
     this->refresh();
+
+    //define VTk source
     vtkSmartPointer<vtkCylinderSource> cylinder = vtkSmartPointer<vtkCylinderSource>::New();
 
+    //set parameters
     cylinder->SetResolution(51);
     cylinder->Update();
 
     this->objectType = 0;
+
+    //define final algorithm
     this->geometryFilter->SetInputConnection(cylinder->GetOutputPort());
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+
+    //define final polydata
     this->finalPolyData = cylinder->GetOutput();
 
+    //set object data
     this->cellAmount = 1;
-
-    this->makeMeasurements();
-
     this->minActiveCell = 1;
     this->maxActiveCell = 1;
+
+    //make measurements
+    this->makeMeasurements();
 }
 
+//function to display hexahedron using VTk source
 void VTKObjectHandler::displayEarth()
 {
     this->refresh();
+
+    //define VTk source
     vtkSmartPointer<vtkEarthSource> earth = vtkSmartPointer<vtkEarthSource>::New();
 
+    //set parameters
     earth->OutlineOn();
     earth->Update();
 
     this->objectType = 0;
+
+    //define final algorithm
     this->geometryFilter->SetInputConnection(earth->GetOutputPort());
     this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+
+    //define final polydata
     this->finalPolyData = earth->GetOutput();
 
+    //set object data
     this->cellAmount = 1;
-
-    this->makeMeasurements();
-
     this->minActiveCell = 1;
     this->maxActiveCell = 1;
+
+    //make measurements
+    this->makeMeasurements();
 }
 
+//function to load object from file
 void VTKObjectHandler::getModelFromFile(QString fileName)
 {
 
     QFileInfo fi(fileName);
     if(fi.suffix()=="stl")
     {
+        //loading object from STl file
         this->refresh();
 
         this->activeReader->SetFileName(fileName.toLatin1().data());
@@ -655,6 +819,7 @@ void VTKObjectHandler::getModelFromFile(QString fileName)
     }
     else if(fi.suffix()=="mod")
     {
+        //loading object from MOD file
         this->refresh();
         this->separateCellColors.clear();
 
@@ -728,12 +893,14 @@ void VTKObjectHandler::getModelFromFile(QString fileName)
     }
 }
 
+//function to save object to file
 void VTKObjectHandler::saveModelToFile(QString fileName)
 {
     QFileInfo fi(fileName);
 
     if(fi.suffix()=="stl")
     {
+        //save object as STL file
         vtkSmartPointer<vtkSTLWriter> stlWriter = vtkSmartPointer<vtkSTLWriter>::New();
         stlWriter->SetFileName(fileName.toLocal8Bit().data());
         stlWriter->SetInputConnection(this->finalSourceAlgorithm);
@@ -741,6 +908,7 @@ void VTKObjectHandler::saveModelToFile(QString fileName)
     }
     else if(fi.suffix()=="mod")
     {
+        //save object as MOD file
         Model savingVTKModel;
 
         std::vector<Vector3D> tempVectors;
@@ -749,6 +917,7 @@ void VTKObjectHandler::saveModelToFile(QString fileName)
 
         if(this->objectType==3)
         {
+            //saving MOD object as MOD
             tempMaterials.push_back(this->activeVTKModel.getMaterial(this->activeVTKModel.getCell(minActiveCell-1).getMaterialID()));
 
             if(!(this->separateCellColors[minActiveCell-1][0]==tempMaterials[0].getColor().getx()&&
@@ -759,6 +928,8 @@ void VTKObjectHandler::saveModelToFile(QString fileName)
                                                    this->separateCellColors[minActiveCell-1][1],
                                                    this->separateCellColors[minActiveCell-1][2]));
             }
+
+            //save model cells
             for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
             {
                 if(i>=(minActiveCell-1)&&i<maxActiveCell)
@@ -826,15 +997,15 @@ void VTKObjectHandler::saveModelToFile(QString fileName)
             }
 
         }
-        else
+        else if(this->objectType==2)
         {
             for(int i = 0; i<this->activePoints->GetNumberOfPoints(); i++)
             {
                 double tempPoint[3];
                 this->activePoints->GetPoint(i,tempPoint);
                 tempVectors.push_back(Vector3D(tempPoint[0],tempPoint[1],tempPoint[2]));
+                tempVectors[i].setID(i);
             }
-            std::cout<<"yes1"<<std::endl;
 
             this->activeCells->InitTraversal();
 
@@ -843,55 +1014,49 @@ void VTKObjectHandler::saveModelToFile(QString fileName)
                 int type = 0;
 
                 vtkSmartPointer<vtkIdList> idList = vtkSmartPointer<vtkIdList>::New();
-                std::cout<<"yes11-"<<this->activeCells->GetNumberOfCells()<<std::endl;
-                //this->activeCells->GetCell(i,idList);
                 this->activeCells->GetNextCell(idList);
-                std::cout<<"yes12"<<std::endl;
                 if(idList->GetNumberOfIds()==8)
                 {
                     type = 1;
                 }
-                else if(idList->GetNumberOfIds()==4)
+                else if(idList->GetNumberOfIds()==5)
                 {
                     type = 2;
                 }
-                else if(idList->GetNumberOfIds()==5)
+                else if(idList->GetNumberOfIds()==4)
                 {
                     type = 3;
                 }
-                std::cout<<"yes13"<<std::endl;
                 std::vector<int> indices;
 
                 for(int n = 0; n<idList->GetNumberOfIds(); n++)
                 {
                     indices.push_back(idList->GetId(n));
                 }
-                std::cout<<"yes14"<<std::endl;
                 Cell tempCell(i,type,0,indices);
-                std::cout<<"yes15"<<std::endl;
                 tempCells.push_back(tempCell);
-                std::cout<<"yes16"<<std::endl;
             }
-            std::cout<<"yes2"<<std::endl;
             Vector3D color((double)this->activeColor.red()/255,(double)this->activeColor.green()/255,(double)this->activeColor.blue()/255);
             Material theMaterial(0,1,"N/A",color);
             tempMaterials.push_back(theMaterial);
         }
-             std::cout<<"yes3"<<std::endl;
+        else{
+            std::cout<<"Cant save as MOD file"<<std::endl;
+        }
         savingVTKModel.setVectors(tempVectors);
         savingVTKModel.setCells(tempCells);
         savingVTKModel.setMaterials(tempMaterials);
-         std::cout<<"yes4"<<std::endl;
         savingVTKModel.loadInfoToFile(fileName.toLocal8Bit().data());
-         std::cout<<"yes5"<<std::endl;
     }
 }
 
+//function to change object color
 void VTKObjectHandler::changeColor(QColor color)
 {
-
+    //check if it is MOD object
     if(this->objectType==3)
     {
+        //change color of shown cells
         for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
         {
             if(i>=(minActiveCell-1)&&i<maxActiveCell)
@@ -904,15 +1069,20 @@ void VTKObjectHandler::changeColor(QColor color)
     }
     else
     {
+        //change main color
         this->activeColor = color;
 
     }
 }
 
+
+//function to reset object color
 void VTKObjectHandler::resetColor()
 {
+    //check if it is MOD object
     if(this->objectType==3)
     {
+        //reset color of every cell of MOD object
         for(int i = 0; i<this->activeVTKModel.getCellAmount(); i++)
         {
             Cell tempCell = this->activeVTKModel.getCell(i);
@@ -926,6 +1096,7 @@ void VTKObjectHandler::resetColor()
     }
     else
     {
+        //reset main color
         this->activeColor.setRed(255);
         this->activeColor.setGreen(0);
         this->activeColor.setBlue(0);
