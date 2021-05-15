@@ -1,3 +1,8 @@
+/*! \file ViewerHandler.h File Reference
+    \author   Copyright: \n Code part: Danielius Zurlys (StudentID: 20130611)
+                         \n Comments part: Danielius Zurlys and Chen Xu  (StudentID: 20187733)
+    \brief  build a view part to make the interfacial is better.
+*/
 #ifndef PIPELINEHANDLER_H_INCLUDED
 #define PIPELINEHANDLER_H_INCLUDED
 
@@ -37,8 +42,6 @@
 #include <QColorDialog>
 #include <vtkInteractorStyleTrackballCamera.h>
 
-#include <vtkOutlineFilter.h>
-
 #include <vtkPCANormalEstimation.h>
 
 #include <vtkTextActor.h>
@@ -53,10 +56,15 @@
 
 #include "./Pipeline.h"
 
+
 class ViewerHandler;
+
 
 namespace
 {
+/*! \class vtkAffineCallback
+    \brief  build a view part to make the interfacial is better.
+*/
 class vtkAffineCallback : public vtkCommand
 {
 public:
@@ -81,7 +89,10 @@ public:
 
 namespace
 {
-// Define interaction style
+/*! \class MouseInteractorStyleDoubleClick
+    \brief setup handler of mouse interactor for double clicking
+
+*/
 class MouseInteractorStyleDoubleClick : public vtkInteractorStyleTrackballCamera
 {
 public:
@@ -135,8 +146,14 @@ private:
     int ResetPixelDistance;
 };
 vtkStandardNewMacro(MouseInteractorStyleDoubleClick);
-} // namespace
+} // namespace 
 
+
+
+
+/*! \class ViewerHandler
+    \brief the major class to change the interface.
+*/
 class ViewerHandler
 {
 
@@ -151,8 +168,6 @@ private:
 
     vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
 
-    vtkSmartPointer<vtkOutlineFilter> outline = vtkSmartPointer<vtkOutlineFilter>::New();
-
     vtkSmartPointer<vtkNamedColors> colorHandler = vtkSmartPointer<vtkNamedColors>::New();
     vtkSmartPointer<vtkSTLWriter> stlWriter = vtkSmartPointer<vtkSTLWriter>::New();
 
@@ -165,7 +180,6 @@ private:
     vtkNew<vtkAxesActor> axesActor;
     vtkNew<vtkActor> normalsActor;
     vtkNew<vtkCubeAxesActor> cubeAxesActor;
-    vtkNew<vtkActor> outlineActor;
 
     vtkNew<vtkOrientationMarkerWidget> axesWidget;
     vtkNew<vtkAffineWidget> affineWidget;
@@ -178,66 +192,105 @@ private:
     int showAxes = 0;
     int axesExist = 0;
     int cubeAxesExist = 0;
-    int outlineExist = 0;
 
     int showNormals = 0;
     int normalsExist = 0;
     int showCubeAxes = 0;
-    int showOutline = 0;
-
-    void setText();
-    void updateText();
-
-    void setAxes();
-    void setupComponents();
-
-    void updateCubeAxes();
-    void updateNormals();
-    void updateOutline();
-    void updateComponents();
+    //! setup other components
+    void setupComponents(); 
 
 public:
+    //! default constructor
     ViewerHandler();
-    ViewerHandler(vtkSmartPointer<vtkRenderWindow>, vtkSmartPointer<vtkRenderWindowInteractor>);
-
+    //! constructor
+    ViewerHandler(vtkSmartPointer<vtkRenderWindow>, vtkSmartPointer<vtkRenderWindowInteractor>); 
+    /*! function to setup viewer handler
+        \return  vtkSmartPointer<vtkRenderWindow>, vtkSmartPointer<vtkRenderWindowInteractor> - viewer handler
+    */ 
     void setup(vtkSmartPointer<vtkRenderWindow>, vtkSmartPointer<vtkRenderWindowInteractor>);
-
+    //! function to refresh rendering
     void refreshRender();
-
+    //! setup text operation
+    void setText();
+    //! function to update shown text
+    void updateText();
+    //function to setup direction axes operation
+    void setAxes();
+    //! function to setup cube axes operation
+    void updateCubeAxes();
+    //! function to handle setup and viewing of new object
     void viewNewObject();
+    //! function to update viewer
     void updateViewer();
-
+    //! function to update normals of object surface
+    void updateNormals();
+    //! setup affine mode operation
     void setAffineInteraction();
+    //! function to handle updates from affine mode
     void updateAffineInteraction();
-
+    
+    
+    
+    //! function to set camera orientation to positive X
     void setCameraOrientationPosX();
+    //! function to set camera orientation to negative X
     void setCameraOrientationNegX();
+    //! function to set camera orientation to positive Y
     void setCameraOrientationPosY();
+    //! function to set camera orientation to negative Y
     void setCameraOrientationNegY();
+    //! function to set camera orientation to positive Z
     void setCameraOrientationPosZ();
+    //! function to set camera orientation to negative Z
     void setCameraOrientationNegZ();
+    //! function to shift camera position by 90 degrees to the right
     void setCameraOrientationPosShift();
+    //! function to rotate camera by 90 degrees to the right
     void setCameraOrientationNegShift();
+    //! function to rotate camera by 90 degrees to the right
     void setCameraOrientationPosRotate();
+    //! function to rotate camera by 90 degrees to the right
     void setCameraOrientationNegRotate();
-
+    //! function to reset viewer
     void resetViewer();
+    //! function to reset just the object properties
     void resetObject();
+    //! function to reset camera
     void resetCamera();
+    /*! function to change background color
+    \return Qcolor - background color
+    */
     void changeBackgroundColor(QColor);
-
+    /*! function to get active pipeline
+        \n Arguement: Pipeline - getPipeline()
+    */
     Pipeline* getPipeline();
-
+    /*! function to allow showing of information text
+        \return int - information text
+    */
     void enableInfo(int);
+    /*! function to allow showing of direction
+        \return int - direction
+    */
     void enableAxes(int);
+    /*! function to allow showing of object normals
+        \return int - object normals
+    */
     void enableNormals(int);
+    /*! function to allow showing of cube axes
+        \return int - Cube axes
+    */
     void enableCubeAxes(int);
-    void enableOutline(int);
+    /*! function to enable affine mode
+        \return  int - affine interaction 
+    */
     void enableAffineInteraction(int);
-
+    /*! function to save the scene as png photo or STL file
+        \return Qstring - Scene    
+    */
     void saveScene(QString);
-
+    //! function to handle mouse doubleclick
     void mouseClick();
 };
 
-#endif // PIPELINEHANDLER_H_INCLUDED
+#endif //! PIPELINEHANDLER_H_INCLUDED

@@ -1,3 +1,8 @@
+/*! \file Pipeline.h File Reference
+    \author   Copyright: \n Code part: Danielius Zurlys (StudentID: 20130611)
+                         \n Comments part: Danielius Zurlys and Chen Xu  (StudentID: 20187733)
+    \brief  build a pipeline part for VTK.
+*/
 #ifndef PIPELINEINFO_H_INCLUDED
 #define PIPELINEINFO_H_INCLUDED
 
@@ -22,13 +27,7 @@
 #include <vtkCompositeDataGeometryFilter.h>
 #include <vtkTriangleFilter.h>
 
-#include <vtkCutter.h>
-
-#include<vtkWarpScalar.h>
-#include <vtkWarpVector.h>
-
 #include <vtkCleanPolyData.h>
-#include <vtkPolyDataNormals.h>
 #include <vtkColorTransferFunction.h>
 #include <vtkCurvatures.h>
 #include <vtkLookupTable.h>
@@ -40,8 +39,9 @@
 
 #include "./VTKObjectHandler.h"
 
-//class to handle VTK pipeline operation
-
+/*! \class Pipeline
+    \brief  class to handle VTK pipeline operation
+*/
 class Pipeline{
 
 
@@ -50,9 +50,6 @@ private:
     VTKObjectHandler* theObject = new VTKObjectHandler;
 
     vtkSmartPointer<vtkLight> light = vtkSmartPointer<vtkLight>::New();
-
-    vtkNew<vtkWarpScalar> warpScalar;
-    vtkNew<vtkWarpVector> surfaceWarp;
 
     vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
     vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
@@ -76,8 +73,6 @@ private:
     vtkAlgorithmOutput* finalPolyAlgorithmOutput = vtkAlgorithmOutput::New();
     vtkPolyDataAlgorithm* finalPolyAlgorithm = vtkPolyDataAlgorithm::New();
 
-    int allowWarpScalar = 0;
-
     std::vector<int> activeFilters = {0,0,0,0,0,0,0};
 
     int polyDataUsed = 0;
@@ -97,67 +92,137 @@ private:
     int showLight = 0;
     double lightIntensity = 1.0;
     double lightSpecular = 0.0;
-
+    //! function to refresh pipeline
     void refreshPipeline();
-
+    //! function to setup poly algorithm
     void setPolyAlgorithm();
-
-    void geometryStage();
+    //! function to use pipeline filters
     void filterStage();
+    //! function to update active mappers
     void mapperStage();
+    //! function to update actor of poly data
     void polyActorStage();
+    //! function to update actor of main data
     void actorStage();
-
+    //! function to apply shrink filter
     void initShrinkFilter();
+    //! function to apply clip filter
     void initClipFilter();
+    //! function to apply contour filter
     void initContourFilter();
+    //! function to apply tube filter
     void initTubeFilter();
+    //! function to apply curvature filter
     void initCurvatureFilter();
 
 public:
+    //! default constructor
     Pipeline();
+    //! constructor
     Pipeline(vtkSmartPointer<vtkRenderer>);
-
+    //! function to setup lights
     void setLight();
-
+    //! function to update active pipeline
     void updatePipeline();
-
+    //! function to setup new pipeline
     void setNewPipeline();
-
+    /*! function to get object handler
+        \n Arguement: VTKObjectHandler - getObject()   
+    */
     VTKObjectHandler* getObject();
+    /*! function to get active actor
+     \n Arguement: vtkSmartPointer<vtkActor> - getActor()   
+    */
     vtkSmartPointer<vtkActor> getActor();
+    /*! function to get active mapper
+    \n Arguement: vtkSmartPointer<vtkDataSetMapper> - getMapper()   
+    */
     vtkSmartPointer<vtkDataSetMapper> getMapper();
+    /*! function to get final algorithm
+    \n Arguement: vtkAlgorithmOutput - getAlgorithm()
+    */
     vtkAlgorithmOutput* getAlgorithm();
-    vtkPolyData* GetPolydata();
-
+    /*! function to get ploydata
+    \n Arguement: vtkPolyData - GetPolydata()
+    */
+    vtkPolyData* GetPolydata(); //! have no any relative function on cpp file
+    /*! function to get active renderer
+    \n Arguement: vtkSmartPointer<vtkRenderer>  - getRenderer()
+    */
     vtkSmartPointer<vtkRenderer> getRenderer();
-
+    /*! function to set active Actor
+    \return vtkSmartPointer<vtkActor> - set a actor
+    */
     void setActor(vtkSmartPointer<vtkActor>);
+    /*! function to set active Mapper
+    \return vtkSmartPointer<vtkDataSetMapper> - set a mapper
+    */
     void setMapper(vtkSmartPointer<vtkDataSetMapper>);
+    /*! function to set active Algorithm
+    \return vtkAlgorithmOutput - set a Algorithm
+    */
     void setAlgorithm(vtkAlgorithmOutput*);
-
+    /*! function to set active Renderer
+    \return vtkSmartPointer<vtkRenderer> - set a Renderer
+    */
     void setRenderer(vtkSmartPointer<vtkRenderer>);
-
+    /*! function to set active Filters
+    \return std::vector<int> - set filters
+    */
     void setFilters(std::vector<int>);
-
+    /*! function to enable object wireframe state
+    \return int - enable wireframe
+    */
     void enableWireframe(int);
+    /*! function to enable object points state
+    \return int - enable points
+    */
     void enablePoints(int);
+    /*! function to make object require and be affected by light
+    \return int - enable a light
+    */
     void enableLight(int);
-
+    /*! function enable clip filter to clip on x axis
+    \return int - enable to clip on x axis
+    */
     void enableClipX(int);
+    /*! function enable clip filter to clip on y axis
+    \return int - enable to clip on y axis
+    */
     void enableClipY(int);
+    /*! function enable clip filter to clip on z axis
+    \return int - enable to clip on z axis
+    */
     void enableClipZ(int);
-
-    void enableScalarWarp(int);
-
+    /*! function to set shrink factor
+    \return double - set shrink factor
+    */
     void setShrinkFactor(double);
+    /*! function to set radius of sphere points filter spheres
+    \return double - set radius of sphere
+    */
     void setSphereRad(double);
+    /*! function to set radius of tube filter tubes
+    \return double - set radius of tube
+    */
     void setTubeRad(double);
+    /*! function to set the value for part of object that is clipped with clip filter
+    \return double - set clipped with
+    */
     void setClipPart(double);
+    /*! function to set light intensity
+    \return double - set light intensity
+    */
     void setLightIntensity(double);
+    /*! function to set light specular value
+    \return double - set light specular value
+    */
     void setLightSpecular(double);
+    /*! function to set object opacity
+    \return double - set object opacity 
+    */
     void setOpacity(double);
 
 };
 
-#endif // PIPELINEINFO_H_INCLUDED
+#endif //! PIPELINEINFO_H_INCLUDED
