@@ -168,8 +168,6 @@ private:
 
     vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
 
-    vtkSmartPointer<vtkOutlineFilter> outline = vtkSmartPointer<vtkOutlineFilter>::New();
-
     vtkSmartPointer<vtkNamedColors> colorHandler = vtkSmartPointer<vtkNamedColors>::New();
     vtkSmartPointer<vtkSTLWriter> stlWriter = vtkSmartPointer<vtkSTLWriter>::New();
 
@@ -195,17 +193,12 @@ private:
     int showAxes = 0;
     int axesExist = 0;
     int cubeAxesExist = 0;
-    int outlineExist = 0;
 
     int showNormals = 0;
     int normalsExist = 0;
     int showCubeAxes = 0;
-    int showOutline = 0;
 
-    //! setup text operation
     void setText();
-
-    //! function to update shown text
     void updateText();
 
     //! function to setup direction axes operation
@@ -216,11 +209,7 @@ private:
 
     //! function to update normals of object surface
     void updateNormals();
-
-
     void updateOutline();
-
-
     void updateComponents();
 
     //! setup other components
@@ -237,10 +226,18 @@ public:
     void setup(vtkSmartPointer<vtkRenderWindow>, vtkSmartPointer<vtkRenderWindowInteractor>);
     //! function to refresh rendering
     void refreshRender();
+    //! setup text operation
+    void setText();
+    //! function to update shown text
+    void updateText();
+    //! function to setup cube axes operation
+    void updateCubeAxes();
     //! function to handle setup and viewing of new object
     void viewNewObject();
     //! function to update viewer
     void updateViewer();
+
+
     //! setup affine mode operation
     void setAffineInteraction();
     //! function to handle updates from affine mode
@@ -295,8 +292,6 @@ public:
         \return int - Cube axes
     */
     void enableCubeAxes(int);
-
-    void enableOutline(int);
     /*! function to enable affine mode
         \return  int - affine interaction
     */
