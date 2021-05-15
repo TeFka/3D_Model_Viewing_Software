@@ -276,10 +276,10 @@ void VTKObjectHandler::updateVTKModel()
 
         //set points that are chosen to be shown
         this->shownPoints = 0;
-        int chosenPoints[this->activeVTKModel.getVectorAmount()];
+        std::vector<int> chosenPoints;
 
         for(int i = 0;i<this->activeVTKModel.getVectorAmount();i++){
-            chosenPoints[i] = 0;
+            chosenPoints.push_back(0);
         }
 
         this->activeGrid->SetPoints(this->activePoints);
