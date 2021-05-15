@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1152</width>
-    <height>625</height>
+    <width>1235</width>
+    <height>647</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -550,6 +550,314 @@ color: rgb(170, 0, 0);</string>
             </item>
            </layout>
           </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QGroupBox" name="groupBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(170, 0, 0);
+background-color: rgb(150,150,150);
+border-radius: 15px;
+border:none;</string>
+              </property>
+              <property name="title">
+               <string>Object State</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_13">
+               <item>
+                <widget class="QRadioButton" name="solidRadioB">
+                 <property name="styleSheet">
+                  <string notr="true">color:rgb(170, 0, 0);</string>
+                 </property>
+                 <property name="text">
+                  <string>Solid</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="wireRadioB">
+                 <property name="styleSheet">
+                  <string notr="true">color:rgb(170, 0, 0);</string>
+                 </property>
+                 <property name="text">
+                  <string>Wireframe</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="pointsRadioB">
+                 <property name="styleSheet">
+                  <string notr="true">color:rgb(170, 0, 0);</string>
+                 </property>
+                 <property name="text">
+                  <string>Points</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_3">
+              <property name="styleSheet">
+               <string notr="true">QGroupBox{
+color: rgb(170, 0, 0);
+background-color: rgb(150,150,150);
+border-radius: 15px;
+border:none;
+padding-top: 10px;
+}
+</string>
+              </property>
+              <property name="title">
+               <string>Shading</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <widget class="QPushButton" name="objectColor">
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton{
+border: 3px solid rgb(170, 0, 0);
+background: rgb(0, 0, 0);
+color: rgb(255, 0, 0);
+padding: 2px;
+border-radius: 10px;
+}
+
+QPushButton:hover{
+	border: 3px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+}
+
+QPushButton:pressed{
+    border: 4px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+	font-weight:bold;
+}
+</string>
+                 </property>
+                 <property name="text">
+                  <string>Object Color</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_18">
+                   <item>
+                    <widget class="QLabel" name="label_6">
+                     <property name="styleSheet">
+                      <string notr="true">color: rgb(170, 0, 0);
+background-color: rgb(150,150,150);</string>
+                     </property>
+                     <property name="text">
+                      <string>Opacity</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QSlider" name="objOpacitySlider">
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(150,150,150);</string>
+                     </property>
+                     <property name="maximum">
+                      <number>100</number>
+                     </property>
+                     <property name="value">
+                      <number>100</number>
+                     </property>
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="objOpacityNumBox">
+                     <property name="maximum">
+                      <double>1.000000000000000</double>
+                     </property>
+                     <property name="singleStep">
+                      <double>0.010000000000000</double>
+                     </property>
+                     <property name="value">
+                      <double>1.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QPushButton" name="backgroundColor">
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton{
+border: 3px solid rgb(170, 0, 0);
+background: rgb(0, 0, 0);
+color: rgb(255, 0, 0);
+padding: 2px;
+border-radius: 10px;
+}
+
+QPushButton:hover{
+	border: 3px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+}
+
+QPushButton:pressed{
+    border: 4px solid rgb(255, 255, 255);
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+	padding: 2px;
+	font-weight:bold;
+}
+</string>
+                 </property>
+                 <property name="text">
+                  <string>Background Color</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_5">
+              <property name="styleSheet">
+               <string notr="true">QGroupBox{
+color: rgb(170, 0, 0);
+background-color: rgb(150,150,150);
+border-radius: 15px;
+border:none;
+padding-top: 10px;
+}
+</string>
+              </property>
+              <property name="title">
+               <string>Shown Cells</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_20">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                 <property name="sizeConstraint">
+                  <enum>QLayout::SetNoConstraint</enum>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="lightLabel_2">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(150,150,150);</string>
+                   </property>
+                   <property name="text">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aa0000;&quot;&gt;From:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="cellMinShow">
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                   <property name="value">
+                    <number>1</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <property name="sizeConstraint">
+                  <enum>QLayout::SetNoConstraint</enum>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="lightLabel_3">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: rgb(150,150,150);</string>
+                   </property>
+                   <property name="text">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aa0000;&quot;&gt;To:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="cellMaxShow">
+                   <property name="styleSheet">
+                    <string notr="true"/>
+                   </property>
+                   <property name="value">
+                    <number>1</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_5"/>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_7">
+              <property name="styleSheet">
+               <string notr="true">QGroupBox{
+color: rgb(170, 0, 0);
+background-color: rgb(150,150,150);
+border-radius: 15px;
+border:none;
+padding-top: 10px;
+}
+</string>
+              </property>
+              <property name="title">
+               <string>Warps</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_21">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_3">
+                 <item>
+                  <widget class="QCheckBox" name="scalarWarp">
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(170, 0, 0);
+background-color: rgb(140,140,140);</string>
+                   </property>
+                   <property name="text">
+                    <string>Scalar</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="spinBox"/>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </item>
          </layout>
         </item>
         <item>
@@ -883,7 +1191,7 @@ background-color: rgb(170,170,170);</string>
              <property name="styleSheet">
               <string notr="true">color: rgb(170, 0, 0);
 background-color: rgb(140,140,140);
-border-radius: 15px;
+border-radius: 10px;
 border:none;</string>
              </property>
              <property name="text">
@@ -891,279 +1199,17 @@ border:none;</string>
              </property>
             </widget>
            </item>
-          </layout>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_10">
-        <item>
-         <widget class="QGroupBox" name="groupBox">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: rgb(170, 0, 0);
-background-color: rgb(150,150,150);
-border-radius: 15px;
-border:none;</string>
-          </property>
-          <property name="title">
-           <string>Object State</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_13">
            <item>
-            <widget class="QRadioButton" name="solidRadioB">
+            <widget class="QCheckBox" name="outlineCheck">
              <property name="styleSheet">
-              <string notr="true">color:rgb(170, 0, 0);</string>
-             </property>
-             <property name="text">
-              <string>Solid</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="wireRadioB">
-             <property name="styleSheet">
-              <string notr="true">color:rgb(170, 0, 0);</string>
-             </property>
-             <property name="text">
-              <string>Wireframe</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="pointsRadioB">
-             <property name="styleSheet">
-              <string notr="true">color:rgb(170, 0, 0);</string>
-             </property>
-             <property name="text">
-              <string>Points</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_3">
-          <property name="styleSheet">
-           <string notr="true">QGroupBox{
-color: rgb(170, 0, 0);
-background-color: rgb(150,150,150);
-border-radius: 15px;
+              <string notr="true">border-radius: 1px;
 border:none;
-padding-top: 10px;
-}
-</string>
-          </property>
-          <property name="title">
-           <string>Shading</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
-           <item>
-            <widget class="QPushButton" name="objectColor">
-             <property name="styleSheet">
-              <string notr="true">QPushButton{
-border: 3px solid rgb(170, 0, 0);
-background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);
-padding: 2px;
-border-radius: 10px;
-}
-
-QPushButton:hover{
-	border: 3px solid rgb(255, 255, 255);
-	background: rgb(0, 0, 0);
-	color: rgb(255, 255, 255);
-	padding: 2px;
-}
-
-QPushButton:pressed{
-    border: 4px solid rgb(255, 255, 255);
-	background: rgb(0, 0, 0);
-	color: rgb(255, 255, 255);
-	padding: 2px;
-	font-weight:bold;
-}
-</string>
+color: rgb(170, 0, 0);</string>
              </property>
              <property name="text">
-              <string>Object Color</string>
+              <string>Outline</string>
              </property>
             </widget>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_6">
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_18">
-               <item>
-                <widget class="QLabel" name="label_6">
-                 <property name="styleSheet">
-                  <string notr="true">color: rgb(170, 0, 0);
-background-color: rgb(150,150,150);</string>
-                 </property>
-                 <property name="text">
-                  <string>Opacity</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSlider" name="objOpacitySlider">
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(150,150,150);</string>
-                 </property>
-                 <property name="maximum">
-                  <number>100</number>
-                 </property>
-                 <property name="value">
-                  <number>100</number>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QDoubleSpinBox" name="objOpacityNumBox">
-                 <property name="maximum">
-                  <double>1.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>0.010000000000000</double>
-                 </property>
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_17"/>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QPushButton" name="backgroundColor">
-             <property name="styleSheet">
-              <string notr="true">QPushButton{
-border: 3px solid rgb(170, 0, 0);
-background: rgb(0, 0, 0);
-color: rgb(255, 0, 0);
-padding: 2px;
-border-radius: 10px;
-}
-
-QPushButton:hover{
-	border: 3px solid rgb(255, 255, 255);
-	background: rgb(0, 0, 0);
-	color: rgb(255, 255, 255);
-	padding: 2px;
-}
-
-QPushButton:pressed{
-    border: 4px solid rgb(255, 255, 255);
-	background: rgb(0, 0, 0);
-	color: rgb(255, 255, 255);
-	padding: 2px;
-	font-weight:bold;
-}
-</string>
-             </property>
-             <property name="text">
-              <string>Background Color</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_5"/>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_5">
-          <property name="styleSheet">
-           <string notr="true">QGroupBox{
-color: rgb(170, 0, 0);
-background-color: rgb(150,150,150);
-border-radius: 15px;
-border:none;
-padding-top: 10px;
-}
-</string>
-          </property>
-          <property name="title">
-           <string>Shown Cells</string>
-          </property>
-          <layout class="QHBoxLayout" name="horizontalLayout_20">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <property name="sizeConstraint">
-              <enum>QLayout::SetNoConstraint</enum>
-             </property>
-             <item>
-              <widget class="QLabel" name="lightLabel_2">
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(150,150,150);</string>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aa0000;&quot;&gt;From:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="cellMinShow">
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <property name="value">
-                <number>1</number>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
-             <property name="sizeConstraint">
-              <enum>QLayout::SetNoConstraint</enum>
-             </property>
-             <item>
-              <widget class="QLabel" name="lightLabel_3">
-               <property name="styleSheet">
-                <string notr="true">background-color: rgb(150,150,150);</string>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#aa0000;&quot;&gt;To:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="cellMaxShow">
-               <property name="styleSheet">
-                <string notr="true"/>
-               </property>
-               <property name="value">
-                <number>1</number>
-               </property>
-              </widget>
-             </item>
-            </layout>
            </item>
           </layout>
          </widget>
@@ -1179,7 +1225,7 @@ padding-top: 10px;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1152</width>
+     <width>1235</width>
      <height>26</height>
     </rect>
    </property>
@@ -1257,11 +1303,12 @@ padding-top: 10px;
    <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
    <addaction name="actionHelp"/>
+   <addaction name="actionExit"/>
   </widget>
   <action name="actionNew">
    <property name="icon">
     <iconset>
-     <normaloff>:/images/newIcon.png</normaloff>:/images/newIcon.png</iconset>
+     <normaloff>../../Resources/GUI_Icons/newIcon.png</normaloff>../../Resources/GUI_Icons/newIcon.png</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -1270,7 +1317,7 @@ padding-top: 10px;
   <action name="actionOpen">
    <property name="icon">
     <iconset>
-     <normaloff>:/images/openIcon.png</normaloff>:/images/openIcon.png</iconset>
+     <normaloff>../../Resources/GUI_Icons/openIcon.png</normaloff>../../Resources/GUI_Icons/openIcon.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -1279,7 +1326,7 @@ padding-top: 10px;
   <action name="actionHelp">
    <property name="icon">
     <iconset>
-     <normaloff>:/images/helpIcon.png</normaloff>:/images/helpIcon.png</iconset>
+     <normaloff>../../Resources/GUI_Icons/helpIcon.png</normaloff>../../Resources/GUI_Icons/helpIcon.png</iconset>
    </property>
    <property name="text">
     <string>Help</string>
@@ -1288,11 +1335,6 @@ padding-top: 10px;
   <action name="actionFullScreen">
    <property name="text">
     <string>Full Screen</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="text">
-    <string>Exit</string>
    </property>
   </action>
   <action name="actionBorderedScreen">
@@ -1368,6 +1410,15 @@ padding-top: 10px;
    </property>
    <property name="text">
     <string>Affine</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../Resources/GUI_Icons/closeIcon.png</normaloff>../../Resources/GUI_Icons/closeIcon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Exit</string>
    </property>
   </action>
  </widget>

@@ -22,7 +22,13 @@
 #include <vtkCompositeDataGeometryFilter.h>
 #include <vtkTriangleFilter.h>
 
+#include <vtkCutter.h>
+
+#include<vtkWarpScalar.h>
+#include <vtkWarpVector.h>
+
 #include <vtkCleanPolyData.h>
+#include <vtkPolyDataNormals.h>
 #include <vtkColorTransferFunction.h>
 #include <vtkCurvatures.h>
 #include <vtkLookupTable.h>
@@ -45,6 +51,9 @@ private:
 
     vtkSmartPointer<vtkLight> light = vtkSmartPointer<vtkLight>::New();
 
+    vtkNew<vtkWarpScalar> warpScalar;
+    vtkNew<vtkWarpVector> surfaceWarp;
+
     vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
     vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
     vtkSmartPointer<vtkContourFilter> contourFilter = vtkSmartPointer<vtkContourFilter>::New();
@@ -66,6 +75,8 @@ private:
     vtkAlgorithmOutput* finalAlgorithm = vtkAlgorithmOutput::New();
     vtkAlgorithmOutput* finalPolyAlgorithmOutput = vtkAlgorithmOutput::New();
     vtkPolyDataAlgorithm* finalPolyAlgorithm = vtkPolyDataAlgorithm::New();
+
+    int allowWarpScalar = 0;
 
     std::vector<int> activeFilters = {0,0,0,0,0,0,0};
 
@@ -91,6 +102,7 @@ private:
 
     void setPolyAlgorithm();
 
+    void geometryStage();
     void filterStage();
     void mapperStage();
     void polyActorStage();
@@ -135,6 +147,8 @@ public:
     void enableClipX(int);
     void enableClipY(int);
     void enableClipZ(int);
+
+    void enableScalarWarp(int);
 
     void setShrinkFactor(double);
     void setSphereRad(double);

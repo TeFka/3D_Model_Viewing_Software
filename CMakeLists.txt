@@ -65,26 +65,26 @@ endif()
 LINK_DIRECTORIES(${CMAKE_BINARY_DIR})
 
 # Make an executable
-add_executable(3D_software MACOSX_BUNDLE 
+add_executable(VTKView MACOSX_BUNDLE 
 ${software_sources}
 ${UI_Srcs}
 ${QRC_Srcs})
 
 qt5_add_binary_resources(resources ${ICONS} OPTIONS -no-compress)
-add_dependencies(3D_software resources)
+add_dependencies(VTKView resources)
 
 #set created folder for executable as an output for executable creation
-set_target_properties(3D_software PROPERTIES
+set_target_properties(VTKView PROPERTIES
          RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/application)
 
 #link the created library to the created executable
-target_link_libraries(3D_software model3DLib)
+target_link_libraries(VTKView model3DLib)
 
 # Tell CMake that the executable depends on the Qt::Widget libraries.
-target_link_libraries( 3D_software Qt5::Widgets )
+target_link_libraries( VTKView Qt5::Widgets )
 
 # Tell CMake that the executable depends on the VTK libraries
-target_link_libraries( 3D_software ${VTK_LIBRARIES})
+target_link_libraries( VTKView ${VTK_LIBRARIES})
 
 
 

@@ -21,7 +21,7 @@ vtkAlgorithmOutput* VTKObjectHandler::getSource()
 }
 
 //function to get object poly data
-vtkPolyData* VTKObjectHandler::GetPolydata()
+vtkPolyData* VTKObjectHandler::getPolydata()
 {
     return this->finalPolyData;
 }
@@ -258,6 +258,10 @@ void VTKObjectHandler::makeMeasurements()
     }
     }
 }
+
+ void VTKObjectHandler::geometryStage(){
+
+ }
 
 //function to update VTK object
 void VTKObjectHandler::updateVTKModel()
@@ -577,7 +581,7 @@ void VTKObjectHandler::displaySphere()
 
     //make measurements
     this->makeMeasurements();
-
+}
 //function to display hexahedron using VTk source
 void VTKObjectHandler::displayDisk()
 {

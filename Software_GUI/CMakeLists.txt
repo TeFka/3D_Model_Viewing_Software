@@ -22,6 +22,6 @@ list(APPEND software_sources
 )
 
 
-set( UIS ${CMAKE_CURRENT_LIST_DIR}/mainwindow.ui )
+set( UIS ${CMAKE_CURRENT_LIST_DIR}/UI/mainwindow.ui )
 
 # /CMakeLists.txt-------------------------------------------------------------

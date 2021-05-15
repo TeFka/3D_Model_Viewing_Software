@@ -37,6 +37,8 @@
 #include <QColorDialog>
 #include <vtkInteractorStyleTrackballCamera.h>
 
+#include <vtkOutlineFilter.h>
+
 #include <vtkPCANormalEstimation.h>
 
 #include <vtkTextActor.h>
@@ -149,6 +151,8 @@ private:
 
     vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
 
+    vtkSmartPointer<vtkOutlineFilter> outline = vtkSmartPointer<vtkOutlineFilter>::New();
+
     vtkSmartPointer<vtkNamedColors> colorHandler = vtkSmartPointer<vtkNamedColors>::New();
     vtkSmartPointer<vtkSTLWriter> stlWriter = vtkSmartPointer<vtkSTLWriter>::New();
 
@@ -161,6 +165,7 @@ private:
     vtkNew<vtkAxesActor> axesActor;
     vtkNew<vtkActor> normalsActor;
     vtkNew<vtkCubeAxesActor> cubeAxesActor;
+    vtkNew<vtkActor> outlineActor;
 
     vtkNew<vtkOrientationMarkerWidget> axesWidget;
     vtkNew<vtkAffineWidget> affineWidget;
@@ -173,12 +178,23 @@ private:
     int showAxes = 0;
     int axesExist = 0;
     int cubeAxesExist = 0;
+    int outlineExist = 0;
 
     int showNormals = 0;
     int normalsExist = 0;
     int showCubeAxes = 0;
+    int showOutline = 0;
 
+    void setText();
+    void updateText();
+
+    void setAxes();
     void setupComponents();
+
+    void updateCubeAxes();
+    void updateNormals();
+    void updateOutline();
+    void updateComponents();
 
 public:
     ViewerHandler();
@@ -188,15 +204,8 @@ public:
 
     void refreshRender();
 
-    void setText();
-    void updateText();
-
-    void setAxes();
-    void updateCubeAxes();
-
     void viewNewObject();
     void updateViewer();
-    void updateNormals();
 
     void setAffineInteraction();
     void updateAffineInteraction();
@@ -223,6 +232,7 @@ public:
     void enableAxes(int);
     void enableNormals(int);
     void enableCubeAxes(int);
+    void enableOutline(int);
     void enableAffineInteraction(int);
 
     void saveScene(QString);

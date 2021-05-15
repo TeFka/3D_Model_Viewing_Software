@@ -1,3 +1,10 @@
+
+/*! \file mainwindow.h File Reference
+    \author   Copyright: \n Code part: Danielius Zurlys (StudentID: 20130611)
+                         \n Comments part: Danielius Zurlys  (StudentID: 20130611)
+    \brief Create a window that will manage software operation
+*/
+
 // mainwindow.h---------------------------------------------------------------
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H

@@ -4,6 +4,7 @@
         <file>saveIcon.png</file>
 		<file>newIcon.png</file>
 		<file>helpIcon.png</file>
+		<file>closeIcon.png</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

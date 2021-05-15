@@ -92,12 +92,14 @@ void Pipeline::updatePipeline()
     //setup poly algorithm
     this->setPolyAlgorithm();
 
+    //update object geometry
+    this->geometryStage();
+
     //use active filters
     this->filterStage();
 
     //update mappers
     this->mapperStage();
-
     //update actors
     this->actorStage();
     this->polyActorStage();
@@ -119,13 +121,35 @@ void Pipeline::setPolyAlgorithm()
     this->finalPolyAlgorithm = cleaner;
 }
 
+void Pipeline::geometryStage()
+{
+
+    if(this->allowWarpScalar)
+    {
+        vtkNew<vtkCleanPolyData> clean;
+        clean->SetInputData(this->theObject->getPolydata());
+
+        // Generate normals
+        vtkNew<vtkPolyDataNormals> normals;
+        normals->SetInputConnection(clean->GetOutputPort());
+        normals->SplittingOff();
+
+        // Warp using the normals
+        surfaceWarp->SetInputConnection(normals->GetOutputPort());
+        surfaceWarp->SetInputArrayToProcess(0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_POINTS,
+                                     vtkDataSetAttributes::NORMALS);
+        surfaceWarp->SetScaleFactor(1.0);
+        this->finalAlgorithm = surfaceWarp->GetOutputPort();
+    }
+}
+
 //function to use pipeline filters
 void Pipeline::filterStage()
 {
     //reset factors
     this->polyDataUsed = 0;
     this->colorAffected = 0;
-`
+
     //shrink filter
     if(this->activeFilters[0])
     {
@@ -146,10 +170,6 @@ void Pipeline::filterStage()
         this->initContourFilter();
         this->polyDataUsed = 1;
     }
-    else
-    {
-        this->polyDataUsed = 0;
-    }
 
     //tube filter
     if(this->activeFilters[5])
@@ -164,7 +184,6 @@ void Pipeline::filterStage()
         this->polyDataUsed = 1;
         this->colorAffected = 1;
     }
-
 }
 
 //function to update active mappers
@@ -180,7 +199,7 @@ void Pipeline::mapperStage()
         this->activeMapper->SetInputConnection(this->finalAlgorithm);
         this->activePolyMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
     }
-    //this->activeMapper->SetInputConnection(this->finalAlgorithm);
+    this->activeMapper->SetInputConnection(this->finalAlgorithm);
 }
 
 //function to update actor of poly data
@@ -351,6 +370,47 @@ void Pipeline::initClipFilter()
 //function to apply contour filter
 void Pipeline::initContourFilter()
 {
+    /*
+    // Create a plane to cut
+    vtkNew<vtkPlane> plane;
+    plane->SetOrigin(inputPolyData->GetCenter());
+    plane->SetNormal(1, 1, 1);
+
+    double minBound[3];
+    minBound[0] = inputPolyData->GetBounds()[0];
+    minBound[1] = inputPolyData->GetBounds()[2];
+    minBound[2] = inputPolyData->GetBounds()[4];
+
+    double maxBound[3];
+    maxBound[0] = inputPolyData->GetBounds()[1];
+    maxBound[1] = inputPolyData->GetBounds()[3];
+    maxBound[2] = inputPolyData->GetBounds()[5];
+
+    double center[3];
+    center[0] = inputPolyData->GetCenter()[0];
+    center[1] = inputPolyData->GetCenter()[1];
+    center[2] = inputPolyData->GetCenter()[2];
+
+    double distanceMin = sqrt(vtkMath::Distance2BetweenPoints(minBound, center));
+    double distanceMax = sqrt(vtkMath::Distance2BetweenPoints(maxBound, center));
+
+    // Create cutter
+    vtkNew<vtkCutter> cutter;
+    cutter->SetCutFunction(plane);
+    cutter->SetInputData(inputPolyData);
+
+    cutter->GenerateValues(20, -distanceMin, distanceMax);
+    vtkNew<vtkPolyDataMapper> cutterMapper;
+    cutterMapper->SetInputConnection(cutter->GetOutputPort());
+    cutterMapper->ScalarVisibilityOff();
+
+    // Create plane actor
+    vtkNew<vtkActor> planeActor;
+    planeActor->GetProperty()->SetColor(
+      colors->GetColor3d("Deep_pink").GetData());
+    planeActor->GetProperty()->SetLineWidth(5);
+    planeActor->SetMapper(cutterMapper);
+    */
     this->contourFilter->SetInputConnection(this->finalPolyAlgorithmOutput);
     this->contourFilter->SetNumberOfContours(1);
     this->contourFilter->SetValue(0, 10.0);
@@ -553,5 +613,10 @@ void Pipeline::enableClipY(int newVal)
 void Pipeline::enableClipZ(int newVal)
 {
     this->clipZ = newVal;
+}
+
+void Pipeline::enableScalarWarp(int newVal)
+{
+    this->allowWarpScalar = newVal;
 }
 

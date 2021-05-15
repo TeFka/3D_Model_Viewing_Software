@@ -121,6 +121,8 @@ private:
     vtkAlgorithmOutput* finalSourceAlgorithm = vtkAlgorithmOutput::New();
     vtkPolyData* finalPolyData = vtkPolyData::New();
 
+    void geometryStage();
+
 public:
 
     VTKObjectHandler();  //! Destructor
@@ -132,12 +134,12 @@ public:
     */
     vtkAlgorithmOutput* getSource();
 
-    /*! Function GetPolydata() \n
+    /*! Function getPolydata() \n
         Function to Retrieve an instance of this class from an information object.
         \n Arguments:none
         \return  vtkPolyData - Polydata
     */
-    vtkPolyData* GetPolydata();
+    vtkPolyData* getPolydata();
 
    /*! Function getGrid() \n
         Function to get Grid from the specified object.
