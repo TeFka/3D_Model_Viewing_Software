@@ -1,7 +1,7 @@
 /*! \file Cell.h File Reference
 
     \author   \n Copyright Code part: Michael Michael (StudentID: 20143147)
-              \n Documentation  part: Michael Michael and Chen xu  (StudenTID: 20187733)
+              \n Documentation  part: Chen xu  (StudenTID: 20187733)
 
     \brief    Required header files: iostream(for printing with cout), vector, string, fstream,
                                      Vector3D.h, Material.h, Cell.h
@@ -48,44 +48,44 @@ public:
     ~Cell();//! cell class destructor.
 
 //! get functions:
-/*!
+    
+    /*!
     function of cell class,getID  \n
     function to get ID of cell
-*/
+    */
     int getID();
 
-   
-    
-    int getType(); /*! function of cell class,getType. \n
-                       function to get type of cell. */
+    /*! function of cell class,getType. \n
+        function to get type of cell. 
+    */
+    int getType(); 
 
-    
-    int getMaterialID(); /*! function of cell class,getMaterialID. \n
-                             function to get ID of the material, to gain access of the density of material, needed for weight calculation. */
+    /*! function of cell class,getMaterialID. \n
+        function to get ID of the material, to gain access of the density of material, needed for weight calculation. 
+    */
+    int getMaterialID(); 
 
-   
-    std::vector<int> getIndices(); /*! function of cell class, getIndices. \n
-                                       function to get indice array of model. */
-
-    
-    Vector3D getCentreOfGravity();/*! function of cell class, getCentreOFGravity. \n
-                                      function to find the centre of gravity of the cell. */
-
-   
-   double getWeight(); 
-   /*! function of cell class, getWeight.  \n
+    /*! function of cell class, getIndices. \n
+       function to get indice array of model. 
+    */ 
+    std::vector<int> getIndices(); 
+    /*! function of cell class, getCentreOFGravity. \n
+        function to find the centre of gravity of the cell. 
+    */
+    Vector3D getCentreOfGravity();
+    /*! function of cell class, getWeight.  \n
        function to find the weight of the cell. 
-       \arg calcWeight(std::vector<Material> materials)
+       \n Argument: calcWeight(std::vector<Material> materials)
        \return weight (double)  
     */
-
-   double getVolume(); 
+   double getWeight(); 
     /*! function of cell class, getVolume.  \n
         function of find the volume of the cell. 
-        \arg getvolume(std::vector<Vector3D> vectors) : array of vectors
+        \n Argument: getvolume(std::vector<Vector3D> vectors) : array of vectors
         \return volume (double)
     */
-
+   double getVolume(); 
+   
 //! set functions:
     void setID(int);
     void setType(int);
@@ -97,20 +97,19 @@ public:
 
 //! calculation functions:
 
-   
-    void calcWeight(std::vector<Material>); 
     /*! function of class Cell calcWeight().   \n
-        function to calculate weight of the cell */
-
-    
-    void calcCentreOfGravity(std::vector<Vector3D>);
+        function to calculate weight of the cell 
+    */
+    void calcWeight(std::vector<Material>); 
     /*! function of class Cell calcCenterOfGravity().  \n
         function to calculate center of gravity position of the cell. 
-        \arg calcCentreOfGravity(std::vector<Vector3D> vectors)
+        \n Argument: calcCentreOfGravity(std::vector<Vector3D> vectors)
         \return Centre_of_gravity(Vector3)(model center value updated)
         \note
         1) Model center of gravity will become {0,0,0} if vector array is empty.    
     */
+    void calcCentreOfGravity(std::vector<Vector3D>);
+   
 };
 
 

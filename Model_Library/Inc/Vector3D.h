@@ -1,6 +1,6 @@
 /*! \file Vector3D.h File Reference
     \author    Copyright \n Code part: Woranan Kamonlattana (Student ID: 20310814)
-                         \n Documentation  part: Woranan Kamonlattana and Chen xu  (Student ID: 20187733)
+                         \n Documentation  part:  Chen xu  (Student ID: 20187733)
 
     \brief     Required header files: vector.h math.h(for some mathematic functions)
 */
@@ -40,7 +40,7 @@ public:
     //! Setters
     /*! Function of class Vector, setID(), setx(), sety(), setz() \n
         Function to set the values of vector coordinates 
-        \arg setID(), setx(), sety(), setz(): none.
+        \n  Argument:  setID(), setx(), sety(), setz(): none.
         \return  newID, xc, yc and zc
     */
     void setID(int);
@@ -51,7 +51,7 @@ public:
     //! Getters
     /*! Function of class Vector, getID(), getx(), gety(), getz()  \n
         Function to get value vector coordinates 
-    \arg getID(), getx(), gety(), getz(): none.
+    \n  Argument: getID(), getx(), gety(), getz(): none.
     \return ID, x, y and z
     */
     int getID();

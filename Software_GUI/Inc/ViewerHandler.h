@@ -232,7 +232,7 @@ public:
     //! constructor
     ViewerHandler(vtkSmartPointer<vtkRenderWindow>, vtkSmartPointer<vtkRenderWindowInteractor>);
     /*! function to setup viewer handler
-        \return  vtkSmartPointer<vtkRenderWindow>, vtkSmartPointer<vtkRenderWindowInteractor> - viewer handler
+        \n Arguments:  vtkSmartPointer<vtkRenderWindow>, vtkSmartPointer<vtkRenderWindowInteractor> - viewer handler
     */
     void setup(vtkSmartPointer<vtkRenderWindow>, vtkSmartPointer<vtkRenderWindowInteractor>);
     //! function to refresh rendering
@@ -272,37 +272,37 @@ public:
     //! function to reset camera
     void resetCamera();
     /*! function to change background color
-    \return Qcolor - background color
+    \n Arguments: Qcolor - background color
     */
     void changeBackgroundColor(QColor);
     /*! function to get active pipeline
-        \n Arguement: Pipeline - getPipeline()
+        \return: Pipeline - getPipeline()
     */
     Pipeline* getPipeline();
     /*! function to allow showing of information text
-        \return int - information text
+        \n Arguments: int - information text
     */
     void enableInfo(int);
     /*! function to allow showing of direction
-        \return int - direction
+        \n Arguments: int - direction
     */
     void enableAxes(int);
     /*! function to allow showing of object normals
-        \return int - object normals
+        \n Arguments: int - object normals
     */
     void enableNormals(int);
     /*! function to allow showing of cube axes
-        \return int - Cube axes
+        \n Arguments: int - Cube axes
     */
     void enableCubeAxes(int);
 
     void enableOutline(int);
     /*! function to enable affine mode
-        \return  int - affine interaction
+        \n Arguments:  int - affine interaction
     */
     void enableAffineInteraction(int);
     /*! function to save the scene as png photo or STL file
-        \return Qstring - Scene
+        \n Arguments:  Qstring - Scene
     */
     void saveScene(QString);
     //! function to handle mouse doubleclick

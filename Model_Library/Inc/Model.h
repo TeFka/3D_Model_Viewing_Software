@@ -1,6 +1,6 @@
 /*! \file Model.h File Reference
     \author   Copyright: \n Code part: Danielius Zurlys (StudentID: 20130611)
-                         \n Documentation part: Danielius Zurlys and Chen xu  (StudentID: 20187733)
+                         \n Documentation part: Chen xu  (StudentID: 20187733)
     \brief    Required header files: iostream(for printing with cout), vector, string, fstream,
                           Vector3D.h, Material.h, Cell.h
 */

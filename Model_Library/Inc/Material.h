@@ -45,7 +45,7 @@ public:
     /*! Get function
      \n Function of class material, getID(),getName(), getColor(), getDensity()
      \n Function to get value material coordinates
-     \arg  getID(), getNamee(),getColor(), getDensity()
+     \n  Argument:   getID(), getNamee(),getColor(), getDensity()
      \return value of ID, Name,Color, Density
     */
 
@@ -57,7 +57,7 @@ public:
     /*! Set functions
      \n Function of class material, setID(),setName(); setColor(), setDensity()
      \n Function to set the values of material coordinates
-     \arg setID(), setName(); setColor(), setDensity()
+     \n  Argument:  setID(), setName(); setColor(), setDensity()
      \return: value of id, ,name , col and  d  
     */
     void setID(int);
