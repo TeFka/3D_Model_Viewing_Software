@@ -141,8 +141,6 @@ public slots:
     void changeObjectColor();
     void resetObjectColor();
 
-    void applyCurveFilter();
-
 signals:
     void statusUpdateMessage( const QString & message, int timeout );
 };

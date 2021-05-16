@@ -51,8 +51,8 @@ void Pipeline::setNewPipeline()
     //set initial source algorithm
     this->finalAlgorithm = this->theObject->getSource();
 
-    //setup poly algorithm
-    this->setPolyAlgorithm();
+    //initial polydata
+    this->finalPolydata = this->theObject->getPolydata();
 
     //declare mappers
     this->activeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
@@ -81,66 +81,27 @@ void Pipeline::setNewPipeline()
 //function to update active pipeline
 void Pipeline::updatePipeline()
 {
+
     if(this->theObject->getObjectType()==3)
     {
         this->theObject->updateVTKModel();
+    }
+    else{
+        this->theObject->updateObjectData();
     }
 
     //set initial source algorithm
     this->finalAlgorithm = this->theObject->getSource();
 
-    //setup poly algorithm
-    this->setPolyAlgorithm();
-
-    //update object geometry
-    this->geometryStage();
-
+    //initial polydata
+    this->finalPolydata = this->theObject->getPolydata();
     //use active filters
     this->filterStage();
-
     //update mappers
     this->mapperStage();
     //update actors
     this->actorStage();
-    this->polyActorStage();
-}
 
-//function to setup poly algorithm
-void Pipeline::setPolyAlgorithm()
-{
-    vtkNew<vtkTransformFilter> TFfilter;
-    TFfilter->SetInputConnection(this->finalAlgorithm);
-
-    vtkNew<vtkTriangleFilter> tri;
-    tri->SetInputConnection(TFfilter->GetOutputPort());
-
-    vtkNew<vtkCleanPolyData> cleaner;
-    cleaner->SetInputConnection(tri->GetOutputPort());
-    cleaner->SetTolerance(0.005);
-    this->finalPolyAlgorithmOutput = cleaner->GetOutputPort();
-    this->finalPolyAlgorithm = cleaner;
-}
-
-void Pipeline::geometryStage()
-{
-
-    if(this->allowWarpScalar)
-    {
-        vtkNew<vtkCleanPolyData> clean;
-        clean->SetInputData(this->theObject->getPolydata());
-
-        // Generate normals
-        vtkNew<vtkPolyDataNormals> normals;
-        normals->SetInputConnection(clean->GetOutputPort());
-        normals->SplittingOff();
-
-        // Warp using the normals
-        surfaceWarp->SetInputConnection(normals->GetOutputPort());
-        surfaceWarp->SetInputArrayToProcess(0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_POINTS,
-                                     vtkDataSetAttributes::NORMALS);
-        surfaceWarp->SetScaleFactor(1.0);
-        this->finalAlgorithm = surfaceWarp->GetOutputPort();
-    }
 }
 
 //function to use pipeline filters
@@ -176,14 +137,6 @@ void Pipeline::filterStage()
     {
         this->initTubeFilter();
     }
-
-    //curvature filter
-    if(this->activeFilters[6])
-    {
-        this->initCurvatureFilter();
-        this->polyDataUsed = 1;
-        this->colorAffected = 1;
-    }
 }
 
 //function to update active mappers
@@ -192,7 +145,7 @@ void Pipeline::mapperStage()
     if(this->polyDataUsed)
     {
         this->activeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
-        this->activePolyMapper->SetInputConnection(this->finalPolyAlgorithmOutput);
+        this->activePolyMapper->SetInputData(this->finalPolydata);
     }
     else
     {
@@ -358,9 +311,9 @@ void Pipeline::initClipFilter()
     this->clipFilter->SetInputConnection(this->finalAlgorithm);
 
     vtkSmartPointer<vtkPlane> planeLeft = vtkSmartPointer<vtkPlane>::New();
-    double originX = ((float)this->clipX)*(this->theObject->getPosition().getx()+(this->theObject->getDimensions().getx()*(this->clipPart)));
-    double originY = ((float)this->clipY)*(this->theObject->getPosition().gety()+(this->theObject->getDimensions().gety()*(this->clipPart)));
-    double originZ = ((float)this->clipZ)*(this->theObject->getPosition().getz()+(this->theObject->getDimensions().getz()*(this->clipPart)));
+    double originX = ((float)this->clipX)*(this->theObject->getPosition().getx()+(this->theObject->getDimensions().getx()*(this->clipPart-0.5)));
+    double originY = ((float)this->clipY)*(this->theObject->getPosition().gety()+(this->theObject->getDimensions().gety()*(this->clipPart-0.5)));
+    double originZ = ((float)this->clipZ)*(this->theObject->getPosition().getz()+(this->theObject->getDimensions().getz()*(this->clipPart-0.5)));
     planeLeft->SetOrigin(originX, originY, originZ);
     planeLeft->SetNormal((float)this->clipX, (float)this->clipY, (float)this->clipZ);
     this->clipFilter->SetClipFunction( planeLeft.Get() );
@@ -370,53 +323,40 @@ void Pipeline::initClipFilter()
 //function to apply contour filter
 void Pipeline::initContourFilter()
 {
-    /*
+    std::cout<<"yes1"<<std::endl;
     // Create a plane to cut
     vtkNew<vtkPlane> plane;
-    plane->SetOrigin(inputPolyData->GetCenter());
+    plane->SetOrigin(this->finalPolydata->GetCenter());
     plane->SetNormal(1, 1, 1);
 
     double minBound[3];
-    minBound[0] = inputPolyData->GetBounds()[0];
-    minBound[1] = inputPolyData->GetBounds()[2];
-    minBound[2] = inputPolyData->GetBounds()[4];
+    minBound[0] = this->finalPolydata->GetBounds()[0];
+    minBound[1] = this->finalPolydata->GetBounds()[2];
+    minBound[2] = this->finalPolydata->GetBounds()[4];
 
     double maxBound[3];
-    maxBound[0] = inputPolyData->GetBounds()[1];
-    maxBound[1] = inputPolyData->GetBounds()[3];
-    maxBound[2] = inputPolyData->GetBounds()[5];
+    maxBound[0] = this->finalPolydata->GetBounds()[1];
+    maxBound[1] = this->finalPolydata->GetBounds()[3];
+    maxBound[2] = this->finalPolydata->GetBounds()[5];
 
     double center[3];
-    center[0] = inputPolyData->GetCenter()[0];
-    center[1] = inputPolyData->GetCenter()[1];
-    center[2] = inputPolyData->GetCenter()[2];
+    center[0] = this->finalPolydata->GetCenter()[0];
+    center[1] = this->finalPolydata->GetCenter()[1];
+    center[2] = this->finalPolydata->GetCenter()[2];
 
     double distanceMin = sqrt(vtkMath::Distance2BetweenPoints(minBound, center));
     double distanceMax = sqrt(vtkMath::Distance2BetweenPoints(maxBound, center));
 
     // Create cutter
     vtkNew<vtkCutter> cutter;
+    cutter->SetInputData(this->finalPolydata);
     cutter->SetCutFunction(plane);
-    cutter->SetInputData(inputPolyData);
-
+    std::cout<<"yes2"<<std::endl;
     cutter->GenerateValues(20, -distanceMin, distanceMax);
-    vtkNew<vtkPolyDataMapper> cutterMapper;
-    cutterMapper->SetInputConnection(cutter->GetOutputPort());
-    cutterMapper->ScalarVisibilityOff();
+    this->finalPolydata = cutter->GetOutput();
+   this->activePolyMapper->ScalarVisibilityOff();
+    std::cout<<"yes3"<<std::endl;
 
-    // Create plane actor
-    vtkNew<vtkActor> planeActor;
-    planeActor->GetProperty()->SetColor(
-      colors->GetColor3d("Deep_pink").GetData());
-    planeActor->GetProperty()->SetLineWidth(5);
-    planeActor->SetMapper(cutterMapper);
-    */
-    this->contourFilter->SetInputConnection(this->finalPolyAlgorithmOutput);
-    this->contourFilter->SetNumberOfContours(1);
-    this->contourFilter->SetValue(0, 10.0);
-    vtkNew<vtkCompositeDataGeometryFilter> geomFilter2;
-    geomFilter2->SetInputConnection(this->contourFilter->GetOutputPort());
-    this->finalPolyAlgorithmOutput = geomFilter2->GetOutputPort();
 }
 
 //function to apply tube filter
@@ -427,48 +367,8 @@ void Pipeline::initTubeFilter()
     this->tubeFilter->SetInputConnection(edges->GetOutputPort());
     this->tubeFilter->SetRadius((double)tubeFilterRadius*this->theObject->getDimensionAverage()/100);
     this->tubeFilter->SetVaryRadiusToVaryRadiusOff();
-    this->tubeFilter->SetNumberOfSides(40);
+    this->tubeFilter->SetNumberOfSides(this->tubeSides);
     this->finalAlgorithm = this->tubeFilter->GetOutputPort();
-}
-
-//function to apply curvature filter
-void Pipeline::initCurvatureFilter()
-{
-
-    // Colour transfer function.
-    vtkNew<vtkColorTransferFunction> ctf;
-    ctf->SetColorSpaceToDiverging();
-    ctf->AddRGBPoint(0.0, this->colorHandler->GetColor3d("MidnightBlue").GetRed(),
-                     this->colorHandler->GetColor3d("MidnightBlue").GetGreen(),
-                     this->colorHandler->GetColor3d("MidnightBlue").GetBlue());
-    ctf->AddRGBPoint(1.0, this->colorHandler->GetColor3d("DarkOrange").GetRed(),
-                     this->colorHandler->GetColor3d("DarkOrange").GetGreen(),
-                     this->colorHandler->GetColor3d("DarkOrange").GetBlue());
-    // Lookup table.
-    vtkNew<vtkLookupTable> lut;
-    lut->SetNumberOfColors(256);
-    for (auto i = 0; i < lut->GetNumberOfColors(); ++i)
-    {
-        std::array<double, 4> color;
-        ctf->GetColor(double(i) / lut->GetNumberOfColors(), color.data());
-        color[3] = 1.0;
-        lut->SetTableValue(i, color.data());
-    }
-    lut->SetRange(-10, 10);
-    lut->Build();
-    this->curvature->SetCurvatureTypeToGaussian();
-    this->curvature->Update();
-    //this->curvature->SetCurvatureTypeToMean();
-
-// Link the pipeline together.
-    std::cout<<"b3"<<std::endl;
-    this->curvature->SetInputConnection(this->finalPolyAlgorithm->GetOutputPort());
-    std::cout<<"b4"<<std::endl;
-    this->finalPolyAlgorithmOutput = this->curvature->GetOutputPort();
-    std::cout<<"b5"<<std::endl;
-    this->activePolyMapper->SetLookupTable(lut);
-    this->activePolyMapper->SetUseLookupTableScalarRange(1);
-    std::cout<<"b6"<<std::endl;
 }
 
 //function to get object handler
@@ -549,6 +449,16 @@ void Pipeline::setTubeRad(double newVal)
     this->tubeFilterRadius = newVal;
 }
 
+//function to set number of tube filter tube sides
+ void Pipeline::setTubeSides(int newVal){
+    if(newVal<3){
+        this->tubeSides = 3;
+    }
+    else{
+        this->tubeSides = newVal;
+    }
+ }
+
 //function to set radius of sphere points filter spheres
 void Pipeline::setSphereRad(double newVal)
 {
@@ -613,10 +523,5 @@ void Pipeline::enableClipY(int newVal)
 void Pipeline::enableClipZ(int newVal)
 {
     this->clipZ = newVal;
-}
-
-void Pipeline::enableScalarWarp(int newVal)
-{
-    this->allowWarpScalar = newVal;
 }
 

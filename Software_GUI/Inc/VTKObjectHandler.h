@@ -35,6 +35,7 @@
 
 #include <vtkDataSetMapper.h>
 #include <vtkPolyDataMapper.h>
+#include <vtkPolyDataNormals.h>
 #include <vtkHexahedron.h>
 #include <vtkTetra.h>
 #include <vtkPyramid.h>
@@ -48,19 +49,15 @@
 #include <vtkLight.h>
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <QFileDialog.h>
-#include <QSlider>
 #include <QAbstractSlider>
 #include <vtkUnstructuredGrid.h>
-#include <QColorDialog>
 #include <vtkPlane.h>
-#include <vtkClipDataSet.h>
-#include <vtkShrinkFilter.h>
 #include <vtkGeometryFilter.h>
-#include <vtkContourFilter.h>
-#include <vtkOutlineFilter.h>
-#include <vtkOutlineCornerFilter.h>
-#include <vtkSplineFilter.h>
 #include <vtkInteractorStyleTrackballCamera.h>
+
+#include<vtkWarpScalar.h>
+#include <vtkWarpVector.h>
+#include <vtkWarpTo.h>
 
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>
@@ -97,12 +94,16 @@ private:
     vtkSmartPointer<vtkCellArray> activeCells = vtkSmartPointer<vtkCellArray>::New();
     vtkSmartPointer<vtkUnsignedCharArray> cellColorData = vtkSmartPointer<vtkUnsignedCharArray>::New();
 
+    vtkNew<vtkWarpVector> surfaceWarp;
+    vtkNew<vtkWarpTo> bendWarp;
+
     std::vector<std::array<double,3>> separateCellColors;
     QColor activeColor;
 
     vtkSmartPointer<vtkMassProperties> objectParameters = vtkSmartPointer<vtkMassProperties>::New();
     Vector3D objectDimensions;
     Vector3D objectPosition;
+
 
     int objectType = 0;
 
@@ -116,8 +117,19 @@ private:
     int cellAmount = 0;
     int shownPoints = 0;
 
+    int allowSurfaceWarp = 0;
+    int allowBendWarp = 0;
+
+    int surfaceWarpFactor = 1;
+    int bendWarpFactor = 1;
+    int bendWarpX = 0;
+    int bendWarpY = 0;
+    int bendWarpZ = 0;
+
+
     void refresh();
 
+    vtkAlgorithmOutput* defaultSourceAlgorithm = vtkAlgorithmOutput::New();
     vtkAlgorithmOutput* finalSourceAlgorithm = vtkAlgorithmOutput::New();
     vtkPolyData* finalPolyData = vtkPolyData::New();
 
@@ -274,6 +286,27 @@ public:
     */
     void setMaxActiveCell(int);
 
+    /*! Function setSurfaceWarpFactor() \n
+        Function to set new surface warp factor
+        \n Arguments: none
+        \return   void - none
+    */
+    void setSurfaceWarpFactor(int newVal);
+
+    /*! Function handlePolydata() \n
+        Function to set new bend warp factor
+        \n Arguments: none
+        \return   void - none
+    */
+    void setBendWarpFactor(int newVal);
+
+    /*! Function handlePolydata() \n
+        Function to set new bend warp dimensions
+        \n Arguments: none
+        \return   void - none
+    */
+    void setBendWarpDimensions(int,int,int);
+
     /*! Function handlePolydata() \n
         Function to handle the poly data of the specified object
         \n Arguments: none
@@ -294,6 +327,13 @@ public:
         \return   void - measurement
     */
     void makeMeasurements();
+
+    /*! Function updateObjectData() \n
+        Function to update object data and geometry.
+        \n Arguments: none
+        \return   void - measurement
+    */
+    void updateObjectData();
 
     /*! Function drawHexahedron(Cell*) \n
         Function to draw the Hexahedron.
@@ -420,6 +460,10 @@ public:
         \return   void - reset the color of object
     */
     void resetColor();
+
+    void enableSurfaceWarp(int);
+
+    void enableBendWarp(int);
 
 
 };
