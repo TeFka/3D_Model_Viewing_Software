@@ -22,8 +22,9 @@ void MainWindow::refreshGUI()
     ui->sphereCheck->setCheckState(Qt::Unchecked);
     ui->tubeCheck->setCheckState(Qt::Unchecked);
     ui->lightCheck->setCheckState(Qt::Unchecked);
-    ui->curveCheck->setCheckState(Qt::Unchecked);
     ui->outlineCheck->setCheckState(Qt::Unchecked);
+    ui->surfaceWarpCheck->setCheckState(Qt::Unchecked);
+    ui->bendWarpCheck->setCheckState(Qt::Unchecked);
 
     ui->clipX->setCheckState(Qt::Unchecked);
     ui->clipY->setCheckState(Qt::Unchecked);
@@ -44,6 +45,7 @@ void MainWindow::refreshGUI()
     ui->shrinkFactor->setValue(1.0);
     ui->sphereFilterRad->setValue(10);
     ui->tubeFilterRad->setValue(10);
+    ui->tubeFilterSideNum->setValue(3);
 
     ui->lightIntensitySlider->setValue(0);
     ui->lightSpecularSlider->setValue(0);
@@ -53,6 +55,12 @@ void MainWindow::refreshGUI()
 
     ui->objOpacitySlider->setValue(1);
     ui->objOpacityNumBox->setValue(1.0);
+
+    ui->surfaceWarpFactor->setValue(0);
+    ui->bendWarpFactor->setValue(0);
+    ui->bendWarpX->setValue(1);
+    ui->bendWarpY->setValue(1);
+    ui->bendWarpZ->setValue(1);
 
     ui->solidRadioB->toggle();
 
@@ -74,7 +82,6 @@ void MainWindow::refreshObjectGUI()
     ui->sphereCheck->setCheckState(Qt::Unchecked);
     ui->tubeCheck->setCheckState(Qt::Unchecked);
     ui->lightCheck->setCheckState(Qt::Unchecked);
-    ui->curveCheck->setCheckState(Qt::Unchecked);
 
     ui->clipX->setCheckState(Qt::Unchecked);
     ui->clipY->setCheckState(Qt::Unchecked);
@@ -86,6 +93,17 @@ void MainWindow::refreshObjectGUI()
 
     ui->objOpacitySlider->setValue(1);
     ui->objOpacityNumBox->setValue(1.0);
+
+    ui->shrinkFactor->setValue(1.0);
+    ui->sphereFilterRad->setValue(10);
+    ui->tubeFilterRad->setValue(10);
+    ui->tubeFilterSideNum->setValue(3);
+
+    ui->surfaceWarpFactor->setValue(0);
+    ui->bendWarpFactor->setValue(0);
+    ui->bendWarpX->setValue(1);
+    ui->bendWarpY->setValue(1);
+    ui->bendWarpZ->setValue(1);
 
     ui->solidRadioB->toggle();
 
@@ -378,11 +396,6 @@ void MainWindow::handleNewButton()
 
 }
 
-//function to apply cure filter
-void MainWindow::applyCurveFilter(){
-    this->handleFilterUpdate();
-}
-
 //function to set minimum cell to be shown
 void MainWindow::handleMinCellChange()
 {
@@ -430,7 +443,7 @@ void MainWindow::handleFilterUpdate()
 {
     emit statusUpdateMessage( QString("Update filters"), 0 );
     std::vector<int> filtersInUse = {ui->shrinkCheck->isChecked(),ui->clipCheck->isChecked(),0,
-    ui->smoothCheck->isChecked(),ui->sphereCheck->isChecked(),ui->tubeCheck->isChecked(),0};
+    ui->smoothCheck->isChecked(),ui->sphereCheck->isChecked(),ui->tubeCheck->isChecked()};
     this->appHandler->getPipeline()->setFilters(filtersInUse);
     this->appHandler->updateViewer();
 
@@ -453,16 +466,22 @@ void MainWindow::handleUpdate()
         this->appHandler->getPipeline()->enableClipY(ui->clipY->isChecked());
         this->appHandler->getPipeline()->enableClipZ(ui->clipZ->isChecked());
 
-        this->appHandler->getPipeline()->enableScalarWarp(ui->scalarWarp->isChecked());
+        this->appHandler->getPipeline()->getObject()->enableSurfaceWarp(ui->surfaceWarpCheck->isChecked());
+        this->appHandler->getPipeline()->getObject()->enableBendWarp(ui->bendWarpCheck->isChecked());
 
         this->appHandler->getPipeline()->setShrinkFactor(ui->shrinkFactor->value());
         this->appHandler->getPipeline()->setTubeRad(ui->tubeFilterRad->value());
+        this->appHandler->getPipeline()->setTubeSides(ui->tubeFilterSideNum->value());
         this->appHandler->getPipeline()->setSphereRad(ui->sphereFilterRad->value());
 
         this->appHandler->getPipeline()->setClipPart((double)ui->clipNumBox->value()/100);
         this->appHandler->getPipeline()->setLightIntensity((double)ui->lightIntensityNumBox->value()/100);
         this->appHandler->getPipeline()->setLightSpecular((double)ui->lightSpecularNumBox->value()/100);
         this->appHandler->getPipeline()->setOpacity(ui->objOpacityNumBox->value());
+
+        this->appHandler->getPipeline()->getObject()->setSurfaceWarpFactor(ui->surfaceWarpFactor->value());
+        this->appHandler->getPipeline()->getObject()->setBendWarpFactor(ui->bendWarpFactor->value());
+        this->appHandler->getPipeline()->getObject()->setBendWarpDimensions(ui->bendWarpX->value(),ui->bendWarpY->value(),ui->bendWarpZ->value());
 
         this->allowGUIChange = 0;
         ui->clipSlider->setValue(ui->clipNumBox->value());
@@ -571,7 +590,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->smoothCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
     connect(ui->tubeCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
     connect(ui->sphereCheck, SIGNAL(stateChanged(int)), this, SLOT(handleFilterUpdate()));
-    connect(ui->curveCheck, SIGNAL(stateChanged(int)), this, SLOT(applyCurveFilter()));
     connect(ui->outlineCheck, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
 
     connect(ui->clipX, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
@@ -580,12 +598,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->lightCheck, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
 
-    connect(ui->scalarWarp, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
-
+    connect(ui->surfaceWarpCheck, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->bendWarpCheck, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
 //spin boxes
     connect(ui->shrinkFactor, SIGNAL(valueChanged(double)), this, SLOT(handleUpdate()));
     connect(ui->sphereFilterRad, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
     connect(ui->tubeFilterRad, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->tubeFilterSideNum, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
 
     connect(ui->cellMinShow, SIGNAL(valueChanged(int)), this, SLOT(handleMinCellChange()));
     connect(ui->cellMaxShow, SIGNAL(valueChanged(int)), this, SLOT(handleMaxCellChange()));
@@ -594,6 +613,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->lightIntensityNumBox, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
     connect(ui->lightSpecularNumBox, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
     connect(ui->objOpacityNumBox, SIGNAL(valueChanged(double)), this, SLOT(handleUpdate()));
+
+    connect(ui->surfaceWarpFactor, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->bendWarpFactor, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->bendWarpX, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->bendWarpY, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->bendWarpZ, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
 
 //radio buttons
     connect(ui->solidRadioB, SIGNAL(clicked()), this, SLOT(handleUpdate()));

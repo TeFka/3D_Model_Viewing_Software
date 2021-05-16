@@ -88,38 +88,45 @@ void ViewerHandler::setText()
 
     //setup parameters of text showing number of points
     this->pointsTextActor->SetInput ("");
-    this->pointsTextActor->SetPosition ( 10, 90 );
+    this->pointsTextActor->SetPosition ( 10, 110 );
     this->pointsTextActor->GetTextProperty()->SetFontSize ( 15 );
     this->pointsTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
     this->activeRenderer->AddActor2D ( this->pointsTextActor );
 
     //setup parameters of text showing object volume
     this->volumeTextActor->SetInput ("");
-    this->volumeTextActor->SetPosition ( 10, 70 );
+    this->volumeTextActor->SetPosition ( 10, 90 );
     this->volumeTextActor->GetTextProperty()->SetFontSize ( 15 );
     this->volumeTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
     this->activeRenderer->AddActor2D ( this->volumeTextActor );
 
     //setup parameters of text showing maximum number of cells
     this->maxCellNumTextActor->SetInput ("");
-    this->maxCellNumTextActor->SetPosition ( 10, 50 );
+    this->maxCellNumTextActor->SetPosition ( 10, 70 );
     this->maxCellNumTextActor->GetTextProperty()->SetFontSize ( 15 );
     this->maxCellNumTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
     this->activeRenderer->AddActor2D ( this->maxCellNumTextActor );
 
     //setup parameters of text showing object weight
     this->weightTextActor->SetInput ("");
-    this->weightTextActor->SetPosition ( 10, 30 );
+    this->weightTextActor->SetPosition ( 10, 50 );
     this->weightTextActor->GetTextProperty()->SetFontSize ( 15 );
     this->weightTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
     this->activeRenderer->AddActor2D ( this->weightTextActor );
 
     //setup parameters of text showing object position
     this->positionTextActor->SetInput ("");
-    this->positionTextActor->SetPosition ( 10, 10 );
+    this->positionTextActor->SetPosition ( 10, 30 );
     this->positionTextActor->GetTextProperty()->SetFontSize ( 15 );
     this->positionTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
     this->activeRenderer->AddActor2D ( this->positionTextActor );
+
+    //setup parameters of text showing object bounds
+    this->boundTextActor->SetInput ("");
+    this->boundTextActor->SetPosition ( 10, 10 );
+    this->boundTextActor->GetTextProperty()->SetFontSize ( 15 );
+    this->boundTextActor->GetTextProperty()->SetColor ( 1.0, 0.0, 0.0 );
+    this->activeRenderer->AddActor2D ( this->boundTextActor );
 }
 
 //function to update shown text
@@ -165,6 +172,11 @@ void ViewerHandler::updateText()
         this->positionTextActor->SetInput (("Position: "+std::to_string(this->thePipeline->getObject()->getPosition().getx())+
                                             " "+std::to_string(this->thePipeline->getObject()->getPosition().gety())+
                                             " "+std::to_string(this->thePipeline->getObject()->getPosition().getz())).data());
+
+        //update value of text showing object bounds
+        this->boundTextActor->SetInput (("Bounds Dimensions: "+std::to_string(this->thePipeline->getObject()->getDimensions().getx())+
+                                            " "+std::to_string(this->thePipeline->getObject()->getDimensions().gety())+
+                                            " "+std::to_string(this->thePipeline->getObject()->getDimensions().getz())).data());
     }
     else
     {
@@ -173,6 +185,7 @@ void ViewerHandler::updateText()
         this->maxCellNumTextActor->SetInput ("");
         this->weightTextActor->SetInput ("");
         this->positionTextActor->SetInput ("");
+        this->boundTextActor->SetInput ("");
         this->pointsTextActor->SetInput ("");
     }
 }
@@ -439,7 +452,15 @@ void ViewerHandler::resetViewer()
     this->thePipeline->setClipPart(0);
 
     this->thePipeline->setTubeRad(10);
+    this->thePipeline->setTubeSides(3);
     this->thePipeline->setSphereRad(10);
+
+    this->thePipeline->getObject()->enableSurfaceWarp(0);
+    this->thePipeline->getObject()->enableBendWarp(0);
+
+    this->thePipeline->getObject()->setSurfaceWarpFactor(0);
+    this->thePipeline->getObject()->setBendWarpFactor(0);
+    this->thePipeline->getObject()->setBendWarpDimensions(1,1,1);
 
     this->showInfo = 0;
     this->showAxes = 0;
@@ -494,7 +515,15 @@ void ViewerHandler::resetObject()
     this->thePipeline->setClipPart(0);
 
     this->thePipeline->setTubeRad(10);
+    this->thePipeline->setTubeSides(3);
     this->thePipeline->setSphereRad(10);
+
+    this->thePipeline->getObject()->enableSurfaceWarp(0);
+    this->thePipeline->getObject()->enableBendWarp(0);
+
+    this->thePipeline->getObject()->setSurfaceWarpFactor(0);
+    this->thePipeline->getObject()->setBendWarpFactor(0);
+    this->thePipeline->getObject()->setBendWarpDimensions(1,1,1);
 
     std::vector<int> filtersInUse = {0,0,0,0,0,0,0};
     this->thePipeline->setFilters(filtersInUse);

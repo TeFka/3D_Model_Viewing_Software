@@ -29,10 +29,6 @@
 
 #include <vtkCutter.h>
 
-#include<vtkWarpScalar.h>
-#include <vtkWarpVector.h>
-#include <vtkWarpTo.h>
-
 #include <vtkCleanPolyData.h>
 #include <vtkPolyDataNormals.h>
 #include <vtkColorTransferFunction.h>
@@ -58,9 +54,6 @@ private:
 
     vtkSmartPointer<vtkLight> light = vtkSmartPointer<vtkLight>::New();
 
-    vtkNew<vtkWarpScalar> warpScalar;
-    vtkNew<vtkWarpVector> surfaceWarp;
-
     vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
     vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
     vtkSmartPointer<vtkContourFilter> contourFilter = vtkSmartPointer<vtkContourFilter>::New();
@@ -80,10 +73,7 @@ private:
     vtkSmartPointer<vtkRenderer> activeRenderer = vtkSmartPointer<vtkRenderer>::New();
 
     vtkAlgorithmOutput* finalAlgorithm = vtkAlgorithmOutput::New();
-    vtkAlgorithmOutput* finalPolyAlgorithmOutput = vtkAlgorithmOutput::New();
-    vtkPolyDataAlgorithm* finalPolyAlgorithm = vtkPolyDataAlgorithm::New();
-
-    int allowWarpScalar = 0;
+    vtkPolyData* finalPolydata = vtkPolyData::New();
 
     std::vector<int> activeFilters = {0,0,0,0,0,0,0};
 
@@ -91,8 +81,12 @@ private:
 
     int colorAffected = 0;
     double shrinkFactor = 0;
+
     int tubeFilterRadius = 0;
+    int tubeSides = 1;
+
     int sphereFilterRadius = 0;
+
     int clipX = 0;
     int clipY = 0;
     int clipZ = 0;
@@ -106,10 +100,6 @@ private:
     double lightSpecular = 0.0;
     //! function to refresh pipeline
     void refreshPipeline();
-    //! function to setup poly algorithm
-    void setPolyAlgorithm();
-
-    void geometryStage();
     //! function to use pipeline filters
     void filterStage();
     //! function to update active mappers
@@ -208,8 +198,6 @@ public:
     \n Arguments: int - enable to clip on z axis
     */
     void enableClipZ(int);
-
-    void enableScalarWarp(int);
     /*! function to set shrink factor
     \n Arguments: double - set shrink factor
     */
@@ -222,6 +210,10 @@ public:
     \n Arguments: double - set radius of tube
     */
     void setTubeRad(double);
+    /*! function to set number of tube filter tube sides
+    \n Arguments: double - set radius of tube
+    */
+    void setTubeSides(int);
     /*! function to set the value for part of object that is clipped with clip filter
     \n Arguments: double - set clipped with
     */

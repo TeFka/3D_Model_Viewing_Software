@@ -42,6 +42,8 @@
 #include <QColorDialog>
 #include <vtkInteractorStyleTrackballCamera.h>
 
+#include <vtkOutlineFilter.h>
+
 #include <vtkPCANormalEstimation.h>
 
 #include <vtkTextActor.h>
@@ -178,6 +180,7 @@ private:
     vtkSmartPointer<vtkTextActor> weightTextActor = vtkSmartPointer<vtkTextActor>::New();
     vtkSmartPointer<vtkTextActor> positionTextActor = vtkSmartPointer<vtkTextActor>::New();
     vtkSmartPointer<vtkTextActor> pointsTextActor = vtkSmartPointer<vtkTextActor>::New();
+    vtkSmartPointer<vtkTextActor> boundTextActor = vtkSmartPointer<vtkTextActor>::New();
 
     vtkNew<vtkAxesActor> axesActor;
     vtkNew<vtkActor> normalsActor;

@@ -148,6 +148,23 @@ void VTKObjectHandler::setMaxActiveCell(int newVal)
     this->maxActiveCell = newVal;
 }
 
+//function to set new surface warp factor
+void VTKObjectHandler::setSurfaceWarpFactor(int newVal){
+    this->surfaceWarpFactor = newVal;
+}
+
+//function to set new bend warp factor
+void VTKObjectHandler::setBendWarpFactor(int newVal){
+    this->bendWarpFactor = newVal;
+}
+
+//function to set new bend warp dimensions
+void VTKObjectHandler::setBendWarpDimensions(int newXVal,int newYVal,int newZVal){
+    this->bendWarpX = newXVal;
+    this->bendWarpY = newYVal;
+    this->bendWarpZ = newZVal;
+}
+
 //function to set polydata of object
 void VTKObjectHandler::handlePolydata(){
     this->activePoints = this->finalPolyData->GetPoints();
@@ -180,7 +197,7 @@ void VTKObjectHandler::makeMeasurements()
 
         //set input of parameters for non VTK object
         if(this->objectType==2){
-            this->objectParameters->SetInputData(this->activeGrid);
+            this->objectParameters->SetInputData(this->finalPolyData);
         }
         else{
         this->objectParameters->SetInputData(this->finalPolyData);
@@ -189,20 +206,28 @@ void VTKObjectHandler::makeMeasurements()
 
         this->objectWeight = 0;
 
-    if(objectType==2||objectType==0)
-    {
+        double* tempBounds;
+        tempBounds = this->finalPolyData->GetBounds();
         //set default parameters for basic object
-        this->objectDimensions.setx(1.0);
-        this->objectDimensions.sety(1.0);
-        this->objectDimensions.setz(1.0);
+        double tempDimensionX = (tempBounds[0]-tempBounds[1]);
+        double tempDimensionY = (tempBounds[2]-tempBounds[3]);
+        double tempDimensionZ = (tempBounds[4]-tempBounds[5]);
 
-        this->objectPosition.setx(0.0);
-        this->objectPosition.setx(0.0);
-        this->objectPosition.setx(0.0);
+        if(tempDimensionX<0){tempDimensionX = -tempDimensionX;}
+        if(tempDimensionY<0){tempDimensionY = -tempDimensionY;}
+        if(tempDimensionZ<0){tempDimensionZ = -tempDimensionZ;}
 
-        this->dimensionAverage = 1.0;
+        this->objectDimensions.setx(tempDimensionX);
+        this->objectDimensions.sety(tempDimensionY);
+        this->objectDimensions.setz(tempDimensionZ);
+
+        this->objectPosition.setx((tempBounds[0]+tempBounds[1])/2);
+        this->objectPosition.setx((tempBounds[2]+tempBounds[3])/2);
+        this->objectPosition.setx((tempBounds[4]+tempBounds[5])/2);
+
+        this->dimensionAverage = ((this->objectDimensions.getx()+this->objectDimensions.gety()+this->objectDimensions.getz())/3);
     }
-    else if(objectType==1)
+    /*else if(objectType==1)
     {
         //set parameters for STl object
         this->activePoints = this->activeReader->GetOutput()->GetPoints();
@@ -255,13 +280,48 @@ void VTKObjectHandler::makeMeasurements()
         this->objectPosition.setx((xMax+xMin)/2);
         this->objectPosition.setx((yMax+yMin)/2);
         this->objectPosition.setx((zMax+zMin)/2);
+    }*/
+}
+
+void VTKObjectHandler::geometryStage()
+{
+    this->finalSourceAlgorithm = this->defaultSourceAlgorithm;
+    if(this->allowSurfaceWarp)
+    {
+        // Generate normals
+        vtkNew<vtkPolyDataNormals> normals;
+        normals->SetInputConnection(this->finalSourceAlgorithm);
+        normals->SplittingOff();
+
+        // Warp using the normals
+        this->surfaceWarp->SetInputConnection(normals->GetOutputPort());
+        this->surfaceWarp->SetInputArrayToProcess(0, 0, 0, vtkDataObject::FIELD_ASSOCIATION_POINTS,
+                                     vtkDataSetAttributes::NORMALS);
+        surfaceWarp->SetScaleFactor(this->surfaceWarpFactor);
+
+        this->surfaceWarp->Update();
+        this->finalSourceAlgorithm = this->surfaceWarp->GetOutputPort();
+        this->finalPolyData = this->surfaceWarp->GetPolyDataOutput();
     }
+    if(this->allowBendWarp)
+    {
+         this->bendWarp->SetInputConnection(this->finalSourceAlgorithm);
+         this->bendWarp->SetPosition(this->bendWarpX*this->objectDimensions.getx(),
+                                     this->bendWarpY*this->objectDimensions.gety(),
+                                     this->bendWarpZ*this->objectDimensions.getz());
+         this->bendWarp->SetScaleFactor(this->bendWarpFactor);
+         this->bendWarp->AbsoluteOn();
+         this->bendWarp->Update();
+         this->finalSourceAlgorithm = this->bendWarp->GetOutputPort();
+         this->finalPolyData = this->bendWarp->GetPolyDataOutput();
     }
 }
 
- void VTKObjectHandler::geometryStage(){
-
- }
+//function to update object data and geometry
+void VTKObjectHandler::updateObjectData(){
+    this->geometryStage();
+    this->makeMeasurements();
+}
 
 //function to update VTK object
 void VTKObjectHandler::updateVTKModel()
@@ -335,11 +395,11 @@ void VTKObjectHandler::updateVTKModel()
         this->objectType = 3;
 
         this->geometryFilter->SetInputData(this->activeGrid);
-        this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+        this->defaultSourceAlgorithm = this->geometryFilter->GetOutputPort();
         this->finalPolyData = this->geometryFilter->GetOutput();
 
         //make object measurements
-        this->makeMeasurements();
+        this->updateObjectData();
     }
 }
 
@@ -441,7 +501,7 @@ void VTKObjectHandler::displayHexahedron()
 
     //define final algorithm
     this->geometryFilter->SetInputData(this->activeGrid);
-    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->defaultSourceAlgorithm = this->geometryFilter->GetOutputPort();
 
     //define final poly data
     this->geometryFilter->Update();
@@ -454,7 +514,7 @@ void VTKObjectHandler::displayHexahedron()
     this->maxActiveCell = 1;
 
     //make object measurements
-    this->makeMeasurements();
+    this->updateObjectData();
 
 }
 
@@ -489,7 +549,7 @@ void VTKObjectHandler::displayTetrahedron()
 
      //define final algorithm
     this->geometryFilter->SetInputData(this->activeGrid);
-    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->defaultSourceAlgorithm = this->geometryFilter->GetOutputPort();
 
     //define final poly data
     this->geometryFilter->Update();
@@ -502,7 +562,7 @@ void VTKObjectHandler::displayTetrahedron()
     this->maxActiveCell = 1;
 
     //make object measurements
-    this->makeMeasurements();
+    this->updateObjectData();
 }
 
 //function to display hexahedron using grid
@@ -536,7 +596,7 @@ void VTKObjectHandler::displayPyramid()
 
      //define final algorithm
     this->geometryFilter->SetInputData(this->activeGrid);
-    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->defaultSourceAlgorithm = this->geometryFilter->GetOutputPort();
 
     //define final poly data
     this->geometryFilter->Update();
@@ -549,7 +609,7 @@ void VTKObjectHandler::displayPyramid()
     this->maxActiveCell = 1;
 
     //make object measurements
-    this->makeMeasurements();
+    this->updateObjectData();
 }
 
 //function to display sphere using VTK source
@@ -569,7 +629,7 @@ void VTKObjectHandler::displaySphere()
 
     //define final algorithm
     this->geometryFilter->SetInputConnection(sphere->GetOutputPort());
-    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->defaultSourceAlgorithm = this->geometryFilter->GetOutputPort();
 
     //define final polydata
     this->finalPolyData = sphere->GetOutput();
@@ -580,7 +640,7 @@ void VTKObjectHandler::displaySphere()
     this->maxActiveCell = 1;
 
     //make measurements
-    this->makeMeasurements();
+    this->updateObjectData();
 }
 //function to display hexahedron using VTk source
 void VTKObjectHandler::displayDisk()
@@ -599,7 +659,7 @@ void VTKObjectHandler::displayDisk()
 
     //define final algorithm
     this->geometryFilter->SetInputConnection(disk->GetOutputPort());
-    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->defaultSourceAlgorithm = this->geometryFilter->GetOutputPort();
 
     //define final polydata
     this->finalPolyData = disk->GetOutput();
@@ -610,7 +670,7 @@ void VTKObjectHandler::displayDisk()
     this->maxActiveCell = 1;
 
     //make measurements
-    this->makeMeasurements();
+    this->updateObjectData();
 }
 
 //function to display hexahedron using VTk source
@@ -630,7 +690,7 @@ void VTKObjectHandler::displayCone()
 
     //define final algorithm
     this->geometryFilter->SetInputConnection(cone->GetOutputPort());
-    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->defaultSourceAlgorithm = this->geometryFilter->GetOutputPort();
 
     //define final polydata
     this->finalPolyData = cone->GetOutput();
@@ -641,7 +701,7 @@ void VTKObjectHandler::displayCone()
     this->maxActiveCell = 1;
 
     //make measurements
-    this->makeMeasurements();
+    this->updateObjectData();
 }
 
 //function to display hexahedron using VTk source
@@ -659,7 +719,7 @@ void VTKObjectHandler::displayPlane()
 
     //define final algorithm
     this->geometryFilter->SetInputConnection(plane->GetOutputPort());
-    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->defaultSourceAlgorithm = this->geometryFilter->GetOutputPort();
 
     //define final polydata
     this->finalPolyData = plane->GetOutput();
@@ -670,7 +730,7 @@ void VTKObjectHandler::displayPlane()
     this->maxActiveCell = 1;
 
     //make measurements
-    this->makeMeasurements();
+    this->updateObjectData();
 }
 
 //function to display hexahedron using VTk source
@@ -690,7 +750,7 @@ void VTKObjectHandler::displayPointCluster(int numberOfPoints)
 
     //define final algorithm
     this->geometryFilter->SetInputConnection(cluster->GetOutputPort());
-    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->defaultSourceAlgorithm = this->geometryFilter->GetOutputPort();
 
     //define final polydata
     this->finalPolyData = cluster->GetOutput();
@@ -701,7 +761,7 @@ void VTKObjectHandler::displayPointCluster(int numberOfPoints)
     this->maxActiveCell = 1;
 
     //make measurements
-    this->makeMeasurements();
+    this->updateObjectData();
 }
 
 //function to display hexahedron using VTk source
@@ -719,7 +779,7 @@ void VTKObjectHandler::displayLine()
 
     //define final algorithm
     this->geometryFilter->SetInputConnection(line->GetOutputPort());
-    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->defaultSourceAlgorithm = this->geometryFilter->GetOutputPort();
 
     //define final polydata
     this->finalPolyData = line->GetOutput();
@@ -730,7 +790,7 @@ void VTKObjectHandler::displayLine()
     this->maxActiveCell = 1;
 
     //make measurements
-    this->makeMeasurements();
+    this->updateObjectData();
 }
 
 //function to display hexahedron using VTk source
@@ -750,7 +810,7 @@ void VTKObjectHandler::displayCylinder()
 
     //define final algorithm
     this->geometryFilter->SetInputConnection(cylinder->GetOutputPort());
-    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->defaultSourceAlgorithm = this->geometryFilter->GetOutputPort();
 
     //define final polydata
     this->finalPolyData = cylinder->GetOutput();
@@ -761,7 +821,7 @@ void VTKObjectHandler::displayCylinder()
     this->maxActiveCell = 1;
 
     //make measurements
-    this->makeMeasurements();
+    this->updateObjectData();
 }
 
 //function to display hexahedron using VTk source
@@ -780,7 +840,7 @@ void VTKObjectHandler::displayEarth()
 
     //define final algorithm
     this->geometryFilter->SetInputConnection(earth->GetOutputPort());
-    this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+    this->defaultSourceAlgorithm = this->geometryFilter->GetOutputPort();
 
     //define final polydata
     this->finalPolyData = earth->GetOutput();
@@ -791,7 +851,7 @@ void VTKObjectHandler::displayEarth()
     this->maxActiveCell = 1;
 
     //make measurements
-    this->makeMeasurements();
+    this->updateObjectData();
 }
 
 //function to load object from file
@@ -810,13 +870,13 @@ void VTKObjectHandler::getModelFromFile(QString fileName)
 
         this->objectParameters->SetInputConnection(this->activeReader->GetOutputPort());
 
-        this->finalSourceAlgorithm = this->activeReader->GetOutputPort();
+        this->defaultSourceAlgorithm = this->activeReader->GetOutputPort();
         this->finalPolyData = this->activeReader->GetOutput();
 
         this->cellAmount = 1;
         this->shownPoints = this->finalPolyData->GetPoints()->GetNumberOfPoints();
 
-        this->makeMeasurements();
+        this->updateObjectData();
 
         this->minActiveCell = 1;
         this->maxActiveCell = 1;
@@ -884,13 +944,13 @@ void VTKObjectHandler::getModelFromFile(QString fileName)
         this->objectType = 3;
 
         this->geometryFilter->SetInputData(this->activeGrid);
-        this->finalSourceAlgorithm = this->geometryFilter->GetOutputPort();
+        this->defaultSourceAlgorithm = this->geometryFilter->GetOutputPort();
         this->finalPolyData = this->geometryFilter->GetOutput();
 
         this->cellAmount = this->activeVTKModel.getCellAmount();
         this->shownPoints = this->finalPolyData->GetPoints()->GetNumberOfPoints();
 
-        this->makeMeasurements();
+        this->updateObjectData();
 
         this->minActiveCell = 1;
         this->maxActiveCell = this->cellAmount;
@@ -1105,4 +1165,14 @@ void VTKObjectHandler::resetColor()
         this->activeColor.setGreen(0);
         this->activeColor.setBlue(0);
     }
+}
+
+void VTKObjectHandler::enableSurfaceWarp(int newVal)
+{
+    this->allowSurfaceWarp = newVal;
+}
+
+void VTKObjectHandler::enableBendWarp(int newVal)
+{
+    this->allowBendWarp = newVal;
 }
