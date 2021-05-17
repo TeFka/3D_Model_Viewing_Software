@@ -221,7 +221,7 @@ public:
 	Hexahedron();
 
 //! Default.
-    Hexahedron(int,int,int,std::vector<int>,std::vector<Vector3D>,std::vector<Material>);.
+    Hexahedron(int,int,int,std::vector<int>,std::vector<Vector3D>,std::vector<Material>);
 
 //! copy contructor.
     Hexahedron(const Cell&);
