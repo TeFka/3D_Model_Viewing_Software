@@ -13,5 +13,5 @@ var searchData=
   ['picktetrahedron',['pickTetrahedron',['../class_new_shape_choice.html#a4df3d2e466ff4a554d2d866c751ff309',1,'NewShapeChoice']]],
   ['pipeline',['Pipeline',['../class_pipeline.html',1,'Pipeline'],['../class_pipeline.html#a79e49366358f823b8812658f8bf3a9e8',1,'Pipeline::Pipeline()'],['../class_pipeline.html#af206fb0b930746e0dfeb185e1c93a92f',1,'Pipeline::Pipeline(vtkSmartPointer&lt; vtkRenderer &gt;)']]],
   ['pipeline_2eh',['Pipeline.h',['../_pipeline_8h.html',1,'']]],
-  ['pyramid',['Pyramid',['../class_pyramid.html',1,'Pyramid'],['../class_pyramid.html#a2bf002316570b7e3b9b28c302b0d0259',1,'Pyramid::Pyramid(int, int, int, std::vector&lt; int &gt;, std::vector&lt; Vector3D &gt;, std::vector&lt; Material &gt;)'],['../class_pyramid.html#aea1431df57752208f06d9f0e3d1bcb3b',1,'Pyramid::Pyramid(const Cell &amp;)']]]
+  ['pyramid',['Pyramid',['../class_pyramid.html',1,'Pyramid'],['../class_pyramid.html#aa78baa6faa1c3fbcca510e8ddf37de49',1,'Pyramid::Pyramid()'],['../class_pyramid.html#a2bf002316570b7e3b9b28c302b0d0259',1,'Pyramid::Pyramid(int, int, int, std::vector&lt; int &gt;, std::vector&lt; Vector3D &gt;, std::vector&lt; Material &gt;)'],['../class_pyramid.html#aea1431df57752208f06d9f0e3d1bcb3b',1,'Pyramid::Pyramid(const Cell &amp;)']]]
 ];

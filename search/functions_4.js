@@ -39,5 +39,8 @@ var searchData=
   ['getvectoramount',['getVectorAmount',['../class_model.html#acd0f324509ae2321c04f259fd0133a7a',1,'Model']]],
   ['getvectors',['getVectors',['../class_model.html#ab37cfe36bfc8ba85a0894cb11c156e11',1,'Model']]],
   ['getvolume',['getVolume',['../class_cell.html#aac8a5f3d06691efa17d909cc4e9c248b',1,'Cell::getVolume()'],['../class_v_t_k_object_handler.html#a5473d1e0c1b09dd2f5d5bf284db19226',1,'VTKObjectHandler::getVolume()']]],
-  ['getweight',['getWeight',['../class_cell.html#a8894ea0d3bf52c4837b95b7ec547392b',1,'Cell::getWeight()'],['../class_v_t_k_object_handler.html#a6172022f8c4c50e8edd5eef2ff8eff92',1,'VTKObjectHandler::getWeight()']]]
+  ['getweight',['getWeight',['../class_cell.html#a8894ea0d3bf52c4837b95b7ec547392b',1,'Cell::getWeight()'],['../class_v_t_k_object_handler.html#a6172022f8c4c50e8edd5eef2ff8eff92',1,'VTKObjectHandler::getWeight()']]],
+  ['getx',['getx',['../class_vector3_d.html#a15c82882374b06215f64f0e7329a23db',1,'Vector3D']]],
+  ['gety',['gety',['../class_vector3_d.html#a891207bd6706565ae15443379d772565',1,'Vector3D']]],
+  ['getz',['getz',['../class_vector3_d.html#ab69939399a0e1d5b438d7ce0bfc7b0a0',1,'Vector3D']]]
 ];
