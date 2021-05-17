@@ -1,16 +1,10 @@
 var searchData=
 [
-  ['pickcone',['pickCone',['../class_new_shape_choice.html#a71c21786d9831dab8f2d1bf7513b5c4e',1,'NewShapeChoice']]],
-  ['pickcylinder',['pickCylinder',['../class_new_shape_choice.html#a153bf60861c5da2724890c8158b4faca',1,'NewShapeChoice']]],
-  ['pickdisk',['pickDisk',['../class_new_shape_choice.html#ab51c5ccbc969afb8ccfb310e3feeca3e',1,'NewShapeChoice']]],
-  ['pickearth',['pickEarth',['../class_new_shape_choice.html#a2de4eee0894a27e1fc6e5c2218f25950',1,'NewShapeChoice']]],
-  ['pickhexahedron',['pickHexahedron',['../class_new_shape_choice.html#adff2516ba56da550a46b029b2459f57c',1,'NewShapeChoice']]],
-  ['pickline',['pickLine',['../class_new_shape_choice.html#a2417759d30f97495b450df2333a1746c',1,'NewShapeChoice']]],
-  ['pickplane',['pickPlane',['../class_new_shape_choice.html#a71dbaaceeafb7eae5860b892e6b14a56',1,'NewShapeChoice']]],
-  ['pickpoints',['pickPoints',['../class_new_shape_choice.html#abce250b07adb0ce8bc2b13939e9d130e',1,'NewShapeChoice']]],
-  ['pickpyramid',['pickPyramid',['../class_new_shape_choice.html#a99107839c97c1d3a3e9e8782cb62af63',1,'NewShapeChoice']]],
-  ['picksphere',['pickSphere',['../class_new_shape_choice.html#a07c2f93ed76719508c4252fdb5f4de11',1,'NewShapeChoice']]],
-  ['picktetrahedron',['pickTetrahedron',['../class_new_shape_choice.html#a4df3d2e466ff4a554d2d866c751ff309',1,'NewShapeChoice']]],
-  ['pipeline',['Pipeline',['../class_pipeline.html#a79e49366358f823b8812658f8bf3a9e8',1,'Pipeline::Pipeline()'],['../class_pipeline.html#af206fb0b930746e0dfeb185e1c93a92f',1,'Pipeline::Pipeline(vtkSmartPointer&lt; vtkRenderer &gt;)']]],
-  ['pyramid',['Pyramid',['../class_pyramid.html#a2bf002316570b7e3b9b28c302b0d0259',1,'Pyramid::Pyramid(int, int, int, std::vector&lt; int &gt;, std::vector&lt; Vector3D &gt;, std::vector&lt; Material &gt;)'],['../class_pyramid.html#aea1431df57752208f06d9f0e3d1bcb3b',1,'Pyramid::Pyramid(const Cell &amp;)']]]
+  ['refreshrender',['refreshRender',['../class_viewer_handler.html#a079a312bb681b12a25bdb59062f53869',1,'ViewerHandler']]],
+  ['resetcamera',['resetCamera',['../class_viewer_handler.html#af1713a6c3bc73009caf36671b6078557',1,'ViewerHandler']]],
+  ['resetcolor',['resetColor',['../class_v_t_k_object_handler.html#a4ecc3dd7dbcfa237d5d54253428ae481',1,'VTKObjectHandler']]],
+  ['resetobject',['resetObject',['../class_viewer_handler.html#a84d9295aef318394fc35e5c4167db214',1,'ViewerHandler']]],
+  ['resetviewer',['resetViewer',['../class_viewer_handler.html#ae4a4dd1cc3c8392b49a8c76c16291f24',1,'ViewerHandler']]],
+  ['runchoice',['runChoice',['../class_new_shape_choice.html#a0ad3ab9d4e869400468e1f2a758e22e4',1,'NewShapeChoice']]],
+  ['runhelp',['runHelp',['../class_app_help.html#af13259ffa31f8f85a1ea881e713bfc77',1,'AppHelp']]]
 ];

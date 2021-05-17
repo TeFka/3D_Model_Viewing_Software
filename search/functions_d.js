@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['tetrahedron',['Tetrahedron',['../class_tetrahedron.html#ab98a7c969ce1346e669d9ddf50130277',1,'Tetrahedron::Tetrahedron(int, int, int, std::vector&lt; int &gt;, std::vector&lt; Vector3D &gt;, std::vector&lt; Material &gt;)'],['../class_tetrahedron.html#a5354ba6af7ce91ffbc4a5b84df470bd7',1,'Tetrahedron::Tetrahedron(const Cell &amp;)']]],
-  ['transpose',['transpose',['../class_matrix3x3.html#a17970c50970d868be9657283e7d7912b',1,'Matrix3x3']]]
+  ['updateaffineinteraction',['updateAffineInteraction',['../class_viewer_handler.html#a3b7cd1989a89921b207918d0aa1f1e71',1,'ViewerHandler']]],
+  ['updateobjectdata',['updateObjectData',['../class_v_t_k_object_handler.html#afa797d139da1693f1e2fa00a9aa76aa0',1,'VTKObjectHandler']]],
+  ['updatepipeline',['updatePipeline',['../class_pipeline.html#a4c1c77b0bff7ddb226ec1d8ffc7bdecb',1,'Pipeline']]],
+  ['updateviewer',['updateViewer',['../class_viewer_handler.html#a68f1b3f941c86b37fa64e9893898ad06',1,'ViewerHandler']]],
+  ['updatevtkmodel',['updateVTKModel',['../class_v_t_k_object_handler.html#a2c74d51df9db49ffa3be9f6c569efe48',1,'VTKObjectHandler']]]
 ];
