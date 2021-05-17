@@ -37,26 +37,60 @@ public:
     //! copy constructor
     Vector3D (const Vector3D & vec);
 
-    //! Setters
-    /*! Function of class Vector, setID(), setx(), sety(), setz() \n
-        Function to set the values of vector coordinates 
-        \n  Argument:  setID(), setx(), sety(), setz(): none.
-        \return  newID, xc, yc and zc
+    /*! Function of class Vector setID()\n
+        Function to set the ID value
+        \n  Argument: none.
+        \return  none
     */
     void setID(int);
+
+    /*! Function of class Vector setx()\n
+        Function to set the X value
+        \n  Argument: double - new X value.
+        \return  none
+    */
     void setx(double);
+
+    /*! Function of class Vector sety()\n
+        Function to set the Y value
+        \n  Argument: double - new Y value.
+        \return  none
+    */
     void sety(double);
+
+    /*! Function of class Vector setz() \n
+        Function to set the Z value
+        \n  Argument: double - new Z value.
+        \return  none
+    */
     void setz(double);
 
-    //! Getters
-    /*! Function of class Vector, getID(), getx(), gety(), getz()  \n
-        Function to get value vector coordinates 
-    \n  Argument: getID(), getx(), gety(), getz(): none.
-    \return ID, x, y and z
+    /*! Function of class Vector getID\n
+        Function to get the ID
+    \n  Argument: none.
+    \return int - the ID
     */
     int getID();
+
+    /*! Function of class Vector getx\n
+        Function to get the X value
+    \n  Argument: none.
+    \return int - the X value
+    */
     double getx();
+
+    /*! Function of class Vector gety\n
+        Function to get the Y value
+    \n  Argument: none.
+    \return int - the Y value
+    */
     double gety();
+
+    /*! Function of class Vector getz\n
+        Function to get the Z value
+    \n  Argument: none.
+    \return int - the Z value
+    */
     double getz();
 
 
@@ -70,7 +104,7 @@ public:
 
     /*! Subtraction
        \n action: subtract current vector from another vector
-       \return results of the subtraction operation 
+       \return results of the subtraction operation
     */
     Vector3D operator-(const Vector3D &vec);
 
@@ -83,7 +117,7 @@ public:
 /*! Functions
      \n Cross Product
      \n action: perform cross product operation
-     \return the vector results from the cross product operation 
+     \return the vector results from the cross product operation
 */
     Vector3D cross_product(const Vector3D &vec);
 
