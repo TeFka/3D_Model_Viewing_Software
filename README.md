@@ -5,7 +5,6 @@ Woranan - Vector class</br>
 Michael - Cell class</br>
 Chen - Material class</br>
 Daniel - Model class</br>
-Daniel - Matrix class</br>
 
 ***Contents***</br>
 Class notes - has a quick summary of each class</br>
