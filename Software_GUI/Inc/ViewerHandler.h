@@ -3,8 +3,8 @@
                          \n Comments part: Danielius Zurlys and Chen Xu  (StudentID: 20187733)
     \brief  build a view part to make the interfacial is better.
 */
-#ifndef PIPELINEHANDLER_H_INCLUDED
-#define PIPELINEHANDLER_H_INCLUDED
+#ifndef VIEWERHANDLER_H_INCLUDED
+#define VIEWERHANDLER_H_INCLUDED
 
 #include <string>
 #include <math.h>
@@ -56,14 +56,13 @@
 #include <vtkOrientationMarkerWidget.h>
 #include <vtkRenderWindowInteractor.h>
 
-#include "./Pipeline.h"
+#include "./DataPipeline.h"
+#include "./PolyPipeline.h"
 
 
 class ViewerHandler;
 
-
-namespace
-{
+namespace affine{
 /*! \class vtkAffineCallback
     \brief  build a view part to make the interfacial is better.
 */
@@ -87,71 +86,7 @@ public:
     vtkAffineRepresentation2D* AffineRep;
     vtkTransform* Transform;
 };
-} // namespace
-
-namespace
-{
-/*! \class MouseInteractorStyleDoubleClick
-    \brief setup handler of mouse interactor for double clicking
-
-*/
-class MouseInteractorStyleDoubleClick : public vtkInteractorStyleTrackballCamera
-{
-public:
-    static MouseInteractorStyleDoubleClick* New();
-    vtkTypeMacro(MouseInteractorStyleDoubleClick,
-                 vtkInteractorStyleTrackballCamera);
-
-    MouseInteractorStyleDoubleClick() : NumberOfClicks(0), ResetPixelDistance(5)
-    {
-        this->PreviousPosition[0] = 0;
-        this->PreviousPosition[1] = 0;
-    }
-
-
-    virtual void OnLeftButtonDown() override
-    {
-        this->NumberOfClicks++;
-        int pickPosition[2];
-        this->GetInteractor()->GetEventPosition(pickPosition);
-
-        int xdist = pickPosition[0] - this->PreviousPosition[0];
-        int ydist = pickPosition[1] - this->PreviousPosition[1];
-
-        this->PreviousPosition[0] = pickPosition[0];
-        this->PreviousPosition[1] = pickPosition[1];
-
-        int moveDistance = (int)sqrt((double)(xdist * xdist + ydist * ydist));
-
-        // Reset numClicks - If mouse moved further than resetPixelDistance
-        if (moveDistance > this->ResetPixelDistance)
-        {
-            this->NumberOfClicks = 1;
-        }
-
-        if (this->NumberOfClicks == 2)
-        {
-            std::cout<<"yes"<<std::endl;
-            this->NumberOfClicks = 0;
-        }
-
-        // forward events
-        vtkInteractorStyleTrackballCamera::OnLeftButtonDown();
-    }
-
-    void setupHandler(ViewerHandler*);
-
-private:
-    ViewerHandler* handler;
-    unsigned int NumberOfClicks;
-    int PreviousPosition[2];
-    int ResetPixelDistance;
-};
-vtkStandardNewMacro(MouseInteractorStyleDoubleClick);
-} // namespace
-
-
-
+}
 
 /*! \class ViewerHandler
     \brief the major class to change the interface.
@@ -161,7 +96,9 @@ class ViewerHandler
 
 private:
 
-    Pipeline* thePipeline = new Pipeline;
+    DataPipeline* theDataPipeline = new DataPipeline;
+    PolyPipeline* thePolyPipeline = new PolyPipeline;
+
 
     vtkSmartPointer<vtkRenderer> activeRenderer = vtkSmartPointer<vtkRenderer>::New();
 
@@ -189,9 +126,7 @@ private:
 
     vtkNew<vtkOrientationMarkerWidget> axesWidget;
     vtkNew<vtkAffineWidget> affineWidget;
-    vtkNew<vtkAffineCallback> affineCallback;
-
-    vtkNew<MouseInteractorStyleDoubleClick> doubleClickInteratction;
+    vtkNew<affine::vtkAffineCallback> affineCallback;
 
     int showInfo = 0;
 
@@ -278,10 +213,14 @@ public:
     \n Arguments: Qcolor - background color
     */
     void changeBackgroundColor(QColor);
-    /*! function to get active pipeline
-        \return: Pipeline - getPipeline()
+    /*! function to get active polydata pipeline
+        \return: DataPipeline* - pointer of pipeline to be returned
     */
-    Pipeline* getPipeline();
+    DataPipeline* getDataPipeline();
+    /*! function to get active data pipeline
+        \return: PolyPipeline* - pointer of pipeline to be returned
+    */
+    PolyPipeline* getPolyPipeline();
     /*! function to allow showing of information text
         \n Arguments: int - information text
     */
@@ -309,7 +248,6 @@ public:
     */
     void saveScene(QString);
     //! function to handle mouse doubleclick
-    void mouseClick();
 };
 
 #endif //! PIPELINEHANDLER_H_INCLUDED

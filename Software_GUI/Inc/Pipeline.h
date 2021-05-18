@@ -48,43 +48,21 @@
 class Pipeline{
 
 
-private:
+protected:
 
     VTKObjectHandler* theObject = new VTKObjectHandler;
 
     vtkSmartPointer<vtkLight> light = vtkSmartPointer<vtkLight>::New();
 
-    vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
-    vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
-    vtkSmartPointer<vtkSplineFilter> splineFilter = vtkSmartPointer<vtkSplineFilter>::New();
-    vtkSmartPointer<vtkTubeFilter> tubeFilter = vtkSmartPointer<vtkTubeFilter>::New();
-
     vtkSmartPointer<vtkNamedColors> colorHandler = vtkSmartPointer<vtkNamedColors>::New();
 
-    vtkSmartPointer<vtkActor> activeActor = vtkSmartPointer<vtkActor>::New();
-    vtkSmartPointer<vtkActor> activePolyActor = vtkSmartPointer<vtkActor>::New();
     QColor actorColor;
 
-    vtkSmartPointer<vtkDataSetMapper> activeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    vtkSmartPointer<vtkActor> activeActor = vtkSmartPointer<vtkActor>::New();
 
     vtkSmartPointer<vtkRenderer> activeRenderer = vtkSmartPointer<vtkRenderer>::New();
 
-    vtkAlgorithmOutput* finalAlgorithm = vtkAlgorithmOutput::New();
-
-    std::vector<int> activeFilters = {0,0,0,0,0,0,0};
-
-    int colorAffected = 0;
-    double shrinkFactor = 0;
-
-    int tubeFilterRadius = 0;
-    int tubeSides = 1;
-
-    int sphereFilterRadius = 0;
-
-    int clipX = 0;
-    int clipY = 0;
-    int clipZ = 0;
-    double clipPart = 0;
+    std::vector<int> activeFilters;
 
     int showWireframe = 0;
     int showPoints = 0;
@@ -92,20 +70,6 @@ private:
     int showLight = 0;
     double lightIntensity = 1.0;
     double lightSpecular = 0.0;
-    //! function to refresh pipeline
-    void refreshPipeline();
-    //! function to use pipeline filters
-    void filterStage();
-    //! function to update active mappers
-    void mapperStage();
-    //! function to update actor of main data
-    void actorStage();
-    //! function to apply shrink filter
-    void initShrinkFilter();
-    //! function to apply clip filter
-    void initClipFilter();
-    //! function to apply tube filter
-    void initTubeFilter();
 
 public:
     //! default constructor
@@ -114,50 +78,31 @@ public:
     Pipeline(vtkSmartPointer<vtkRenderer>);
     //! function to setup lights
     void setLight();
-    //! function to update active pipeline
-    void updatePipeline();
-    //! function to setup new pipeline
-    void setNewPipeline();
     /*! function to get object handler
-        \n Arguement: VTKObjectHandler - getObject()
+        \return VTKObjectHandler - getObject()
     */
     VTKObjectHandler* getObject();
     /*! function to get active actor
-     \n Arguement: vtkSmartPointer<vtkActor> - getActor()
+     \return vtkSmartPointer<vtkActor> - getActor()
     */
     vtkSmartPointer<vtkActor> getActor();
-    /*! function to get active mapper
-    \n Arguement: vtkSmartPointer<vtkDataSetMapper> - getMapper()
-    */
-    vtkSmartPointer<vtkDataSetMapper> getMapper();
-    /*! function to get final algorithm
-    \return vtkAlgorithmOutput - getAlgorithm()
-    */
-    vtkAlgorithmOutput* getAlgorithm();
-    /*! function to get ploydata
-    \return vtkPolyData - GetPolydata()
+    /*! function to get active Renderer
+    \return vtkSmartPointer<vtkRenderer> - received Renderer
     */
     vtkSmartPointer<vtkRenderer> getRenderer();
+
+    /*! function to set active filters
+    \n Arguments: std::vector<int> - array of 1 or 0 to be set to filters
+    */
+    void setFilters(std::vector<int>);
     /*! function to set active Actor
     \return vtkSmartPointer<vtkActor> - set a actor
     */
     void setActor(vtkSmartPointer<vtkActor>);
-    /*! function to set active Mapper
-    \n Arguments: vtkSmartPointer<vtkDataSetMapper> - set a mapper
-    */
-    void setMapper(vtkSmartPointer<vtkDataSetMapper>);
-    /*! function to set active Algorithm
-    \n Arguments: vtkAlgorithmOutput - set a Algorithm
-    */
-    void setAlgorithm(vtkAlgorithmOutput*);
     /*! function to set active Renderer
     \n Arguments: vtkSmartPointer<vtkRenderer> - set a Renderer
     */
     void setRenderer(vtkSmartPointer<vtkRenderer>);
-    /*! function to set active Filters
-    \n Arguments: std::vector<int> - set filters
-    */
-    void setFilters(std::vector<int>);
     /*! function to enable object wireframe state
     \n Arguments: int - enable wireframe
     */
@@ -170,38 +115,6 @@ public:
     \n Arguments: int - enable a light
     */
     void enableLight(int);
-    /*! function enable clip filter to clip on x axis
-    \n Arguments: int - enable to clip on x axis
-    */
-    void enableClipX(int);
-    /*! function enable clip filter to clip on y axis
-    \n Arguments: int - enable to clip on y axis
-    */
-    void enableClipY(int);
-    /*! function enable clip filter to clip on z axis
-    \n Arguments: int - enable to clip on z axis
-    */
-    void enableClipZ(int);
-    /*! function to set shrink factor
-    \n Arguments: double - set shrink factor
-    */
-    void setShrinkFactor(double);
-    /*! function to set radius of sphere points filter spheres
-    \n Arguments: double - set radius of sphere
-    */
-    void setSphereRad(double);
-    /*! function to set radius of tube filter tubes
-    \n Arguments: double - set radius of tube
-    */
-    void setTubeRad(double);
-    /*! function to set number of tube filter tube sides
-    \n Arguments: double - set radius of tube
-    */
-    void setTubeSides(int);
-    /*! function to set the value for part of object that is clipped with clip filter
-    \n Arguments: double - set clipped with
-    */
-    void setClipPart(double);
     /*! function to set light intensity
     \n Arguments: double - set light intensity
     \return none

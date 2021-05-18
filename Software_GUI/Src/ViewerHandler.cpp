@@ -2,7 +2,7 @@
 #include"../Inc/ViewerHandler.h"
 
 //setting up functions for affine mode operation
-namespace
+namespace affine
 {
 void vtkAffineCallback::Execute(vtkObject*, unsigned long vtkNotUsed(event),
                                 void*)
@@ -10,12 +10,7 @@ void vtkAffineCallback::Execute(vtkObject*, unsigned long vtkNotUsed(event),
     this->AffineRep->GetTransform(this->Transform);
     this->Actor->SetUserTransform(this->Transform);
 }
-} // namespace
-
-//function to setup handler of mouse interactor for double clicking
-void MouseInteractorStyleDoubleClick::setupHandler(ViewerHandler* hand)
-{
-    this->handler = hand;
+// namespace
 }
 
 //default constructor
@@ -58,20 +53,16 @@ void ViewerHandler::setupComponents()
     this->activeRenderWindow->AddRenderer( this->activeRenderer );
 
     //assign renderer to pipeline
-    this->thePipeline->setRenderer(this->activeRenderer);
+    this->theDataPipeline->setRenderer(this->activeRenderer);
 
     //setup light of pipeline
-    this->thePipeline->setLight();
+    this->theDataPipeline->setLight();
 
     //setup axes operation
     this->setAxes();
 
     //setup affine mode operation
     this->setAffineInteraction();
-
-    //setup double clicking
-    this->renderWindowInteractor->SetInteractorStyle(this->doubleClickInteratction);
-    this->doubleClickInteratction->setupHandler(this);
 }
 
 
@@ -136,31 +127,31 @@ void ViewerHandler::updateText()
     if(this->showInfo)
     {
         //update value of text showing number of points
-        this->pointsTextActor->SetInput (("Points: "+std::to_string(this->thePipeline->getObject()->getShownPointAmount())).data());
+        this->pointsTextActor->SetInput (("Points: "+std::to_string(this->theDataPipeline->getObject()->getShownPointAmount())).data());
 
         //update value of text showing volume in m3 or cm3
-        if(this->thePipeline->getObject()->getVolume()<0.00001)
+        if(this->theDataPipeline->getObject()->getVolume()<0.00001)
         {
-            this->volumeTextActor->SetInput (("Volume: "+std::to_string(this->thePipeline->getObject()->getVolume()*1000000)+"cm3").data());
+            this->volumeTextActor->SetInput (("Volume: "+std::to_string(this->theDataPipeline->getObject()->getVolume()*1000000)+"cm3").data());
         }
         else
         {
-            this->volumeTextActor->SetInput (("Volume: "+std::to_string(this->thePipeline->getObject()->getVolume())+"m3").data());
+            this->volumeTextActor->SetInput (("Volume: "+std::to_string(this->theDataPipeline->getObject()->getVolume())+"m3").data());
         }
 
         //update value of text showing maximum number of cells
-        this->maxCellNumTextActor->SetInput (("Max Cells: "+std::to_string(this->thePipeline->getObject()->getCellAmount())).data());
+        this->maxCellNumTextActor->SetInput (("Max Cells: "+std::to_string(this->theDataPipeline->getObject()->getCellAmount())).data());
 
         //update value of text showing object weight in kg or g
-        if(this->thePipeline->getObject()->getObjectType()==3)
+        if(this->theDataPipeline->getObject()->getObjectType()==3)
         {
-            if(this->thePipeline->getObject()->getWeight()<0.001)
+            if(this->theDataPipeline->getObject()->getWeight()<0.001)
             {
-                this->weightTextActor->SetInput (("Weight: "+std::to_string(this->thePipeline->getObject()->getWeight()*1000)+"g").data());
+                this->weightTextActor->SetInput (("Weight: "+std::to_string(this->theDataPipeline->getObject()->getWeight()*1000)+"g").data());
             }
             else
             {
-                this->weightTextActor->SetInput (("Weight: "+std::to_string(this->thePipeline->getObject()->getWeight())+"kg").data());
+                this->weightTextActor->SetInput (("Weight: "+std::to_string(this->theDataPipeline->getObject()->getWeight())+"kg").data());
             }
         }
         else
@@ -169,14 +160,14 @@ void ViewerHandler::updateText()
         }
 
         //update value of text showing object position
-        this->positionTextActor->SetInput (("Position: "+std::to_string(this->thePipeline->getObject()->getPosition().getx())+
-                                            " "+std::to_string(this->thePipeline->getObject()->getPosition().gety())+
-                                            " "+std::to_string(this->thePipeline->getObject()->getPosition().getz())).data());
+        this->positionTextActor->SetInput (("Position: "+std::to_string(this->theDataPipeline->getObject()->getPosition().getx())+
+                                            " "+std::to_string(this->theDataPipeline->getObject()->getPosition().gety())+
+                                            " "+std::to_string(this->theDataPipeline->getObject()->getPosition().getz())).data());
 
         //update value of text showing object bounds
-        this->boundTextActor->SetInput (("Bounds Dimensions: "+std::to_string(this->thePipeline->getObject()->getDimensions().getx())+
-                                            " "+std::to_string(this->thePipeline->getObject()->getDimensions().gety())+
-                                            " "+std::to_string(this->thePipeline->getObject()->getDimensions().getz())).data());
+        this->boundTextActor->SetInput (("Bounds Dimensions: "+std::to_string(this->theDataPipeline->getObject()->getDimensions().getx())+
+                                         " "+std::to_string(this->theDataPipeline->getObject()->getDimensions().gety())+
+                                         " "+std::to_string(this->theDataPipeline->getObject()->getDimensions().getz())).data());
     }
     else
     {
@@ -219,7 +210,7 @@ void ViewerHandler::updateCubeAxes()
 
         //set cube axes actor parameters
         this->cubeAxesActor->SetUseTextActor3D(1);
-        this->cubeAxesActor->SetBounds(this->thePipeline->getObject()->getPolydata()->GetBounds());
+        this->cubeAxesActor->SetBounds(this->theDataPipeline->getObject()->getPolydata()->GetBounds());
         this->cubeAxesActor->SetCamera(this->activeRenderer->GetActiveCamera());
 
         //set color of each axis
@@ -280,7 +271,7 @@ void ViewerHandler::updateNormals()
 
         //set normals parameters
         vtkNew<vtkPCANormalEstimation> normals;
-        normals->SetInputConnection(this->thePipeline->getAlgorithm());
+        normals->SetInputConnection(this->theDataPipeline->getAlgorithm());
         normals->SetSampleSize(10);
         normals->SetNormalOrientationToGraphTraversal();
         normals->Update();
@@ -299,7 +290,7 @@ void ViewerHandler::updateNormals()
         glyph3D->SetInputData(normals->GetOutput());
         glyph3D->SetVectorModeToUseNormal();
         glyph3D->SetScaleModeToScaleByVector();
-        glyph3D->SetScaleFactor(this->thePipeline->getObject()->getDimensionAverage()/2);
+        glyph3D->SetScaleFactor(this->theDataPipeline->getObject()->getDimensionAverage()/2);
         glyph3D->OrientOn();
         glyph3D->Update();
 
@@ -335,10 +326,10 @@ void ViewerHandler::setAffineInteraction()
     this->affineWidget->SetInteractor(this->renderWindowInteractor);
     this->affineWidget->CreateDefaultRepresentation();
     dynamic_cast<vtkAffineRepresentation2D*>(this->affineWidget->GetRepresentation())
-    ->PlaceWidget(this->thePipeline->getActor()->GetBounds());
+    ->PlaceWidget(this->theDataPipeline->getActor()->GetBounds());
 
     //setup affine calback
-    this->affineCallback->Actor = this->thePipeline->getActor();
+    this->affineCallback->Actor = this->theDataPipeline->getActor();
     this->affineCallback->AffineRep = dynamic_cast<vtkAffineRepresentation2D*>(
                                           this->affineWidget->GetRepresentation());
 
@@ -351,10 +342,10 @@ void ViewerHandler::setAffineInteraction()
 void ViewerHandler::updateAffineInteraction()
 {
     dynamic_cast<vtkAffineRepresentation2D*>(this->affineWidget->GetRepresentation())
-    ->PlaceWidget(this->thePipeline->getActor()->GetBounds());
+    ->PlaceWidget(this->theDataPipeline->getActor()->GetBounds());
 
     //update affine callback
-    this->affineCallback->Actor = this->thePipeline->getActor();
+    this->affineCallback->Actor = this->theDataPipeline->getActor();
     this->affineCallback->AffineRep = dynamic_cast<vtkAffineRepresentation2D*>(
                                           this->affineWidget->GetRepresentation());
 }
@@ -365,24 +356,27 @@ void ViewerHandler::updateOutline()
     // Create the outline
     if(this->showOutline)
     {
-        if(this->outlineExist){
-        this->activeRenderer->RemoveActor(this->outlineActor);
+        if(this->outlineExist)
+        {
+            this->activeRenderer->RemoveActor(this->outlineActor);
         }
-        this->outline->SetInputConnection(this->thePipeline->getAlgorithm());
+        this->outline->SetInputConnection(this->theDataPipeline->getAlgorithm());
 
         vtkSmartPointer<vtkDataSetMapper> tempMapper = vtkSmartPointer<vtkDataSetMapper>::New();
         tempMapper->SetInputConnection(this->outline->GetOutputPort());
 
         this->outlineActor->SetMapper(tempMapper);
 
-        QColor color = this->thePipeline->getObject()->getColor();
+        QColor color = this->theDataPipeline->getObject()->getColor();
         this->outlineActor->GetProperty()->SetColor((double)color.red()/255,(double)color.green()/255,(double)color.blue()/255);
 
         this->activeRenderer->AddActor(this->outlineActor);
         this->outlineExist = 1;
     }
-    else{
-        if(this->outlineExist){
+    else
+    {
+        if(this->outlineExist)
+        {
             this->activeRenderer->RemoveActor(this->outlineActor);
             this->outlineExist = 0;
         }
@@ -397,13 +391,13 @@ void ViewerHandler::viewNewObject()
     theColor.setRed(255);
     theColor.setGreen(0);
     theColor.setBlue(0);
-    this->thePipeline->getObject()->setColor(theColor);
+    this->theDataPipeline->getObject()->setColor(theColor);
 
     //reset background
     this->activeRenderer->SetBackground( this->colorHandler->GetColor3d("Silver").GetData() );
 
     // set new pipeline
-    this->thePipeline->setNewPipeline();
+    this->theDataPipeline->setNewPipeline();
 
     //update text
     this->updateText();
@@ -427,7 +421,7 @@ void ViewerHandler::updateComponents()
 void ViewerHandler::updateViewer()
 {
     //update all aspects
-    this->thePipeline->updatePipeline();
+    this->theDataPipeline->updatePipeline();
     this->updateComponents();
     this->refreshRender();
 }
@@ -437,30 +431,32 @@ void ViewerHandler::resetViewer()
 {
 
 //set cell amount to default
-    this->thePipeline->getObject()->setMinActiveCell(1);
-    this->thePipeline->getObject()->setMaxActiveCell(1);
+    this->theDataPipeline->getObject()->setMinActiveCell(1);
+    this->theDataPipeline->getObject()->setMaxActiveCell(1);
 
 //set values of all aspects to default
-    this->thePipeline->enableWireframe(0);
-    this->thePipeline->enablePoints(0);
+    this->theDataPipeline->enableWireframe(0);
+    this->theDataPipeline->enablePoints(0);
 
-    this->thePipeline->enableClipX(0);
-    this->thePipeline->enableClipY(0);
-    this->thePipeline->enableClipZ(0);
+    this->theDataPipeline->enableClipX(0);
+    this->theDataPipeline->enableClipY(0);
+    this->theDataPipeline->enableClipZ(0);
 
-    this->thePipeline->setShrinkFactor(1.0);
-    this->thePipeline->setClipPart(0);
+    this->theDataPipeline->setShrinkFactor(1.0);
+    this->theDataPipeline->setClipPart(0);
 
-    this->thePipeline->setTubeRad(10);
-    this->thePipeline->setTubeSides(3);
-    this->thePipeline->setSphereRad(10);
+    this->theDataPipeline->setTubeRad(10);
+    this->theDataPipeline->setTubeSides(3);
+    this->theDataPipeline->setSphereRad(10);
 
-    this->thePipeline->getObject()->enableSurfaceWarp(0);
-    this->thePipeline->getObject()->enableBendWarp(0);
+    this->theDataPipeline->getObject()->enableSurfaceWarp(0);
+    this->theDataPipeline->getObject()->enableBendWarp(0);
 
-    this->thePipeline->getObject()->setSurfaceWarpFactor(0);
-    this->thePipeline->getObject()->setBendWarpFactor(0);
-    this->thePipeline->getObject()->setBendWarpDimensions(1,1,1);
+    this->theDataPipeline->getObject()->setSurfaceWarpFactor(0);
+    this->theDataPipeline->getObject()->setBendWarpFactor(0);
+    this->theDataPipeline->getObject()->setBendWarpDimensions(1,1,1);
+
+    this->axesWidget->SetEnabled(0);
 
     this->showInfo = 0;
     this->showAxes = 0;
@@ -469,22 +465,22 @@ void ViewerHandler::resetViewer()
     this->showOutline = 0;
 
     std::vector<int> filtersInUse = {0,0,0,0,0,0,0};
-    this->thePipeline->setFilters(filtersInUse);
+    this->theDataPipeline->setFilters(filtersInUse);
 
 //set deault colors
     QColor theColor;
     theColor.setRed(255);
     theColor.setGreen(0);
     theColor.setBlue(0);
-    this->thePipeline->getObject()->setColor(theColor);
+    this->theDataPipeline->getObject()->setColor(theColor);
 
     this->activeRenderer->SetBackground( this->colorHandler->GetColor3d("Silver").GetData() );
 
 //display hexahedron
-    this->thePipeline->getObject()->displayHexahedron();
+    this->theDataPipeline->getObject()->displayHexahedron();
 
 //set new pipeline
-    this->thePipeline->setNewPipeline();
+    this->theDataPipeline->setNewPipeline();
 
 //set new affine interaction
     this->setAffineInteraction();
@@ -501,36 +497,36 @@ void ViewerHandler::resetObject()
 {
 
     //set all object properties to default values
-    this->thePipeline->getObject()->setMinActiveCell(1);
-    this->thePipeline->getObject()->setMaxActiveCell(1);
+    this->theDataPipeline->getObject()->setMinActiveCell(1);
+    this->theDataPipeline->getObject()->setMaxActiveCell(1);
 
-    this->thePipeline->enableWireframe(0);
-    this->thePipeline->enablePoints(0);
+    this->theDataPipeline->enableWireframe(0);
+    this->theDataPipeline->enablePoints(0);
 
-    this->thePipeline->enableClipX(0);
-    this->thePipeline->enableClipY(0);
-    this->thePipeline->enableClipZ(0);
+    this->theDataPipeline->enableClipX(0);
+    this->theDataPipeline->enableClipY(0);
+    this->theDataPipeline->enableClipZ(0);
 
-    this->thePipeline->setShrinkFactor(1.0);
-    this->thePipeline->setClipPart(0);
+    this->theDataPipeline->setShrinkFactor(1.0);
+    this->theDataPipeline->setClipPart(0);
 
-    this->thePipeline->setTubeRad(10);
-    this->thePipeline->setTubeSides(3);
-    this->thePipeline->setSphereRad(10);
+    this->theDataPipeline->setTubeRad(10);
+    this->theDataPipeline->setTubeSides(3);
+    this->theDataPipeline->setSphereRad(10);
 
-    this->thePipeline->getObject()->enableSurfaceWarp(0);
-    this->thePipeline->getObject()->enableBendWarp(0);
+    this->theDataPipeline->getObject()->enableSurfaceWarp(0);
+    this->theDataPipeline->getObject()->enableBendWarp(0);
 
-    this->thePipeline->getObject()->setSurfaceWarpFactor(0);
-    this->thePipeline->getObject()->setBendWarpFactor(0);
-    this->thePipeline->getObject()->setBendWarpDimensions(1,1,1);
+    this->theDataPipeline->getObject()->setSurfaceWarpFactor(0);
+    this->theDataPipeline->getObject()->setBendWarpFactor(0);
+    this->theDataPipeline->getObject()->setBendWarpDimensions(1,1,1);
 
     std::vector<int> filtersInUse = {0,0,0,0,0,0,0};
-    this->thePipeline->setFilters(filtersInUse);
-    this->thePipeline->getObject()->resetColor();
+    this->theDataPipeline->setFilters(filtersInUse);
+    this->theDataPipeline->getObject()->resetColor();
 
     //set new pipeline
-    this->thePipeline->setNewPipeline();
+    this->theDataPipeline->setNewPipeline();
 
     this->refreshRender();
 }
@@ -550,11 +546,11 @@ void ViewerHandler::resetCamera()
 void ViewerHandler::setCameraOrientationPosX()
 {
     //set new camera position and direction properties based on object
-    this->activeRenderer->GetActiveCamera()->SetPosition(this->thePipeline->getObject()->getPosition().getx()-3*this->thePipeline->getObject()->getDimensionAverage(),
-            this->thePipeline->getObject()->getPosition().gety(),
-            this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetViewUp(this->thePipeline->getObject()->getPosition().getx(),1.0,this->thePipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetPosition(this->theDataPipeline->getObject()->getPosition().getx()-3*this->theDataPipeline->getObject()->getDimensionAverage(),
+            this->theDataPipeline->getObject()->getPosition().gety(),
+            this->theDataPipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->theDataPipeline->getObject()->getPosition().getx(),this->theDataPipeline->getObject()->getPosition().gety(),this->theDataPipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetViewUp(this->theDataPipeline->getObject()->getPosition().getx(),1.0,this->theDataPipeline->getObject()->getPosition().getz());
 
     this->activeRenderer->ResetCameraClippingRange();
     this->refreshRender();
@@ -566,11 +562,11 @@ void ViewerHandler::setCameraOrientationNegX()
     //set new camera position and direction properties based on object
     this->activeRenderer->ResetCamera();
     this->activeRenderer->ResetCameraClippingRange();
-    this->activeRenderer->GetActiveCamera()->SetPosition(this->thePipeline->getObject()->getPosition().getx()+3*this->thePipeline->getObject()->getDimensionAverage(),
-            this->thePipeline->getObject()->getPosition().gety(),
-            this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetViewUp(this->thePipeline->getObject()->getPosition().getx(),1.0,this->thePipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetPosition(this->theDataPipeline->getObject()->getPosition().getx()+3*this->theDataPipeline->getObject()->getDimensionAverage(),
+            this->theDataPipeline->getObject()->getPosition().gety(),
+            this->theDataPipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->theDataPipeline->getObject()->getPosition().getx(),this->theDataPipeline->getObject()->getPosition().gety(),this->theDataPipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetViewUp(this->theDataPipeline->getObject()->getPosition().getx(),1.0,this->theDataPipeline->getObject()->getPosition().getz());
 
     this->activeRenderer->ResetCameraClippingRange();
     this->refreshRender();
@@ -581,11 +577,11 @@ void ViewerHandler::setCameraOrientationPosY()
 {
     //set new camera position and direction properties based on object
     this->activeRenderer->ResetCamera();
-    this->activeRenderer->GetActiveCamera()->SetPosition(this->thePipeline->getObject()->getPosition().getx(),
-            this->thePipeline->getObject()->getPosition().gety()-3*this->thePipeline->getObject()->getDimensionAverage(),
-            this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetViewUp(1.0,this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetPosition(this->theDataPipeline->getObject()->getPosition().getx(),
+            this->theDataPipeline->getObject()->getPosition().gety()-3*this->theDataPipeline->getObject()->getDimensionAverage(),
+            this->theDataPipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->theDataPipeline->getObject()->getPosition().getx(),this->theDataPipeline->getObject()->getPosition().gety(),this->theDataPipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetViewUp(1.0,this->theDataPipeline->getObject()->getPosition().gety(),this->theDataPipeline->getObject()->getPosition().getz());
 
     this->activeRenderer->ResetCameraClippingRange();
     this->refreshRender();
@@ -596,11 +592,11 @@ void ViewerHandler::setCameraOrientationNegY()
 {
     //set new camera position and direction properties based on object
     this->activeRenderer->ResetCamera();
-    this->activeRenderer->GetActiveCamera()->SetPosition(this->thePipeline->getObject()->getPosition().getx(),
-            this->thePipeline->getObject()->getPosition().gety()+3*this->thePipeline->getObject()->getDimensionAverage(),
-            this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetViewUp(1.0,this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetPosition(this->theDataPipeline->getObject()->getPosition().getx(),
+            this->theDataPipeline->getObject()->getPosition().gety()+3*this->theDataPipeline->getObject()->getDimensionAverage(),
+            this->theDataPipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->theDataPipeline->getObject()->getPosition().getx(),this->theDataPipeline->getObject()->getPosition().gety(),this->theDataPipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetViewUp(1.0,this->theDataPipeline->getObject()->getPosition().gety(),this->theDataPipeline->getObject()->getPosition().getz());
 
     this->activeRenderer->ResetCameraClippingRange();
     this->refreshRender();
@@ -611,11 +607,11 @@ void ViewerHandler::setCameraOrientationPosZ()
 {
     //set new camera position and direction properties based on object
     this->activeRenderer->ResetCamera();
-    this->activeRenderer->GetActiveCamera()->SetPosition(this->thePipeline->getObject()->getPosition().getx(),
-            this->thePipeline->getObject()->getPosition().gety(),
-            this->thePipeline->getObject()->getPosition().getz()-3*this->thePipeline->getObject()->getDimensionAverage());
-    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetViewUp(this->thePipeline->getObject()->getPosition().getx(),1.0,this->thePipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetPosition(this->theDataPipeline->getObject()->getPosition().getx(),
+            this->theDataPipeline->getObject()->getPosition().gety(),
+            this->theDataPipeline->getObject()->getPosition().getz()-3*this->theDataPipeline->getObject()->getDimensionAverage());
+    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->theDataPipeline->getObject()->getPosition().getx(),this->theDataPipeline->getObject()->getPosition().gety(),this->theDataPipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetViewUp(this->theDataPipeline->getObject()->getPosition().getx(),1.0,this->theDataPipeline->getObject()->getPosition().getz());
 
     this->activeRenderer->ResetCameraClippingRange();
     this->refreshRender();
@@ -626,11 +622,11 @@ void ViewerHandler::setCameraOrientationNegZ()
 {
     //set new camera position and direction properties based on object
     this->activeRenderer->ResetCamera();
-    this->activeRenderer->GetActiveCamera()->SetPosition(this->thePipeline->getObject()->getPosition().getx(),
-            this->thePipeline->getObject()->getPosition().gety(),
-            this->thePipeline->getObject()->getPosition().getz()+3*this->thePipeline->getObject()->getDimensionAverage());
-    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->thePipeline->getObject()->getPosition().getx(),this->thePipeline->getObject()->getPosition().gety(),this->thePipeline->getObject()->getPosition().getz());
-    this->activeRenderer->GetActiveCamera()->SetViewUp(this->thePipeline->getObject()->getPosition().getx(),1.0,this->thePipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetPosition(this->theDataPipeline->getObject()->getPosition().getx(),
+            this->theDataPipeline->getObject()->getPosition().gety(),
+            this->theDataPipeline->getObject()->getPosition().getz()+3*this->theDataPipeline->getObject()->getDimensionAverage());
+    this->activeRenderer->GetActiveCamera()->SetFocalPoint(this->theDataPipeline->getObject()->getPosition().getx(),this->theDataPipeline->getObject()->getPosition().gety(),this->theDataPipeline->getObject()->getPosition().getz());
+    this->activeRenderer->GetActiveCamera()->SetViewUp(this->theDataPipeline->getObject()->getPosition().getx(),1.0,this->theDataPipeline->getObject()->getPosition().getz());
 
     this->activeRenderer->ResetCameraClippingRange();
     this->refreshRender();
@@ -674,10 +670,15 @@ void ViewerHandler::changeBackgroundColor( QColor color)
 }
 
 //function to get active pipeline
-Pipeline* ViewerHandler::getPipeline()
+DataPipeline* ViewerHandler::getDataPipeline()
 {
+    return this->theDataPipeline;
+}
 
-    return this->thePipeline;
+//function to get active pipeline
+PolyPipeline* ViewerHandler::getPolyPipeline()
+{
+    return this->thePolyPipeline;
 }
 
 //function to allow showing of information text
@@ -732,7 +733,7 @@ void ViewerHandler::saveScene(QString fileName)
     {
         //save final algorithm of the scene as STL file
         this->stlWriter->SetFileName(fileName.toLocal8Bit().data());
-        this->stlWriter->SetInputConnection(this->thePipeline->getAlgorithm());
+        this->stlWriter->SetInputConnection(this->theDataPipeline->getAlgorithm());
         this->stlWriter->Write();
     }
     else if(fi.suffix()=="png")
@@ -760,10 +761,4 @@ void ViewerHandler::saveScene(QString fileName)
         this->activeRenderer->ResetCamera();
         this->activeRenderWindow->Render();
     }
-}
-
-//function to handle mouse doubleclick
-void ViewerHandler::mouseClick()
-{
-    std::cout<<"Clicked"<<std::endl;
 }

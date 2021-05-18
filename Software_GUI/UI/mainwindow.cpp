@@ -53,7 +53,7 @@ void MainWindow::refreshGUI()
     ui->lightIntensityNumBox->setValue(0);
     ui->lightSpecularNumBox->setValue(0);
 
-    ui->objOpacitySlider->setValue(1);
+    ui->objOpacitySlider->setValue(100);
     ui->objOpacityNumBox->setValue(1.0);
 
     ui->surfaceWarpFactor->setValue(0);
@@ -91,7 +91,7 @@ void MainWindow::refreshObjectGUI()
     ui->clipSlider->setValue(0);
     ui->clipNumBox->setValue(0);
 
-    ui->objOpacitySlider->setValue(1);
+    ui->objOpacitySlider->setValue(100);
     ui->objOpacityNumBox->setValue(1.0);
 
     ui->shrinkFactor->setValue(1.0);
@@ -127,14 +127,14 @@ void MainWindow::handleOpenButton()
     emit statusUpdateMessage( QString("Opening file: ")+this->activeFileName, 0 );
 
     //load the file using object handler
-    this->appHandler->getPipeline()->getObject()->getModelFromFile(this->activeFileName);
+    this->appHandler->getDataPipeline()->getObject()->getModelFromFile(this->activeFileName);
 
     //update amount of cells
     this->allowGUIChange = 0;
-    ui->cellMinShow->setRange(this->appHandler->getPipeline()->getObject()->getMinActiveCell(), this->appHandler->getPipeline()->getObject()->getMaxActiveCell());
-    ui->cellMaxShow->setRange(this->appHandler->getPipeline()->getObject()->getMinActiveCell(), this->appHandler->getPipeline()->getObject()->getMaxActiveCell());
-    ui->cellMinShow->setValue(this->appHandler->getPipeline()->getObject()->getMinActiveCell());
-    ui->cellMaxShow->setValue(this->appHandler->getPipeline()->getObject()->getMaxActiveCell());
+    ui->cellMinShow->setRange(this->appHandler->getDataPipeline()->getObject()->getMinActiveCell(), this->appHandler->getDataPipeline()->getObject()->getMaxActiveCell());
+    ui->cellMaxShow->setRange(this->appHandler->getDataPipeline()->getObject()->getMinActiveCell(), this->appHandler->getDataPipeline()->getObject()->getMaxActiveCell());
+    ui->cellMinShow->setValue(this->appHandler->getDataPipeline()->getObject()->getMinActiveCell());
+    ui->cellMaxShow->setValue(this->appHandler->getDataPipeline()->getObject()->getMaxActiveCell());
     this->allowGUIChange = 1;
 
     //set new pipeline
@@ -146,7 +146,7 @@ void MainWindow::handleOpenButton()
 void MainWindow::handleSaveModelButton()
 {
     //check if the object type can be saved as MOD file
-    if(this->appHandler->getPipeline()->getObject()->getObjectType()==2||this->appHandler->getPipeline()->getObject()->getObjectType()==3){
+    if(this->appHandler->getDataPipeline()->getObject()->getObjectType()==2||this->appHandler->getDataPipeline()->getObject()->getObjectType()==3){
     this->activeFileName = QFileDialog::getSaveFileName(this, tr("Save File"), "./untitled.stl", tr("Types (*.stl *.mod)"));
     }
     else{
@@ -155,7 +155,7 @@ void MainWindow::handleSaveModelButton()
     emit statusUpdateMessage( QString("Saving to file: ")+this->activeFileName, 0 );
 
     //save the object data using object handler
-    this->appHandler->getPipeline()->getObject()->saveModelToFile(this->activeFileName);
+    this->appHandler->getDataPipeline()->getObject()->saveModelToFile(this->activeFileName);
 }
 
 //function to save photo of scene of object with effects
@@ -288,7 +288,7 @@ void MainWindow::changeObjectColor()
     //pick new color
     QColor color = QColorDialog::getColor(Qt::black, this, "Pick a color",  QColorDialog::DontUseNativeDialog);
     emit statusUpdateMessage( QString("Changing object color"), 0 );
-    this->appHandler->getPipeline()->getObject()->changeColor(color);
+    this->appHandler->getDataPipeline()->getObject()->changeColor(color);
     this->appHandler->updateViewer();
 
 }
@@ -297,7 +297,7 @@ void MainWindow::changeObjectColor()
 void MainWindow::resetObjectColor()
 {
     emit statusUpdateMessage( QString("Reseting object color"), 0 );
-    this->appHandler->getPipeline()->getObject()->resetColor();
+    this->appHandler->getDataPipeline()->getObject()->resetColor();
     this->appHandler->updateViewer();
 
 }
@@ -328,57 +328,57 @@ void MainWindow::handleNewButton()
     {
     case 1:
     {
-        this->appHandler->getPipeline()->getObject()->displayHexahedron();
+        this->appHandler->getDataPipeline()->getObject()->displayHexahedron();
         break;
     }
     case 2:
     {
-        this->appHandler->getPipeline()->getObject()->displayTetrahedron();
+        this->appHandler->getDataPipeline()->getObject()->displayTetrahedron();
         break;
     }
     case 3:
     {
-        this->appHandler->getPipeline()->getObject()->displayPyramid();
+        this->appHandler->getDataPipeline()->getObject()->displayPyramid();
         break;
     }
     case 4:
     {
-        this->appHandler->getPipeline()->getObject()->displaySphere();
+        this->appHandler->getDataPipeline()->getObject()->displaySphere();
         break;
     }
     case 5:
     {
-        this->appHandler->getPipeline()->getObject()->displayDisk();
+        this->appHandler->getDataPipeline()->getObject()->displayDisk();
         break;
     }
     case 6:
     {
-        this->appHandler->getPipeline()->getObject()->displayCone();
+        this->appHandler->getDataPipeline()->getObject()->displayCone();
         break;
     }
     case 7:
     {
-        this->appHandler->getPipeline()->getObject()->displayPlane();
+        this->appHandler->getDataPipeline()->getObject()->displayPlane();
         break;
     }
     case 8:
     {
-        this->appHandler->getPipeline()->getObject()->displayPointCluster(500);
+        this->appHandler->getDataPipeline()->getObject()->displayPointCluster(500);
         break;
     }
     case 9:
     {
-        this->appHandler->getPipeline()->getObject()->displayLine();
+        this->appHandler->getDataPipeline()->getObject()->displayLine();
         break;
     }
     case 10:
     {
-        this->appHandler->getPipeline()->getObject()->displayCylinder();
+        this->appHandler->getDataPipeline()->getObject()->displayCylinder();
         break;
     }
     case 11:
     {
-        this->appHandler->getPipeline()->getObject()->displayEarth();
+        this->appHandler->getDataPipeline()->getObject()->displayEarth();
         break;
     }
     }
@@ -409,8 +409,8 @@ void MainWindow::handleMinCellChange()
         {
             ui->cellMinShow->setValue(ui->cellMaxShow->value());
         }
-        this->appHandler->getPipeline()->getObject()->setMinActiveCell(ui->cellMinShow->value());
-        this->appHandler->getPipeline()->getObject()->setMaxActiveCell(ui->cellMaxShow->value());
+        this->appHandler->getDataPipeline()->getObject()->setMinActiveCell(ui->cellMinShow->value());
+        this->appHandler->getDataPipeline()->getObject()->setMaxActiveCell(ui->cellMaxShow->value());
 
         this->appHandler->updateViewer();
 
@@ -430,8 +430,8 @@ void MainWindow::handleMaxCellChange()
         {
             ui->cellMaxShow->setValue(ui->cellMinShow->value());
         }
-        this->appHandler->getPipeline()->getObject()->setMinActiveCell(ui->cellMinShow->value());
-        this->appHandler->getPipeline()->getObject()->setMaxActiveCell(ui->cellMaxShow->value());
+        this->appHandler->getDataPipeline()->getObject()->setMinActiveCell(ui->cellMinShow->value());
+        this->appHandler->getDataPipeline()->getObject()->setMaxActiveCell(ui->cellMaxShow->value());
 
         this->appHandler->updateViewer();
 
@@ -444,9 +444,26 @@ void MainWindow::handleFilterUpdate()
     emit statusUpdateMessage( QString("Update filters"), 0 );
     std::vector<int> filtersInUse = {ui->shrinkCheck->isChecked(),ui->clipCheck->isChecked(),0,
     ui->smoothCheck->isChecked(),ui->sphereCheck->isChecked(),ui->tubeCheck->isChecked()};
-    this->appHandler->getPipeline()->setFilters(filtersInUse);
+    this->appHandler->getDataPipeline()->setFilters(filtersInUse);
     this->appHandler->updateViewer();
 
+}
+
+//function to update object geometry and camera accordingly.
+void MainWindow::handleGeometryUpdate(){
+    if(this->allowGUIChange)
+    {
+        this->appHandler->getDataPipeline()->getObject()->enableSurfaceWarp(ui->surfaceWarpCheck->isChecked());
+        this->appHandler->getDataPipeline()->getObject()->enableBendWarp(ui->bendWarpCheck->isChecked());
+
+        this->appHandler->getDataPipeline()->getObject()->setSurfaceWarpFactor(ui->surfaceWarpFactor->value());
+        this->appHandler->getDataPipeline()->getObject()->setBendWarpFactor(ui->bendWarpFactor->value());
+        this->appHandler->getDataPipeline()->getObject()->setBendWarpDimensions(ui->bendWarpX->value(),ui->bendWarpY->value(),ui->bendWarpZ->value());
+
+        this->appHandler->updateViewer();
+        this->resetCamera();
+
+    }
 }
 
 //function to update software variables based on GUI choices
@@ -458,30 +475,23 @@ void MainWindow::handleUpdate()
         emit statusUpdateMessage( QString("Update"), 0 );
 
         //set all variables based on GUI component values
-        this->appHandler->getPipeline()->enableWireframe(ui->wireRadioB->isChecked());
-        this->appHandler->getPipeline()->enablePoints(ui->pointsRadioB->isChecked());
-        this->appHandler->getPipeline()->enableLight(ui->lightCheck->isChecked());
+        this->appHandler->getDataPipeline()->enableWireframe(ui->wireRadioB->isChecked());
+        this->appHandler->getDataPipeline()->enablePoints(ui->pointsRadioB->isChecked());
+        this->appHandler->getDataPipeline()->enableLight(ui->lightCheck->isChecked());
 
-        this->appHandler->getPipeline()->enableClipX(ui->clipX->isChecked());
-        this->appHandler->getPipeline()->enableClipY(ui->clipY->isChecked());
-        this->appHandler->getPipeline()->enableClipZ(ui->clipZ->isChecked());
+        this->appHandler->getDataPipeline()->enableClipX(ui->clipX->isChecked());
+        this->appHandler->getDataPipeline()->enableClipY(ui->clipY->isChecked());
+        this->appHandler->getDataPipeline()->enableClipZ(ui->clipZ->isChecked());
 
-        this->appHandler->getPipeline()->getObject()->enableSurfaceWarp(ui->surfaceWarpCheck->isChecked());
-        this->appHandler->getPipeline()->getObject()->enableBendWarp(ui->bendWarpCheck->isChecked());
+        this->appHandler->getDataPipeline()->setShrinkFactor(ui->shrinkFactor->value());
+        this->appHandler->getDataPipeline()->setTubeRad(ui->tubeFilterRad->value());
+        this->appHandler->getDataPipeline()->setTubeSides(ui->tubeFilterSideNum->value());
+        this->appHandler->getDataPipeline()->setSphereRad(ui->sphereFilterRad->value());
 
-        this->appHandler->getPipeline()->setShrinkFactor(ui->shrinkFactor->value());
-        this->appHandler->getPipeline()->setTubeRad(ui->tubeFilterRad->value());
-        this->appHandler->getPipeline()->setTubeSides(ui->tubeFilterSideNum->value());
-        this->appHandler->getPipeline()->setSphereRad(ui->sphereFilterRad->value());
-
-        this->appHandler->getPipeline()->setClipPart((double)ui->clipNumBox->value()/100);
-        this->appHandler->getPipeline()->setLightIntensity((double)ui->lightIntensityNumBox->value()/100);
-        this->appHandler->getPipeline()->setLightSpecular((double)ui->lightSpecularNumBox->value()/100);
-        this->appHandler->getPipeline()->setOpacity(ui->objOpacityNumBox->value());
-
-        this->appHandler->getPipeline()->getObject()->setSurfaceWarpFactor(ui->surfaceWarpFactor->value());
-        this->appHandler->getPipeline()->getObject()->setBendWarpFactor(ui->bendWarpFactor->value());
-        this->appHandler->getPipeline()->getObject()->setBendWarpDimensions(ui->bendWarpX->value(),ui->bendWarpY->value(),ui->bendWarpZ->value());
+        this->appHandler->getDataPipeline()->setClipPart((double)ui->clipNumBox->value()/100);
+        this->appHandler->getDataPipeline()->setLightIntensity((double)ui->lightIntensityNumBox->value()/100);
+        this->appHandler->getDataPipeline()->setLightSpecular((double)ui->lightSpecularNumBox->value()/100);
+        this->appHandler->getDataPipeline()->setOpacity(ui->objOpacityNumBox->value());
 
         this->allowGUIChange = 0;
         ui->clipSlider->setValue(ui->clipNumBox->value());
@@ -512,11 +522,11 @@ void MainWindow::handleSliderUpdate()
         emit statusUpdateMessage( QString("Update"), 0 );
 
         //set all variables based on GUI slider values
-        this->appHandler->getPipeline()->setClipPart((double)ui->clipSlider->value()/100);
+        this->appHandler->getDataPipeline()->setClipPart((double)ui->clipSlider->value()/100);
 
-        this->appHandler->getPipeline()->setLightIntensity((double)ui->lightIntensitySlider->value()/100);
-        this->appHandler->getPipeline()->setLightSpecular((double)ui->lightSpecularSlider->value()/100);
-        this->appHandler->getPipeline()->setOpacity((double)ui->objOpacitySlider->value()/100);
+        this->appHandler->getDataPipeline()->setLightIntensity((double)ui->lightIntensitySlider->value()/100);
+        this->appHandler->getDataPipeline()->setLightSpecular((double)ui->lightSpecularSlider->value()/100);
+        this->appHandler->getDataPipeline()->setOpacity((double)ui->objOpacitySlider->value()/100);
 
         //update number boxes based on slider values
         this->allowGUIChange = 0;
@@ -598,8 +608,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->lightCheck, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
 
-    connect(ui->surfaceWarpCheck, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
-    connect(ui->bendWarpCheck, SIGNAL(stateChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->surfaceWarpCheck, SIGNAL(stateChanged(int)), this, SLOT(handleGeometryUpdate()));
+    connect(ui->bendWarpCheck, SIGNAL(stateChanged(int)), this, SLOT(handleGeometryUpdate()));
 //spin boxes
     connect(ui->shrinkFactor, SIGNAL(valueChanged(double)), this, SLOT(handleUpdate()));
     connect(ui->sphereFilterRad, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
@@ -614,11 +624,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->lightSpecularNumBox, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
     connect(ui->objOpacityNumBox, SIGNAL(valueChanged(double)), this, SLOT(handleUpdate()));
 
-    connect(ui->surfaceWarpFactor, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
-    connect(ui->bendWarpFactor, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
-    connect(ui->bendWarpX, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
-    connect(ui->bendWarpY, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
-    connect(ui->bendWarpZ, SIGNAL(valueChanged(int)), this, SLOT(handleUpdate()));
+    connect(ui->surfaceWarpFactor, SIGNAL(valueChanged(int)), this, SLOT(handleGeometryUpdate()));
+    connect(ui->bendWarpFactor, SIGNAL(valueChanged(int)), this, SLOT(handleGeometryUpdate()));
+    connect(ui->bendWarpX, SIGNAL(valueChanged(int)), this, SLOT(handleGeometryUpdate()));
+    connect(ui->bendWarpY, SIGNAL(valueChanged(int)), this, SLOT(handleGeometryUpdate()));
+    connect(ui->bendWarpZ, SIGNAL(valueChanged(int)), this, SLOT(handleGeometryUpdate()));
 
 //radio buttons
     connect(ui->solidRadioB, SIGNAL(clicked()), this, SLOT(handleUpdate()));

@@ -41,13 +41,15 @@
 
 #include <vtkIdList.h>
 
-#include "./VTKObjectHandler.h"
+#include "./Pipeline.h"
 
 /*! \class PolyPipeline
     \brief  sub class of pipeline used to handle poly data
 */
 
-class Polypipeline : public Pipeline{
+class PolyPipeline : public Pipeline{
+
+private:
 
     VTKObjectHandler* theObject = new VTKObjectHandler;
 
@@ -59,49 +61,46 @@ class Polypipeline : public Pipeline{
 
     vtkPolyData* finalPolydata = vtkPolyData::New();
 
-    std::vector<int> activeFilters = {0};
+    int colorAffected = 0;
 
+    //! function to refresh pipeline
+    void refreshPipeline();
     //! function to refresh pipeline
     void filterStage();
     //! function to update active mappers
     void mapperStage();
+    //! function to update actor of main data
+    void actorStage();
     //! function to apply contour filter
     void initContourFilter();
 public:
     //! default constructor
-    Pipeline();
+    PolyPipeline();
     //! constructor
-    Pipeline(vtkSmartPointer<vtkRenderer>);
+    PolyPipeline(vtkSmartPointer<vtkRenderer>);
     //! function to setup lights
     void setLight();
     //! function to update active pipeline
     void updatePipeline();
     //! function to setup new pipeline
     void setNewPipeline();
-    /*! function to get object handler
-        \n Argument: VTKObjectHandler - getObject()
+    /*! function to get the active mapper
+        \n Argument: vtkSmartPointer<vtkPolyDataMapper> - mapper smart pointer
     */
-
     vtkSmartPointer<vtkPolyDataMapper> getMapper();
-    /*! function to get final algorithm
-    \return vtkAlgorithmOutput - getAlgorithm()
+    /*! function to get final polydata
+    \return vtkPolyData* - polydata pointer
     */
-    vtkPolyData* setPolydata(); //! have no any relative function on cpp file
-    /*! function to get active renderer
-    \n Arguement: vtkSmartPointer<vtkRenderer>  - getRenderer()
+    vtkPolyData* getPolydata(); //! have no any relative function on cpp file
+    /*! function to set active mapper
+    \n Argument: vvtkSmartPointer<vtkPolyDataMapper>  - mapper to set
     */
     void setMapper(vtkSmartPointer<vtkPolyDataMapper>);
-    /*! function to set active Algorithm
-    \n Arguments: vtkAlgorithmOutput - set a Algorithm
+    /*! function to set active polydata
+    \n Arguments: vtkPolyData - polydata to set
     */
     void setPolydata(vtkPolyData*); //! have no any relative function on cpp file
-    /*! function to get active renderer
-    \n Arguement: vtkSmartPointer<vtkRenderer>  - getRenderer()
-    */
-    void setFilters(std::vector<int>);
-    /*! function to enable object wireframe state
-    \n Arguments: int - enable wireframe
-    */
+
 };
 
 #endif // POLYPIPELINE_H_INCLUDED

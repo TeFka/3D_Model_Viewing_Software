@@ -111,6 +111,7 @@ private:
 
 public slots:
 
+    void handleGeometryUpdate();
     void handleUpdate();
     void handleSliderUpdate();
     void handleFilterUpdate();

@@ -1,0 +1,1 @@
+Location of all resources used in the project

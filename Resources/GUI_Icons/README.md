@@ -1,0 +1,1 @@
+Location of all icons used in the software
