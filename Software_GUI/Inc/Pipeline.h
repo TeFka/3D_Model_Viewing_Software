@@ -3,8 +3,8 @@
                          \n Comments part: Danielius Zurlys and Chen Xu  (StudentID: 20187733)
     \brief  build a pipeline part for VTK.
 */
-#ifndef PIPELINEINFO_H_INCLUDED
-#define PIPELINEINFO_H_INCLUDED
+#ifndef PIPELINE_H_INCLUDED
+#define PIPELINE_H_INCLUDED
 
 #include <math.h>
 #include <QMainWindow>
@@ -56,10 +56,8 @@ private:
 
     vtkSmartPointer<vtkShrinkFilter> shrinkFilter = vtkSmartPointer<vtkShrinkFilter>::New();
     vtkSmartPointer<vtkClipDataSet> clipFilter = vtkSmartPointer<vtkClipDataSet>::New();
-    vtkSmartPointer<vtkContourFilter> contourFilter = vtkSmartPointer<vtkContourFilter>::New();
     vtkSmartPointer<vtkSplineFilter> splineFilter = vtkSmartPointer<vtkSplineFilter>::New();
     vtkSmartPointer<vtkTubeFilter> tubeFilter = vtkSmartPointer<vtkTubeFilter>::New();
-    vtkSmartPointer<vtkCurvatures> curvature = vtkSmartPointer<vtkCurvatures>::New();
 
     vtkSmartPointer<vtkNamedColors> colorHandler = vtkSmartPointer<vtkNamedColors>::New();
 
@@ -68,16 +66,12 @@ private:
     QColor actorColor;
 
     vtkSmartPointer<vtkDataSetMapper> activeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
-    vtkSmartPointer<vtkPolyDataMapper> activePolyMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
 
     vtkSmartPointer<vtkRenderer> activeRenderer = vtkSmartPointer<vtkRenderer>::New();
 
     vtkAlgorithmOutput* finalAlgorithm = vtkAlgorithmOutput::New();
-    vtkPolyData* finalPolydata = vtkPolyData::New();
 
     std::vector<int> activeFilters = {0,0,0,0,0,0,0};
-
-    int polyDataUsed = 0;
 
     int colorAffected = 0;
     double shrinkFactor = 0;
@@ -104,20 +98,14 @@ private:
     void filterStage();
     //! function to update active mappers
     void mapperStage();
-    //! function to update actor of poly data
-    void polyActorStage();
     //! function to update actor of main data
     void actorStage();
     //! function to apply shrink filter
     void initShrinkFilter();
     //! function to apply clip filter
     void initClipFilter();
-    //! function to apply contour filter
-    void initContourFilter();
     //! function to apply tube filter
     void initTubeFilter();
-    //! function to apply curvature filter
-    void initCurvatureFilter();
 
 public:
     //! default constructor
@@ -148,10 +136,6 @@ public:
     vtkAlgorithmOutput* getAlgorithm();
     /*! function to get ploydata
     \return vtkPolyData - GetPolydata()
-    */
-    vtkPolyData* GetPolydata(); //! have no any relative function on cpp file
-    /*! function to get active renderer
-    \n Arguement: vtkSmartPointer<vtkRenderer>  - getRenderer()
     */
     vtkSmartPointer<vtkRenderer> getRenderer();
     /*! function to set active Actor
@@ -234,4 +218,4 @@ public:
 
 };
 
-#endif //! PIPELINEINFO_H_INCLUDED
+#endif //! PIPELINE_H_INCLUDED

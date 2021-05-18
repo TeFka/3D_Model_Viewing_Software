@@ -68,7 +68,7 @@ LINK_DIRECTORIES(${CMAKE_BINARY_DIR})
 add_executable(VTKView MACOSX_BUNDLE 
 ${software_sources}
 ${UI_Srcs}
-${QRC_Srcs})
+${QRC_Srcs} ${CMAKE_CURRENT_SOURCE_DIR}/Resources/GUI_Icons/exeIcon.o)
 
 qt5_add_binary_resources(resources ${ICONS} OPTIONS -no-compress)
 add_dependencies(VTKView resources)

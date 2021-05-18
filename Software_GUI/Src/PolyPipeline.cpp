@@ -1,8 +1,8 @@
 
-#include "../Inc/Pipeline.h"
+#include "../Inc/PolyPipeline.h"
 
 //default constructor
-Pipeline::Pipeline()
+Pipeline::PolyPipeline()
 {
 
 }
@@ -15,58 +15,33 @@ Pipeline::Pipeline(vtkSmartPointer<vtkRenderer> theRenderer)
     this->activeRenderer->AddActor(this->activeActor);
 }
 
-//function to refresh pipeline
-void Pipeline::refreshPipeline()
-{
-    //remove active actors
-    this->activeRenderer->RemoveActor(this->activeActor);
-
-    //set initial source algorithm
-    this->finalAlgorithm = this->theObject->getSource();
-
-    //declare mapper
-    this->activeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
-
-    //declare actor
-    this->activeActor = vtkSmartPointer<vtkActor>::New();
-}
-
-//function to setup lights
-void Pipeline::setLight()
-{
-    //set light parameters
-    this->light->SetLightTypeToCameraLight();
-
-    this->light->SetPositional( true );
-    this->light->SetConeAngle( 60 );
-    this->light->SetDiffuseColor( 1, 1, 1 );
-    this->light->SetAmbientColor( 1, 1, 1 );
-    this->light->SetSpecularColor( 1, 1, 1 );
-    this->light->SetIntensity( 1.0 );
-
-    //add light to renderer
-    this->activeRenderer->AddLight(this->light);
-
-    //make light follow camera
-    this->activeRenderer->SetLightFollowCamera(true);
-}
-
 //function to setup new pipeline
 void Pipeline::setNewPipeline()
 {
     this->refreshPipeline();
 
+    //initial polydata
+    this->finalPolydata = this->theObject->getPolydata();
+
+    //declare mappers
+    this->activePolyMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+
+    //declare actors
+    this->activeActor = vtkSmartPointer<vtkActor>::New();
+
     //update mappers
     this->mapperStage();
 
     //set mappers
-    this->activeActor->SetMapper(this->activeMapper);
+    this->activeActor->SetMapper(this->activePolyMapper);
 
     //update actors
     this->actorStage();
+    this->polyActorStage();
 
     //add actors to renderer
     this->activeRenderer->AddActor(this->activeActor);
+    this->activeRenderer->AddActor(this->activePolyActor);
 }
 
 //function to update active pipeline
@@ -84,6 +59,8 @@ void Pipeline::updatePipeline()
     //set initial source algorithm
     this->finalAlgorithm = this->theObject->getSource();
 
+    //initial polydata
+    this->finalPolydata = this->theObject->getPolydata();
     //use active filters
     this->filterStage();
     //update mappers
@@ -96,6 +73,10 @@ void Pipeline::updatePipeline()
 //function to use pipeline filters
 void Pipeline::filterStage()
 {
+    //reset factors
+    this->polyDataUsed = 0;
+    this->colorAffected = 0;
+
     //shrink filter
     if(this->activeFilters[0])
     {
@@ -110,6 +91,13 @@ void Pipeline::filterStage()
 
     }
 
+    //contour filter
+    if(this->activeFilters[2])
+    {
+        this->initContourFilter();
+        this->polyDataUsed = 1;
+    }
+
     //tube filter
     if(this->activeFilters[5])
     {
@@ -120,7 +108,85 @@ void Pipeline::filterStage()
 //function to update active mappers
 void Pipeline::mapperStage()
 {
+    if(this->polyDataUsed)
+    {
+        this->activeMapper = vtkSmartPointer<vtkDataSetMapper>::New();
+        this->activePolyMapper->SetInputData(this->finalPolydata);
+    }
+    else
+    {
+        this->activeMapper->SetInputConnection(this->finalAlgorithm);
+        this->activePolyMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    }
     this->activeMapper->SetInputConnection(this->finalAlgorithm);
+}
+
+//function to update actor of poly data
+void Pipeline::polyActorStage()
+{
+    if(this->polyDataUsed)
+    {
+        //define object state
+        if(this->showWireframe)
+        {
+            this->activePolyActor->GetProperty()->SetRepresentationToWireframe();
+        }
+        else if(this->showPoints)
+        {
+            this->activePolyActor->GetProperty()->SetRepresentationToPoints();
+        }
+        else
+        {
+            this->activePolyActor->GetProperty()->SetRepresentationToSurface();
+        }
+
+        //set actor color only if object color is not affected otherwise
+        if(this->colorAffected)
+        {
+            this->activePolyActor->GetProperty()->SetColor(1.0,
+                    1.0,
+                    1.0);
+        }
+        else
+        {
+            this->activePolyActor->GetProperty()->SetColor(0.0,
+                    1.0,
+                    0.0);
+        }
+
+        //smooth filter
+        if(!this->activeFilters[3])
+        {
+            this->activePolyActor->GetProperty()->EdgeVisibilityOn();
+        }
+        else
+        {
+            this->activePolyActor->GetProperty()->EdgeVisibilityOff();
+        }
+
+        //sphere points filter
+        if(this->activeFilters[4])
+        {
+            this->activePolyActor->GetProperty()->RenderPointsAsSpheresOn();
+        }
+        else
+        {
+            this->activePolyActor->GetProperty()->RenderPointsAsSpheresOff();
+        }
+
+        //let object be affected by light if required
+        if(this->showLight)
+        {
+            this->activePolyActor->GetProperty()->LightingOn();
+            this->light->SetIntensity( this->lightIntensity );
+            this->activePolyActor->GetProperty()->SetSpecular(this->lightSpecular);
+            this->activePolyActor->GetProperty()->SetSpecularPower(this->lightSpecular);
+        }
+        else
+        {
+            this->activePolyActor->GetProperty()->LightingOff();
+        }
+    }
 }
 
 //function to update actor of main data
@@ -143,9 +209,19 @@ void Pipeline::actorStage()
     //add actor color only if it is not VTK object
     if(this->theObject->getObjectType()<3)
     {
+        //set actor color only if object color is not affected otherwise
+        if(this->colorAffected)
+        {
+            this->activePolyActor->GetProperty()->SetColor(1.0,
+                    1.0,
+                    1.0);
+        }
+        else
+        {
             this->activeActor->GetProperty()->SetColor((double)this->theObject->getColor().red()/255,
                     (double)this->theObject->getColor().green()/255,
                     (double)this->theObject->getColor().blue()/255);
+        }
     }
 
     //smooth filter
@@ -208,6 +284,45 @@ void Pipeline::initClipFilter()
     planeLeft->SetNormal((float)this->clipX, (float)this->clipY, (float)this->clipZ);
     this->clipFilter->SetClipFunction( planeLeft.Get() );
     this->finalAlgorithm = this->clipFilter->GetOutputPort();
+}
+
+//function to apply contour filter
+void Pipeline::initContourFilter()
+{
+    std::cout<<"yes1"<<std::endl;
+    // Create a plane to cut
+    vtkNew<vtkPlane> plane;
+    plane->SetOrigin(this->finalPolydata->GetCenter());
+    plane->SetNormal(1, 1, 1);
+
+    double minBound[3];
+    minBound[0] = this->finalPolydata->GetBounds()[0];
+    minBound[1] = this->finalPolydata->GetBounds()[2];
+    minBound[2] = this->finalPolydata->GetBounds()[4];
+
+    double maxBound[3];
+    maxBound[0] = this->finalPolydata->GetBounds()[1];
+    maxBound[1] = this->finalPolydata->GetBounds()[3];
+    maxBound[2] = this->finalPolydata->GetBounds()[5];
+
+    double center[3];
+    center[0] = this->finalPolydata->GetCenter()[0];
+    center[1] = this->finalPolydata->GetCenter()[1];
+    center[2] = this->finalPolydata->GetCenter()[2];
+
+    double distanceMin = sqrt(vtkMath::Distance2BetweenPoints(minBound, center));
+    double distanceMax = sqrt(vtkMath::Distance2BetweenPoints(maxBound, center));
+
+    // Create cutter
+    vtkNew<vtkCutter> cutter;
+    cutter->SetInputData(this->finalPolydata);
+    cutter->SetCutFunction(plane);
+    std::cout<<"yes2"<<std::endl;
+    cutter->GenerateValues(20, -distanceMin, distanceMax);
+    this->finalPolydata = cutter->GetOutput();
+   this->activePolyMapper->ScalarVisibilityOff();
+    std::cout<<"yes3"<<std::endl;
+
 }
 
 //function to apply tube filter

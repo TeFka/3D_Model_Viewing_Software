@@ -1437,6 +1437,7 @@ background-color: rgb(150,150,150);</string>
     <bool>false</bool>
    </attribute>
    <addaction name="actionNew"/>
+   <addaction name="actionSaveModel"/>
    <addaction name="actionOpen"/>
    <addaction name="actionHelp"/>
    <addaction name="actionExit"/>
@@ -1531,6 +1532,10 @@ background-color: rgb(150,150,150);</string>
    </property>
   </action>
   <action name="actionSaveModel">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../Resources/GUI_Icons/saveIcon.png</normaloff>../../Resources/GUI_Icons/saveIcon.png</iconset>
+   </property>
    <property name="text">
     <string>Model</string>
    </property>

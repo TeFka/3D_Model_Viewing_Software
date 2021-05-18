@@ -227,60 +227,6 @@ void VTKObjectHandler::makeMeasurements()
 
         this->dimensionAverage = ((this->objectDimensions.getx()+this->objectDimensions.gety()+this->objectDimensions.getz())/3);
     }
-    /*else if(objectType==1)
-    {
-        //set parameters for STl object
-        this->activePoints = this->activeReader->GetOutput()->GetPoints();
-        double xMin=0;
-        double yMin=0;
-        double zMin=0;
-        double xMax=0;
-        double yMax=0;
-        double zMax=0;
-        //go through all vectors and check their positions
-        for(int i = 0; i<this->activePoints->GetNumberOfPoints(); i++)
-        {
-            double STLpoint[3];
-            this->activePoints->GetPoint(i,STLpoint);
-            //update maximum and minimum values based on current vector position
-            if(STLpoint[0]>xMax)
-            {
-                xMax = STLpoint[0];
-            }
-            if(STLpoint[0]<xMin)
-            {
-                xMin = STLpoint[0];
-            }
-            if(STLpoint[1]>yMax)
-            {
-                yMax = STLpoint[1];
-            }
-            if(STLpoint[1]<yMin)
-            {
-                yMin = STLpoint[1];
-            }
-            if(STLpoint[2]>zMax)
-            {
-                zMax = STLpoint[2];
-            }
-            if(STLpoint[2]<zMin)
-            {
-                zMin = STLpoint[2];
-            }
-        }
-
-        //set model dimensions based on minimum and maximum values
-        this->objectDimensions.setx(xMax-xMin);
-        this->objectDimensions.sety(yMax-yMin);
-        this->objectDimensions.setz(zMax-zMin);
-
-        this->dimensionAverage = ((this->objectDimensions.getx()+this->objectDimensions.gety()+this->objectDimensions.getz())/3);
-
-        //set model position based on minimum and maximum values
-        this->objectPosition.setx((xMax+xMin)/2);
-        this->objectPosition.setx((yMax+yMin)/2);
-        this->objectPosition.setx((zMax+zMin)/2);
-    }*/
 }
 
 void VTKObjectHandler::geometryStage()
@@ -290,6 +236,8 @@ void VTKObjectHandler::geometryStage()
     {
         // Generate normals
         vtkNew<vtkPolyDataNormals> normals;
+
+        //get input
         normals->SetInputConnection(this->finalSourceAlgorithm);
         normals->SplittingOff();
 
@@ -305,7 +253,10 @@ void VTKObjectHandler::geometryStage()
     }
     if(this->allowBendWarp)
     {
+         //get input
          this->bendWarp->SetInputConnection(this->finalSourceAlgorithm);
+
+         //set parameters
          this->bendWarp->SetPosition(this->bendWarpX*this->objectDimensions.getx(),
                                      this->bendWarpY*this->objectDimensions.gety(),
                                      this->bendWarpZ*this->objectDimensions.getz());
