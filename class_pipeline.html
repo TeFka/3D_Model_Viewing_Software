@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -84,6 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="class_pipeline-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Pipeline Class Reference</div>  </div>
@@ -100,8 +102,8 @@ Inheritance diagram for Pipeline:</div>
  <div class="center">
   <img src="class_pipeline.png" usemap="#Pipeline_map" alt=""/>
   <map id="Pipeline_map" name="Pipeline_map">
-<area href="class_datapipeline.html" alt="Datapipeline" shape="rect" coords="0,56,82,80"/>
-<area href="class_polypipeline.html" alt="Polypipeline" shape="rect" coords="92,56,174,80"/>
+<area href="class_data_pipeline.html" title="sub class of pipeline used to handle data " alt="DataPipeline" shape="rect" coords="0,56,83,80"/>
+<area href="class_poly_pipeline.html" title="sub class of pipeline used to handle poly data " alt="PolyPipeline" shape="rect" coords="93,56,176,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -119,120 +121,73 @@ Public Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a835dab33d884c93fe71c02eb1095fabc">setLight</a> ()</td></tr>
 <tr class="memdesc:a835dab33d884c93fe71c02eb1095fabc"><td class="mdescLeft">&#160;</td><td class="mdescRight">function to setup lights <br /></td></tr>
 <tr class="separator:a835dab33d884c93fe71c02eb1095fabc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c1c77b0bff7ddb226ec1d8ffc7bdecb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4c1c77b0bff7ddb226ec1d8ffc7bdecb"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a4c1c77b0bff7ddb226ec1d8ffc7bdecb">updatePipeline</a> ()</td></tr>
-<tr class="memdesc:a4c1c77b0bff7ddb226ec1d8ffc7bdecb"><td class="mdescLeft">&#160;</td><td class="mdescRight">function to update active pipeline <br /></td></tr>
-<tr class="separator:a4c1c77b0bff7ddb226ec1d8ffc7bdecb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a787ff6aa9dca989e9037355df92d82b0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a787ff6aa9dca989e9037355df92d82b0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a787ff6aa9dca989e9037355df92d82b0">setNewPipeline</a> ()</td></tr>
-<tr class="memdesc:a787ff6aa9dca989e9037355df92d82b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">function to setup new pipeline <br /></td></tr>
-<tr class="separator:a787ff6aa9dca989e9037355df92d82b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa691fc546389deb701e2c7781cd10c15"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_v_t_k_object_handler.html">VTKObjectHandler</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#aa691fc546389deb701e2c7781cd10c15">getObject</a> ()</td></tr>
 <tr class="separator:aa691fc546389deb701e2c7781cd10c15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae12cb60889225bfdcae5792e64c960a3"><td class="memItemLeft" align="right" valign="top">vtkSmartPointer&lt; vtkActor &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#ae12cb60889225bfdcae5792e64c960a3">getActor</a> ()</td></tr>
 <tr class="separator:ae12cb60889225bfdcae5792e64c960a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ecc3c98d8c05f29b8f118341c91e5dd"><td class="memItemLeft" align="right" valign="top">vtkSmartPointer&lt; vtkDataSetMapper &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a5ecc3c98d8c05f29b8f118341c91e5dd">getMapper</a> ()</td></tr>
-<tr class="separator:a5ecc3c98d8c05f29b8f118341c91e5dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a3c6e127b4fb9ff2ed73b6014ebf9bf"><td class="memItemLeft" align="right" valign="top">vtkAlgorithmOutput *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a8a3c6e127b4fb9ff2ed73b6014ebf9bf">getAlgorithm</a> ()</td></tr>
-<tr class="separator:a8a3c6e127b4fb9ff2ed73b6014ebf9bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27863c59e3337e3aa94f56ed9a8bf5ec"><td class="memItemLeft" align="right" valign="top">vtkSmartPointer&lt; vtkRenderer &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a27863c59e3337e3aa94f56ed9a8bf5ec">getRenderer</a> ()</td></tr>
 <tr class="separator:a27863c59e3337e3aa94f56ed9a8bf5ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80f8f24b35838707efe41953b7006f44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a80f8f24b35838707efe41953b7006f44">setActor</a> (vtkSmartPointer&lt; vtkActor &gt;)</td></tr>
-<tr class="separator:a80f8f24b35838707efe41953b7006f44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85fdc75ce3f55117418b2ee3b6bbe1b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a85fdc75ce3f55117418b2ee3b6bbe1b4">setMapper</a> (vtkSmartPointer&lt; vtkDataSetMapper &gt;)</td></tr>
-<tr class="separator:a85fdc75ce3f55117418b2ee3b6bbe1b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2283748f2e846667f5a85e926862650"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#aa2283748f2e846667f5a85e926862650">setAlgorithm</a> (vtkAlgorithmOutput *)</td></tr>
-<tr class="separator:aa2283748f2e846667f5a85e926862650"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6e6c3db10aafc3b2c635e3f09cf9ad5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#af6e6c3db10aafc3b2c635e3f09cf9ad5">setRenderer</a> (vtkSmartPointer&lt; vtkRenderer &gt;)</td></tr>
-<tr class="separator:af6e6c3db10aafc3b2c635e3f09cf9ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a165d1bcc6686346ae6a87e784f103341"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a165d1bcc6686346ae6a87e784f103341">setFilters</a> (std::vector&lt; int &gt;)</td></tr>
 <tr class="separator:a165d1bcc6686346ae6a87e784f103341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80f8f24b35838707efe41953b7006f44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a80f8f24b35838707efe41953b7006f44">setActor</a> (vtkSmartPointer&lt; vtkActor &gt;)</td></tr>
+<tr class="separator:a80f8f24b35838707efe41953b7006f44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6e6c3db10aafc3b2c635e3f09cf9ad5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#af6e6c3db10aafc3b2c635e3f09cf9ad5">setRenderer</a> (vtkSmartPointer&lt; vtkRenderer &gt;)</td></tr>
+<tr class="separator:af6e6c3db10aafc3b2c635e3f09cf9ad5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41b801159b9e23506e0cc47bb1057a86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a41b801159b9e23506e0cc47bb1057a86">enableWireframe</a> (int)</td></tr>
 <tr class="separator:a41b801159b9e23506e0cc47bb1057a86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43977ee6999e79ab94323ea28569f749"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a43977ee6999e79ab94323ea28569f749">enablePoints</a> (int)</td></tr>
 <tr class="separator:a43977ee6999e79ab94323ea28569f749"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6e083d05031ee3150f323ae1b3f0ee0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#aa6e083d05031ee3150f323ae1b3f0ee0">enableLight</a> (int)</td></tr>
 <tr class="separator:aa6e083d05031ee3150f323ae1b3f0ee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bb88ce7da6c305b27768a6f02b7290f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a7bb88ce7da6c305b27768a6f02b7290f">enableClipX</a> (int)</td></tr>
-<tr class="separator:a7bb88ce7da6c305b27768a6f02b7290f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afae3e0893c69c8f57d171ad9631c643a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#afae3e0893c69c8f57d171ad9631c643a">enableClipY</a> (int)</td></tr>
-<tr class="separator:afae3e0893c69c8f57d171ad9631c643a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9afd9b65ab4d8eb61a4fc9dc10d8ec6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a9afd9b65ab4d8eb61a4fc9dc10d8ec6c">enableClipZ</a> (int)</td></tr>
-<tr class="separator:a9afd9b65ab4d8eb61a4fc9dc10d8ec6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b4633e48f1b3917bed35d1546718ccb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a3b4633e48f1b3917bed35d1546718ccb">setShrinkFactor</a> (double)</td></tr>
-<tr class="separator:a3b4633e48f1b3917bed35d1546718ccb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7a317836a149a11c066fa30e4a62e58"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#ac7a317836a149a11c066fa30e4a62e58">setSphereRad</a> (double)</td></tr>
-<tr class="separator:ac7a317836a149a11c066fa30e4a62e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa67b1814f9ebf45caf0f9da5131ff0eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#aa67b1814f9ebf45caf0f9da5131ff0eb">setTubeRad</a> (double)</td></tr>
-<tr class="separator:aa67b1814f9ebf45caf0f9da5131ff0eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a23673c5b3b67dd075187c9c16f44b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a1a23673c5b3b67dd075187c9c16f44b5">setTubeSides</a> (int)</td></tr>
-<tr class="separator:a1a23673c5b3b67dd075187c9c16f44b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0fb7c01edd597d61c37987da77408b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#ae0fb7c01edd597d61c37987da77408b6">setClipPart</a> (double)</td></tr>
-<tr class="separator:ae0fb7c01edd597d61c37987da77408b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c3437f003ba48e7b709533498ab4dce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a5c3437f003ba48e7b709533498ab4dce">setLightIntensity</a> (double)</td></tr>
 <tr class="separator:a5c3437f003ba48e7b709533498ab4dce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac35776a69d49eab77fa9fc3f80082ea5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#ac35776a69d49eab77fa9fc3f80082ea5">setLightSpecular</a> (double)</td></tr>
 <tr class="separator:ac35776a69d49eab77fa9fc3f80082ea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a828829f711b92d7222ced0bafa841b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_pipeline.html#a7a828829f711b92d7222ced0bafa841b">setOpacity</a> (double)</td></tr>
 <tr class="separator:a7a828829f711b92d7222ced0bafa841b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a673c93ec73e917f2c09b810f861a5abc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a673c93ec73e917f2c09b810f861a5abc"></a>
+<a class="el" href="class_v_t_k_object_handler.html">VTKObjectHandler</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>theObject</b> = new <a class="el" href="class_v_t_k_object_handler.html">VTKObjectHandler</a></td></tr>
+<tr class="separator:a673c93ec73e917f2c09b810f861a5abc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae704421d5441722693a650cbe53e1908"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae704421d5441722693a650cbe53e1908"></a>
+vtkSmartPointer&lt; vtkLight &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>light</b> = vtkSmartPointer&lt;vtkLight&gt;::New()</td></tr>
+<tr class="separator:ae704421d5441722693a650cbe53e1908"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4545f334dad9c185d4c4ebc731da4f9d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4545f334dad9c185d4c4ebc731da4f9d"></a>
+vtkSmartPointer&lt; vtkNamedColors &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>colorHandler</b> = vtkSmartPointer&lt;vtkNamedColors&gt;::New()</td></tr>
+<tr class="separator:a4545f334dad9c185d4c4ebc731da4f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae61b9878fcc40996c612ff8f30f12685"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae61b9878fcc40996c612ff8f30f12685"></a>
+QColor&#160;</td><td class="memItemRight" valign="bottom"><b>actorColor</b></td></tr>
+<tr class="separator:ae61b9878fcc40996c612ff8f30f12685"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d973ecbaab828131a0b3e28427ab656"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9d973ecbaab828131a0b3e28427ab656"></a>
+vtkSmartPointer&lt; vtkActor &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>activeActor</b> = vtkSmartPointer&lt;vtkActor&gt;::New()</td></tr>
+<tr class="separator:a9d973ecbaab828131a0b3e28427ab656"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97d106f1627b16b5a3c4567bcc6dd756"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a97d106f1627b16b5a3c4567bcc6dd756"></a>
+vtkSmartPointer&lt; vtkRenderer &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>activeRenderer</b> = vtkSmartPointer&lt;vtkRenderer&gt;::New()</td></tr>
+<tr class="separator:a97d106f1627b16b5a3c4567bcc6dd756"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5488713939a122ed2944528bdd51a6f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad5488713939a122ed2944528bdd51a6f"></a>
+std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>activeFilters</b></td></tr>
+<tr class="separator:ad5488713939a122ed2944528bdd51a6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ddd30bdaba7aadcc62207cde86f0e49"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0ddd30bdaba7aadcc62207cde86f0e49"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>showWireframe</b> = 0</td></tr>
+<tr class="separator:a0ddd30bdaba7aadcc62207cde86f0e49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a421f665d635d6184508519209939cdf6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a421f665d635d6184508519209939cdf6"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>showPoints</b> = 0</td></tr>
+<tr class="separator:a421f665d635d6184508519209939cdf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1548abfa826fa6488c3169e872ae5544"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1548abfa826fa6488c3169e872ae5544"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>showLight</b> = 0</td></tr>
+<tr class="separator:a1548abfa826fa6488c3169e872ae5544"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26ecaf56936310ac23265b944efb5cce"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a26ecaf56936310ac23265b944efb5cce"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>lightIntensity</b> = 1.0</td></tr>
+<tr class="separator:a26ecaf56936310ac23265b944efb5cce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd496fb82535b1c16f6230d85f89e9fb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd496fb82535b1c16f6230d85f89e9fb"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>lightSpecular</b> = 0.0</td></tr>
+<tr class="separator:abd496fb82535b1c16f6230d85f89e9fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>class to handle VTK pipeline operation </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a7bb88ce7da6c305b27768a6f02b7290f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Pipeline::enableClipX </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>newVal</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function enable clip filter to clip on x axis <br />
- Arguments: int - enable to clip on x axis </p>
-
-</div>
-</div>
-<a class="anchor" id="afae3e0893c69c8f57d171ad9631c643a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Pipeline::enableClipY </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>newVal</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function enable clip filter to clip on y axis <br />
- Arguments: int - enable to clip on y axis </p>
-
-</div>
-</div>
-<a class="anchor" id="a9afd9b65ab4d8eb61a4fc9dc10d8ec6c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Pipeline::enableClipZ </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>newVal</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function enable clip filter to clip on z axis <br />
- Arguments: int - enable to clip on z axis </p>
-
-</div>
-</div>
 <a class="anchor" id="aa6e083d05031ee3150f323ae1b3f0ee0"></a>
 <div class="memitem">
 <div class="memproto">
@@ -299,41 +254,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         </tr>
       </table>
 </div><div class="memdoc">
-<p>function to get active actor <br />
- Arguement: vtkSmartPointer&lt;vtkActor&gt; - <a class="el" href="class_pipeline.html#ae12cb60889225bfdcae5792e64c960a3">getActor()</a> </p>
-
-</div>
-</div>
-<a class="anchor" id="a8a3c6e127b4fb9ff2ed73b6014ebf9bf"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">vtkAlgorithmOutput * Pipeline::getAlgorithm </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function to get final algorithm </p><dl class="section return"><dt>Returns</dt><dd>vtkAlgorithmOutput - <a class="el" href="class_pipeline.html#a8a3c6e127b4fb9ff2ed73b6014ebf9bf">getAlgorithm()</a> </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a5ecc3c98d8c05f29b8f118341c91e5dd"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">vtkSmartPointer&lt; vtkDataSetMapper &gt; Pipeline::getMapper </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function to get active mapper <br />
- Arguement: vtkSmartPointer&lt;vtkDataSetMapper&gt; - <a class="el" href="class_pipeline.html#a5ecc3c98d8c05f29b8f118341c91e5dd">getMapper()</a> </p>
+<p>function to get active actor </p><dl class="section return"><dt>Returns</dt><dd>vtkSmartPointer&lt;vtkActor&gt; - <a class="el" href="class_pipeline.html#ae12cb60889225bfdcae5792e64c960a3">getActor()</a> </dd></dl>
 
 </div>
 </div>
@@ -349,8 +270,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         </tr>
       </table>
 </div><div class="memdoc">
-<p>function to get object handler <br />
- Arguement: <a class="el" href="class_v_t_k_object_handler.html" title="the major functions to achieve gaining and changing the variables of objects ">VTKObjectHandler</a> - <a class="el" href="class_pipeline.html#aa691fc546389deb701e2c7781cd10c15">getObject()</a> </p>
+<p>function to get object handler </p><dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_v_t_k_object_handler.html" title="the major functions to achieve gaining and changing the variables of objects ">VTKObjectHandler</a> - <a class="el" href="class_pipeline.html#aa691fc546389deb701e2c7781cd10c15">getObject()</a> </dd></dl>
 
 </div>
 </div>
@@ -366,7 +286,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         </tr>
       </table>
 </div><div class="memdoc">
-<p>function to get ploydata </p><dl class="section return"><dt>Returns</dt><dd>vtkPolyData - GetPolydata() </dd></dl>
+<p>function to get active Renderer </p><dl class="section return"><dt>Returns</dt><dd>vtkSmartPointer&lt;vtkRenderer&gt; - received Renderer </dd></dl>
 
 </div>
 </div>
@@ -387,42 +307,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="aa2283748f2e846667f5a85e926862650"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Pipeline::setAlgorithm </td>
-          <td>(</td>
-          <td class="paramtype">vtkAlgorithmOutput *&#160;</td>
-          <td class="paramname"><em>theAlgorithm</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function to set active Algorithm <br />
- Arguments: vtkAlgorithmOutput - set a Algorithm </p>
-
-</div>
-</div>
-<a class="anchor" id="ae0fb7c01edd597d61c37987da77408b6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Pipeline::setClipPart </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>newVal</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function to set the value for part of object that is clipped with clip filter <br />
- Arguments: double - set clipped with </p>
-
-</div>
-</div>
 <a class="anchor" id="a165d1bcc6686346ae6a87e784f103341"></a>
 <div class="memitem">
 <div class="memproto">
@@ -436,8 +320,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         </tr>
       </table>
 </div><div class="memdoc">
-<p>function to set active Filters <br />
- Arguments: std::vector&lt;int&gt; - set filters </p>
+<p>function to set active filters <br />
+ Arguments: std::vector&lt;int&gt; - array of 1 or 0 to be set to filters </p>
 
 </div>
 </div>
@@ -477,24 +361,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="a85fdc75ce3f55117418b2ee3b6bbe1b4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Pipeline::setMapper </td>
-          <td>(</td>
-          <td class="paramtype">vtkSmartPointer&lt; vtkDataSetMapper &gt;&#160;</td>
-          <td class="paramname"><em>theMapper</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function to set active Mapper <br />
- Arguments: vtkSmartPointer&lt;vtkDataSetMapper&gt; - set a mapper </p>
-
-</div>
-</div>
 <a class="anchor" id="a7a828829f711b92d7222ced0bafa841b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -531,82 +397,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="a3b4633e48f1b3917bed35d1546718ccb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Pipeline::setShrinkFactor </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>newVal</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function to set shrink factor <br />
- Arguments: double - set shrink factor </p>
-
-</div>
-</div>
-<a class="anchor" id="ac7a317836a149a11c066fa30e4a62e58"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Pipeline::setSphereRad </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>newVal</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function to set radius of sphere points filter spheres <br />
- Arguments: double - set radius of sphere </p>
-
-</div>
-</div>
-<a class="anchor" id="aa67b1814f9ebf45caf0f9da5131ff0eb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Pipeline::setTubeRad </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>newVal</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function to set radius of tube filter tubes <br />
- Arguments: double - set radius of tube </p>
-
-</div>
-</div>
-<a class="anchor" id="a1a23673c5b3b67dd075187c9c16f44b5"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Pipeline::setTubeSides </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>newVal</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>function to set number of tube filter tube sides <br />
- Arguments: double - set radius of tube </p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Inc/<a class="el" href="_pipeline_8h_source.html">Pipeline.h</a></li>
 <li>/home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Src/Pipeline.cpp</li>
-<li>/home/travis/build/TeFka/2020_GROUP_19/Software_GUI/Src/PolyPipeline.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

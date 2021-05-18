@@ -1,5 +1,8 @@
 var searchData=
 [
+  ['readme',['README',['../md__home_travis_build_TeFka_2020_GROUP_19_Software_GUI_Inc_README.html',1,'']]],
+  ['readme',['README',['../md__home_travis_build_TeFka_2020_GROUP_19_Software_GUI_Src_README.html',1,'']]],
+  ['readme',['README',['../md__home_travis_build_TeFka_2020_GROUP_19_Software_GUI_UI_README.html',1,'']]],
   ['refreshrender',['refreshRender',['../class_viewer_handler.html#a079a312bb681b12a25bdb59062f53869',1,'ViewerHandler']]],
   ['resetcamera',['resetCamera',['../class_viewer_handler.html#af1713a6c3bc73009caf36671b6078557',1,'ViewerHandler']]],
   ['resetcolor',['resetColor',['../class_v_t_k_object_handler.html#a4ecc3dd7dbcfa237d5d54253428ae481',1,'VTKObjectHandler']]],

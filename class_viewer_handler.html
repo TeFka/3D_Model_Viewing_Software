@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -181,8 +182,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:af1713a6c3bc73009caf36671b6078557"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6c97fd838e7f2290489a974c8f73379"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_viewer_handler.html#ae6c97fd838e7f2290489a974c8f73379">changeBackgroundColor</a> (QColor)</td></tr>
 <tr class="separator:ae6c97fd838e7f2290489a974c8f73379"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50282b21c6a854cadba93fea676f5f84"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_pipeline.html">Pipeline</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_viewer_handler.html#a50282b21c6a854cadba93fea676f5f84">getPipeline</a> ()</td></tr>
-<tr class="separator:a50282b21c6a854cadba93fea676f5f84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43a6eb22541d9e545ff5cab77172d310"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_data_pipeline.html">DataPipeline</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_viewer_handler.html#a43a6eb22541d9e545ff5cab77172d310">getDataPipeline</a> ()</td></tr>
+<tr class="separator:a43a6eb22541d9e545ff5cab77172d310"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad98fb46295301b99cda211c282f375a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_poly_pipeline.html">PolyPipeline</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_viewer_handler.html#ad98fb46295301b99cda211c282f375a9">getPolyPipeline</a> ()</td></tr>
+<tr class="separator:ad98fb46295301b99cda211c282f375a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ef6fabb18170e784cc37323d66650cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_viewer_handler.html#a7ef6fabb18170e784cc37323d66650cc">enableInfo</a> (int)</td></tr>
 <tr class="separator:a7ef6fabb18170e784cc37323d66650cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7a0ae95e509ea4edee64a44afa1d0c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_viewer_handler.html#ab7a0ae95e509ea4edee64a44afa1d0c7">enableAxes</a> (int)</td></tr>
@@ -198,10 +201,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>enableOutline</b> (in
 <tr class="separator:a6b20f06b852ec8245e8f4de8cca89733"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ca0e1c2ec26f63e633f57b5f3d9ddb0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_viewer_handler.html#a2ca0e1c2ec26f63e633f57b5f3d9ddb0">saveScene</a> (QString)</td></tr>
 <tr class="separator:a2ca0e1c2ec26f63e633f57b5f3d9ddb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43493f0732b24634215b1a340f65822b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a43493f0732b24634215b1a340f65822b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_viewer_handler.html#a43493f0732b24634215b1a340f65822b">mouseClick</a> ()</td></tr>
-<tr class="memdesc:a43493f0732b24634215b1a340f65822b"><td class="mdescLeft">&#160;</td><td class="mdescRight">function to handle mouse doubleclick <br /></td></tr>
-<tr class="separator:a43493f0732b24634215b1a340f65822b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>the major class to change the interface. </p>
@@ -314,19 +313,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a class="anchor" id="a50282b21c6a854cadba93fea676f5f84"></a>
+<a class="anchor" id="a43a6eb22541d9e545ff5cab77172d310"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_pipeline.html">Pipeline</a> * ViewerHandler::getPipeline </td>
+          <td class="memname"><a class="el" href="class_data_pipeline.html">DataPipeline</a> * ViewerHandler::getDataPipeline </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>function to get active pipeline </p><dl class="section return"><dt>Returns</dt><dd>: <a class="el" href="class_pipeline.html" title="class to handle VTK pipeline operation ">Pipeline</a> - <a class="el" href="class_viewer_handler.html#a50282b21c6a854cadba93fea676f5f84">getPipeline()</a> </dd></dl>
+<p>function to get active polydata pipeline </p><dl class="section return"><dt>Returns</dt><dd>: DataPipeline* - pointer of pipeline to be returned </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad98fb46295301b99cda211c282f375a9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_poly_pipeline.html">PolyPipeline</a> * ViewerHandler::getPolyPipeline </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>function to get active data pipeline </p><dl class="section return"><dt>Returns</dt><dd>: PolyPipeline* - pointer of pipeline to be returned </dd></dl>
 
 </div>
 </div>
