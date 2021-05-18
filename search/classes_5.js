@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['pipeline',['Pipeline',['../class_pipeline.html',1,'']]],
-  ['pyramid',['Pyramid',['../class_pyramid.html',1,'']]]
+  ['newshapechoice',['NewShapeChoice',['../class_new_shape_choice.html',1,'']]]
 ];
