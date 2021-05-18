@@ -77,7 +77,8 @@ void Pipeline::updatePipeline()
     {
         this->theObject->updateVTKModel();
     }
-    else{
+    else
+    {
         this->theObject->updateObjectData();
     }
 
@@ -143,9 +144,9 @@ void Pipeline::actorStage()
     //add actor color only if it is not VTK object
     if(this->theObject->getObjectType()<3)
     {
-            this->activeActor->GetProperty()->SetColor((double)this->theObject->getColor().red()/255,
-                    (double)this->theObject->getColor().green()/255,
-                    (double)this->theObject->getColor().blue()/255);
+        this->activeActor->GetProperty()->SetColor((double)this->theObject->getColor().red()/255,
+                (double)this->theObject->getColor().green()/255,
+                (double)this->theObject->getColor().blue()/255);
     }
 
     //smooth filter
@@ -301,14 +302,17 @@ void Pipeline::setTubeRad(double newVal)
 }
 
 //function to set number of tube filter tube sides
- void Pipeline::setTubeSides(int newVal){
-    if(newVal<3){
+void Pipeline::setTubeSides(int newVal)
+{
+    if(newVal<3)
+    {
         this->tubeSides = 3;
     }
-    else{
+    else
+    {
         this->tubeSides = newVal;
     }
- }
+}
 
 //function to set radius of sphere points filter spheres
 void Pipeline::setSphereRad(double newVal)

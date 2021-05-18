@@ -51,7 +51,7 @@ qt5_wrap_ui( UI_Srcs ${UIS} )
 find_package( VTK REQUIRED )
 include( ${VTK_USE_FILE} )
 
-set( ICONS ${CMAKE_CURRENT_LIST_DIR}/Resources/GUI_Icons/resource.qrc )
+set( ICONS Resources/GUI_Icons/resource.qrc )
 
 qt5_add_resources( QRC_Srcs ${ICONS} )
 
@@ -70,7 +70,7 @@ LINK_DIRECTORIES(${CMAKE_BINARY_DIR})
 add_executable(VTKView MACOSX_BUNDLE 
 ${software_sources}
 ${UI_Srcs}
-${QRC_Srcs} ${CMAKE_CURRENT_SOURCE_DIR}/Resources/GUI_Icons/exeIcon.rc)
+${QRC_Srcs} Resources/GUI_Icons/exeIcon.rc)
 
 qt5_add_binary_resources(resources ${ICONS} OPTIONS -no-compress)
 add_dependencies(VTKView resources)
@@ -113,7 +113,7 @@ COMPONENT VTK  )
 endif( VTK_DLLS )
 #install Qt (doesnt work)-----------------------------------------------------------------------
 # If Qt-4 was used, add the 'found' Qt-libraries to the Install-target.
-find_package( Qt5_Widgets )
+find_package( Qt5Widgets )
     foreach( Qt_library ${QT_LIBRARIES} )
         # With QT_USE_IMPORTED_TARGETS, we should extract the dll info 
         # from the target properties

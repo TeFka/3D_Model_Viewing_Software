@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>VTKView</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/exeIcon.png</normaloff>:/exeIcon.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">background-color: #DDDDDD;
 color: #FF0000;</string>
@@ -1445,7 +1449,7 @@ background-color: rgb(150,150,150);</string>
   <action name="actionNew">
    <property name="icon">
     <iconset>
-     <normaloff>../../Resources/GUI_Icons/newIcon.png</normaloff>../../Resources/GUI_Icons/newIcon.png</iconset>
+     <normaloff>:/newIcon.png</normaloff>:/newIcon.png</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -1454,7 +1458,7 @@ background-color: rgb(150,150,150);</string>
   <action name="actionOpen">
    <property name="icon">
     <iconset>
-     <normaloff>../../Resources/GUI_Icons/openIcon.png</normaloff>../../Resources/GUI_Icons/openIcon.png</iconset>
+     <normaloff>:/openIcon.png</normaloff>:/openIcon.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -1463,7 +1467,7 @@ background-color: rgb(150,150,150);</string>
   <action name="actionHelp">
    <property name="icon">
     <iconset>
-     <normaloff>../../Resources/GUI_Icons/helpIcon.png</normaloff>../../Resources/GUI_Icons/helpIcon.png</iconset>
+     <normaloff>:/helpIcon.png</normaloff>:/helpIcon.png</iconset>
    </property>
    <property name="text">
     <string>Help</string>
@@ -1534,7 +1538,7 @@ background-color: rgb(150,150,150);</string>
   <action name="actionSaveModel">
    <property name="icon">
     <iconset>
-     <normaloff>../../Resources/GUI_Icons/saveIcon.png</normaloff>../../Resources/GUI_Icons/saveIcon.png</iconset>
+     <normaloff>:/saveIcon.png</normaloff>:/saveIcon.png</iconset>
    </property>
    <property name="text">
     <string>Model</string>
@@ -1555,8 +1559,8 @@ background-color: rgb(150,150,150);</string>
   </action>
   <action name="actionExit">
    <property name="icon">
-    <iconset>
-     <normaloff>../../Resources/GUI_Icons/closeIcon.png</normaloff>../../Resources/GUI_Icons/closeIcon.png</iconset>
+   <iconset>
+     <normaloff>:/closeIcon.png</normaloff>:/closeIcon.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -1570,6 +1574,5 @@ background-color: rgb(150,150,150);</string>
    <header location="global">QVTKOpenGLWidget.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
  <connections/>
 </ui>

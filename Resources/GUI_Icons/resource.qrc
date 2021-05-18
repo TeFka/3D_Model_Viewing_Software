@@ -1,10 +1,13 @@
-<RCC>
-    <qresource prefix="/images">
-        <file>openIcon.png</file>
+
+  
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource>
+		<file>openIcon.png</file>
         <file>saveIcon.png</file>
 		<file>newIcon.png</file>
 		<file>helpIcon.png</file>
 		<file>closeIcon.png</file>
-    </qresource>
-    <qresource prefix="/new/prefix1"/>
+		<file>exeIcon.png</file>
+  </qresource>
 </RCC>
