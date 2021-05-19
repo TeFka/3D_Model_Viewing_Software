@@ -88,13 +88,27 @@ target_link_libraries( VTKView Qt5::Widgets )
 # Tell CMake that the executable depends on the VTK libraries
 target_link_libraries( VTKView ${VTK_LIBRARIES})
 
+#generate NSIS install wizard
 set(CPACK_GENERATOR "NSIS")
 
+#-------------------------------------------------
+set (CMAKE_INSTALL_DEBUG_LIBRARIES TRUE)
+set (CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
+
+
+include(DeployQt5.cmake)
+install_qt5_executable("bin/VTKView.exe" "${Qt5Gui_PLUGINS};" "" "" "plugins" TRUE)
+
+include(InstallRequiredSystemLibraries)
+install (FILES ${CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS} 
+DESTINATION bin
+COMPONENT runtime)
+#----------------------------------------------
 #install 3D software target-------------------------
 install(TARGETS VTKView
 RUNTIME DESTINATION bin
 COMPONENT application)
-#-----------------------------------------------------
+#install Library-----------------------------------------------------
 install (TARGETS model3DLib
 LIBRARY DESTINATION lib
 ARCHIVE DESTINATION lib/static
@@ -111,59 +125,40 @@ if( VTK_DLLS )
 DESTINATION bin 
 COMPONENT VTK  )
 endif( VTK_DLLS )
-#install Qt (doesnt work)-----------------------------------------------------------------------
-# If Qt-4 was used, add the 'found' Qt-libraries to the Install-target.
-find_package( Qt5Widgets )
-    foreach( Qt_library ${QT_LIBRARIES} )
-        # With QT_USE_IMPORTED_TARGETS, we should extract the dll info 
-        # from the target properties
-        get_target_property( Qt_lib_name ${Qt_library} IMPORTED_LOCATION )
-        get_target_property( Qt_lib_name_debug ${Qt_library} IMPORTED_LOCATION_DEBUG )
-        get_target_property( Qt_lib_name_release ${Qt_library} IMPORTED_LOCATION_RELEASE )
+#-----------install Qt------------------------------------------  
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Gui REQUIRED)
+find_package(Qt5Core REQUIRED)
+#installs release versions----------------------------------------
+#get_target_property(QtWidgets_location Qt5::Widgets LOCATION)
+#get_target_property(QtGui_location Qt5::Gui LOCATION)
+#get_target_property(QtCore_location Qt5::Core LOCATION)
+#installs debug versions, this method should be used generally------------
+get_target_property(QtWidgets_location Qt5::Widgets IMPORTED_LOCATION_DEBUG)
+get_target_property(QtGui_location Qt5::Gui IMPORTED_LOCATION_DEBUG)
+get_target_property(QtCore_location Qt5::Core IMPORTED_LOCATION_DEBUG)
 
-        # Initially assume the release dlls should be installed, but 
-        # fall back to debug if necessary
-        if ( Qt_lib_name_release AND EXISTS ${Qt_lib_name_release} )
-            set( Qt_library_location ${Qt_lib_name_release} )
-        elseif ( Qt_lib_name_debug AND EXISTS ${Qt_lib_name_debug} AND ENVIRONMENT_DEBUG )
-            set( Qt_library_location ${Qt_lib_name_debug} )
-        elseif ( Qt_lib_name AND EXISTS ${Qt_lib_name} )
-            set( Qt_library_location ${Qt_lib_name} )
-        endif ( Qt_lib_name_release AND EXISTS ${Qt_lib_name_release} )
+target_link_libraries(VTKView Qt5::Widgets Qt5::Gui Qt5::Core)
 
-        # Extract the filename part, without the lib-prefix or the .a or ..lib suffix
-        get_filename_component( Qt_library_name ${Qt_library_location} NAME_WE )
-        string( REGEX REPLACE "^lib(.*)" "\\1" Qt_library_name ${Qt_library_name} )
-
-        set( Qt_shared_library ${QT_BINARY_DIR}/${Qt_library_name}.dll )
-          if ( EXISTS ${Qt_shared_library} )
-            # Add it to the list of 'desired' qt-libraries for later installation
-            list( APPEND Qt_Install_Libraries ${Qt_shared_library} )
-        else ( EXISTS ${Qt_shared_library} )
-            message( WARNING "    could not find ${Qt_shared_library}" )
-        endif ( EXISTS ${Qt_shared_library} )
-    endforeach( Qt_library ${QT_LIBRARIES} )
-    # When building against a static Qt, the list of Qt_Install_Libraries can be empty
-   # if ( Qt_Install_Libraries )
-        list( REMOVE_DUPLICATES Qt_Install_Libraries )
-        install( FILES ${Qt_Install_Libraries} 
-                DESTINATION bin 
-                COMPONENT Qt )
-   # endif ( Qt_Install_Libraries )    
+install (FILES  ${QtWidgets_location} ${QtGui_location} ${QtCore_location} 
+DESTINATION bin
+COMPONENT Qt)
 #----------------------------------------------------------------------------------
 #set and define components
 set(CPACK_RPM_COMPONENT_INSTALL ON)
-set(CPACK_COMPONENTS_ALL application library VTK Qt)
+set(CPACK_COMPONENTS_ALL application library VTK Qt runtime plugin)
 #-------------------------------------------------------------------
 #--------------adding description, glitches and doesnt work for unknown reason--------------
-set(CPACK_COMPONENT_APPLICATION_DESCRIPTION 
-"Installs the programme's executable (required)")
-set(CPACK_COMPONENT_LIBRARY_DESCRIPTION 
-"Installs the programmes .LIB file (required)")
-set(CPACK_COMPONENT_VTK_DESCRIPTION 
-"Installs all VTK dll's (required if VTK not already installed)")
-set(CPACK_COMPONENT_Qt_DESCRIPTION 
-"Installs all VTK dll's (required if Qt not already installed)")
+#set(CPACK_COMPONENT_APPLICATION_DESCRIPTION 
+#"Installs the programme's executable (required)")
+#set(CPACK_COMPONENT_LIBRARY_DESCRIPTION 
+#"Installs the programmes .LIB file (required)")
+#set(CPACK_COMPONENT_VTK_DESCRIPTION 
+#"Installs all VTK dll's (required if VTK not already installed)")
+#set(CPACK_COMPONENT_QT_DESCRIPTION 
+#"Installs all Qt dll's (required if Qt not already installed)")
+#set(CPACK_COMPONENT_RUNTIME_DISPLAY_NAME_DESCRIPTION 
+#"Installs MSVC's runtime dll's (required if Qt not already installed)")
 #----------------------------------------------------------------
 #--------------Connect executable and uninstaller to startmenu--------------------
 set(CPACK_PACKAGE_EXECUTABLES "uninstall;uninstall")
@@ -172,12 +167,13 @@ set(CPACK_PACKAGE_EXECUTABLES "VTKView;VTKView")
 set(CPACK_CREATE_DESKTOP_LINKS "VTKView")
 #--------------------------------------------------------------------
 #-------------changing display names if wanted----------------------
-#set(CPACK_COMPONENT_APPLICATION_DISPLAY_NAME "")
-#set(CPACK_COMPONENT_LIBRARY_DISPLAY_NAME "")
-#set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "")
-
-
-
-
+set(CPACK_COMPONENT_APPLICATION_DISPLAY_NAME "Application : contains VTKView.exe (required)")
+set(CPACK_COMPONENT_VTK_DISPLAY_NAME "VTK : (required if VTK not already installed)")
+set(CPACK_COMPONENT_QT_DISPLAY_NAME "Qt : (required if Qt not already installed)")
+set(CPACK_COMPONENT_LIBRARY_DISPLAY_NAME "Library : contains static 3DModelLib.lib (required)")
+set(CPACK_COMPONENT_RUNTIME_DISPLAY_NAME "MSVC Runtime (required)")
 include(CPack)
+
+
+
 
