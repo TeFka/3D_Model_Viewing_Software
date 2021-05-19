@@ -296,7 +296,7 @@ void ViewerHandler::updateNormals()
         glyph3D->SetInputData(normals->GetOutput());
         glyph3D->SetVectorModeToUseNormal();
         glyph3D->SetScaleModeToScaleByVector();
-        glyph3D->SetScaleFactor(this->theDataPipeline->getObject()->getDimensionAverage()/2);
+        glyph3D->SetScaleFactor(this->theDataPipeline->getObject()->getDimensionAverage()/7);
         glyph3D->OrientOn();
         glyph3D->Update();
 
