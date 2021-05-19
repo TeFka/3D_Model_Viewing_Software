@@ -6,6 +6,6 @@ var searchData=
   ['viewerhandler_2eh',['ViewerHandler.h',['../_viewer_handler_8h.html',1,'']]],
   ['viewnewobject',['viewNewObject',['../class_viewer_handler.html#a84c8d85ac667a44175cf2a58c579cf7c',1,'ViewerHandler']]],
   ['vtkaffinecallback',['vtkAffineCallback',['../classaffine_1_1vtk_affine_callback.html',1,'affine']]],
-  ['vtkobjecthandler',['VTKObjectHandler',['../class_v_t_k_object_handler.html',1,'']]],
+  ['vtkobjecthandler',['VTKObjectHandler',['../class_v_t_k_object_handler.html',1,'VTKObjectHandler'],['../class_v_t_k_object_handler.html#af90ad1b8e25fc2c3e0f1bbb252b428f5',1,'VTKObjectHandler::VTKObjectHandler()']]],
   ['vtkobjecthandler_2eh',['VTKObjectHandler.h',['../_v_t_k_object_handler_8h.html',1,'']]]
 ];

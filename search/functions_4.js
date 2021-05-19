@@ -32,7 +32,7 @@ var searchData=
   ['getpolydata',['getPolydata',['../class_poly_pipeline.html#a2892929e4759ae74731e869d2ac15e23',1,'PolyPipeline::getPolydata()'],['../class_v_t_k_object_handler.html#af71b5b3386126390bcf6f9299befe615',1,'VTKObjectHandler::getPolydata()']]],
   ['getpolypipeline',['getPolyPipeline',['../class_viewer_handler.html#ad98fb46295301b99cda211c282f375a9',1,'ViewerHandler']]],
   ['getposition',['getPosition',['../class_v_t_k_object_handler.html#a90398a7b76e41d7d26bc349adc4562dc',1,'VTKObjectHandler']]],
-  ['getrenderer',['getRenderer',['../class_data_pipeline.html#a621393332eabfae6df9982be0457f1af',1,'DataPipeline::getRenderer()'],['../class_pipeline.html#a27863c59e3337e3aa94f56ed9a8bf5ec',1,'Pipeline::getRenderer()']]],
+  ['getrenderer',['getRenderer',['../class_pipeline.html#a27863c59e3337e3aa94f56ed9a8bf5ec',1,'Pipeline']]],
   ['getshownpointamount',['getShownPointAmount',['../class_v_t_k_object_handler.html#acbc4cbc1b56ac1cb39b128fc58196a8d',1,'VTKObjectHandler']]],
   ['getsource',['getSource',['../class_v_t_k_object_handler.html#aa091b44133855b4ef5e86fd073c2e1b0',1,'VTKObjectHandler']]],
   ['gettype',['getType',['../class_cell.html#add3277569149cf78bb6a6e110eb119a6',1,'Cell']]],
