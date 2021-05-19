@@ -20,6 +20,12 @@ PolyPipeline::PolyPipeline(vtkSmartPointer<vtkRenderer> theRenderer)
     this->activeRenderer->AddActor(this->activeActor);
 }
 
+//default destructor
+PolyPipeline::~PolyPipeline()
+{
+
+}
+
 //function to refresh pipeline
 void PolyPipeline::refreshPipeline()
 {

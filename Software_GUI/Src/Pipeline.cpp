@@ -15,6 +15,12 @@ Pipeline::Pipeline(vtkSmartPointer<vtkRenderer> theRenderer)
     this->activeRenderer->AddActor(this->activeActor);
 }
 
+//default destructor
+Pipeline::~Pipeline()
+{
+
+}
+
 //function to setup lights
 void Pipeline::setLight()
 {

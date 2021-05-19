@@ -105,44 +105,152 @@ private:
 
     int allowGUIChange = 1;
 
+    /*! function to refresh rendering
+        \return none
+    */
     void refreshRender();
+
+    /*! function to refresh active GUI and set all components to default
+        \return none
+    */
     void refreshGUI();
+
+    /*! function to refresh all active GUI components that are related to object modification
+        \return none
+    */
     void refreshObjectGUI();
 
 public slots:
 
+    /*! function to handle change of GUI components that control object initial geometry
+        \return none
+    */
     void handleGeometryUpdate();
+
+    /*! function to handle general changes of GUI.
+        \return none
+    */
     void handleUpdate();
+
+    /*! function to handle change of GUI sliders.
+        \return none
+    */
     void handleSliderUpdate();
+
+    /*! function to handle change of chosen filters.
+        \return none
+    */
     void handleFilterUpdate();
+
+    /*! function to handle change of chosen minimum amount of shown cells
+        \return none
+    */
     void handleMinCellChange();
+
+    /*! function to handle change of chosen maximum amount of shown cells
+        \return none
+    */
     void handleMaxCellChange();
 
+    /*! function to handle opening and retrieving of models from files
+        \return none
+    */
     void handleOpenButton();
+
+    /*! function to handle saving of model geometry
+        \return none
+    */
     void handleSaveModelButton();
+
+    /*! function to handle saving of model with all effects
+        \return none
+    */
     void handleSaveSceneButton();
+
+    /*! function to handle opening ov helper window
+        \return none
+    */
     void handleHelpButton();
+
+    /*! function to handle choice of a new object
+        \return none
+    */
     void handleNewButton();
 
+    /*! function to change camera orientation to positive X axis
+        \return none
+    */
     void setCameraOrientationPosX();
+    /*! function to change camera orientation to negative X axis
+        \return none
+    */
     void setCameraOrientationNegX();
+    /*! function to change camera orientation to positive Y axis
+        \return none
+    */
     void setCameraOrientationPosY();
+    /*! function to change camera orientation to negative Y axis
+        \return none
+    */
     void setCameraOrientationNegY();
+    /*! function to change camera orientation to positive XZ axis
+        \return none
+    */
     void setCameraOrientationPosZ();
+    /*! function to change camera orientation to negative XZ axis
+        \return none
+    */
     void setCameraOrientationNegZ();
+    /*! function to change camera orientation to the right
+        \return none
+    */
     void setCameraOrientationPosShift();
+    /*! function to change camera orientation to the left
+        \return none
+    */
     void setCameraOrientationNegShift();
-    void setCameraOrientationPosRotate();
-    void setCameraOrientationNegRotate();
 
+    /*! function to rotate camera orientation to the right
+        \return none
+    */
+    void setCameraOrientationPosRotate();
+
+    /*! function to rotate camera orientation to the left
+        \return none
+    */
+    void setCameraOrientationNegRotate();
+    /*! function to reset model and all viewer components
+        \return none
+    */
     void resetViewer();
+    /*! function to reset all model modifications
+        \return none
+    */
     void resetObject();
+    /*! function to reset camera orientation to default
+        \return none
+    */
     void resetCamera();
+    /*! function to change background color
+        \return none
+    */
     void changeBackgroundColor();
+
+    /*! function to change model color
+        \return none
+    */
     void changeObjectColor();
+
+    /*! function to reset model color to default
+        \return none
+    */
     void resetObjectColor();
 
 signals:
+
+    /*! function to update status message
+        \return none
+    */
     void statusUpdateMessage( const QString & message, int timeout );
 };
 

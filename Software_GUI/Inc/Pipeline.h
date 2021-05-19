@@ -1,7 +1,7 @@
 /*! \file Pipeline.h File Reference
     \author   Copyright: \n Code part: Danielius Zurlys (StudentID: 20130611)
                          \n Comments part: Danielius Zurlys and Chen Xu  (StudentID: 20187733)
-    \brief  build a pipeline part for VTK.
+    \brief  build a pipeline for VTK.
 */
 #ifndef PIPELINE_H_INCLUDED
 #define PIPELINE_H_INCLUDED
@@ -76,6 +76,8 @@ public:
     Pipeline();
     //! constructor
     Pipeline(vtkSmartPointer<vtkRenderer>);
+    //! destructor
+    ~Pipeline();
     //! function to setup lights
     void setLight();
     /*! function to get object handler

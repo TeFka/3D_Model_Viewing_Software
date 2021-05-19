@@ -75,17 +75,37 @@ void MainWindow::refreshObjectGUI()
     //disable GUI change to prevent updates
     this->allowGUIChange = 0;
 
+    if(this->appHandler->getDataPipeline()->getObject()->getObjectType()==3){
+        //refresh cell counts
+        ui->cellMinShow->setRange(1, this->appHandler->getDataPipeline()->getObject()->getCellAmount());
+        ui->cellMaxShow->setRange(1, this->appHandler->getDataPipeline()->getObject()->getCellAmount());
+        ui->cellMinShow->setValue(1);
+        ui->cellMaxShow->setValue(this->appHandler->getDataPipeline()->getObject()->getCellAmount());
+    }
+    else{
+        //refresh cell counts
+        ui->cellMinShow->setRange(1, 1);
+        ui->cellMaxShow->setRange(1, 1);
+        ui->cellMinShow->setValue(1);
+        ui->cellMaxShow->setValue(1);
+    }
+
+
     //uncheck all boxes
     ui->shrinkCheck->setCheckState(Qt::Unchecked);
     ui->clipCheck->setCheckState(Qt::Unchecked);
     ui->smoothCheck->setCheckState(Qt::Unchecked);
     ui->sphereCheck->setCheckState(Qt::Unchecked);
+    ui->outlineCheck->setCheckState(Qt::Unchecked);
     ui->tubeCheck->setCheckState(Qt::Unchecked);
     ui->lightCheck->setCheckState(Qt::Unchecked);
 
     ui->clipX->setCheckState(Qt::Unchecked);
     ui->clipY->setCheckState(Qt::Unchecked);
     ui->clipZ->setCheckState(Qt::Unchecked);
+
+    ui->surfaceWarpCheck->setCheckState(Qt::Unchecked);
+    ui->bendWarpCheck->setCheckState(Qt::Unchecked);
 
     //reset UI values
     ui->clipSlider->setValue(0);

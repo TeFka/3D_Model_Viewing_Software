@@ -20,6 +20,12 @@ DataPipeline::DataPipeline(vtkSmartPointer<vtkRenderer> theRenderer)
     this->activeRenderer->AddActor(this->activeActor);
 }
 
+//default destructor
+DataPipeline::~DataPipeline()
+{
+
+}
+
 //function to refresh pipeline
 void DataPipeline::refreshPipeline()
 {

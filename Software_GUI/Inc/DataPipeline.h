@@ -1,8 +1,8 @@
 
 /*! \file DataPipeline.h File Reference
     \author   Copyright: \n Code part: Danielius Zurlys (StudentID: 20130611)
-                         \n Comments part: Danielius Zurlys and Chen Xu  (StudentID: 20187733)
-    \brief  build a pipeline part for VTK.
+                         \n Comments part: Danielius Zurlys and Chen Xu (StudentID: 20187733)
+    \brief  build a dataset pipeline for VTK.
 */
 
 #ifndef DATAPIPELINE_H_INCLUDED
@@ -45,7 +45,7 @@
 #include "./Pipeline.h"
 
 /*! \class DataPipeline
-    \brief sub class of pipeline used to handle data
+    \brief sub class of pipeline used to handle dataset object
 */
 
 class DataPipeline : public Pipeline{
@@ -95,26 +95,20 @@ public:
     DataPipeline();
     //! constructor
     DataPipeline(vtkSmartPointer<vtkRenderer>);
+    //! destructor
+    ~DataPipeline();
     //! function to setup lights
     void updatePipeline();
     //! function to setup new pipeline
     void setNewPipeline();
     /*! function to get active mapper
-    \n Arguement: vtkSmartPointer<vtkDataSetMapper> - getMapper()
+    \return vtkSmartPointer<vtkDataSetMapper> - getMapper()
     */
     vtkSmartPointer<vtkDataSetMapper> getMapper();
     /*! function to get final algorithm
     \return vtkAlgorithmOutput - getAlgorithm()
     */
     vtkAlgorithmOutput* getAlgorithm();
-    /*! function to get ploydata
-    \return vtkPolyData - GetPolydata()
-    */
-    vtkSmartPointer<vtkRenderer> getRenderer();
-    /*! function to set active Actor
-    \return vtkSmartPointer<vtkActor> - set a actor
-    */
-    void setActor(vtkSmartPointer<vtkActor>);
     /*! function to set active Mapper
     \n Arguments: vtkSmartPointer<vtkDataSetMapper> - set a mapper
     */

@@ -32,6 +32,12 @@ ViewerHandler::ViewerHandler(vtkSmartPointer<vtkRenderWindow> renderWindow, vtkS
 
 }
 
+//default destructor
+ViewerHandler::~ViewerHandler()
+{
+
+}
+
 //function to setup viewer handler
 void ViewerHandler::setup(vtkSmartPointer<vtkRenderWindow> renderWindow, vtkSmartPointer<vtkRenderWindowInteractor> interactor)
 {
@@ -456,6 +462,8 @@ void ViewerHandler::resetViewer()
     this->theDataPipeline->getObject()->setBendWarpFactor(0);
     this->theDataPipeline->getObject()->setBendWarpDimensions(1,1,1);
 
+    this->showOutline = 0;
+
     this->axesWidget->SetEnabled(0);
 
     this->showInfo = 0;
@@ -498,7 +506,7 @@ void ViewerHandler::resetObject()
 
     //set all object properties to default values
     this->theDataPipeline->getObject()->setMinActiveCell(1);
-    this->theDataPipeline->getObject()->setMaxActiveCell(1);
+    this->theDataPipeline->getObject()->setMaxActiveCell(this->theDataPipeline->getObject()->getCellAmount());
 
     this->theDataPipeline->enableWireframe(0);
     this->theDataPipeline->enablePoints(0);
@@ -521,13 +529,16 @@ void ViewerHandler::resetObject()
     this->theDataPipeline->getObject()->setBendWarpFactor(0);
     this->theDataPipeline->getObject()->setBendWarpDimensions(1,1,1);
 
-    std::vector<int> filtersInUse = {0,0,0,0,0,0,0};
+    this->showOutline = 0;
+
+    std::vector<int> filtersInUse = {0,0,0,0,0,0};
     this->theDataPipeline->setFilters(filtersInUse);
     this->theDataPipeline->getObject()->resetColor();
 
-    //set new pipeline
-    this->theDataPipeline->setNewPipeline();
+//update pipeline to add changes
+    this->updateViewer();
 
+    this->resetCamera();
     this->refreshRender();
 }
 
@@ -753,11 +764,13 @@ void ViewerHandler::saveScene(QString fileName)
         windowToImageFilter->ReadFrontBufferOff();       // read from the back buffer
         windowToImageFilter->Update();
 
+        //use PNG writer
         vtkNew<vtkPNGWriter> writer;
         writer->SetFileName(fileName.toLocal8Bit().data());
         writer->SetInputConnection(windowToImageFilter->GetOutputPort());
         writer->Write();
 
+        //refresh rendering
         this->activeRenderer->ResetCamera();
         this->activeRenderWindow->Render();
     }

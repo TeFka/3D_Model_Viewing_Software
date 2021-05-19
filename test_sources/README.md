@@ -1,4 +1,4 @@
-All Travies testing of the model loading library is held here.</br>
+All Travis testing of the model loading library is held here.</br>
 The folder is only applied when uploading code to Github repositiory.</br>
 
 The test files in this folder are created to test out the functionality 

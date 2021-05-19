@@ -1,11 +1,11 @@
-#ifndef POLYPIPELINE_H_INCLUDED
-#define POLYPIPELINE_H_INCLUDED
-
 /*! \file PolyPipeline.h File Reference
     \author   Copyright: \n Code part: Danielius Zurlys (StudentID: 20130611)
                          \n Comments part: Danielius Zurlys and Chen Xu  (StudentID: 20187733)
-    \brief  build a pipeline part for VTK.
+    \brief  build a polydata pipeline for VTK.
 */
+
+#ifndef POLYPIPELINE_H_INCLUDED
+#define POLYPIPELINE_H_INCLUDED
 
 #include <math.h>
 #include <QMainWindow>
@@ -78,6 +78,8 @@ public:
     PolyPipeline();
     //! constructor
     PolyPipeline(vtkSmartPointer<vtkRenderer>);
+    //! destructor
+    ~PolyPipeline();
     //! function to setup lights
     void setLight();
     //! function to update active pipeline

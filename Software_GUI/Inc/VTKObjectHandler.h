@@ -1,7 +1,7 @@
 /*! \file VTKObjectHandler.h File Reference
     \author   Copyright: \n Code part: Danielius Zurlys (StudentID: 20130611)
                          \n Comments part: Chen xu  (StudentID: 20187733)
-    \brief build the functions to gain and change the variables of specified objects.
+    \brief used to store information of and declare viewed objects.
 */
 #ifndef VTKOBJECT_H_INCLUDED
 #define VTKOBJECT_H_INCLUDED
@@ -104,7 +104,15 @@ private:
     Vector3D objectDimensions;
     Vector3D objectPosition;
 
+    vtkAlgorithmOutput* defaultSourceAlgorithm = vtkAlgorithmOutput::New();
+    vtkAlgorithmOutput* finalSourceAlgorithm = vtkAlgorithmOutput::New();
+    vtkPolyData* finalPolyData = vtkPolyData::New();
 
+    // object type specifies object source
+    // type 0 - original VTK source
+    // type 1 - STL file source
+    // type 2 - available simple object (hexahedron, tetrahedron, pyramid) made using grid
+    // type 3 - MOD file source made using grid
     int objectType = 0;
 
     double objectVolume = 0.0;
@@ -126,18 +134,21 @@ private:
     int bendWarpY = 0;
     int bendWarpZ = 0;
 
-
+    /*! function to refresh object data components.
+        \return  none
+    */
     void refresh();
 
-    vtkAlgorithmOutput* defaultSourceAlgorithm = vtkAlgorithmOutput::New();
-    vtkAlgorithmOutput* finalSourceAlgorithm = vtkAlgorithmOutput::New();
-    vtkPolyData* finalPolyData = vtkPolyData::New();
-
+    /*! function to handle object geometry modifications
+        \return  none
+    */
     void geometryStage();
 
 public:
-
-    VTKObjectHandler();  //! Destructor
+    //! Constructor
+    VTKObjectHandler();
+    //! Destructor
+    ~VTKObjectHandler();
 
     /*! Function getSource() \n
         Function to make connection between the source and output.

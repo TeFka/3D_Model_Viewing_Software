@@ -16,7 +16,7 @@ Test_programs - directory of all programs for testing of library</br>
 CMakeLists are included, using them will generate all relevant files and the software executalbe will be available in the 'application' folder</br>
 
 ***Software***</br>
-Allows VIewing and modifications of MOD and STl files. Application of filters is available as well as color and geometry modifications and more functions</br>
+Allows VIewing and modifications of MOD and STL files. Application of filters is available as well as color and geometry modifications and more functions</br>
 
 ***Travis Build***</br>
 [![Build Status](https://travis-ci.com/TeFka/2020_GROUP_19.svg?token=atrfb9xdTGWV9e1aoA6s&branch=main)]

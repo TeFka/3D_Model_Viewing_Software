@@ -169,6 +169,8 @@ public:
     ViewerHandler();
     //! constructor
     ViewerHandler(vtkSmartPointer<vtkRenderWindow>, vtkSmartPointer<vtkRenderWindowInteractor>);
+    //! destructor
+   ~ViewerHandler();
     /*! function to setup viewer handler
         \n Arguments:  vtkSmartPointer<vtkRenderWindow>, vtkSmartPointer<vtkRenderWindowInteractor> - viewer handler
     */
