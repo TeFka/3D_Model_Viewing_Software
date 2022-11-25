@@ -1,4 +1,4 @@
-# 2020_GROUP_19
+# 2020_GROUP_19 (University of Nottingham Second Year Group Project)
 Repository for computing project work</br>
 ***Developed library classes***</br>
 Woranan - Vector class</br>
